@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading;
 namespace MendelsGarden
 {
 
@@ -8,8 +8,51 @@ namespace MendelsGarden
     {
         enum MapSquare { Empty = 0, Plant, DeadPlant }
 
+        static int findPosition(List<MapSquare> map, Random rand)
+        {
+            int pos = -1;
+            foreach (var square in map)
+            {
+                if(square == MapSquare.Empty){
+                    pos = 0; break;
+                }
+            }
+            if (pos == -1) return pos;
+
+            do
+            {
+                pos = rand.Next(0, 256);
+            } while (map[pos] == MapSquare.Plant);
+            
+            return pos;
+        }
+
+        static string SituationToString(Situation s)
+        {
+            switch (s)
+            {
+                case Situation.AcidRain: return "Acid Rain";
+                case Situation.eAnimals: return "Animals"; 
+                case Situation.eBugs: return "Bugs";
+                case Situation.eDrought: return "Drought"; 
+                case Situation.eRainy: return "Rainy Weather";
+                case Situation.eSunny: return "Sunny Weather";
+                default:
+                    return "";
+            }
+        }
+        public static bool next = false;
+        static void ReadNext()
+        {
+            while (true)
+            {
+                next = Console.ReadKey().Key == ConsoleKey.Spacebar;
+            }
+        }
+
         static void Main(string[] args)
         {
+            Random rand = new Random();
             List<Leaves> Leaves = new List<Leaves>();
             List<Stalk> Stalks = new List<Stalk> ();
             List<Roots> Roots = new List<Roots>();
@@ -61,7 +104,7 @@ namespace MendelsGarden
                 }
                 hint += "}";
 
-                Plant plant;
+                Plant plant = new Plant();
                 Console.Write("Plant Owner: ");
                 plant.Owner = Console.ReadLine();
 
@@ -115,17 +158,125 @@ namespace MendelsGarden
                     }
                 }
 
-                int pos = 0;
-                Random rand = new Random();
+                int pos = findPosition(Map, rand);
+                plant.Position = pos;
+                Console.WriteLine("Plant position is at {0}:", pos);
+                inGamePlants.Add(plant);
+            }            
+            while (true)
+            {
+                List<Plant> reproductionQueue = new List<Plant>();
+                List<int> deathRow = new List<int>();
+                Situation situation = (Situation)rand.Next(0, (int)Situation.SituationCount);
+                Console.WriteLine("------------------------------------------------------------------------------");
+                Console.WriteLine("TODAY YOU HAVE " + SituationToString(situation).ToUpper() + " IN YOUR GARDER");
+                Console.WriteLine("------------------------------------------------------------------------------");
+                
+                for(int i = 0; i< inGamePlants.Count; i++)
+                {                    
+                    var plant = inGamePlants[i];
+                    float n_modifier = 0, e_modifier = 0, hp_modifier = 0;
+                    switch (situation)
+                    {
+                        case Situation.eSunny:
+                            e_modifier += 1;break;
+                        case Situation.eRainy:
+                            n_modifier += 1;break;
+                        case Situation.eBugs:
+                            hp_modifier = plant.Special.SpecialType == Special.Type.Poison ? 0 : -1;
+                            if (plant.Special.SpecialType == Special.Type.Flowers)
+                                reproductionQueue.Add(plant);
+                            //{
+                            //    int pos = findPosition(Map, rand);
+                            //    if (pos > -1)
+                            //    {
+                                   
+                            //        plant.Position = pos;
+                            //    }
+                            //}
+                            break;
+                        case Situation.eAnimals:
+                            hp_modifier = plant.Special.SpecialType == Special.Type.Thorns ? 0 : -1;
+                            if (plant.Special.SpecialType == Special.Type.Fruit)
+                                reproductionQueue.Add(plant);
+                            //{
+                            //    int pos = findPosition(Map, rand);
+                            //    if (pos > -1)
+                            //    {
+                            //        reproductionQueue.Add(plant);
+                            //        plant.Position = pos;
+                            //    }
+                            //}
+                            break;
+                        case Situation.eDrought:
+                            n_modifier = -1;
+                            hp_modifier = -plant.Leaves.Energy / 2;
+                            break;
+                        case Situation.AcidRain:
+                            e_modifier = -1;
+                            hp_modifier = -plant.Roots.Nutrition / 2;
+                            break;
+                    }
+
+                    if (Map[Math.Max(0, plant.Position - 1)] == MapSquare.DeadPlant || Map[Math.Min(plant.Position + 1, Map.Count - 1)] == MapSquare.DeadPlant)
+                        n_modifier += 1;
+
+                    float growthModifier = 0.2f;         
+                    float growth = growthModifier * ((plant.Leaves.Energy - plant.Stalk.EnergyConsumption + e_modifier) +
+                                                        (plant.Roots.Nutrition - plant.Stalk.NutritionConsumption + n_modifier)) + hp_modifier;
+                    plant.Stalk.HP += growth;
+
+                    Console.WriteLine(plant.Owner + "'s position                   " + plant.Position.ToString());
+                    Console.WriteLine("Nutrition this turn:           {0}\nEnergy this turn:              {1}",
+                                    n_modifier + plant.Roots.Nutrition, e_modifier + plant.Leaves.Energy);
+                    Console.WriteLine("Hit points added this turn:   " + growth);
+
+                    Console.WriteLine("CURRENT HIT POINTS:           " + plant.Stalk.HP + "\n");                   
+
+                    
+                    if (plant.Stalk.HP >= plant.Stalk.InitialHP * 2)
+                    {
+                        plant.Stalk.HP = plant.Stalk.InitialHP;
+                        reproductionQueue.Add(plant);
+                        Console.WriteLine(plant.Owner + "'s plant has reached the reproduction threshold");
+                    }
+                    if (plant.Stalk.HP < 0)
+                    {
+                        Console.WriteLine(plant.Owner + "'s has died, it will serve the othe plants as food");
+                        deathRow.Add(i);
+                    }
+
+                    inGamePlants[i] = plant;
+                }
+
+                for (int i = 0; i < deathRow.Count; i++)
+                {
+
+                    Map[inGamePlants[deathRow[i]].Position] = MapSquare.DeadPlant;
+                    inGamePlants.RemoveAt(i);
+                }
+
+                for(int i = 0; i < reproductionQueue.Count; i++)
+                {
+                    var plant = reproductionQueue[i];
+                    int pos = findPosition(Map, rand);
+                    if (pos > -1)
+                    {
+                        plant.Position = pos;
+                        plant.Stalk.HP = plant.Stalk.InitialHP;
+                        inGamePlants.Add(plant);
+                        Map[pos] = MapSquare.Plant;
+                    }
+                }
+                Thread thread = new Thread(ReadNext);
+                thread.Start();
+                DateTime moment = DateTime.Now;
                 do
                 {
-                    pos = rand.Next(0, 256);
-                } while (Map[pos] == MapSquare.Empty || Map[pos] == MapSquare.DeadPlant);
-                
-                plant.Position = pos;
-                Console.WriteLine("Plant position is at {0}:", pos);          
+                } while (!next && (DateTime.Now - moment).Seconds < 30);
+                thread.Abort();
+                next = false;
             }
-
         }
     }
 }
