@@ -1,0 +1,6 @@
+G:\SEA\MendelsGarden\MendelsGarden\bin\Debug\MendelsGarden.exe.config
+G:\SEA\MendelsGarden\MendelsGarden\bin\Debug\MendelsGarden.exe
+G:\SEA\MendelsGarden\MendelsGarden\bin\Debug\MendelsGarden.pdb
+G:\SEA\MendelsGarden\MendelsGarden\obj\Debug\MendelsGarden.csprojResolveAssemblyReference.cache
+G:\SEA\MendelsGarden\MendelsGarden\obj\Debug\MendelsGarden.exe
+G:\SEA\MendelsGarden\MendelsGarden\obj\Debug\MendelsGarden.pdb
