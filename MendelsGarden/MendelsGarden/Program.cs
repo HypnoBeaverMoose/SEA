@@ -26,37 +26,104 @@ namespace MendelsGarden
             
             return pos;
         }
+        static Situation SituationFromProb(double p)
+        {
+            if (p < 0.4f)
+                return Situation.eNormalWeather;
+            else if (p < 0.5f)
+                return Situation.eSunny;
+            else if (p < 0.6f)
+                return Situation.eRainy;
+            else if (p < 0.7f)
+                return Situation.eAnimals;
+            else if (p < 0.8f)
+                return Situation.eBugs;
+            else if (p < 0.9f)
+                return Situation.eDrought;
+            else if (p < 1.0f)
+                return Situation.eAcidRain;
+            else return Situation.eNormalWeather;
+        }
+        static Plant getPlantFromInput()
+        {
+            string hint = "{ ";
+            for (Size size = Size.Small; size < Size.SizeCount; size++)
+            {
+                int ind = (int)size + 1;
+                hint += ind.ToString() + "." + size.ToString() + ", ";
+            }
+            hint += "}";
 
+            Plant plant = new Plant();
+            Console.Write("Plant Name: ");
+            plant.Name = Console.ReadLine();
+
+            Console.Write("Roots Size {0}: ", hint);
+            int index = int.Parse(Console.ReadLine());
+            plant.Roots = Roots[index - 1];
+
+            Console.Write("Stalk Size {0}: ", hint);
+            index = int.Parse(Console.ReadLine());
+            plant.Stalk = Stalks[index - 1];
+
+            Console.Write("Leaves Size {0}: ", hint);
+            index = int.Parse(Console.ReadLine());
+            plant.Leaves = Leaves[index - 1];
+
+            hint = "{";
+            for (Special.Type stype = Special.Type.None; stype < Special.Type.SpecialCount; stype++)
+            {
+                int ind = (int)stype + 1;
+                hint += ind + "." + stype.ToString() + ", ";
+            }
+            hint += "}";
+
+            Console.Write("Special type{0}: ", hint);
+            index = int.Parse(Console.ReadLine());
+            plant.Special = Specials[index - 1];
+
+            Console.Write("Plant position(0..11): ");
+            plant.Position = int.Parse(Console.ReadLine());
+            
+            return plant;
+
+        }
         static string SituationToString(Situation s)
         {
             switch (s)
             {
-                case Situation.AcidRain: return "Acid Rain";
+                case Situation.eAcidRain: return "Acid Rain";
                 case Situation.eAnimals: return "Animals"; 
                 case Situation.eBugs: return "Bugs";
                 case Situation.eDrought: return "Drought"; 
                 case Situation.eRainy: return "Rainy Weather";
                 case Situation.eSunny: return "Sunny Weather";
+                case Situation.eNormalWeather: return "Normal Weather";
                 default:
                     return "";
             }
         }
         public static bool next = false;
+        public static bool readPlant = false;
+        
         static void ReadNext()
         {
             while (true)
             {
-                next = Console.ReadKey().Key == ConsoleKey.Spacebar;
+                if (!readPlant)
+                    readPlant |= Console.ReadKey(true).Key == ConsoleKey.Insert;
+                if (!readPlant)
+                    next |= Console.ReadKey(true).Key == ConsoleKey.Spacebar;
             }
         }
-
+        static List<Leaves> Leaves = new List<Leaves>();
+        static List<Stalk> Stalks = new List<Stalk>();
+        static List<Roots> Roots = new List<Roots>();
+        static List<Special> Specials = new List<Special>();
+ 
         static void Main(string[] args)
         {
             Random rand = new Random();
-            List<Leaves> Leaves = new List<Leaves>();
-            List<Stalk> Stalks = new List<Stalk> ();
-            List<Roots> Roots = new List<Roots>();
-            List<Special> Specials = new List<Special>();
             Specials.Add(new Special(0, 1, Special.Type.Thorns));
             Specials.Add(new Special(1, 1, Special.Type.Fruit));
             Specials.Add(new Special(1, 1, Special.Type.Flowers));
@@ -70,6 +137,7 @@ namespace MendelsGarden
 
                 Leaves leaf;
                 leaf.Energy = amount;
+                leaf.StartingEnergy = amount;                
                 leaf.Size = size;
 
                 Stalk stalk;
@@ -81,6 +149,7 @@ namespace MendelsGarden
                 Roots root;
                 root.Nutrition = amount;
                 root.Size = size;
+                root.StartingNutrition = amount;
 
                 Leaves.Add(leaf);
                 Roots.Add(root);
@@ -88,109 +157,47 @@ namespace MendelsGarden
             }
 
             List<Plant> inGamePlants = new List<Plant>();
-            List<MapSquare> Map  = new List<MapSquare>(256);
-            for (int i = 0; i < 256; i++)
+            List<MapSquare> Map  = new List<MapSquare>(12);
+            for (int i = 0; i < 11; i++)
                 Map.Add(MapSquare.Empty);
-
-            Console.Write("Please input Initial Plant Count: ");
-            int initlialPlantCount = int.Parse(Console.ReadLine());
-            for (int i = 0; i < initlialPlantCount; i++)
-            {
-                Console.Write("Plant {0}: ", i + 1);
-                string hint = "{ ";
-                for (Size size = Size.Small; size < Size.SizeCount; size++)
-                {
-                    hint += size.ToString() + ", ";
-                }
-                hint += "}";
-
-                Plant plant = new Plant();
-                Console.Write("Plant Owner: ");
-                plant.Owner = Console.ReadLine();
-
-                Console.Write("Roots Size {0}: ", hint);
-                string type = Console.ReadLine();
-                foreach (var root in Roots)
-                {
-                    if (root.Size.ToString() == type)
-                    {
-                        plant.Roots = root;
-                        break;
-                    }
-                }
-
-                Console.Write("Stalk Size {0}: ", hint);
-                type = Console.ReadLine();
-                foreach (var stalk in Stalks)
-                {
-                    if (stalk.Size.ToString() == type)
-                    {
-                        plant.Stalk = stalk;
-                        break;
-                    }
-                }
-
-                Console.Write("Leaves Size {0}: ", hint);
-                type = Console.ReadLine();
-                foreach (var leaf in Leaves)
-                {
-                    if (leaf.Size.ToString() == type)
-                    {
-                        plant.Leaves = leaf;
-                        break;
-                    }
-                }
-
-                hint = "{";
-                for (Special.Type stype = Special.Type.None; stype < Special.Type.SpecialCount; stype++)
-                {
-                    hint += stype.ToString() + ", ";
-                }
-                hint += "}";
-                Console.Write("Special type{0}: ", hint);
-                type = Console.ReadLine();
-                foreach (var special in Specials)
-                {
-                    if (special.SpecialType.ToString() == type)
-                    {
-                        plant.Special = special;
-                        break;
-                    }
-                }
-
-                int pos = findPosition(Map, rand);
-                plant.Position = pos;
-                Console.WriteLine("Plant position is at {0}:", pos);
-                inGamePlants.Add(plant);
-            }            
             while (true)
             {
+                Thread thread = new Thread(ReadNext);
+                thread.Start();
+
                 List<Plant> reproductionQueue = new List<Plant>();
-                List<int> deathRow = new List<int>();
-                Situation situation = (Situation)rand.Next(0, (int)Situation.SituationCount);
+                List<Plant> deathRow = new List<Plant>();
+                Situation situation = SituationFromProb(rand.NextDouble());
+                //(Situation)rand.Next(0, (int)Situation.SituationCount);
                 Console.WriteLine("------------------------------------------------------------------------------");
                 Console.WriteLine("TODAY YOU HAVE " + SituationToString(situation).ToUpper() + " IN YOUR GARDER");
                 Console.WriteLine("------------------------------------------------------------------------------");
-                
-                for(int i = 0; i< inGamePlants.Count; i++)
-                {                    
+
+                if(inGamePlants.Count == 0)
+                    Console.WriteLine("Currently, no plants are in your garden, press INS to add some plants");
+              
+                for (int i = 0; i < inGamePlants.Count; i++)
+                {
                     var plant = inGamePlants[i];
                     float n_modifier = 0, e_modifier = 0, hp_modifier = 0;
                     switch (situation)
                     {
                         case Situation.eSunny:
-                            e_modifier += 1;break;
+                            e_modifier += (float)(rand.NextDouble() + 1.0f); break;
                         case Situation.eRainy:
-                            n_modifier += 1;break;
+                            n_modifier += (float)(rand.NextDouble() + 1.0f); break;
                         case Situation.eBugs:
                             hp_modifier = plant.Special.SpecialType == Special.Type.Poison ? 0 : -1;
                             if (plant.Special.SpecialType == Special.Type.Flowers)
+                            {
                                 reproductionQueue.Add(plant);
+                                plant.hasReproduced = true;
+                            }
                             //{
                             //    int pos = findPosition(Map, rand);
                             //    if (pos > -1)
                             //    {
-                                   
+
                             //        plant.Position = pos;
                             //    }
                             //}
@@ -198,7 +205,10 @@ namespace MendelsGarden
                         case Situation.eAnimals:
                             hp_modifier = plant.Special.SpecialType == Special.Type.Thorns ? 0 : -1;
                             if (plant.Special.SpecialType == Special.Type.Fruit)
+                            {
                                 reproductionQueue.Add(plant);
+                                plant.hasReproduced = true;
+                            }
                             //{
                             //    int pos = findPosition(Map, rand);
                             //    if (pos > -1)
@@ -209,41 +219,49 @@ namespace MendelsGarden
                             //}
                             break;
                         case Situation.eDrought:
-                            n_modifier = -1;
-                            hp_modifier = -plant.Leaves.Energy / 2;
+                            n_modifier = -plant.Roots.Nutrition / (float)(rand.NextDouble() + 1.5f);
+                            hp_modifier = -plant.Leaves.Energy / (float)(rand.NextDouble() + 1.5f);
                             break;
-                        case Situation.AcidRain:
-                            e_modifier = -1;
-                            hp_modifier = -plant.Roots.Nutrition / 2;
+                        case Situation.eAcidRain:
+                            e_modifier = -plant.Leaves.Energy / (float)(rand.NextDouble() + 1.5f);
+                            hp_modifier = -plant.Roots.Nutrition / (float)(rand.NextDouble() + 1.5f);
                             break;
                     }
 
                     if (Map[Math.Max(0, plant.Position - 1)] == MapSquare.DeadPlant || Map[Math.Min(plant.Position + 1, Map.Count - 1)] == MapSquare.DeadPlant)
                         n_modifier += 1;
 
-                    float growthModifier = 0.2f;         
+                    float growthModifier = 0.1f;
                     float growth = growthModifier * ((plant.Leaves.Energy - plant.Stalk.EnergyConsumption + e_modifier) +
                                                         (plant.Roots.Nutrition - plant.Stalk.NutritionConsumption + n_modifier)) + hp_modifier;
+                    ///Age penalty
+                    plant.Leaves.Energy -= 0.01f * plant.Age;
+                    plant.Roots.Nutrition -= 0.01f * plant.Age;
+                    if (plant.hasReproduced)
+                        plant.Age++;
+
                     plant.Stalk.HP += growth;
 
-                    Console.WriteLine(plant.Owner + "'s position                   " + plant.Position.ToString());
+                    Console.WriteLine(plant.Name + "'s position                   " + plant.Position.ToString());
+                    Console.WriteLine("Plant's age                       " + plant.Age.ToString());
                     Console.WriteLine("Nutrition this turn:           {0}\nEnergy this turn:              {1}",
                                     n_modifier + plant.Roots.Nutrition, e_modifier + plant.Leaves.Energy);
                     Console.WriteLine("Hit points added this turn:   " + growth);
 
-                    Console.WriteLine("CURRENT HIT POINTS:           " + plant.Stalk.HP + "\n");                   
+                    Console.WriteLine("CURRENT HIT POINTS:           " + plant.Stalk.HP + "\n");
 
-                    
+
                     if (plant.Stalk.HP >= plant.Stalk.InitialHP * 2)
                     {
                         plant.Stalk.HP = plant.Stalk.InitialHP;
                         reproductionQueue.Add(plant);
-                        Console.WriteLine(plant.Owner + "'s plant has reached the reproduction threshold");
+                        plant.hasReproduced = true;
+                        Console.WriteLine(plant.Name + "'s plant has reached the reproduction threshold");
                     }
                     if (plant.Stalk.HP < 0)
                     {
-                        Console.WriteLine(plant.Owner + "'s has died, it will serve the othe plants as food");
-                        deathRow.Add(i);
+                        Console.WriteLine(plant.Name + "'s has died, it will serve the othe plants as food");
+                        deathRow.Add(plant);
                     }
 
                     inGamePlants[i] = plant;
@@ -252,11 +270,11 @@ namespace MendelsGarden
                 for (int i = 0; i < deathRow.Count; i++)
                 {
 
-                    Map[inGamePlants[deathRow[i]].Position] = MapSquare.DeadPlant;
-                    inGamePlants.RemoveAt(i);
+                    Map[deathRow[i].Position] = MapSquare.DeadPlant;
+                    inGamePlants.Remove(deathRow[i]);
                 }
 
-                for(int i = 0; i < reproductionQueue.Count; i++)
+                for (int i = 0; i < reproductionQueue.Count; i++)
                 {
                     var plant = reproductionQueue[i];
                     int pos = findPosition(Map, rand);
@@ -264,16 +282,24 @@ namespace MendelsGarden
                     {
                         plant.Position = pos;
                         plant.Stalk.HP = plant.Stalk.InitialHP;
+                        plant.Age = 0;
+                        plant.Leaves.Energy = plant.Leaves.StartingEnergy;
+                        plant.Roots.Nutrition = plant.Roots.StartingNutrition;
+                        plant.hasReproduced = false;
                         inGamePlants.Add(plant);
                         Map[pos] = MapSquare.Plant;
                     }
                 }
-                Thread thread = new Thread(ReadNext);
-                thread.Start();
                 DateTime moment = DateTime.Now;
                 do
                 {
+                    if (readPlant)
+                    {
+                        inGamePlants.Add(getPlantFromInput());
+                        readPlant = false;
+                    }
                 } while (!next && (DateTime.Now - moment).Seconds < 30);
+
                 thread.Abort();
                 next = false;
             }

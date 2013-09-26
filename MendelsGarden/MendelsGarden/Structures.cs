@@ -22,7 +22,8 @@ namespace MendelsGarden
         eBugs,
         eAnimals,
         eDrought,
-        AcidRain,
+        eAcidRain,
+        eNormalWeather,
         SituationCount
     }
 
@@ -37,11 +38,13 @@ namespace MendelsGarden
     };
 
     struct Leaves {
+        public float StartingEnergy;
         public float Energy;
         public Size Size;
     };
 
     struct Roots {
+        public float StartingNutrition;
         public float Nutrition;
         public Size Size;
     };
@@ -51,8 +54,10 @@ namespace MendelsGarden
         public Stalk Stalk;
         public Roots Roots;
         public Special Special;
-        public string Owner;
+        public string Name;
         public int Position;
+        public int Age;
+        public bool hasReproduced;
     }
 
     struct Special
