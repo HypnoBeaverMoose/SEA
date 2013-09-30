@@ -34,28 +34,35 @@
 		{
 			this.removeEventListener( Event.ADDED_TO_STAGE, initStage );
 			
+			var img:Bitmap;
+			res = new Result();
 			switch ( sceneType )
 			{
 				case OFFICE1:
-					trace("office1 scene");
-					this.addChildAt( new Bitmap(new GardenBG()), 0 );
+					img = new Bitmap(new Office1_1());
+					img.width  = 1024;
+					img.height = 768;
+					res.addChildAt( img, 0 );
 					break;
 				case OFFICE2:
-					trace("office2 scene");
-					this.addChildAt( new Bitmap(new GardenBG()), 0 );
+					img = new Bitmap(new Office1_1());
+					img.width  = 1024;
+					img.height = 768;
+					res.addChildAt( img, 0 );
 					break;
 				case GARDEN:
-					trace("garden scene");
 				/* fall-through */
 				default:
-					this.addChildAt( new Bitmap(new GardenBG()), 0 );
+					img = new Bitmap(new Office1_1());
+					img.width  = 1024;
+					img.height = 768;
+					res.addChildAt( img, 0 );
 					break;
 			}
 			
-			choiceInput_txt.restrict = "0-9";
-			choiceInput_txt.addEventListener( FocusEvent.FOCUS_IN, onFocus );
-			choiceInput_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocus );
-			choiceInput_txt.addEventListener( KeyboardEvent.KEY_DOWN, onEnterKey );
+			// register result
+			res.next_btn.addEventListener( MouseEvent.CLICK, onStartInput );
+			this.addChild(res);
 		}
 		
 		private function onFocus( e:FocusEvent ) : void
@@ -84,9 +91,18 @@
 					}
 				}
 				
+				var img:Bitmap;
+				res = new Result();
 				if ( !correct )
 				{
-					trace("wrong answer!");
+					img = new Bitmap(new Office1Wrong());
+					img.width  = 1024;
+					img.height = 768;
+					res.addChildAt( img, 0 );
+					
+					// register result
+					res.next_btn.addEventListener( MouseEvent.CLICK, onWrongPress );
+					this.addChild(res);
 					return;
 				}
 				
@@ -97,37 +113,49 @@
 				this.removeChild( choiceInput_txt);
 				
 				// create result
-				res = new Result();
 				switch ( sceneType )
 				{
 					case OFFICE1:
 						if ( answers[0] == input )
 						{
-							// result 1
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans1());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						} else if ( answers[1] == input )
 						{
 							// result 2
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans2());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						} else if ( answers[2] == input )
 						{
-							// result 3
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						}
 						break;
 					case OFFICE2:
 						if ( answers[0] == input )
 						{
-							// result 1
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						} else if ( answers[1] == input )
 						{
-							// result 2
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						} else if ( answers[2] == input )
 						{
-							// result 3
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						}
 						break;
 					case GARDEN:
@@ -135,16 +163,22 @@
 					default:
 						if ( answers[0] == input )
 						{
-							// result 1
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						} else if ( answers[1] == input )
 						{
-							// result 2
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						} else if ( answers[2] == input )
 						{
-							// result 3
-							res.addChildAt( new Bitmap(new GardenResult1()), 0 );
+							img = new Bitmap(new Office1Ans3());
+							img.width  = 1024;
+							img.height = 768;
+							res.addChildAt( img, 0 );
 						}
 						break;
 				}
@@ -159,6 +193,48 @@
 		{
 			dispatchEvent( new Event(SCENE_END_EVENT) );
 		}
+		
+		private function onWrongPress( e:MouseEvent ) : void
+		{
+			res.next_btn.removeEventListener( MouseEvent.CLICK, onWrongPress );
+			this.removeChild(res);
+		}
+		
+		private function onStartInput( e:MouseEvent ) : void
+		{
+			// register result
+			res.next_btn.removeEventListener( MouseEvent.CLICK, onStartInput );
+			this.removeChild(res);
+			
+			var img:Bitmap;
+			switch ( sceneType )
+			{
+				case OFFICE1:
+					img = new Bitmap(new Office1_2());
+					img.width  = 1024;
+					img.height = 768;
+					this.addChildAt( img, 0 );
+					break;
+				case OFFICE2:
+					img = new Bitmap(new Office1_1());
+					img.width  = 1024;
+					img.height = 768;
+					this.addChildAt( img, 0 );
+					break;
+				case GARDEN:
+				/* fall-through */
+				default:
+					img = new Bitmap(new Office1_1());
+					img.width  = 1024;
+					img.height = 768;
+					this.addChildAt( img, 0 );
+					break;
+			}
+			
+			choiceInput_txt.restrict = "0-9";
+			choiceInput_txt.addEventListener( FocusEvent.FOCUS_IN, onFocus );
+			choiceInput_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocus );
+			choiceInput_txt.addEventListener( KeyboardEvent.KEY_DOWN, onEnterKey );
+		}
 	}
-	
 }
