@@ -2,6 +2,7 @@
 {
 	import flash.display.MovieClip;
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
@@ -12,11 +13,11 @@
 		public static const SCENE_END_EVENT:String = "SceneEnd";
 		
 		public static const OFFICE1:int = 0;
-		public static const OFFICE2:int = 1;
-		public static const GARDEN:int  = 2;
+		public static const GARDEN:int  = 1;
 		
 		private var sceneType:int;
 		private var res:Result;
+		private var nextGardenImg:BitmapData;
 		
 		private var answers:Array;
 
@@ -43,25 +44,21 @@
 					img.width  = 1024;
 					img.height = 768;
 					res.addChildAt( img, 0 );
-					break;
-				case OFFICE2:
-					img = new Bitmap(new Office1_1());
-					img.width  = 1024;
-					img.height = 768;
-					res.addChildAt( img, 0 );
+					res.next_btn.addEventListener( MouseEvent.CLICK, onStartInput );
 					break;
 				case GARDEN:
 				/* fall-through */
 				default:
-					img = new Bitmap(new Office1_1());
+					img = new Bitmap(new Garden_1());
 					img.width  = 1024;
 					img.height = 768;
 					res.addChildAt( img, 0 );
+					nextGardenImg = new Garden_2();
+					res.next_btn.addEventListener( MouseEvent.CLICK, onGardenContinue );
 					break;
 			}
 			
 			// register result
-			res.next_btn.addEventListener( MouseEvent.CLICK, onStartInput );
 			this.addChild(res);
 		}
 		
@@ -95,7 +92,18 @@
 				res = new Result();
 				if ( !correct )
 				{
-					img = new Bitmap(new Office1Wrong());
+					switch ( sceneType )
+					{
+						case OFFICE1:
+							img = new Bitmap(new Office1Wrong());
+							break;
+						case GARDEN:
+						/* fall-through */
+						default:
+							img = new Bitmap(new GardenWrong());
+							break;
+					}
+					
 					img.width  = 1024;
 					img.height = 768;
 					res.addChildAt( img, 0 );
@@ -137,45 +145,24 @@
 							res.addChildAt( img, 0 );
 						}
 						break;
-					case OFFICE2:
-						if ( answers[0] == input )
-						{
-							img = new Bitmap(new Office1Ans3());
-							img.width  = 1024;
-							img.height = 768;
-							res.addChildAt( img, 0 );
-						} else if ( answers[1] == input )
-						{
-							img = new Bitmap(new Office1Ans3());
-							img.width  = 1024;
-							img.height = 768;
-							res.addChildAt( img, 0 );
-						} else if ( answers[2] == input )
-						{
-							img = new Bitmap(new Office1Ans3());
-							img.width  = 1024;
-							img.height = 768;
-							res.addChildAt( img, 0 );
-						}
-						break;
 					case GARDEN:
 					/* fall-through */
 					default:
 						if ( answers[0] == input )
 						{
-							img = new Bitmap(new Office1Ans3());
+							img = new Bitmap(new GardenAns1());
 							img.width  = 1024;
 							img.height = 768;
 							res.addChildAt( img, 0 );
 						} else if ( answers[1] == input )
 						{
-							img = new Bitmap(new Office1Ans3());
+							img = new Bitmap(new GardenAns2());
 							img.width  = 1024;
 							img.height = 768;
 							res.addChildAt( img, 0 );
 						} else if ( answers[2] == input )
 						{
-							img = new Bitmap(new Office1Ans3());
+							img = new Bitmap(new GardenAns3());
 							img.width  = 1024;
 							img.height = 768;
 							res.addChildAt( img, 0 );
@@ -200,10 +187,38 @@
 			this.removeChild(res);
 		}
 		
+		private function onGardenContinue( e:MouseEvent ) : void
+		{
+			res.next_btn.removeEventListener( MouseEvent.CLICK, onGardenContinue );
+			this.removeChild(res);
+			
+			res = new Result();
+			var img:Bitmap = new Bitmap(nextGardenImg);
+			img.width  = 1024;
+			img.height = 768;
+			res.addChildAt( img, 0 );
+			if ( nextGardenImg is Garden_2 )
+			{
+				nextGardenImg = new Garden_3();
+				res.next_btn.addEventListener( MouseEvent.CLICK, onGardenContinue );
+			} else if ( nextGardenImg is Garden_3 )
+			{
+				nextGardenImg = new Garden_4();
+				res.next_btn.addEventListener( MouseEvent.CLICK, onStartInput );
+			}
+			
+			this.addChild(res);
+		}
+		
 		private function onStartInput( e:MouseEvent ) : void
 		{
-			// register result
-			res.next_btn.removeEventListener( MouseEvent.CLICK, onStartInput );
+			if ( sceneType == GARDEN )
+			{
+				res.next_btn.removeEventListener( MouseEvent.CLICK, onGardenContinue );
+			} else
+			{
+				res.next_btn.removeEventListener( MouseEvent.CLICK, onStartInput );
+			}
 			this.removeChild(res);
 			
 			var img:Bitmap;
@@ -215,16 +230,10 @@
 					img.height = 768;
 					this.addChildAt( img, 0 );
 					break;
-				case OFFICE2:
-					img = new Bitmap(new Office1_1());
-					img.width  = 1024;
-					img.height = 768;
-					this.addChildAt( img, 0 );
-					break;
 				case GARDEN:
 				/* fall-through */
 				default:
-					img = new Bitmap(new Office1_1());
+					img = new Bitmap(new Garden_4());
 					img.width  = 1024;
 					img.height = 768;
 					this.addChildAt( img, 0 );
