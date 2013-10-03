@@ -15,7 +15,7 @@
 	public class Global extends MovieClip{
 
 		// constants
-		public static const FLOOR:Number = 900;
+		public static var FLOOR:Number = 0.0;
 		
 		// plant
 		public static const NUMBER_OF_PLANTS : int = 16;
@@ -33,8 +33,8 @@
 		
 		// position
 		public static var STAGE:Stage;
-		public static var SCREEN_SIZE:Point = new Point(1920, 1536);
 		public static var STAGE_SIZE:Point;
+		public static var SCALING_FACTOR:Number;
 		public static var SOUND_MANAGER:SoundManager;
 		public static var POSITION_PER_PLANT:int = 0;
 		
@@ -59,7 +59,9 @@
 		private function addedToStageListener(e:Event){
 			STAGE = this.stage;
 			STAGE_SIZE = new Point(STAGE.stageWidth, STAGE.stageHeight);
-			POSITION_PER_PLANT = SCREEN_SIZE.x / (NUMBER_OF_PLANTS + 2);
+			SCALING_FACTOR = stage.stageWidth / 2000;		
+			POSITION_PER_PLANT = STAGE_SIZE.x / (NUMBER_OF_PLANTS + 2);
+			FLOOR = stage.stageHeight * 0.5859375;
 		}
 
 	}

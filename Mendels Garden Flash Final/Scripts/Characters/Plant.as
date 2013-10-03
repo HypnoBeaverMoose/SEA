@@ -13,16 +13,19 @@
 	import flash.text.TextFormatAlign;
 	import Scripts.Characters.PlantPart.Leave;
 	
-	public class Plant extends MovieClip {
-		
+	public class Plant extends MovieClip
+	{
 		// name
 		public var Name:TextField = new TextField();// the textfield
+		public var health_txt:TextField = new TextField();
 		private var plantTextFormat:TextFormat = new TextFormat();
 		
 		// for editting purposes
 		public var selectedPart : int = 0;
 		
 		// body
+		private const MAX_SCALE:Number = 2.0;
+		
 		private var scale : Number = 1;
 		public var leave : Leave = null;
 		public var roots : Root = null;
@@ -39,11 +42,10 @@
 		public var age:int = 0;
 		
 		// timer 
-		public var removeTimer : Number = 15;
+		public var removeTimer : Number = 3;
 
 		public function Plant(rootsz : Root, branchz : Stalk, leavez : Leave, specialz : Special = null, startingPointz : int = -1, inputText : Boolean = true) 
 		{
-			
 			if(startingPoint >= 0 && startingPoint < Global.NUMBER_OF_PLANTS)
 			{
 				startingPoint = startingPointz;
@@ -88,9 +90,35 @@
 			plantTextFormat.align=TextFormatAlign.CENTER;
 			plantTextFormat.color=0x000000;
 			Name.setTextFormat(plantTextFormat);
+			
+			// healthbar
+			health_txt.text     = "HP: " + int(stalk.hitPoints);
+			health_txt.x        = -100;
+			health_txt.y        = 0;
+			health_txt.width    = 200;
+			health_txt.height   = 200;
+			health_txt.wordWrap = true;
+			health_txt.setTextFormat(plantTextFormat);
+			this.addChild(health_txt);
+			
+			
+			var factor:Number     = (Number(Global.POSITION_PER_PLANT) / Global.NUMBER_OF_PLANTS) * this.width;
+			this.width  *= Global.SCALING_FACTOR;
+			this.height *= Global.SCALING_FACTOR;
 		}
 		
-		private function addPart(part : Character, typeOfPart : int)
+		public function updateHPText() : void
+		{
+			health_txt.text     = "HP: " + int( Math.ceil(stalk.hitPoints) );
+			health_txt.x        = -100;
+			health_txt.y        = 0;
+			health_txt.width    = 200;
+			health_txt.height   = 200;
+			health_txt.wordWrap = true;
+			health_txt.setTextFormat(plantTextFormat);
+		}
+		
+		private function addPart(part : Character, typeOfPart : int) : void
 		{
 			var partClass : Character = GetPart(typeOfPart);
 			if(partClass.movieclip != null )
@@ -164,25 +192,23 @@
 					reScaleThree(deadPlant, scale, 1);
 					SortZOrder();
 				}
-				else
-				{
-					removeTimer -= Global.DELTA_TIME;
-				}
 			}
 			if(stalk.hitPoints != stalk.previousHP)
 			{
 				stalk.previousHP = stalk.hitPoints;
-				reScale((stalk.hitPoints / stalk.initialHP) * 0.4 + 0.35) 
+				reScale((stalk.hitPoints / stalk.initialHP) * 0.4 + 0.6) 
 			}
 		}		
 		
 		private function reScale(scalez : Number) : void
 		{
-			reScaleTwo(roots, scalez);
-			reScaleTwo(leave, scalez);
-			reScaleTwo(special, scalez);
-			reScaleTwo(stalk, scalez);
-			scale = scalez;
+			var nScale:Number = Math.min(MAX_SCALE, scalez);
+			
+			reScaleTwo(roots, nScale);
+			reScaleTwo(leave, nScale);
+			reScaleTwo(special, nScale);
+			reScaleTwo(stalk, nScale);
+			scale = nScale;
 		}
 		
 		private function reScaleTwo(part : Character, scalez : Number) : void
@@ -241,7 +267,7 @@
 		public function EndEditting() : void
 		{
 			makeTextInactive();
-			reScale(0.75);
+			reScale(scale);
 		}
 		
 		public function ChangeText(newText: String)

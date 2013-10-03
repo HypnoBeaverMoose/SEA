@@ -19,8 +19,8 @@
 	import flash.ui.Keyboard;
 	import flashx.textLayout.formats.BackgroundColor;
 	
-	public class GameScript_Main extends MovieClip{
-		
+	public class GameScript_Main extends MovieClip
+	{
 		// plants
 		private var plantArray:Array = new Array(Global.NUMBER_OF_PLANTS);
 		private var tempPlant:Plant;
@@ -58,36 +58,51 @@
 		private var screenLayer : MovieClip = new MovieClip();
 		
 		// timers
-		private var situationTimer : Number = 0;
-		private var situationMaxTimer : Number = 5;
+		private var situationTimer : Number    = 0;
+		private var situationMaxTimer : Number = 1;
+		private var roundNum:int = 0;
 				
 		// mouse
 		private var cursor : Cursor = new Cursor();
 		
-		public function GameScript_Main() 
+		private var bg:Background;
+		
+		public function GameScript_Main()
 		{
-			addChild(new Background());
+			this.addEventListener( Event.ADDED_TO_STAGE, init );
+		}
+		
+		private function init( e:Event ) : void
+		{
+			this.removeEventListener( Event.ADDED_TO_STAGE, init );
+			
+			bg = new Background();
+			bg.width  = stage.stageWidth + 100;
+			bg.height = stage.stageHeight;
+			bg.y = stage.stageHeight;
+			bg.gotoAndStop("normal");
+			this.addChildAt(bg, 0);
 			// constructor code
 			stage.stageFocusRect = false;
 			
-				for (var i : int = 0; i < Global.NUMBER_OF_PLANTS; i++)
-				{
-					plantArray[i] = null;
-					map[i] = MAPSQUARE_EMPTY;
-				}
-				
-				// construct game
-				var global : Global = new Global();
-				addChild(screenLayer); // will contain all objects
-				addChild(global); // contains all statics
-				addChild(cursor);
-				cursor.HideCursor();
-				this.addEventListener(Event.ENTER_FRAME,Update);
-				stage.addEventListener(MouseEvent.CLICK, MouseClick);
-				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardClick);
-				
-				// start begin screen
-				BeginScreen();
+			for (var i : int = 0; i < Global.NUMBER_OF_PLANTS; i++)
+			{
+				plantArray[i] = null;
+				map[i] = MAPSQUARE_EMPTY;
+			}
+			
+			// construct game
+			var global : Global = new Global();
+			this.addChildAt(screenLayer, 1); // will contain all objects
+			addChild(global); // contains all statics
+			addChild(cursor);
+			//cursor.HideCursor();
+			this.addEventListener(Event.ENTER_FRAME,Update);
+			stage.addEventListener(MouseEvent.CLICK, MouseClick);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyboardClick);
+			
+			// start begin screen
+			BeginScreen();
 		}
 		
 		private function Update(e : Event):void
@@ -95,9 +110,9 @@
 			switch(currentState)
 			{
 				case START: 
-				// update code for beginmenu
-				BeginGame();
-				break;
+					// update code for beginmenu
+					BeginGame();
+					break;
 				case GAME:
 				// update code for game
 				situationTimer -= Global.DELTA_TIME;
@@ -197,10 +212,10 @@
 				{
 					switch(e.keyCode)
 					{
-						case 32:
+						case 32:			//spacebar
 						ExitEditting(true);
 						break;
-						case 81:
+						case 81:			//Q
 						ExitEditting(false);
 						break;
 						case 37:
@@ -293,6 +308,10 @@
 		
 		private function roundHandler() : void
 		{
+			roundNum++;
+			dayCount_txt.text = "Day: " + String(roundNum);
+			trace("roundNum: " + roundNum);
+			
 			trace("------------------------------------------------------------------------------");
 			var sit:int = situationFromProb( Math.random() );
 			trace("TODAY YOU HAVE " + situationToString(sit).toUpperCase() + " IN YOUR GARDEN");
@@ -316,9 +335,11 @@
 						{
 							case SIT_SUNNY:
 								eModifier += Math.random() + 1.0;
+								bg.gotoAndStop("sunny");
 								break;
 							case SIT_RAINY:
 								nModifier += Math.random() + 1.0;
+								bg.gotoAndStop("rainy");
 								break;
 							case SIT_BUGS:
 								hpModifier = plant.special.specialType == Special.POISON ? 0 : -1;
@@ -327,6 +348,7 @@
 									MakePlant(plant, 1);
 									plant.hasReproduced = true;
 								}
+								bg.gotoAndStop("bugs");
 								break;
 							case SIT_ANIMALS:
 								hpModifier = plant.special.specialType == Special.THORNS ? 0 : -1;
@@ -335,14 +357,17 @@
 									MakePlant(plant, 1);
 									plant.hasReproduced = true;
 								}
+								bg.gotoAndStop("animals");
 								break;
 							case SIT_DROUGHT:
 								nModifier  = -plant.roots.nutrition / (Math.random() + 1.5);
 								hpModifier = -plant.leave.energy / (Math.random() + 1.5);
+								bg.gotoAndStop("drought");
 								break;
 							case SIT_ACIDRAIN:
 								eModifier  = -plant.leave.energy / (Math.random() + 1.5);
 								hpModifier = -plant.roots.nutrition / (Math.random() + 1.5);
+								bg.gotoAndStop("acid");
 								break;
 							default:
 								break;
@@ -368,6 +393,7 @@
 							plant.age++;
 						}
 						plant.stalk.hitPoints += growth;
+						plant.updateHPText();
 						
 						//print plant information
 						trace( plant.Name.text + "'s position: " + plant.startingPoint );
@@ -382,9 +408,13 @@
 							if(MakePlant(plant) == true)
 							{								
 								plant.stalk.hitPoints = plant.stalk.initialHP;
+								plant.updateHPText();
 							}
 							plant.hasReproduced = true;
 						}
+					} else // plant == dead
+					{
+						plant.removeTimer--;
 					}
 				}
 			}
@@ -461,6 +491,8 @@
 			else
 			{
 				tempPlant = new Plant(Global.PLANT_PART[Global.ROOTS][0], Global.PLANT_PART[Global.BRANCH][0], Global.PLANT_PART[Global.LEAVES][0], Global.PLANT_PART[Global.SPECIAL][0], i);
+				//tempPlant.y      *= factor;
+				
 				screenLayer.addChild(tempPlant);
 			}
 		}
