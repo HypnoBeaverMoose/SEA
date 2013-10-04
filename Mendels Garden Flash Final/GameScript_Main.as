@@ -317,6 +317,32 @@
 			trace("TODAY YOU HAVE " + situationToString(sit).toUpperCase() + " IN YOUR GARDEN");
 			trace("------------------------------------------------------------------------------");
 			
+			
+			// change weather background
+			switch (sit)
+			{
+				case SIT_SUNNY:
+					bg.gotoAndStop("sunny");
+					break;
+				case SIT_RAINY:
+					bg.gotoAndStop("rainy");
+					break;
+				case SIT_BUGS:
+					bg.gotoAndStop("bugs");
+					break;
+				case SIT_ANIMALS:
+					bg.gotoAndStop("animals");
+					break;
+				case SIT_DROUGHT:
+					bg.gotoAndStop("drought");
+					break;
+				case SIT_ACIDRAIN:
+					bg.gotoAndStop("acid");
+					break;
+				default:
+					break;
+			}
+
 			var reprodQueue:Array = plantArray.concat();
 			var i:int;
 			var bool:Boolean = false;
