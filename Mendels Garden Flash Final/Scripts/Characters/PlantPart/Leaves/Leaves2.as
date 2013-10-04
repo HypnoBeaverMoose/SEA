@@ -9,8 +9,8 @@
 		public function Leaves2() {
 			// constructor code
 			super();
-			startingEnergy 		= 4;
-			energy				= 4;
+			startingEnergy 		= 2;
+			energy				= 3;
 			Size 				= 2;	
 			movieclip  			= new leaves2() as MovieClip;
 			if(movieclip != null)

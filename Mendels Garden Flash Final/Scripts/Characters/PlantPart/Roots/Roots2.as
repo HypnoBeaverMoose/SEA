@@ -9,8 +9,8 @@
 		public function Roots2() {
 			// constructor code
 			super();
-			startingNutrition = 4;
-			nutrition         = 4;
+			startingNutrition = 3;
+			nutrition         = 2;
 			Size              = 2;		
 			movieclip 		  = new roots2() as MovieClip;
 			if(movieclip != null)

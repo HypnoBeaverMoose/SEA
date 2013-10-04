@@ -346,7 +346,7 @@
 			var reprodQueue:Array = plantArray.concat();
 			var i:int;
 			var bool:Boolean = false;
-			for ( i = 0; i < Global.NUMBER_OF_PLANTS; ++i )
+			for ( i = 0; i < reprodQueue.length; ++i )
 			{
 				if(reprodQueue[i] != null)
 				{

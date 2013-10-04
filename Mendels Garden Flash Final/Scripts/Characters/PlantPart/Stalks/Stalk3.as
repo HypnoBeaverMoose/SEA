@@ -11,7 +11,7 @@
 			super();
 			initialHP            = 6;
 			hitPoints            = 6;
-			energyConsumption    = 3;
+			energyConsumption    = 2;
 			nutritionConsumption = 3;
 			Size                 = 3;
 			movieclip 			 = new branch3() as MovieClip;

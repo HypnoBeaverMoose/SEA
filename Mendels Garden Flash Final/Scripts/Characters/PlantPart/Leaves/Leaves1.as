@@ -9,7 +9,7 @@
 		public function Leaves1() {
 			// constructor code
 			super();
-			startingEnergy 		= 2;
+			startingEnergy 		= 1;
 			energy				= 2;
 			Size 				= 1;	
 			movieclip  			= new leaves1() as MovieClip;
