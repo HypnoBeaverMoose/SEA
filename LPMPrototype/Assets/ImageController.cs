@@ -9,8 +9,8 @@ public class ImageController : MonoBehaviour
 
     void Start ()    
     {
-        var linear_size = Camera.mainCamera.orthographicSize * 0.2f;
-        var size = new Vector3(linear_size * Camera.mainCamera.aspect, 1.0f, linear_size);
+        float linear_size = Camera.mainCamera.orthographicSize * 0.2f;
+        Vector3 size = new Vector3(linear_size * Camera.mainCamera.aspect, 1.0f, linear_size);
         transform.localScale = size;
         m_initialOrthoSize = Camera.mainCamera.orthographicSize;
     }

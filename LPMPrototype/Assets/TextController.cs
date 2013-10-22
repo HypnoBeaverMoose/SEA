@@ -5,15 +5,15 @@ using System.Collections.Generic;
 public class Question
 {
     public string questionText;
-    public string[] answearText;
+    public string[] answerText;
     public Question followUpQuestion;
 }
 
 public enum DisplayType
 {
     Questions = 0,
-    Answear,
-    ObjectDesctiption
+    Answer,
+    ObjectDescription
 }
 
 public class TextController
@@ -25,73 +25,81 @@ public class TextController
     public string[] m_objectDescriptions;
     public string m_currentObject;
     public DisplayType m_displayType = DisplayType.Questions;
-    public int m_currentAnswearLine;
-    public TextController(TextAsset objects, TextAsset questions,  TextAsset answears, Room room)
+    public int m_currentanswerLine;
+	
+    public TextController(TextAsset objects = null, TextAsset questions = null,  TextAsset answers = null, Room room = Room.Menu)
     {
-        string[] separators = { "\n" };
-        string[] quests = questions.text.Split(separators,System.StringSplitOptions.RemoveEmptyEntries);
-        string[] ans = answears.text.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
-        m_objectDescriptions = objects.text.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
-
-
-        if (quests.Length != ans.Length)
-            Debug.Log("ERROR: WRONG NUMBER OF QUESTIONS/ANSWEARS");
-
-        for (int i = 0; i < quests.Length; i++)
-        {
-            if (quests[i].Length > 1)
-            {
-                var q = new Question();
-                q.questionText = quests[i];               
-                q.answearText = ans[i].Split('|');
-
-                if (q.questionText[0] == '+')
-                {
-                    q.questionText.Remove(0, 1);
-                    m_questions[m_questions.Count - 1].followUpQuestion = q;
-                }
-                else if (q.questionText[0] == '-')
-                {
-                    q.questionText.Remove(0, 1);
-                    m_lockedQuestions.Add(q);
-                }
-                else
-                {
-                    m_questions.Add(q);
-                    Debug.Log(q.questionText);
-                    for (int j = 0; j < q.answearText.Length; j++)
-                        Debug.Log(q.answearText[j]);
-                }
-            }
-        }
-        m_currentAnswearLine  = 0;
+		if(objects != null && questions != null && answers != null)
+		{
+	        string[] separators = { "@" };
+	        string[] quests = questions.text.Split(separators,System.StringSplitOptions.RemoveEmptyEntries);
+	        string[] ans = answers.text.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
+	        m_objectDescriptions = objects.text.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
+	
+	
+	        if (quests.Length != ans.Length)
+	            Debug.LogError("ERROR: WRONG NUMBER OF QUESTIONS/answerS");
+	
+	        for (int i = 0; i < quests.Length; i++)
+	        {
+	            if (quests[i].Length > 1)
+	            {
+	                var q = new Question();
+	                q.questionText = quests[i]; 
+	                q.answerText = ans[i].Split('|');
+	
+	                if (q.questionText[0] == '+')
+	                {
+	                    q.questionText = q.questionText.Remove(0, 1);
+	                    m_questions[m_questions.Count - 1].followUpQuestion = q;
+	                }
+	                else if (q.questionText[0] == '-')
+	                {
+	                    q.questionText = q.questionText.Remove(0, 1);
+	                    m_lockedQuestions.Add(q);
+	                }
+	                else
+	                {
+	                    m_questions.Add(q);
+	                }
+	            }
+	        }
+        	m_currentanswerLine  = 0;
+		}
 
     }
-
-    public void ShowQuesitons()
+	
+	protected void MakeQuestion(string text)
+	{
+		var q = new Question();
+		q.questionText = text;
+		m_questions.Add(q);
+	}
+	
+    public void ShowQuestions()
     {
         m_displayType = DisplayType.Questions;
     }
 
     public void showObjectDescription(int index)
     {
-        m_displayType = DisplayType.ObjectDesctiption;
+        m_displayType = DisplayType.ObjectDescription;
         m_currentObject = m_objectDescriptions[index];         
     }
 
-    public void NextAnswearLine()
+    public void NextAnswerLine()
     {
         if (m_currentQuestion != null)
         {
-            if ((++m_currentAnswearLine) == m_currentQuestion.answearText.Length)
+            if ((++m_currentanswerLine) == m_currentQuestion.answerText.Length)
             {
-                m_currentAnswearLine = 0;
-                ShowQuesitons();
+                m_currentanswerLine = 0;
+                ShowQuestions();
             }
         }
     }
 
-    public void Answear(int index)
+    public virtual void Answer(int index)
     {        
         m_currentQuestion = m_questions[index];
         if(m_currentQuestion.followUpQuestion != null)
@@ -99,7 +107,7 @@ public class TextController
             m_questions.Add(m_currentQuestion.followUpQuestion);
             m_currentQuestion.followUpQuestion = null;
         }
-        m_displayType = DisplayType.Answear;
-        m_currentAnswearLine = 0;
+        m_displayType = DisplayType.Answer;
+        m_currentanswerLine = 0;
     }
 }
