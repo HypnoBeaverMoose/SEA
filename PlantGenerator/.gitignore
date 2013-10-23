@@ -1,0 +1,5 @@
+/Android/
+/Debug/
+*.opensdf
+*.sdf
+*.suo
