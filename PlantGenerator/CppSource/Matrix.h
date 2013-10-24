@@ -3,8 +3,8 @@
 ///Matrix class
 
 #pragma once
-#include"Vector.h"
-#include "Definitions.h"
+#include "Vector.h"
+//#include "Definitions.h"
 
 //namespace base 
 //{
@@ -121,7 +121,7 @@
 	template<class T,unsigned int N>
 	Matrix<T,N>::Matrix(std::vector<T> data) : m_elements(data.begin(),data.end()) 
 	{
-		if(m_elemnts.size() != N*N) m_elements.clear();
+		if(this->m_elemnts.size() != N*N) this->m_elements.clear();
 	}
 
 	template<class T,unsigned int N>
@@ -210,57 +210,57 @@
 	template<class T>
 	Matrix2<T>::Matrix2(T m1,T m2,T m3,T m4) : Matrix<T,2>()
 	{
-		m_elements[0] = m1;	m_elements[1] = m2;
-		m_elements[2] = m3; m_elements[3] = m4;
+		this->m_elements[0] = m1;	this->m_elements[1] = m2;
+		this->m_elements[2] = m3;	this->m_elements[3] = m4;
 	}
 
 	template<class T>
 	T Matrix2<T>::Determinant() const
 	{
-		return m_elements[ 0 ] * m_elements[ 3 ]  - m_elements[ 1 ] * m_elements[ 2 ];
+		return this->m_elements[ 0 ] * this->m_elements[ 3 ]  - this->m_elements[ 1 ] * this->m_elements[ 2 ];
 	}
 
 	template<class T>
 	void Matrix2<T>::Invert()
 	{
-		double det = 1.0 / (m_elements[ 0 ] * m_elements[ 3 ]  - m_elements[ 1 ] * m_elements[ 2 ]);
-		double tmp = m_elements[ 0 ] * det;
+		double det = 1.0 / (this->m_elements[ 0 ] * this->m_elements[ 3 ]  - this->m_elements[ 1 ] * this->m_elements[ 2 ]);
+		double tmp = this->m_elements[ 0 ] * det;
 
-		m_elements[ 0 ] = m_elements[ 3 ] * det; 
-		m_elements[ 1 ] = - m_elements[ 1 ] * det;
-		m_elements[ 2 ] = - m_elements[ 2 ] * det;
-		m_elements[ 3 ] = tmp;
+		this->m_elements[ 0 ] =	  this->m_elements[ 3 ] * det; 
+		this->m_elements[ 1 ] = - this->m_elements[ 1 ] * det;
+		this->m_elements[ 2 ] = - this->m_elements[ 2 ] * det;
+		this->m_elements[ 3 ] = tmp;
 	}
 
 	template<class T>
 	Matrix2<T> Matrix2<T>::Inverse() const
 	{
 		double det = 1.0 / Determinant();
-		return Matr ix2(m_elements[ 3 ] * det, - m_elements[ 1 ] * det,- m_elements[ 2 ] * det, m_elements[ 0 ] * det);
+		return Matrix2(this->m_elements[ 3 ] * det, - this->m_elements[ 1 ] * det,- this->_elements[ 2 ] * det, this->m_elements[ 0 ] * det);
 	}
 
 	template<class T>
 	Matrix3<T>::Matrix3(T m1,T m2,T m3,T m4,T m5,T m6,T m7,T m8,T m9) : Matrix<T,3>()
 	{
-		m_elements[ 0 ] = m1;	m_elements[ 1 ] = m2;
-		m_elements[ 2 ] = m3;	m_elements[ 3 ] = m4;
-		m_elements[ 4 ] = m5;	m_elements[ 5 ] = m6;
-		m_elements[ 6 ] = m7;	m_elements[ 7 ] = m8;
-		m_elements[ 8 ] = m9; 
+		this->m_elements[ 0 ] = m1;	this->m_elements[ 1 ] = m2;
+		this->m_elements[ 2 ] = m3;	this->m_elements[ 3 ] = m4;
+		this->m_elements[ 4 ] = m5;	this->m_elements[ 5 ] = m6;
+		this->m_elements[ 6 ] = m7;	this->m_elements[ 7 ] = m8;
+		this->m_elements[ 8 ] = m9; 
 	}
 
 	template<class T>
 	Matrix3<T>::Matrix3(std::vector<T> data)
 	{
-		m_elements.assign(data.begin(), data.end());
+		this->m_elements.assign(data.begin(), data.end());
 	}
 
 	template<class T>
 	T Matrix3<T>::Determinant() const
 	{
-		T a1  = m_elements[ 0 ]  * (m_elements[ 4 ] * m_elements[ 8 ] - m_elements[ 5 ] * m_elements[ 7 ]);
-		T a2  = m_elements[ 1 ]  * (m_elements[ 3 ] * m_elements[ 8 ] - m_elements[ 5 ] * m_elements[ 6 ]);
-		T a3  = m_elements[ 2 ]  * (m_elements[ 3 ] * m_elements[ 7 ] - m_elements[ 4 ] * m_elements[ 6 ]);
+		T a1  = this->m_elements[ 0 ]  * (this->m_elements[ 4 ] * this->m_elements[ 8 ] - this->m_elements[ 5 ] * this->m_elements[ 7 ]);
+		T a2  = this->m_elements[ 1 ]  * (this->m_elements[ 3 ] * this->m_elements[ 8 ] - this->m_elements[ 5 ] * this->m_elements[ 6 ]);
+		T a3  = this->m_elements[ 2 ]  * (this->m_elements[ 3 ] * this->m_elements[ 7 ] - this->m_elements[ 4 ] * this->m_elements[ 6 ]);
 		return a1 - a2 + a3;
 	}
 
@@ -270,10 +270,10 @@
 		std::vector< T > adj;
 		getAdjugate(adj);
 
-		double det = 1.0  / (m_elements[0] * adj[0]  +  m_elements[1] * adj[1] + m_elements[2] * adj[2]);
+		double det = 1.0  / (this->m_elements[0] * adj[0]  +  this->m_elements[1] * adj[1] + this->m_elements[2] * adj[2]);
 
-		for(unsigned int i = 0 ; i < m_elements.size();i++)
-			m_elements[i] = (T)(adj[i] * det);
+		for(unsigned int i = 0 ; i < this->m_elements.size();i++)
+			this->m_elements[i] = (T)(adj[i] * det);
 	}
 
 	template<class T>
@@ -282,7 +282,7 @@
 		std::vector< T > adj;
 		getAdjugate(adj);
 
-		double det = 1.0  / (m_elements[0] * adj[0]  - m_elements[1] * adj[1] + m_elements[2] * adj[2]);
+		double det = 1.0  / (this->m_elements[0] * adj[0]  - this->m_elements[1] * adj[1] + this->m_elements[2] * adj[2]);
 
 		for(unsigned int i = 0 ; i < adj.size();i++)
 			adj[i] *= (T)det;
@@ -293,17 +293,17 @@
 	template<class T>
 	void Matrix3<T>::getAdjugate(std::vector< T >& adj) const
 	{
-		adj.push_back( ( m_elements[ 4 ] * m_elements[ 8 ] - m_elements[ 5 ] * m_elements[ 7 ] ) );
-		adj.push_back( - ( m_elements[ 3 ] * m_elements[ 8 ] - m_elements[ 5 ] * m_elements[ 6 ] ) );
-		adj.push_back( ( m_elements[ 3 ] * m_elements[ 7 ] - m_elements[ 4 ] * m_elements[ 6 ] ) );
+		adj.push_back( ( this->m_elements[ 4 ] * this->m_elements[ 8 ] - this->m_elements[ 5 ] * this->m_elements[ 7 ] ) );
+		adj.push_back( - ( this->m_elements[ 3 ] * this->m_elements[ 8 ] - this->m_elements[ 5 ] * this->m_elements[ 6 ] ) );
+		adj.push_back( ( this->m_elements[ 3 ] * this->m_elements[ 7 ] - this->m_elements[ 4 ] * this->m_elements[ 6 ] ) );
 
-		adj.push_back( - ( m_elements[ 1 ] * m_elements[ 8 ] - m_elements[ 2 ] * m_elements[ 7 ] ) );
-		adj.push_back( ( m_elements[ 0 ] * m_elements[ 8 ] - m_elements[ 2 ] * m_elements[ 6 ] ) );
-		adj.push_back( - ( m_elements[ 0 ] * m_elements[ 7 ] - m_elements[ 1 ] * m_elements[ 6 ] ) );
+		adj.push_back( - ( this->m_elements[ 1 ] * this->m_elements[ 8 ] - this->m_elements[ 2 ] * this->m_elements[ 7 ] ) );
+		adj.push_back( ( this->m_elements[ 0 ] * this->m_elements[ 8 ] - this->m_elements[ 2 ] * this->m_elements[ 6 ] ) );
+		adj.push_back( - ( this->m_elements[ 0 ] * this->m_elements[ 7 ] - this->m_elements[ 1 ] * this->m_elements[ 6 ] ) );
 
-		adj.push_back( ( m_elements[ 1 ] * m_elements[ 5 ] - m_elements[ 2 ] * m_elements[ 4 ] ) );
-		adj.push_back( - ( m_elements[ 0 ] * m_elements[ 5 ] - m_elements[ 2 ] * m_elements[ 3 ] ) );
-		adj.push_back( ( m_elements[ 0 ] * m_elements[ 4 ] - m_elements[ 1 ] * m_elements[ 3 ] ) );
+		adj.push_back( ( this->m_elements[ 1 ] * this->m_elements[ 5 ] - this->m_elements[ 2 ] * this->m_elements[ 4 ] ) );
+		adj.push_back( - ( this->m_elements[ 0 ] * this->m_elements[ 5 ] - this->m_elements[ 2 ] * this->m_elements[ 3 ] ) );
+		adj.push_back( ( this->m_elements[ 0 ] * this->m_elements[ 4 ] - this->m_elements[ 1 ] * this->m_elements[ 3 ] ) );
 	}
 
 	template<class T>
@@ -335,14 +335,14 @@
 	Matrix4<T>::Matrix4(T m1, T m2, T m3, T m4, T m5, T m6,T m7,T m8,T m9,
 			T m10,T m11,T m12,T m13,T m14,T m15, T m16) : Matrix<T,4>()
 	{
-		m_elements[ 0 ] = m1;	m_elements[ 1 ] = m2;
-		m_elements[ 2 ] = m3;	m_elements[ 3 ] = m4;
-		m_elements[ 4 ] = m5;	m_elements[ 5 ] = m6;
-		m_elements[ 6 ] = m7;	m_elements[ 7 ] = m8;
-		m_elements[ 8 ] = m9;	m_elements[ 9 ] = m10; 
-		m_elements[ 10 ] = m11;	m_elements[ 11 ] = m12; 
-		m_elements[ 12 ] = m13;	m_elements[ 13 ] = m14; 
-		m_elements[ 14 ] = m15;	m_elements[ 15 ] = m16; 
+		this->m_elements[ 0 ] = m1;	this->m_elements[ 1 ] = m2;
+		this->m_elements[ 2 ] = m3;	this->m_elements[ 3 ] = m4;
+		this->m_elements[ 4 ] = m5;	this->m_elements[ 5 ] = m6;
+		this->m_elements[ 6 ] = m7;	this->m_elements[ 7 ] = m8;
+		this->m_elements[ 8 ] = m9;	this->m_elements[ 9 ] = m10; 
+		this->m_elements[ 10 ] = m11;	this->m_elements[ 11 ] = m12; 
+		this->m_elements[ 12 ] = m13;	this->m_elements[ 13 ] = m14; 
+		this->m_elements[ 14 ] = m15;	this->m_elements[ 15 ] = m16; 
 	}
 	template<class T>
 	Matrix4<T> Matrix4<T>::Identity()
@@ -398,7 +398,7 @@
 	template<class T>
 	Matrix4<T> Matrix4<T>::Perspective(T near_p, T far_p, T fov, T aspect)
 	{
-		T right = std::tanf(fov * DEG2RAD) * near_p;		
+		T right = std::tan(fov * DEG2RAD) * near_p;		
 		T top = right * aspect;
 		return Perspective(near_p, far_p, top, -top, -right, right);		
 	}

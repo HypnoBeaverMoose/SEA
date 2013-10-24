@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="CppSource">
-      <UniqueIdentifier>{66f41746-5039-4f3f-bf63-a2ea76a36745}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AndroidApk">
       <UniqueIdentifier>{59ea3ba4-298d-48ae-862d-be4a8cc2664b}</UniqueIdentifier>
     </Filter>
@@ -18,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CppSource\gl_code.cpp">
-      <Filter>CppSource</Filter>
-    </ClCompile>
     <ClCompile Include="CppSource\WinApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,6 +28,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CppSource\TurtleGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CppSource\AppAndroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,6 +83,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="CppSource\Color.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CppSource\AppAndroid.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

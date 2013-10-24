@@ -28,6 +28,15 @@ public class PlantGenLib {
      * @param width the current view width
      * @param height the current view height
      */
+
+	public static native void OnResize(int width, int height);
+	public static native void OnRender();
+	public static native void OnDestroy();
+	public static native void OnCreate();
+
+/*
      public static native void init(int width, int height);
      public static native void step();
+
+*/
 }

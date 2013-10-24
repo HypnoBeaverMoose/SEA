@@ -1,5 +1,4 @@
 #include "Matrix.h"
-#include"Includes.h"
 #include "Definitions.h"
 #include "LSystem.h"
 #include "TurtleGraphics.h"
@@ -22,6 +21,7 @@
 
 App::App() : m_lSystem("F-F-F-F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(90,0.15f)//, m_modelViewMatrix(Matrix4f::Identity())
 {	
+	
 /*	float triangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f,
         0.5f, -0.5f };
 
@@ -29,6 +29,7 @@ App::App() : m_lSystem("F-F-F-F"), m_projectionMatrix(Matrix4f::Identity()), m_p
 
 	m_lSystem.addRule(Rule('F',"F+F-F-FF+F+F-F"));
 	m_lSystem.Iterate(3);
+	LOGI("AppCreated2");
 }
 
 void App::OnCreate()
@@ -40,9 +41,10 @@ void App::OnCreate()
 	//checkGlError("glGetUniformLocation");
 	//m_projectionHandle = glGetUniformLocation(m_programId, "mProjection");
 	//checkGlError("glGetUniformLocation");
-	glShadeModel(GL_SMOOTH);
+	//glShadeModel(GL_SMOOTH);	
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	m_painter.init();
+	LOGI("OnCreate");
 }
 
 void App::OnRender()
@@ -76,7 +78,8 @@ void App::OnRender()
 
 void App::OnResize(int width, int height)
 {
-	glViewport(0,0,width,max(1, height));
+	LOGI("OnResize %d, %d",width, height);
+	glViewport(0,0,width,std::max(1, height));
 	m_projectionMatrix =  Matrix4f::Orthographic(0.1f,10.0f,10.0f,-10.0f,-10.0f,10.0f);
 	glUseProgram(m_painter.getShaderHandle());	
 	checkGlError("glUseProgram");
@@ -84,6 +87,7 @@ void App::OnResize(int width, int height)
 	checkGlError("glUniformMatrix4fv");
 	glUseProgram(0);
 	checkGlError("glUseProgram");
+	
 }
 
 uint App::loadShader(GLenum shaderType, const char* pSource) 

@@ -87,11 +87,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CppSource\App.cpp" />
-    <ClCompile Include="CppSource\gl_code.cpp" />
+    <ClCompile Include="CppSource\AppAndroid.cpp" />
     <ClCompile Include="CppSource\LSystem.cpp" />
-    <ClCompile Include="CppSource\main.cpp" />
+    <ClCompile Include="CppSource\main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CppSource\TurtleGraphics.cpp" />
-    <ClCompile Include="CppSource\WinApp.cpp" />
+    <ClCompile Include="CppSource\WinApp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AndroidApk\AndroidManifest.xml">
@@ -108,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CppSource\App.h" />
+    <ClInclude Include="CppSource\AppAndroid.h" />
     <ClInclude Include="CppSource\Color.h" />
     <ClInclude Include="CppSource\Definitions.h" />
     <ClInclude Include="CppSource\Includes.h" />

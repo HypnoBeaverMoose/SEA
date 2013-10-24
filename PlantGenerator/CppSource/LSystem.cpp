@@ -1,6 +1,5 @@
+#include "Definitions.h"
 #include "LSystem.h"
-#include <map>
-
 
 int LSystem::addRule(const Rule r) 
 { 

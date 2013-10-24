@@ -2,6 +2,7 @@
 ///Developed by Yassen Aatanasov
 ///Vectcor class
 #pragma once
+
 #include "Definitions.h"
 //namespace base
 //{
@@ -89,7 +90,7 @@
 	{ 
 		T sum = 0;
 		for(int i = 0; i < m_data.size(); i++)
-			sum+= data[i]*data[i];
+			sum+= m_data[i]*m_data[i];
 		return sum; 
 	};
 
@@ -97,8 +98,8 @@
 	Vector<T,N> Vector<T,N>::operator+(const Vector<T,N>& rhs) const 
 	{
 		Vector<T,N> vec;
-		for(int i = 0 i < m_data.size(); i++)
-			vec.m_data[i] = m_data[i] + rhs.m_data[i]
+		for(int i = 0; i < m_data.size(); i++)
+			vec.m_data[i] = m_data[i] + rhs.m_data[i];
 		return vec;
 	}
 
@@ -106,8 +107,8 @@
 	Vector<T,N> Vector<T,N>::operator-(const Vector<T,N> & rhs) const 
 	{
 		Vector<T,N> vec;
-		for(int i = 0 i < m_data.size(); i++)
-			vec.m_data[i] = m_data[i] - rhs.m_data[i]
+		for(int i = 0; i < m_data.size(); i++)
+			vec.m_data[i] = m_data[i] - rhs.m_data[i];
 		return vec;
 	}
 
@@ -115,8 +116,8 @@
 	Vector<T,N> Vector<T,N>::operator/(const T& rhs) const 		
 	{
 		Vector<T,N> vec;
-		for(int i = 0 i < m_data.size(); i++)
-			vec.m_data[i] = m_data[i] / rhs
+		for(int i = 0; i < m_data.size(); i++)
+			vec.m_data[i] = m_data[i] / rhs;
 		return vec;
 	}
 
@@ -124,8 +125,8 @@
 	Vector<T,N> Vector<T,N>::operator*(const T& rhs) const
 	{
 		Vector<T,N> vec;
-		for(int i = 0 i < m_data.size(); i++)
-			vec.m_data[i] = m_data[i] * rhs
+		for(int i = 0; i < m_data.size(); i++)
+			vec.m_data[i] = m_data[i] * rhs;
 		return vec;
 
 	}
@@ -149,18 +150,18 @@
 	template<class T>
 	Vector2<T>::Vector2(T x, T y) : Vector<T,2>()
 	{
-		m_data[0] = x; m_data[1] = y;
+		this->m_data[0] = x; this->m_data[1] = y;
 	}
 
 	template<class T>
 	Vector3<T>::Vector3(T x, T y, T z) : Vector<T,3>()
 	{
-		m_data[0] = x; m_data[1] = y; m_data[2] = z;
+		this->m_data[0] = x; this->m_data[1] = y; this->m_data[2] = z;
 	}
 
 	template<class T>
 	Vector4<T>::Vector4(T x, T y, T z, T w) : Vector<T,4>()
 	{
-		m_data[0] = x; m_data[1] = y; m_data[2] = z; m_data[3] = w;
+		this->m_data[0] = x; this->m_data[1] = y; this->m_data[2] = z; this->m_data[3] = w;
 	}
 //}
