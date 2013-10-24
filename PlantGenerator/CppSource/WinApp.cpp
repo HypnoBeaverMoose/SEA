@@ -18,6 +18,7 @@ WinApp* WinApp::Instance = NULL;
  WinApp::WinApp(int width,int heigth,HINSTANCE instance,char* name) : m_hInstance(instance)
 {
 	CreateGLWindow(name, width,  heigth);
+
 }
 
 WinApp::~WinApp(void)
@@ -163,6 +164,11 @@ bool WinApp::CreateGLWindow(char* title, int width, int height)
 		return FALSE;								// Return FALSE
 	}
 
+	GLenum glewErr =  glewInit();
+	if(glewErr != GLEW_OK)
+	{
+		LOGI((char*)glewGetErrorString(glewErr));
+	}
 	OnCreate();
 	OnResize(width, height);					// Set Up Our Perspective GL Screen
 

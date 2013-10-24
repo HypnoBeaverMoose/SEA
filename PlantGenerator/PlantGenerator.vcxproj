@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>.\Bin\$(Configuration)\</OutDir>
+    <OutDir>Bin\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\Bin\$(Configuration)</OutDir>
@@ -90,8 +90,8 @@
     <ClCompile Include="CppSource\gl_code.cpp" />
     <ClCompile Include="CppSource\LSystem.cpp" />
     <ClCompile Include="CppSource\main.cpp" />
+    <ClCompile Include="CppSource\TurtleGraphics.cpp" />
     <ClCompile Include="CppSource\WinApp.cpp" />
-    <ClCompile Include="TurtleGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AndroidApk\AndroidManifest.xml">
@@ -108,11 +108,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CppSource\App.h" />
+    <ClInclude Include="CppSource\Color.h" />
     <ClInclude Include="CppSource\Definitions.h" />
     <ClInclude Include="CppSource\Includes.h" />
     <ClInclude Include="CppSource\LSystem.h" />
+    <ClInclude Include="CppSource\Matrix.h" />
+    <ClInclude Include="CppSource\TurtleGraphics.h" />
+    <ClInclude Include="CppSource\Vector.h" />
     <ClInclude Include="CppSource\WinApp.h" />
-    <ClInclude Include="TurtleGraphics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

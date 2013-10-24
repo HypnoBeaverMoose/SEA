@@ -6,8 +6,8 @@
 #include"Vector.h"
 #include "Definitions.h"
 
-namespace base 
-{
+//namespace base 
+//{
 	template<class T, unsigned int N>
 	class Matrix : Base<T>
 	{
@@ -40,7 +40,7 @@ namespace base
 
 		//virtual T Determinant() const = 0;
 
-	protected:
+	//protected:
 		std::vector<float> m_elements;
 
 	};
@@ -92,17 +92,19 @@ namespace base
 
 		Matrix4(Matrix<T,4> m ) : Matrix<T,4>(m) {}
 
+		static Matrix4<T> Identity();
+
 		static Matrix4<T> Rotation(T angle, Vector3<T> axis);
 
 		static Matrix4<T> Scale(T x, T y, T z);
 
 		static Matrix4<T> Translation(T x, T y, T z);
 
-		static Matrix4<T> Perspective(T near, T far, T top, T bottom, T left, T right);
+		static Matrix4<T> Perspective(T near_p, T far_p, T top, T bottom, T left, T right);
 
-		static Matrix4<T> Perspective(T near, T far, T fov, T aspect);
+		static Matrix4<T> Perspective(T near_p, T far_p, T fov, T aspect);
 
-		static Matrix4<T> Orthographic(T near, T far, T top, T bottom, T left, T right);
+		static Matrix4<T> Orthographic(T near_p, T far_p, T top, T bottom, T left, T right);
 
 	};
 
@@ -342,18 +344,25 @@ namespace base
 		m_elements[ 12 ] = m13;	m_elements[ 13 ] = m14; 
 		m_elements[ 14 ] = m15;	m_elements[ 15 ] = m16; 
 	}
-
+	template<class T>
+	Matrix4<T> Matrix4<T>::Identity()
+	{
+		return Matrix4(	1, 0, 0, 0, 
+						0, 1, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1	);
+	}
 
 	template<class T>
 	Matrix4<T> Matrix4<T>::Rotation(T angle, Vector3<T> axis)
 	{
-		float sin = std::sin(angle * DEG2RAD);
-		float cos = std::cos(angle * DEG2RAD);
+		float sin = std::sin(angle * (float)DEG2RAD);
+		float cos = std::cos(angle * (float)DEG2RAD);
 
-		return Matrix4( cos+axis[0]*axis[0]*(1-cos),	axis[0]*axis[1]*(1-cos)-axis[2]*sin,	axis[0]*axis[2]*(1-cos)+axis[1]*sin,	0
-					axis[0]*axis[1]*(1-cos)+axis[2]*sin,	cos+axis[1]*axis[1]*(1-cos),			axis[1]*axis[2]*(1-cos)-axis[0]*sin,	0,
-					axis[0]*axis[2]*(1-cos)-axis[1]*sin,	axis[1]*axis[2]*(1-cos)+axis[0]*sin,	cos+axis[2]*axis[2]*(1-cos),			0,
-					0,										0,										0,										1 );
+		return Matrix4( cos + axis[0] * axis[0] * (1.0f - cos), 	axis[0] * axis[1] * (1.0f - cos) - axis[2] * sin,	 axis[0] * axis[2] * (1.0f - cos) + axis[1] * sin,	 0,
+					axis[0] * axis[1] * (1.0f - cos)+ axis[2] * sin,	 cos + axis[1] * axis[1] * (1.0f - cos), axis[1] * axis[2] * (1.0f - cos)-axis[0] * sin,	0,
+					axis[0] * axis[2] * (1.0f - cos) - axis[1] * sin, axis[1] * axis[2] * (1.0f - cos)  +axis[0] * sin,	cos + axis[2]*axis[2] * (1.0f-cos),	0,
+					0,										0,										0,							1 );
 
 	}
 
@@ -376,37 +385,37 @@ namespace base
 	}
 
 	template<class T>
-	Matrix4<T> Matrix4<T>::Perspective(T near, T far, T top, T bottom, T left, T right)
+	Matrix4<T> Matrix4<T>::Perspective(T near_p, T far_p, T top, T bottom, T left, T right)
 	{
 		T width = right - left;
 		T height = top-bottom;
-		T depth = far - near;
-		return Matrix4<T>(	2 * near / width, 0, (right + left) / width, 0,
-							0, 2 * near / height, (top + bottom) / height,  0,
-							0, 0, - ( far + near) / depth, -2 * far * near / depth,
+		T depth = far_p - near_p;
+		return Matrix4<T>(	2 * near_p / width, 0, (right + left) / width, 0,
+							0, 2 * near_p / height, (top + bottom) / height,  0,
+							0, 0, - ( far_p + near_p) / depth, -2 * far_p * near_p / depth,
 							0, 0,					  -1,				0 );
 	}
 	template<class T>
-	Matrix4<T> Matrix4<T>::Perspective(T near, T far, T fov, T aspect)
+	Matrix4<T> Matrix4<T>::Perspective(T near_p, T far_p, T fov, T aspect)
 	{
-		T right = std::tanf(fov * DEG2RAD) * near;		
+		T right = std::tanf(fov * DEG2RAD) * near_p;		
 		T top = right * aspect;
-		return Perspective(near, far, top, -top, -right, right);		
+		return Perspective(near_p, far_p, top, -top, -right, right);		
 	}
 
 	template<class T>
-	Matrix4<T> Matrix4<T>::Orthographic(T near, T far, T top, T bottom, T left, T right)
+	Matrix4<T> Matrix4<T>::Orthographic(T near_p, T far_p, T top, T bottom, T left, T right)
 	{
 		T width = right - left;
 		T height = top - bottom;
-		T depth = far - near;
+		T depth = near_p - far_p;
 
 		return Matrix4<T>(	2 / width, 0, 0,	(right + left) / width, 
 							0, 2 / height, 0,	(top + bottom) / height,
-							0, 0, - 2 / depth,	-(far + near) / depth,
+							0, 0, - 2 / depth,	-(near_p + far_p) / depth,
 							0, 0,	0,			1);
 	}
 
 
 
-}
+//}

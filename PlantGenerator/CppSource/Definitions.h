@@ -11,9 +11,9 @@
 #ifdef WIN32
 
 inline void log(const char* format, ...)
-{	
+{		
 	char buf[1024];
-    wvsprintfA(buf, format, ((char*)&format) + sizeof(void*));
+	wvsprintfA(buf, format, ((char*)&format) + sizeof(void*));
 	OutputDebugStringA(buf);
 }
 
@@ -43,3 +43,5 @@ public:
 	virtual T* getValuePtr() = 0;
 	//const T* getValue() const = 0;
 };
+
+#define DEG2RAD 0.0174532925

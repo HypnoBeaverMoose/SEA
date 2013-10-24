@@ -3,8 +3,8 @@
 ///Vectcor class
 #pragma once
 #include "Definitions.h"
-namespace base
-{
+//namespace base
+//{
 
 	template<class T,unsigned int N>
 	class Vector : Base<T>
@@ -163,4 +163,4 @@ namespace base
 	{
 		m_data[0] = x; m_data[1] = y; m_data[2] = z; m_data[3] = w;
 	}
-}
+//}

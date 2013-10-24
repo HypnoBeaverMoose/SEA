@@ -33,7 +33,9 @@
     <ClCompile Include="CppSource\LSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TurtleGraphics.cpp" />
+    <ClCompile Include="CppSource\TurtleGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AndroidApk\AndroidManifest.xml">
@@ -74,6 +76,17 @@
     <ClInclude Include="CppSource\LSystem.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="TurtleGraphics.h" />
+    <ClInclude Include="CppSource\TurtleGraphics.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CppSource\Matrix.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CppSource\Vector.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CppSource\Color.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

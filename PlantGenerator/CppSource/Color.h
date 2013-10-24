@@ -1,8 +1,8 @@
 #pragma once
 #include"Definitions.h"
 
-namespace base
-{
+//namespace base
+//{
 template<class T>
 	class Color : public Base<T>
 	{
@@ -83,4 +83,4 @@ template<class T>
 		return m_data.data(); 
 	}
 
-}
+//}

@@ -2,9 +2,10 @@
 #include<windows.h>
 #include"WinApp.h"
 
+
 int APIENTRY WinMain( HINSTANCE hInstance,HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	WinApp::InitInstance(640, 480,  hInstance, "Plant Generator");
+	WinApp::InitInstance(640, 640,  hInstance, "Plant Generator");
 	WinApp::RunMainLoop(nCmdShow);
 }
 
