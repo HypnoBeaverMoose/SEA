@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/FutureGUI">
+        <file>jugenstilArrowLeft.png</file>
+        <file>jugenstilArrowLeftDown.png</file>
+        <file>jugenstilArrowRight.png</file>
+        <file>jugenstilArrowRightDown.png</file>
+        <file>jugenstilBG.png</file>
+        <file>jugenstilSaveBtn.png</file>
+        <file>jugenstilSaveBtnDown.png</file>
+    </qresource>
+</RCC>
