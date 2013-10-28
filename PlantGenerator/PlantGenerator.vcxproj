@@ -87,7 +87,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CppSource\App.cpp" />
-    <ClCompile Include="CppSource\AppAndroid.cpp" />
+    <ClCompile Include="CppSource\AppAndroid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CppSource\LSystem.cpp" />
     <ClCompile Include="CppSource\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
@@ -115,7 +117,6 @@
     <ClInclude Include="CppSource\AppAndroid.h" />
     <ClInclude Include="CppSource\Color.h" />
     <ClInclude Include="CppSource\Definitions.h" />
-    <ClInclude Include="CppSource\Includes.h" />
     <ClInclude Include="CppSource\LSystem.h" />
     <ClInclude Include="CppSource\Matrix.h" />
     <ClInclude Include="CppSource\TurtleGraphics.h" />

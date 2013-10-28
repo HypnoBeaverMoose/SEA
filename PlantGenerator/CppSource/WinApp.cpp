@@ -117,8 +117,8 @@ bool WinApp::CreateGLWindow(char* title, int width, int height)
 		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
 		1,											// Version Number
 		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-		PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-		PFD_DOUBLEBUFFER,							// Must Support Double Buffering
+		PFD_SUPPORT_OPENGL,// |						// Format Must Support OpenGL
+		//PFD_DOUBLEBUFFER,							// Must Support Double Buffering
 		PFD_TYPE_RGBA,								// Request An RGBA Format
 		32,											// Select Our Color Depth
 		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
@@ -203,7 +203,8 @@ int WinApp::MainLoop(int cmdShow)
 		else
 		{
 			OnRender();
-			SwapBuffers(m_hDC);				// Swap Buffers (Double Buffering)
+			glFlush();
+			//SwapBuffers(m_hDC);				// Swap Buffers (Double Buffering)
 		}
 	}
 	return (m_msg.wParam);							// Exit The Program
@@ -215,6 +216,9 @@ LRESULT CALLBACK WinApp::WndProc(	HWND	hWnd,			// Handle For This Window
 {
 	switch (uMsg)									// Check For Windows Messages
 	{
+		case WM_LBUTTONDOWN:
+		case WM_RBUTTONDOWN:
+			Instance->OnTouch(0,0); break;
 		case WM_SIZE:								// Resize The OpenGL Window
 			Instance->OnResize(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			break;

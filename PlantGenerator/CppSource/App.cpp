@@ -19,7 +19,8 @@
 //    "}\n";
 //
 
-App::App() : m_lSystem("F-F-F-F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(90,0.15f)//, m_modelViewMatrix(Matrix4f::Identity())
+App::App() 
+	: m_lSystem("F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(23.0f,0.1f), needsRedraw(true)
 {	
 	
 /*	float triangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f,
@@ -27,8 +28,13 @@ App::App() : m_lSystem("F-F-F-F"), m_projectionMatrix(Matrix4f::Identity()), m_p
 
 	m_triangle.assign(triangleVertices,triangleVertices + 6);*/	
 
-	m_lSystem.addRule(Rule('F',"F+F-F-FF+F+F-F"));
-	m_lSystem.Iterate(3);
+	//m_lSystem.addRule(Rule('X',"F-[[X]+X]+F[+FX]-X"));
+	///m_lSystem.addRule(Rule('X',"F-[[X]+F]+F[+FF]-X"));
+
+	m_lSystem.addRule(Rule('F',"F[+F]F[-F]F",0.33f));
+	m_lSystem.addRule(Rule('F',"F[+F]F",0.33f));
+	m_lSystem.addRule(Rule('F',"F[-F]F",0.34f));
+	
 	LOGI("AppCreated2");
 }
 
@@ -45,16 +51,21 @@ void App::OnCreate()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	m_painter.init();
 	LOGI("OnCreate");
+	needsRedraw = true;
 }
 
 void App::OnRender()
 {
-	glClearColor(1.0f,1.0f,1.0f,0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	std::string str = m_lSystem.getSystemString();
-	m_painter.drawLSystem(str.c_str(),str.size());
-
-
+	if(needsRedraw)
+	{
+		m_lSystem.reset();
+		m_lSystem.Iterate(6);
+		glClearColor(1.0f,1.0f,1.0f,0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		std::string str = m_lSystem.getSystemString();
+		m_painter.drawLSystem(str.c_str(),str.size());
+		needsRedraw = false;
+	}
 	//int handle = glGetUniformLocation(m_programId, "mProjection");
 	//glUseProgram(m_Painter.getShaderHandle());
 	//checkGlError("glUseProgram");
@@ -87,7 +98,7 @@ void App::OnResize(int width, int height)
 	checkGlError("glUniformMatrix4fv");
 	glUseProgram(0);
 	checkGlError("glUseProgram");
-	
+	needsRedraw = true;	
 }
 
 uint App::loadShader(GLenum shaderType, const char* pSource) 
@@ -156,7 +167,7 @@ uint App::createProgram(const char* pVertexSource, const char* pFragmentSource)
 
 void App::OnTouch(int posx, int posy)
 {
-
+	needsRedraw = true;
 }
 
 void App::OnDestroy()

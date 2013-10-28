@@ -61,9 +61,6 @@
     <ClInclude Include="CppSource\Definitions.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="CppSource\Includes.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
     <ClInclude Include="CppSource\WinApp.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>

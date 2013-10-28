@@ -3,15 +3,20 @@
 class Rule
 {
 public:
-	Rule(char lhs, std::string rhs) : m_lhs(lhs), m_rhs(rhs) {}
+	Rule(char lhs, std::string rhs, float prob = 1.0f) : m_lhs(lhs), m_rhs(rhs), m_probablity(prob) {}
 	
 	char getCondition() const { return m_lhs; }
 
 	const std::string& getRule() const { return m_rhs; }
 
+	float getProbability() const { return m_probablity;}
+
+	void setProbability(float  prob) { m_probablity  = prob; }
+	
 private:
 	char m_lhs;
 	std::string m_rhs;
+	float m_probablity;
 };
 
 class LSystem
@@ -29,7 +34,14 @@ public:
 
 	const std::string& Iterate(int iterations);
 
-	void reset() { m_currentIteration = 0; m_generatedSystem.clear(); };
+	void reset() { m_currentIteration = 0; m_generatedSystem.clear(); }
+
+private:
+	
+	void normalizeProbs();
+
+	const std::string& generateRule(char condition);
+
 private:
 	std::string m_axiom;
 	std::string m_generatedSystem;

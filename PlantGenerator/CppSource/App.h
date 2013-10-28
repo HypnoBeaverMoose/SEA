@@ -16,6 +16,8 @@ public:
 
 	virtual void OnTouch(int posx, int posy);
 
+	//virtual void OnKeybaord(uint key);
+
 	virtual void OnDestroy();
 
 	virtual ~App();
@@ -32,7 +34,7 @@ protected:
 	//std::vector<float> m_triangle;
 
 private:
-
+	bool  needsRedraw;
 	//static char* s_VertexShader;
 	//static char* s_FragmentShader;
 
