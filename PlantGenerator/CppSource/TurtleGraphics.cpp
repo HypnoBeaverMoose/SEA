@@ -1,7 +1,8 @@
 #include "Definitions.h"
 #include "TurtleGraphics.h"
+#include "DrawableObject.h"
 #include "LSystem.h"
-#include "App.h"x
+#include "App.h"
 
 float TurtleGraphics::s_initialLineLength = 1.0f;	
 float TurtleGraphics::s_lengthModifier = 0.1f;
@@ -10,7 +11,7 @@ float TurtleGraphics::s_angleModifier = 5.0f;
 
 
 char* TurtleGraphics::s_VertexShader = 
-    "attribute vec3 vPosition;\n"
+    "attribute vec4 vPosition;\n"
 	"uniform mat4 mModelView;\n"
 	"uniform mat4 mProjection;\n"
     "void main() {\n"
@@ -19,14 +20,18 @@ char* TurtleGraphics::s_VertexShader =
 
 char* TurtleGraphics::s_FragmentShader = 
     "precision mediump float;\n"
+	"uniform vec4 vColor;\n"
     "void main() {\n"
-    "  gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+    "  gl_FragColor = vColor;//vec4(0.0, 0.0, 0.0, 1.0);\n"
     "}\n";
 
 
 TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, float maxLength)// : 
 	//m_angle(angle - 10,angle + 10), m_length(length - 0.02f, length + 0.02f)
 {
+
+	DrawableObject dr('a',Colorf(0,0,0,1));
+
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(0.0f);
@@ -160,6 +165,6 @@ inline float RandomValue::randomUniform(float rand) const
 
 float RandomValue::randomGaussian(float rand) const
 {
-	float r = (1.0f / (0.5f * std::sqrtf(2 * PI)) * std::expf( - (rand  - 0.5f) / 2 * 0.25f));
+	float r = (1.0f / (0.5f * std::sqrtf(2 * (float)PI)) * std::expf( - (rand  - 0.5f) / 2 * 0.25f));
 	return randomUniform(r);
 }

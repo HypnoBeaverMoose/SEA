@@ -39,6 +39,7 @@
 	
 	protected:
 		std::vector<T> m_data;
+		//float x, 
 	};
 	
 	template<class T>

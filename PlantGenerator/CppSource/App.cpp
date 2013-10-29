@@ -5,7 +5,7 @@
 #include "App.h"
 
 App::App() 
-	: m_lSystem("F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(23.0f,0.1f), needsRedraw(true)
+	: m_lSystem("F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(20.0f, 25.0f, 0.1f, 0.2f), needsRedraw(true)
 {	
 	m_lSystem.addRule(Rule('F',"F[+F]F[-F]F",0.33f));
 	m_lSystem.addRule(Rule('F',"F[+F]F",0.33f));

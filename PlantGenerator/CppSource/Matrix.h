@@ -141,6 +141,25 @@
 		}
 		return v;
 	}		
+	
+	template<class T,unsigned int N>
+	Matrix<T,N>  Matrix<T,N>::operator*(const Matrix<T,N>& mat) const
+	{
+		Matrix<T,N> v;
+		for(int i = 0; i < N; i++)
+		{
+			for(int j = 0; j < N; j++)
+			{
+				T sum = 0;				
+				for(int k = 0; k < N; k++)
+					sum+=(*this)( k , i ) * mat( j, k );
+
+				v(j , i) = sum;
+			}	
+		}
+		return v;
+	}	
+
 	template<class T,unsigned int N>
 	Matrix<T,N>&  Matrix<T,N>::operator*=(const Matrix<T,N>& mat)
 	{
@@ -157,7 +176,7 @@
 			}	
 		}
 		this->m_elements.clear();
-		this->m_elemnts.assign(v.m_elements.begin(), v.m_elements.end());
+		this->m_elements.assign(v.m_elements.begin(), v.m_elements.end());
 		return(*this);
 	}	
 

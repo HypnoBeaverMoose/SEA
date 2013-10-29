@@ -2,16 +2,6 @@
 #include"Matrix.h"
 #include "Color.h"
 
-struct PaintState
-{
-public:
-	Matrix4f	ModelView;
-	Colorf		Color;
-	RandomValue	LineWidth;
-	RandomValue	LineLength;
-	RandomValue	Angle;
-};
-
 class RandomValue
 {
 public:
@@ -38,6 +28,16 @@ private:
 	Distribution m_distribution;
 	float m_mean;
 	float m_variance;
+};
+
+struct PaintState
+{
+public:
+	Matrix4f	ModelView;
+	Colorf		Color;
+	RandomValue	LineWidth;
+	RandomValue	LineLength;
+	RandomValue	Angle;
 };
 
 
