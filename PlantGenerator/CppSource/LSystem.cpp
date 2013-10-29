@@ -19,6 +19,7 @@ int LSystem::nextStep()
 		std::string str = generateRule(m_generatedSystem[i]);
 		if(str.size() > 0)
 			replacementMap.insert(std::pair<int, std::string>(i,str));
+
 		//for(std::vector<Rule>::const_iterator it = m_rules.begin(); it!=m_rules.end(); ++it)
 		//{
 		//	if(m_generatedSystem[i] == it->getCondition())
@@ -72,17 +73,11 @@ const std::string& LSystem::generateRule(char cond)
 		LOGE("ERROR:UNNORMALIZED PROBABILITIES!!!");
 	
 	float rnd = std::rand() / (float)RAND_MAX;
-	
-	char buf[1024];
-	sprintf(buf, " %.1f  ", rnd);
-	OutputDebugStringA(buf);
-
 	int i = 0;
 	for(; i < (int)possibleRules.size(); i++)
 	{
 		if(rnd < possibleRules[i].first)
 		{
-			LOGI("%d\n",i);
 			return m_rules[possibleRules[i].second].getRule();
 		}
 	}

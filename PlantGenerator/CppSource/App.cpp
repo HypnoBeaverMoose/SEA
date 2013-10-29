@@ -4,53 +4,18 @@
 #include "TurtleGraphics.h"
 #include "App.h"
 
-//char* App::s_VertexShader = 
-//    "attribute vec4 vPosition;\n"
-//	"uniform mat4 mModelView;"
-//	"uniform mat4 mProjection;"
-//    "void main() {\n"
-//	"  gl_Position = mProjection * mModelView * vPosition;\n"
-//    "}\n";
-//
-//char* App::s_FragmentShader = 
-//    "precision mediump float;\n"
-//    "void main() {\n"
-//    "  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
-//    "}\n";
-//
-
 App::App() 
 	: m_lSystem("F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(23.0f,0.1f), needsRedraw(true)
 {	
-	
-/*	float triangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f };
-
-	m_triangle.assign(triangleVertices,triangleVertices + 6);*/	
-
-	//m_lSystem.addRule(Rule('X',"F-[[X]+X]+F[+FX]-X"));
-	///m_lSystem.addRule(Rule('X',"F-[[X]+F]+F[+FF]-X"));
-
 	m_lSystem.addRule(Rule('F',"F[+F]F[-F]F",0.33f));
 	m_lSystem.addRule(Rule('F',"F[+F]F",0.33f));
 	m_lSystem.addRule(Rule('F',"F[-F]F",0.34f));
-	
-	LOGI("AppCreated2");
 }
 
 void App::OnCreate()
 {
-	//m_programId = createProgram(s_VertexShader, s_FragmentShader);
-	//m_positionHandle = glGetAttribLocation(m_programId, "vPosition");
-
-	//m_modelViewHandle = glGetUniformLocation(m_programId, "mModelView");
-	//checkGlError("glGetUniformLocation");
-	//m_projectionHandle = glGetUniformLocation(m_programId, "mProjection");
-	//checkGlError("glGetUniformLocation");
-	//glShadeModel(GL_SMOOTH);	
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	m_painter.init();
-	LOGI("OnCreate");
 	needsRedraw = true;
 }
 
@@ -66,32 +31,14 @@ void App::OnRender()
 		m_painter.drawLSystem(str.c_str(),str.size());
 		needsRedraw = false;
 	}
-	//int handle = glGetUniformLocation(m_programId, "mProjection");
-	//glUseProgram(m_Painter.getShaderHandle());
-	//checkGlError("glUseProgram");
-	
-	//std::string str = m_lSystem.getSystemString();
-	//m_painter.drawLSystem(str.c_str(),str.size());
-    
-
-	//glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());
-	//checkGlError("glUniformMatrix4fv");
-
-	//glVertexAttribPointer(m_positionHandle, 2, GL_FLOAT, GL_FALSE, 0, m_triangle.data());
- //   checkGlError("glVertexAttribPointer");
-
- //   glEnableVertexAttribArray(m_positionHandle);
- //   checkGlError("glEnableVertexAttribArray");
-
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
- //   checkGlError("glDrawArrays");
 }
 
 void App::OnResize(int width, int height)
 {
-	LOGI("OnResize %d, %d",width, height);
 	glViewport(0,0,width,std::max(1, height));
-	m_projectionMatrix =  Matrix4f::Orthographic(0.1f,10.0f,10.0f,-10.0f,-10.0f,10.0f);
+	float aspect = width /(float) std::max(1, height);
+	m_projectionMatrix = Matrix4f::Orthographic(0.1f,10.0f,-20.0f,20.0f,-20.0f,20.0f);
+	//m_projectionMatrix = Matrix4f::Perspective(-0.1f,10.0f,50,aspect);
 	glUseProgram(m_painter.getShaderHandle());	
 	checkGlError("glUseProgram");
 	glUniformMatrix4fv(glGetUniformLocation(m_painter.getShaderHandle(), "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());

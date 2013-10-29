@@ -16,7 +16,8 @@
 #include<windows.h>
 #include<gl/GL.h>
 #include<gl/GLU.h>
-
+#undef near
+#undef far
 #endif
 
 #include<vector>

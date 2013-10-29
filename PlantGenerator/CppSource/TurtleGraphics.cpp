@@ -1,17 +1,20 @@
 #include "Definitions.h"
 #include "TurtleGraphics.h"
 #include "LSystem.h"
-#include "App.h"
+#include "App.h"x
 
+float TurtleGraphics::s_initialLineLength = 1.0f;	
+float TurtleGraphics::s_lengthModifier = 0.1f;
+float TurtleGraphics::s_widthModifier = 1.0f;
+float TurtleGraphics::s_angleModifier = 5.0f;
 
-float TurtleGraphics::s_initialLineLength = 1.0f;
 
 char* TurtleGraphics::s_VertexShader = 
-    "attribute vec4 vPosition;\n"
-	"uniform mat4 mModelView;"
-	"uniform mat4 mProjection;"
+    "attribute vec3 vPosition;\n"
+	"uniform mat4 mModelView;\n"
+	"uniform mat4 mProjection;\n"
     "void main() {\n"
-	"  gl_Position = mProjection * mModelView * vPosition;\n"
+	"  gl_Position = mProjection * mModelView * vec4(vPosition, 1.0f);\n"
     "}\n";
 
 char* TurtleGraphics::s_FragmentShader = 
@@ -20,16 +23,24 @@ char* TurtleGraphics::s_FragmentShader =
     "  gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
     "}\n";
 
-TurtleGraphics::TurtleGraphics(float angle, float length) : 
-	m_angle(angle - 10,angle + 10), m_length(length - 0.02f, length + 0.02f), m_modelviewMatrix(Matrix4f(Matrix4f::Identity()))
+
+TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, float maxLength)// : 
+	//m_angle(angle - 10,angle + 10), m_length(length - 0.02f, length + 0.02f)
 {
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(0.0f);
 
+
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(s_initialLineLength);
 	m_linePositions.push_back(0.0f);
+
+	m_paintState.ModelView = Matrix4f::Identity();
+	m_paintState.Color = Colorf(0,0,0,1.0f);
+	m_paintState.Angle = RandomValue(minAngle,maxAngle);
+	m_paintState.LineLength = RandomValue(minLength, maxLength);
+	m_paintState.LineWidth = RandomValue(10.0f, 10.0f);
 }
 void TurtleGraphics::init()
 {
@@ -38,12 +49,14 @@ void TurtleGraphics::init()
 	m_modelviewHandle = glGetUniformLocation(m_program,"mModelView");
 }
 
-bool TurtleGraphics::drawLine(float length)
+bool TurtleGraphics::drawLine(const PaintState& state)
 {
+	float length = state.LineLength.getValue();
+	glLineWidth(state.LineWidth.getValue());
 	glUseProgram(m_program);
     checkGlError("glUseProgram");
 
-	glUniformMatrix4fv(m_modelviewHandle, 1, GL_FALSE,( m_modelviewMatrix * Matrix4f::Scale(length, length, length)) .getValuePtr());
+	glUniformMatrix4fv(m_modelviewHandle, 1, GL_FALSE,( m_paintState.ModelView * Matrix4f::Scale(length, length, length)).getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 
 	glVertexAttribPointer(m_positionHandle, 3, GL_FLOAT, GL_FALSE, 0, m_linePositions.data());
@@ -60,30 +73,49 @@ bool TurtleGraphics::drawLine(float length)
 
 bool TurtleGraphics::drawLSystem(const char* system, int size)
 {
-	m_modelviewMatrix = Matrix4f::Translation(0,-10.0,0).Transposed();
-	float length = m_length.getValue();
-
+	m_paintState.ModelView = Matrix4f::Translation(0,-20.0,0).Transposed();
+	float length = m_paintState.LineLength.getValue();
+	
 	for(int i = 0; i < size; i++)
 	{
 		switch (system[i])
 		{
 		case 'F':						
-			drawLine(length);
-			m_modelviewMatrix =m_modelviewMatrix *  Matrix4f::Translation(0,length,0).Transposed();
+			drawLine(m_paintState);
+			m_paintState.ModelView *= Matrix4f::Translation(0,length,0).Transposed();
 			break;
 		case '+':
-			m_modelviewMatrix = m_modelviewMatrix * Matrix4f::Rotation(m_angle.getValue(), Vector3f(0, 0, 1.0f));
+			m_paintState.ModelView *= Matrix4f::Rotation(m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
 		case '-':
-			m_modelviewMatrix = m_modelviewMatrix * Matrix4f::Rotation(-m_angle.getValue(), Vector3f(0, 0, 1.0f));
+			m_paintState.ModelView *=Matrix4f::Rotation(-m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
 		case '[':
-			m_MatrixStack.push(m_modelviewMatrix); 
+			m_StateStack.push(m_paintState);
 			break;
 		case ']':
-			m_modelviewMatrix = m_MatrixStack.top();
-			m_MatrixStack.pop();
+			m_paintState = m_StateStack.top();
+			m_StateStack.pop();
 			break;
+		case '(':
+			m_paintState.Angle.setMean(std::max(0.0f,m_paintState.Angle.getMean() - s_angleModifier)); 
+			break;
+		case ')':
+			m_paintState.Angle.setMean(std::min(180.0f,m_paintState.Angle.getMean() + s_angleModifier)); 
+			break;
+		case '<':
+			m_paintState.LineLength.setMean(std::max(0.0f,m_paintState.LineLength.getMean() - s_lengthModifier)); 
+			break;
+		case '>':
+			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() + s_lengthModifier); 
+			break;
+		case '\\':
+			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() + s_widthModifier); 
+			break;
+		case '/':
+			m_paintState.LineWidth.setMean(std::max(0.0f,m_paintState.LineWidth.getMean() - s_widthModifier)); 
+			break;
+
 		}
 	}
 	
@@ -107,11 +139,10 @@ float TurtleGraphics::initialLineLength()
 	
 RandomValue::RandomValue(float min, float max, Distribution dist) : m_distribution(dist)
 {
-	m_mean = (max + min) / 2.0f;
-	m_variance = m_mean	- min;
+	setMinMax(min,max);
 }
 
-float RandomValue::getValue(Distribution override)
+float RandomValue::getValue(Distribution override) const
 {
 	Distribution dist = override == None ? m_distribution : override;
 	float rand = rand01();
@@ -122,12 +153,12 @@ float RandomValue::getValue(Distribution override)
 		return randomGaussian(rand);
 }
 
-inline float RandomValue::randomUniform(float rand)
+inline float RandomValue::randomUniform(float rand) const
 {
 	return m_mean + m_variance * ( 2 * rand - 1.0f);
 }
 
-float RandomValue::randomGaussian(float rand)
+float RandomValue::randomGaussian(float rand) const
 {
 	float r = (1.0f / (0.5f * std::sqrtf(2 * PI)) * std::expf( - (rand  - 0.5f) / 2 * 0.25f));
 	return randomUniform(r);

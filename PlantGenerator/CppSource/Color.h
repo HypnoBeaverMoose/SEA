@@ -83,4 +83,6 @@ template<class T>
 		return m_data.data(); 
 	}
 
+	typedef Color<float> Colorf;
+
 //}
