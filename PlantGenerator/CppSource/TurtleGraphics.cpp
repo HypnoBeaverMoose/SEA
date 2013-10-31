@@ -54,6 +54,13 @@ void TurtleGraphics::init()
 	checkGlError("glGetUniformLocation");
 
 	m_drawableObjects.insert(std::pair<char, DrawableObject>('f',DrawableObject('f',Colorf(82 / 256.0f,4 / 256.0f,4 / 256.0f,1),0.2f, m_program)));
+	m_drawableObjects['f'].setWdith(0.0f, 0.0f);
+	m_drawableObjects['f'].setWdith(0.15f,0.5f);
+	m_drawableObjects['f'].setWdith(0.4f,0.8f);
+	m_drawableObjects['f'].setWdith(0.6f,0.8f);
+	m_drawableObjects['f'].setWdith(0.8f,0.5f);
+	m_drawableObjects['f'].setWdith(1.0f,0.0f);
+
 //	m_drawableObjects['f'].setShader(m_program);
 }
 

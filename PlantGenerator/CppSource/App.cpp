@@ -5,10 +5,10 @@
 #include "App.h"
 
 App::App() 
-	: m_lSystem("f"), m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 0.5f, 1.0f, 0.2f,0.3f), needsRedraw(true)
+	: m_lSystem("f"), m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 10.0f, 10.0f, 10.0f, 10.0f), needsRedraw(true)
 {
-	m_lSystem.addRule(Rule('f',"ff-[-f+f+f]+[+f-f-f]"));
-
+	m_lSystem.addRule(Rule('f',"f"));
+	m_lSystem.Iterate(1);
 }
 
 void App::OnCreate()
@@ -31,13 +31,14 @@ void App::OnRender()
 		system1.addRule(Rule('f',"F[-F]F",.33f));
 		system1.Iterate(4);
 		
-		std::string str = system1.getSystemString();
-		for(int i = -40; i < 50; i+=10)
-		{
-			system1.reset();
-			system1.Iterate(5);
-			m_painter.drawLSystem(system1.getSystemString().c_str(),system1.getSystemString().size(),Vector3f(i,-50,0));
-		}
+		std::string str = m_lSystem.getSystemString();
+		m_painter.drawLSystem(str.c_str(),str.size(),Vector3f(0,-50,0));
+		//for(int i = -40; i < 50; i+=10)
+		//{
+		//	system1.reset();
+		//	//system1.Iterate(5);
+		//	m_painter.drawLSystem(system1.getSystemString().c_str(),system1.getSystemString().size(),Vector3f(i,-50,0));
+		//}
 			needsRedraw = false;
 	}
 }

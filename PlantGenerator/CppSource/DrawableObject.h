@@ -15,6 +15,8 @@ public:
 
 	virtual bool draw(PaintState& state);
 
+	void setWdith(float pos, float width);
+
 	void setShader(uint shader);
 
 	void setLetter(char letter) { m_letter = letter; }
