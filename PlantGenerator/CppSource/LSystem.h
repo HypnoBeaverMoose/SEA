@@ -40,7 +40,7 @@ private:
 	
 	void normalizeProbs();
 
-	const std::string& generateRule(char condition);
+	std::string generateRule(char condition);
 
 private:
 	std::string m_axiom;

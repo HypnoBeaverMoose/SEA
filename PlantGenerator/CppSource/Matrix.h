@@ -4,7 +4,7 @@
 
 #pragma once
 #include "Vector.h"
-//#include "Definitions.h"
+#include "Definitions.h"
 
 //namespace base 
 //{
@@ -35,6 +35,8 @@
 		const T& operator()( int i, int j  ) const;
 
 		virtual T* getValuePtr();
+
+		virtual const T* getValuePtr() const;
 
 		//virtual void Invert() = 0;
 
@@ -225,10 +227,11 @@
 	}
 
 	template<class T,unsigned int N>
-	T* Matrix<T,N>::getValuePtr() 
-	{ 
-		return m_elements.data();  
-	}
+	T* Matrix<T,N>::getValuePtr() { return m_elements.data();  }
+
+	template<class T,unsigned int N>
+	const T* Matrix<T,N>::getValuePtr() const { return m_elements.data();  }
+
 
 	template<class T>
 	Matrix2<T>::Matrix2(T m1,T m2,T m3,T m4) : Matrix<T,2>()

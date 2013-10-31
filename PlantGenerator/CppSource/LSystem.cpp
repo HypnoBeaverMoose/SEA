@@ -16,7 +16,7 @@ int LSystem::nextStep()
 		
 	for(int i  = 0; i < (int)m_generatedSystem.size(); i++)
 	{
-		std::string str = generateRule(m_generatedSystem[i]);
+		std::string str(generateRule(m_generatedSystem[i]));
 		if(str.size() > 0)
 			replacementMap.insert(std::pair<int, std::string>(i,str));
 
@@ -56,7 +56,7 @@ void LSystem::normalizeProbs()
 }
 
 
-const std::string& LSystem::generateRule(char cond)
+std::string LSystem::generateRule(char cond) 
 {
 	float prob = 0.0f;
 	std::vector< std::pair<float, int> > possibleRules;

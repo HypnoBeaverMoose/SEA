@@ -1,6 +1,4 @@
 #pragma once
-//#include"Includes.h"
-
 
 #ifdef ANDROID
 
@@ -27,6 +25,8 @@
 #include<vector>
 #include<memory>
 #include<stack>
+#include<cmath>
+#include<cstdlib>
 
 #ifdef ANDROID
 #define  LOG_TAG    "plantgen"
@@ -65,7 +65,7 @@ class Base
 {
 public:
 	virtual T* getValuePtr() = 0;
-	//const T* getValue() const = 0;
+	virtual const T* getValuePtr() const = 0;
 };
 
 #define DEG2RAD 0.0174532925

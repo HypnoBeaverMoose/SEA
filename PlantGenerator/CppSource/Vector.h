@@ -7,13 +7,16 @@
 //namespace base
 //{
 
-	template<class T,unsigned int N>
-	class Vector : Base<T>
+template<class T,unsigned int N>
+	class Vector
 	{
+protected:
+		T m_data[N];
 	public: 
-		Vector() : m_data(N) {};
 
-		Vector(std::vector<T> data) : m_data(data.begin(),data.end()) {};
+		Vector();
+
+		Vector(const std::vector<T>& data);
 
 		float getLength() const;
 
@@ -23,7 +26,7 @@
 		Vector<T,N> operator+(const Vector<T,N>& rhs) const;
 
 		///substract operator
-		Vector<T,N> operator-(const Vector<T,N> & rhs) const;
+		Vector<T,N> operator-(const Vector<T,N>& rhs) const;
 
 		///division by scalar operator
 		Vector<T,N> operator/(const T& rhs) const;
@@ -35,11 +38,11 @@
 
 		const T& operator[](int index) const;
 
-		virtual T* getValuePtr();// { return m_data.data(); }
-	
-	protected:
-		std::vector<T> m_data;
-		//float x, 
+		T* getValuePtr();// { return m_data.data(); }
+
+		const T* getValuePtr() const;// { return m_data.data(); }
+		
+		int stride() const { return sizeof(*this) - (N * sizeof(T)); }
 	};
 	
 	template<class T>
@@ -78,7 +81,20 @@
 	typedef Vector3<float> Vector3f;
 
 	typedef Vector4<float> Vector4f;
+	
 
+	template<class T, unsigned int N>
+	Vector<T,N>::Vector() 
+	{
+		memset(m_data,0,sizeof(T) * N);
+	};
+
+	template<class T, unsigned int N>
+	Vector<T,N>::Vector(const std::vector<T>& data) 
+	{
+		if(data.size() <= N)
+			memcpy(m_data,data.data(),sizeof(T) * N);
+	}
 
 	template<class T, unsigned int N>
 	float Vector<T,N>::getLength() const  
@@ -90,7 +106,7 @@
 	T Vector<T,N>::getSqaureLength() const 
 	{ 
 		T sum = 0;
-		for(int i = 0; i < m_data.size(); i++)
+		for(int i = 0; i < N;/*m_data.size();*/ i++)
 			sum+= m_data[i]*m_data[i];
 		return sum; 
 	};
@@ -99,7 +115,7 @@
 	Vector<T,N> Vector<T,N>::operator+(const Vector<T,N>& rhs) const 
 	{
 		Vector<T,N> vec;
-		for(int i = 0; i < m_data.size(); i++)
+		for(int i = 0; i < N; /*m_data.size();*/ i++)
 			vec.m_data[i] = m_data[i] + rhs.m_data[i];
 		return vec;
 	}
@@ -108,7 +124,7 @@
 	Vector<T,N> Vector<T,N>::operator-(const Vector<T,N> & rhs) const 
 	{
 		Vector<T,N> vec;
-		for(int i = 0; i < m_data.size(); i++)
+		for(int i = 0; i < N;/*m_data.size();*/ i++)
 			vec.m_data[i] = m_data[i] - rhs.m_data[i];
 		return vec;
 	}
@@ -117,7 +133,7 @@
 	Vector<T,N> Vector<T,N>::operator/(const T& rhs) const 		
 	{
 		Vector<T,N> vec;
-		for(int i = 0; i < m_data.size(); i++)
+		for(int i = 0; i < N;/*m_data.size();*/ i++)
 			vec.m_data[i] = m_data[i] / rhs;
 		return vec;
 	}
@@ -126,15 +142,17 @@
 	Vector<T,N> Vector<T,N>::operator*(const T& rhs) const
 	{
 		Vector<T,N> vec;
-		for(int i = 0; i < m_data.size(); i++)
+		for(int i = 0; i < N;/*m_data.size();*/ i++)
 			vec.m_data[i] = m_data[i] * rhs;
 		return vec;
 
 	}
 
 	template<class T, unsigned int N>
-	T* Vector<T,N>::getValuePtr()  { return m_data.data(); }
+	T* Vector<T,N>::getValuePtr()  { return &m_data[0]; }
 
+		template<class T, unsigned int N>
+	const T* Vector<T,N>::getValuePtr()  const { return &m_data[0]; }
 
 	template<class T, unsigned int N>
 	T& Vector<T,N>::operator[](int index) 

@@ -1,20 +1,20 @@
-#include "Matrix.h"
 #include "Definitions.h"
+#include "Matrix.h"
 #include "LSystem.h"
 #include "TurtleGraphics.h"
 #include "App.h"
 
 App::App() 
-	: m_lSystem("F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(20.0f, 25.0f, 0.1f, 0.2f), needsRedraw(true)
-{	
-	m_lSystem.addRule(Rule('F',"F[+F]F[-F]F",0.33f));
-	m_lSystem.addRule(Rule('F',"F[+F]F",0.33f));
-	m_lSystem.addRule(Rule('F',"F[-F]F",0.34f));
+	: m_lSystem("f"), m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 0.5f, 1.0f, 0.2f,0.3f), needsRedraw(true)
+{
+	m_lSystem.addRule(Rule('f',"ff-[-f+f+f]+[+f-f-f]"));
+
 }
 
 void App::OnCreate()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	LOGI("OnCreate()");
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	m_painter.init();
 	needsRedraw = true;
 }
@@ -23,21 +23,31 @@ void App::OnRender()
 {
 	if(needsRedraw)
 	{
-		m_lSystem.reset();
-		m_lSystem.Iterate(6);
 		glClearColor(1.0f,1.0f,1.0f,0);
 		glClear(GL_COLOR_BUFFER_BIT);
-		std::string str = m_lSystem.getSystemString();
-		m_painter.drawLSystem(str.c_str(),str.size());
-		needsRedraw = false;
+		LSystem system1("f");
+		system1.addRule(Rule('f',"f[+f]f[-f]f",.34f));
+		system1.addRule(Rule('f',"f[+f]f",.33f));
+		system1.addRule(Rule('f',"F[-F]F",.33f));
+		system1.Iterate(4);
+		
+		std::string str = system1.getSystemString();
+		for(int i = -40; i < 50; i+=10)
+		{
+			system1.reset();
+			system1.Iterate(5);
+			m_painter.drawLSystem(system1.getSystemString().c_str(),system1.getSystemString().size(),Vector3f(i,-50,0));
+		}
+			needsRedraw = false;
 	}
 }
 
 void App::OnResize(int width, int height)
 {
+	LOGI("OnResize()");
 	glViewport(0,0,width,std::max(1, height));
 	float aspect = width /(float) std::max(1, height);
-	m_projectionMatrix = Matrix4f::Orthographic(0.1f,10.0f,-20.0f,20.0f,-20.0f,20.0f);
+	m_projectionMatrix = Matrix4f::Orthographic(0.1f,10.0f,-50.0f,50.0f,-50.0f,50.0f);
 	//m_projectionMatrix = Matrix4f::Perspective(-0.1f,10.0f,50,aspect);
 	glUseProgram(m_painter.getShaderHandle());	
 	checkGlError("glUseProgram");

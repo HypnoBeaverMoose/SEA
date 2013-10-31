@@ -100,6 +100,7 @@
     <ClCompile Include="CppSource\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="CppSource\RandomValue.cpp" />
     <ClCompile Include="CppSource\TurtleGraphics.cpp" />
     <ClCompile Include="CppSource\WinApp.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
@@ -124,8 +125,10 @@
     <ClInclude Include="CppSource\Color.h" />
     <ClInclude Include="CppSource\Definitions.h" />
     <ClInclude Include="CppSource\DrawableObject.h" />
+    <ClInclude Include="CppSource\PaintState.h" />
     <ClInclude Include="CppSource\LSystem.h" />
     <ClInclude Include="CppSource\Matrix.h" />
+    <ClInclude Include="CppSource\RandomValue.h" />
     <ClInclude Include="CppSource\TurtleGraphics.h" />
     <ClInclude Include="CppSource\Vector.h" />
     <ClInclude Include="CppSource\WinApp.h" />

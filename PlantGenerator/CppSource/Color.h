@@ -21,6 +21,8 @@ template<class T>
 
 		T* getValuePtr();
 
+		const T* getValuePtr() const;
+
 		//static Color<T> FromARGB( unsigned int argb)
 		//{
 		//	unsigned char a = argb>>24;
@@ -78,7 +80,13 @@ template<class T>
 	}
 
 	template<class T>
-	T* Color<T>::getValuePtr() 
+	const T* Color<T>::getValuePtr() const
+	{ 
+		return m_data.data(); 
+	}
+
+	template<class T>
+	 T* Color<T>::getValuePtr()
 	{ 
 		return m_data.data(); 
 	}

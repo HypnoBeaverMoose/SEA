@@ -1,21 +1,22 @@
 #include "Definitions.h"
-#include "TurtleGraphics.h"
+#include "PaintState.h"
 #include "DrawableObject.h"
+#include "TurtleGraphics.h"
 #include "LSystem.h"
 #include "App.h"
 
 float TurtleGraphics::s_initialLineLength = 1.0f;	
-float TurtleGraphics::s_lengthModifier = 0.1f;
+float TurtleGraphics::s_lengthModifier = 1.0f;
 float TurtleGraphics::s_widthModifier = 1.0f;
 float TurtleGraphics::s_angleModifier = 5.0f;
 
 
 char* TurtleGraphics::s_VertexShader = 
-    "attribute vec4 vPosition;\n"
+    "attribute vec3 vPosition;\n"
 	"uniform mat4 mModelView;\n"
 	"uniform mat4 mProjection;\n"
     "void main() {\n"
-	"  gl_Position = mProjection * mModelView * vec4(vPosition, 1.0f);\n"
+	"  gl_Position = mProjection * mModelView * vec4(vPosition, 1.0);\n"
     "}\n";
 
 char* TurtleGraphics::s_FragmentShader = 
@@ -26,73 +27,55 @@ char* TurtleGraphics::s_FragmentShader =
     "}\n";
 
 
-TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, float maxLength)// : 
-	//m_angle(angle - 10,angle + 10), m_length(length - 0.02f, length + 0.02f)
+TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, float maxLength, float minWidth, float maxWidth) 
 {
-
-	DrawableObject dr('a',Colorf(0,0,0,1));
-
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(0.0f);
-
 
 	m_linePositions.push_back(0.0f);
 	m_linePositions.push_back(s_initialLineLength);
 	m_linePositions.push_back(0.0f);
 
 	m_paintState.ModelView = Matrix4f::Identity();
-	m_paintState.Color = Colorf(0,0,0,1.0f);
+	m_paintState.Color = Colorf(0.1f,0.1f,0.1f,1.0f);
 	m_paintState.Angle = RandomValue(minAngle,maxAngle);
 	m_paintState.LineLength = RandomValue(minLength, maxLength);
-	m_paintState.LineWidth = RandomValue(10.0f, 10.0f);
+	m_paintState.LineWidth = RandomValue(minWidth, maxWidth);
 }
 void TurtleGraphics::init()
 {
 	m_program = App::createProgram(s_VertexShader, s_FragmentShader);
 	m_positionHandle = glGetAttribLocation(m_program, "vPosition");
+	checkGlError("glGetAttribLocation");
 	m_modelviewHandle = glGetUniformLocation(m_program,"mModelView");
+	checkGlError("glGetUniformLocation");
+	m_colorHandle = glGetUniformLocation(m_program,"vColor");
+	checkGlError("glGetUniformLocation");
+
+	m_drawableObjects.insert(std::pair<char, DrawableObject>('f',DrawableObject('f',Colorf(82 / 256.0f,4 / 256.0f,4 / 256.0f,1),0.2f, m_program)));
+//	m_drawableObjects['f'].setShader(m_program);
 }
 
-bool TurtleGraphics::drawLine(const PaintState& state)
+bool TurtleGraphics::drawLSystem(const char* system, int size, const Vector3f& pos)
 {
-	float length = state.LineLength.getValue();
-	glLineWidth(state.LineWidth.getValue());
-	glUseProgram(m_program);
-    checkGlError("glUseProgram");
-
-	glUniformMatrix4fv(m_modelviewHandle, 1, GL_FALSE,( m_paintState.ModelView * Matrix4f::Scale(length, length, length)).getValuePtr());
-	checkGlError("glUniformMatrix4fv");
-
-	glVertexAttribPointer(m_positionHandle, 3, GL_FLOAT, GL_FALSE, 0, m_linePositions.data());
-    checkGlError("glVertexAttribPointer");
-
-    glEnableVertexAttribArray(m_positionHandle);
-    checkGlError("glEnableVertexAttribArray");
-
-	glDrawArrays(GL_LINE_STRIP, 0, 2);
-    checkGlError("glDrawArrays");
-	
-	return true;
-}
-
-bool TurtleGraphics::drawLSystem(const char* system, int size)
-{
-	m_paintState.ModelView = Matrix4f::Translation(0,-20.0,0).Transposed();
-	float length = m_paintState.LineLength.getValue();
-	
+	m_paintState.ModelView =  Matrix4f::Translation(pos[0], pos[1], pos[2]).Transposed();
+		
 	for(int i = 0; i < size; i++)
 	{
+		if(system[i] > 'a' )
+		{
+			m_drawableObjects[system[i]].draw(m_paintState);			
+		}
+
 		switch (system[i])
 		{
-		case 'F':						
-			drawLine(m_paintState);
-			m_paintState.ModelView *= Matrix4f::Translation(0,length,0).Transposed();
-			break;
 		case '+':
+			m_paintState.Color = Colorf(m_paintState.Color * 2.0f);
 			m_paintState.ModelView *= Matrix4f::Rotation(m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
 		case '-':
+			m_paintState.Color = Colorf(m_paintState.Color *2.0f);
 			m_paintState.ModelView *=Matrix4f::Rotation(-m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
 		case '[':
@@ -120,7 +103,6 @@ bool TurtleGraphics::drawLSystem(const char* system, int size)
 		case '/':
 			m_paintState.LineWidth.setMean(std::max(0.0f,m_paintState.LineWidth.getMean() - s_widthModifier)); 
 			break;
-
 		}
 	}
 	
@@ -136,35 +118,28 @@ float TurtleGraphics::initialLineLength()
 {
 	return s_initialLineLength;
 }
-///////////RandomValue Class////////////////
 
-//RandomValue::RandomValue(float mean, float variance, Distribution dist) 
-//	: m_mean(mean), m_variance(variance), m_distribution(dist)
-//{}
+
+bool TurtleGraphics::drawLine(const PaintState& state)
+{
 	
-RandomValue::RandomValue(float min, float max, Distribution dist) : m_distribution(dist)
-{
-	setMinMax(min,max);
-}
+	glLineWidth(state.LineWidth.getValue());
+	glUseProgram(m_program);
+    checkGlError("glUseProgram");
 
-float RandomValue::getValue(Distribution override) const
-{
-	Distribution dist = override == None ? m_distribution : override;
-	float rand = rand01();
+	glUniformMatrix4fv(m_modelviewHandle, 1, GL_FALSE,
+		( state.ModelView * Matrix4f::Scale(state.LineLength.getValue(), state.LineLength.getValue(), state.LineLength.getValue())).getValuePtr());
+	checkGlError("glUniformMatrix4fv");
 
-	if(dist == Uniform)
-		return randomUniform(rand);
-	else 
-		return randomGaussian(rand);
-}
+	glUniform1fv(m_colorHandle,1.0f,state.Color.getValuePtr());
+	glVertexAttribPointer(m_positionHandle, 3, GL_FLOAT, GL_FALSE, 0, m_linePositions.data());
+    checkGlError("glVertexAttribPointer");
 
-inline float RandomValue::randomUniform(float rand) const
-{
-	return m_mean + m_variance * ( 2 * rand - 1.0f);
-}
+    glEnableVertexAttribArray(m_positionHandle);
+    checkGlError("glEnableVertexAttribArray");
 
-float RandomValue::randomGaussian(float rand) const
-{
-	float r = (1.0f / (0.5f * std::sqrtf(2 * (float)PI)) * std::expf( - (rand  - 0.5f) / 2 * 0.25f));
-	return randomUniform(r);
+	glDrawArrays(GL_LINE_STRIP, 0, 2);
+    checkGlError("glDrawArrays");
+	
+	return true;
 }
