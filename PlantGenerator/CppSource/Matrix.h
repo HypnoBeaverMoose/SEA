@@ -4,7 +4,7 @@
 
 #pragma once
 #include "Vector.h"
-//#include "Definitions.h"
+#include "Definitions.h"
 
 //namespace base 
 //{
@@ -19,7 +19,9 @@
 		Vector<T,N> operator*(const Vector<T,N>& vec) const;	
 
 		Matrix<T,N> operator*(const Matrix<T,N>& mat) const;
-		
+
+		Matrix<T,N>& operator*=(const Matrix<T,N>& mat);
+
 		Matrix<T,N> Transposed() const;
 		
 		void Transpose() ;
@@ -34,13 +36,15 @@
 
 		virtual T* getValuePtr();
 
+		virtual const T* getValuePtr() const;
+
 		//virtual void Invert() = 0;
 
 		//virtual Matrix<T,N> Inverse() const = 0;
 
 		//virtual T Determinant() const = 0;
 
-	//protected:
+	protected:
 		std::vector<float> m_elements;
 
 	};
@@ -87,6 +91,7 @@
 	{
 
 	public:
+		Matrix4();
 		Matrix4(T m1, T m2, T m3, T m4, T m5, T m6,T m7,T m8,T m9,
 			T m10,T m11,T m12,T m13,T m14,T m15, T m16);
 
@@ -104,7 +109,7 @@
 
 		static Matrix4<T> Perspective(T near_p, T far_p, T fov, T aspect);
 
-		static Matrix4<T> Orthographic(T near_p, T far_p, T top, T bottom, T left, T right);
+		static Matrix4<T> Orthographic(T near, T far, T bottom, T top, T left, T right);
 
 	};
 
@@ -138,9 +143,9 @@
 		}
 		return v;
 	}		
-
+	
 	template<class T,unsigned int N>
-	Matrix<T,N> Matrix<T,N>::operator*(const Matrix<T,N>& mat) const
+	Matrix<T,N>  Matrix<T,N>::operator*(const Matrix<T,N>& mat) const
 	{
 		Matrix<T,N> v;
 		for(int i = 0; i < N; i++)
@@ -155,6 +160,26 @@
 			}	
 		}
 		return v;
+	}	
+
+	template<class T,unsigned int N>
+	Matrix<T,N>&  Matrix<T,N>::operator*=(const Matrix<T,N>& mat)
+	{
+		Matrix<T,N> v;
+		for(int i = 0; i < N; i++)
+		{
+			for(int j = 0; j < N; j++)
+			{
+				T sum = 0;				
+				for(int k = 0; k < N; k++)
+					sum+=(*this)( k , i ) * mat( j, k );
+
+				v(j , i) = sum;
+			}	
+		}
+		this->m_elements.clear();
+		this->m_elements.assign(v.m_elements.begin(), v.m_elements.end());
+		return(*this);
 	}	
 
 	template<class T,unsigned int N>
@@ -202,10 +227,11 @@
 	}
 
 	template<class T,unsigned int N>
-	T* Matrix<T,N>::getValuePtr() 
-	{ 
-		return m_elements.data();  
-	}
+	T* Matrix<T,N>::getValuePtr() { return m_elements.data();  }
+
+	template<class T,unsigned int N>
+	const T* Matrix<T,N>::getValuePtr() const { return m_elements.data();  }
+
 
 	template<class T>
 	Matrix2<T>::Matrix2(T m1,T m2,T m3,T m4) : Matrix<T,2>()
@@ -332,6 +358,9 @@
 
 
 	template<class T>
+	Matrix4<T>::Matrix4(): Matrix<T,4>() {}
+
+	template<class T>
 	Matrix4<T>::Matrix4(T m1, T m2, T m3, T m4, T m5, T m6,T m7,T m8,T m9,
 			T m10,T m11,T m12,T m13,T m14,T m15, T m16) : Matrix<T,4>()
 	{
@@ -404,16 +433,16 @@
 	}
 
 	template<class T>
-	Matrix4<T> Matrix4<T>::Orthographic(T near_p, T far_p, T top, T bottom, T left, T right)
+	Matrix4<T> Matrix4<T>::Orthographic(T near, T far, T bottom, T top, T left, T right)
 	{
 		T width = right - left;
 		T height = top - bottom;
-		T depth = near_p - far_p;
+		T depth = far - near;
 
-		return Matrix4<T>(	2 / width, 0, 0,	(right + left) / width, 
-							0, 2 / height, 0,	(top + bottom) / height,
-							0, 0, - 2 / depth,	-(near_p + far_p) / depth,
-							0, 0,	0,			1);
+		return Matrix4<T>(	2.0f / width,	0,			0,			-((right + left) / width), 
+							0,			2.0f / height,	0,			-((top + bottom) / height),
+							0,					0,	-2.0f / depth,	-((far + near) / depth),
+							0,					0,		0,				1.0f	);
 	}
 
 

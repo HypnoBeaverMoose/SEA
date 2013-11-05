@@ -70,11 +70,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AssemblyDebug>true</AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,11 +92,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CppSource\App.cpp" />
-    <ClCompile Include="CppSource\AppAndroid.cpp" />
+    <ClCompile Include="CppSource\AppAndroid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="CppSource\DrawableObject.cpp" />
     <ClCompile Include="CppSource\LSystem.cpp" />
     <ClCompile Include="CppSource\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="CppSource\Plant.cpp" />
+    <ClCompile Include="CppSource\RandomValue.cpp" />
     <ClCompile Include="CppSource\TurtleGraphics.cpp" />
     <ClCompile Include="CppSource\WinApp.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
@@ -115,9 +125,12 @@
     <ClInclude Include="CppSource\AppAndroid.h" />
     <ClInclude Include="CppSource\Color.h" />
     <ClInclude Include="CppSource\Definitions.h" />
-    <ClInclude Include="CppSource\Includes.h" />
+    <ClInclude Include="CppSource\DrawableObject.h" />
+    <ClInclude Include="CppSource\PaintState.h" />
     <ClInclude Include="CppSource\LSystem.h" />
     <ClInclude Include="CppSource\Matrix.h" />
+    <ClInclude Include="CppSource\Plant.h" />
+    <ClInclude Include="CppSource\RandomValue.h" />
     <ClInclude Include="CppSource\TurtleGraphics.h" />
     <ClInclude Include="CppSource\Vector.h" />
     <ClInclude Include="CppSource\WinApp.h" />

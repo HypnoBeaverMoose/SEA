@@ -1,93 +1,126 @@
-#include "Matrix.h"
 #include "Definitions.h"
+#include "Matrix.h"
 #include "LSystem.h"
+#include "Color.h"
+#include "PaintState.h"
+#include "DrawableObject.h"
+#include "Plant.h"
 #include "TurtleGraphics.h"
 #include "App.h"
 
-//char* App::s_VertexShader = 
-//    "attribute vec4 vPosition;\n"
-//	"uniform mat4 mModelView;"
-//	"uniform mat4 mProjection;"
-//    "void main() {\n"
-//	"  gl_Position = mProjection * mModelView * vPosition;\n"
-//    "}\n";
-//
-//char* App::s_FragmentShader = 
-//    "precision mediump float;\n"
-//    "void main() {\n"
-//    "  gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
-//    "}\n";
-//
+char* App::s_VertexShader = 
+    "attribute vec3 vPosition;\n"
+	"uniform mat4 mModelView;\n"
+	"uniform mat4 mProjection;\n"
+    "void main() {\n"
+	"  gl_Position = mProjection * mModelView * vec4(vPosition, 1.0);\n"
+    "}\n";
 
-App::App() : m_lSystem("F-F-F-F"), m_projectionMatrix(Matrix4f::Identity()), m_painter(90,0.15f)//, m_modelViewMatrix(Matrix4f::Identity())
-{	
-	
-/*	float triangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f };
+char* App::s_FragmentShader = 
+    "precision mediump float;\n"
+	"uniform vec4 vColor;\n"
+    "void main() {\n"
+    "  gl_FragColor = vColor;//vec4(0.0, 0.0, 0.0, 1.0);\n"
+    "}\n";
 
-	m_triangle.assign(triangleVertices,triangleVertices + 6);*/	
 
-	m_lSystem.addRule(Rule('F',"F+F-F-FF+F+F-F"));
-	m_lSystem.Iterate(3);
-	LOGI("AppCreated2");
+App::App() 
+	:	m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 10.0f, 10.0f, 10.0f, 10.0f), 
+		needsRedraw(true)
+
+{
 }
 
+void App::SetUpPlant()
+{
+
+	DrawableObject petal('p',Colorf(0.0f, 0.8f, 0.0f,0.0f),1.0f, m_programId);
+	petal.setWdith(0.0f,0.5f);
+	petal.setWdith(0.6f,0.9f);
+	petal.setWdith(0.9f,0.6f);
+	petal.setWdith(1.0f,0.3f);
+
+	DrawableObject center('c',Colorf(1.0f, 0.8f, 0.0f,0.0f),1.0f, m_programId,0.5f);
+	center.setWdith(0,0);
+	center.setWdith(0.5f,1.0f);
+	center.setWdith(1.0f,0);
+	DrawableObject obj2('f',Colorf(56 / 256.0f,133 / 256.0f, 0),0.1f, m_programId);
+
+	Plant plant(60, 10.0f, 10.0f, 0.8f,"P",3);
+	plant.addObject(petal);
+	plant.addObject(center);
+	plant.addObject(obj2);
+	plant.addRule(Rule('P',""));
+	//plant.addRule(Rule('S',"Sf"));
+
+	//plant.addRule(Rule('t',"[[p][+p][++p][+++p]]c"));
+	
+	
+		
+	DrawableObject leaf('l',Colorf(56 / 256.0f,133 / 256.0f, 0), 0.3f, m_programId);
+	leaf.setWdith(0.0f,0.0f);
+	leaf.setWdith(0.2f,0.6f);	
+	leaf.setWdith(0.6f,0.8f);
+	leaf.setWdith(0.8f,0.7f);
+	leaf.setWdith(0.85f,0.5f);
+	leaf.setWdith(1.0f,0.0f);
+	DrawableObject obj('f',Colorf(134 / 256.0f, 91 / 256.0f, 74 / 256.0f), 0.3f, m_programId);
+
+
+	m_plants.push_back(Plant(5.0f, 5.2f, 5.0f, 0.7f, "-f-f-f-S", 1));
+	m_plants.push_back(plant);
+	m_plants[1].setPosition(Vector3f(0,-45,0));
+	m_plants[0].setPosition(Vector3f(0,-45,0));
+	m_plants[0].addObject(leaf);
+	m_plants[0].addObject(obj);
+	m_plants[0].setPosition(Vector3f(0,-45,0));
+	m_plants[0].addRule(Rule('L',"[>>>>\\\\))))--l]"));
+	m_plants[0].addRule(Rule('R',"[>>>>\\\\))))++l]"));
+	m_plants[0].addRule(Rule('S',"[<<\\\\\\\\f]/+++[[+R]+f+fR+fR+S+\\\\\\[)))))---[+l][+++l]]]---[L-f-fL-fL+S+\\\\\\[)))))+++[-l][--l][---l]]]"));
+	m_plants[0].addRule(Rule('S',"[<<\\\\\\\\f]/+++[[+R]+f+f+fR+S+\\\\\\[))))---[+l][++l][+++l]]]---[L-f-f-fL+S+\\\\\\[))))+++[-l][---l]]]"));
+	m_plants[0].addRule(Rule('S',"/[-f[-L]-f-f[-L]-S+\\\\[+l][-l]]",0.2f));
+	m_plants[0].addRule(Rule('S',"/[+f[+R]+f[+R]+f+S+\\\\[+l][-l][-l]]",0.2f));	
+
+	//m_plants[1].setIterations(1);
+
+
+}
 void App::OnCreate()
 {
-	//m_programId = createProgram(s_VertexShader, s_FragmentShader);
-	//m_positionHandle = glGetAttribLocation(m_programId, "vPosition");
-
-	//m_modelViewHandle = glGetUniformLocation(m_programId, "mModelView");
-	//checkGlError("glGetUniformLocation");
-	//m_projectionHandle = glGetUniformLocation(m_programId, "mProjection");
-	//checkGlError("glGetUniformLocation");
-	//glShadeModel(GL_SMOOTH);	
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	LOGI("OnCreate()");
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	m_painter.init();
-	LOGI("OnCreate");
+	m_programId = createProgram(s_VertexShader, s_FragmentShader);
+
+	SetUpPlant();
+	needsRedraw = true;
 }
 
 void App::OnRender()
 {
-	glClearColor(1.0f,1.0f,1.0f,0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	std::string str = m_lSystem.getSystemString();
-	m_painter.drawLSystem(str.c_str(),str.size());
-
-
-	//int handle = glGetUniformLocation(m_programId, "mProjection");
-	//glUseProgram(m_Painter.getShaderHandle());
-	//checkGlError("glUseProgram");
-	
-	//std::string str = m_lSystem.getSystemString();
-	//m_painter.drawLSystem(str.c_str(),str.size());
-    
-
-	//glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());
-	//checkGlError("glUniformMatrix4fv");
-
-	//glVertexAttribPointer(m_positionHandle, 2, GL_FLOAT, GL_FALSE, 0, m_triangle.data());
- //   checkGlError("glVertexAttribPointer");
-
- //   glEnableVertexAttribArray(m_positionHandle);
- //   checkGlError("glEnableVertexAttribArray");
-
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
- //   checkGlError("glDrawArrays");
+	if(needsRedraw)
+	{
+		m_plants[1].regeneratePlant();
+		glClearColor(1.0f,1.0f,1.0f,0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		m_painter.drawPlant(m_plants[1]);
+		needsRedraw = false;		
+	}
 }
 
 void App::OnResize(int width, int height)
 {
-	LOGI("OnResize %d, %d",width, height);
+	LOGI("OnResize()");
 	glViewport(0,0,width,std::max(1, height));
-	m_projectionMatrix =  Matrix4f::Orthographic(0.1f,10.0f,10.0f,-10.0f,-10.0f,10.0f);
-	glUseProgram(m_painter.getShaderHandle());	
+	float aspect = width /(float) std::max(1, height);
+	m_projectionMatrix = Matrix4f::Orthographic(0.1f,10.0f,-50.0f,50.0f,-50.0f,50.0f);
+	glUseProgram(m_programId);
 	checkGlError("glUseProgram");
-	glUniformMatrix4fv(glGetUniformLocation(m_painter.getShaderHandle(), "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());
+	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 	glUseProgram(0);
 	checkGlError("glUseProgram");
-	
+	needsRedraw = true;	
 }
 
 uint App::loadShader(GLenum shaderType, const char* pSource) 
@@ -156,10 +189,12 @@ uint App::createProgram(const char* pVertexSource, const char* pFragmentSource)
 
 void App::OnTouch(int posx, int posy)
 {
-
+	//m_plants[0].setIterations(m_plants[0].getIterations() + 1);
+	needsRedraw = true;
 }
 
 void App::OnDestroy()
+
 {
 
 }

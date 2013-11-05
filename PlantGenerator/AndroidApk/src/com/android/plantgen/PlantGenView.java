@@ -173,7 +173,8 @@ class PlantGenView extends GLSurfaceView {
             EGLConfig[] configs = new EGLConfig[numConfigs];
             egl.eglChooseConfig(display, s_configAttribs2, configs, numConfigs, num_config);
 
-            if (DEBUG) {
+            if (DEBUG) 
+			{
                  printConfigs(egl, display, configs);
             }
             /* Now return the "best" one
