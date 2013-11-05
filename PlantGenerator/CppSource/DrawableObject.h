@@ -11,7 +11,7 @@ class DrawableObject// : public IDrawableObject
 public:
 	DrawableObject();
 	
-	DrawableObject(char letter, const Colorf& baseColor, float width, uint shader);
+	DrawableObject(char letter, const Colorf& baseColor, float width, uint shader, float offset = 0);
 
 	virtual bool draw(PaintState& state) const;
 
@@ -33,5 +33,6 @@ private:
 	std::vector<Vector4f>	m_vertices;
 	char					m_letter;
 	float					m_width;
+	float					m_verticalOffset;
 };
 

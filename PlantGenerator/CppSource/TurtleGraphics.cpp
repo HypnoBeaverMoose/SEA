@@ -38,9 +38,9 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 {
 	m_paintState.ModelView =  Matrix4f::Translation(plant.getPosition()[0], plant.getPosition()[1], plant.getPosition()[2]).Transposed();
 	
-	m_paintState.Angle = RandomValue(plant.getAngle()* 0.5f, plant.getAngle()* 1.5f);
-	m_paintState.LineLength= RandomValue(plant.getScale() * 0.9f, plant.getScale() * 1.1f);//// TODO: Combine those 
-	m_paintState.LineWidth= RandomValue(plant.getScale() * 0.9f, plant.getScale()* 1.1f);//// into Scale
+	m_paintState.Angle = RandomValue(plant.getAngle(), plant.getAngle());
+	m_paintState.LineLength= RandomValue(plant.getScale(), plant.getScale());//// TODO: Combine those 
+	m_paintState.LineWidth= RandomValue(plant.getScale(), plant.getScale());//// into Scale
 	m_paintState.Color = Colorf(1,1,1,1);
 	
 	const char* system = plant.getLSystem();

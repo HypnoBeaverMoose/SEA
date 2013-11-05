@@ -10,8 +10,8 @@ DrawableObject::DrawableObject() : m_letter(' '), m_baseColor(0,0,0,1)
 }
 
 
-DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width, uint shader) 
-	: m_letter(letter), m_baseColor(baseColor),m_width(width)
+DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width, uint shader, float offset) 
+	: m_letter(letter), m_baseColor(baseColor),m_width(width), m_verticalOffset(offset)
 {
 	m_vertices.push_back(Vector4f(-0.5f * width,0.0f, 0.0f, 1.0f));
 	m_vertices.push_back(Vector4f(0.5f * width,0.0f, 0.0f, 1.0f));
@@ -38,8 +38,9 @@ bool DrawableObject::draw(PaintState& state) const
     checkGlError("glUseProgram");
 
 	float length = state.LineLength.getValue();
-	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE, 
-		( state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f)).getValuePtr());
+	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
+	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();
+	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE,  mat.getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 
 	glUniform4fv(m_colorHandle,1.0f,m_baseColor.getValuePtr());

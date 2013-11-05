@@ -31,7 +31,8 @@ public:
 
 protected:	
 	//LSystem			m_lSystem;
-	Plant			m_plant;
+	//Plant			m_plant;
+	std::vector<Plant> m_plants;
 	TurtleGraphics	m_painter;
 	Matrix4f m_projectionMatrix;
 	//std::vector<float> m_triangle;
