@@ -1,6 +1,4 @@
 
-
-
 #include <Wire.h>
 #include <Adafruit_NFCShield_I2C.h>
 
@@ -100,32 +98,8 @@ bool readPlantID ()
     
     if ( data[7] == 85 )    //85 == 0x55 == 'U', which identifies the Well Known Type (WKT) for an URI record
     {
-      int len = data[6] - 1;
-      int idData[len];
-      int i;
-      for ( i = 0; i < len; ++i )
-        idData[i] = 0;
-      
-      
-      Serial.println("==== idData fill start ====");
-      for ( i = 0; i < len; ++i )
-      {       
-        idData[i] = data[i + 9] - 48;  // skip WKT identifier and URI identifier code and convert from ASCII to DEC
-        
-        if ( i > 0 )
-        {
-           for ( int j = 0; j < i; ++j )
-           {
-              idData[j] *= 10;
-           }
-        }
-      }
-      
-      int plantID = 0;
-           
-      for ( i = 0; i < len; ++i )
-        plantID += idData[i];
-      
+      int plantID = data[9];
+
       Serial.print("plantID: ");
       Serial.println(plantID);
     }
@@ -163,13 +137,7 @@ bool updatePlantID( int newID )
        return false;
     }
    
-    String dataStr = String(newID, DEC);
-    char data[dataStr.length() + 1];
-    dataStr.toCharArray(data, dataStr.length() + 1);
-    
-    Serial.print( "dataStr: " );
-    Serial.println(data);
-    
+    const char data[2] = { newID, '\0' };    
     success = nfc.mifareclassic_WriteNDEFURI( 1, NDEF_URIPREFIX_NONE, data );
     if (success)
     {
