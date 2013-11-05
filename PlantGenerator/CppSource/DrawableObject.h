@@ -13,7 +13,7 @@ public:
 	
 	DrawableObject(char letter, const Colorf& baseColor, float width, uint shader);
 
-	virtual bool draw(PaintState& state);
+	virtual bool draw(PaintState& state) const;
 
 	void setWdith(float pos, float width);
 
@@ -21,7 +21,7 @@ public:
 
 	void setLetter(char letter) { m_letter = letter; }
 
-	char getLetter() { return m_letter; }
+	char getLetter() const { return m_letter; }
 
 	~DrawableObject();
 private:
@@ -32,6 +32,6 @@ private:
 	Colorf					m_baseColor;
 	std::vector<Vector4f>	m_vertices;
 	char					m_letter;
-	
+	float					m_width;
 };
 

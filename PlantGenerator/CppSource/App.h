@@ -1,6 +1,9 @@
 #pragma once
 #include "LSystem.h"
 #include "Matrix.h"
+#include "PaintState.h"
+#include "DrawableObject.h"
+#include "Plant.h"
 #include "TurtleGraphics.h"
 
 class App
@@ -26,19 +29,21 @@ public:
 	static uint createProgram(const char* pVertexSource, const char* pFragmentSource);
 	static uint loadShader(uint shaderType, const char* pSource);
 
-protected:
-	LSystem			m_lSystem;
+protected:	
+	//LSystem			m_lSystem;
+	Plant			m_plant;
 	TurtleGraphics	m_painter;
-	Matrix4f	m_projectionMatrix;
-	//Matrix4f m_modelViewMatrix;
+	Matrix4f m_projectionMatrix;
 	//std::vector<float> m_triangle;
 
 private:
-	bool  needsRedraw;
-	//static char* s_VertexShader;
-	//static char* s_FragmentShader;
 
-	//uint m_programId;
+	void SetUpPlant();
+	bool  needsRedraw;
+	static char* s_VertexShader;
+	static char* s_FragmentShader;
+
+	uint m_programId;
 	//uint m_positionHandle;
 	//uint m_modelViewHandle;
 	//uint m_projectionHandle;

@@ -18,36 +18,21 @@ public:
 	void	setLineLength(float min, float max) { m_paintState.LineLength.setMinMax(min, max); }	
 	float	getLineLengthMin() const { return m_paintState.LineLength.getMin(); }
 	float	getLineLengthMax() const { return m_paintState.LineLength.getMax(); }
-
+	bool	drawPlant(const Plant& plant);
 	void	setLineWidth(float min, float max) { m_paintState.LineWidth.setMinMax(min, max); }	
 	float	getLineWidthMin() const { return m_paintState.LineWidth.getMin(); }
 	float	getLineWidthMax() const { return m_paintState.LineWidth.getMax(); }
 
-	bool	drawLSystem(const char* system, int size, const Vector3f& pos = Vector3f(0,0,0));
-	uint	getShaderHandle() { return m_program; }
-private:
-	bool drawLine(const PaintState& state);
-
-public:
-	static float initialLineLength();
-
-private:
-	static float s_initialLineLength;
-	static float s_lengthModifier;
-	static float s_widthModifier;
-	static float s_angleModifier;
-
-	static char* s_VertexShader;
-	static char* s_FragmentShader;
+	//bool	drawLSystem(const char* system, int size, const Vector3f& pos = Vector3f(0,0,0));
+//private:
+//	bool drawLine(const PaintState& state);
+//
+//public:
+//	static float initialLineLength();
 
 private:
-	uint m_program;
-	uint m_positionHandle;
-	uint m_modelviewHandle;
-	uint m_colorHandle;
-	std::vector<float> m_linePositions;
-	PaintState m_paintState;
+	//std::vector<float> m_linePositions;
 	std::stack<PaintState> m_StateStack;
-	std::map<char,DrawableObject> m_drawableObjects;
+	PaintState m_paintState;	
 };
 

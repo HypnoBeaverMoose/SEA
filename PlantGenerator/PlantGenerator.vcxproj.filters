@@ -39,6 +39,9 @@
     <ClCompile Include="CppSource\RandomValue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CppSource\Plant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AndroidApk\AndroidManifest.xml">
@@ -98,6 +101,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="CppSource\RandomValue.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CppSource\Plant.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,12 +10,13 @@ DrawableObject::DrawableObject() : m_letter(' '), m_baseColor(0,0,0,1)
 }
 
 
-DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width, uint shader) : m_letter(letter), m_baseColor(baseColor)
+DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width, uint shader) 
+	: m_letter(letter), m_baseColor(baseColor),m_width(width)
 {
-	m_vertices.push_back(Vector4f(-0.5f,0.0f, 0.0f, 1.0f));
-	m_vertices.push_back(Vector4f(0.5f,0.0f, 0.0f, 1.0f));
-	m_vertices.push_back(Vector4f(-0.5f, 1.0f, 0.0f, 1.0f));
-	m_vertices.push_back(Vector4f(0.5f, 1.0f, 0.0f, 1.0f));
+	m_vertices.push_back(Vector4f(-0.5f * width,0.0f, 0.0f, 1.0f));
+	m_vertices.push_back(Vector4f(0.5f * width,0.0f, 0.0f, 1.0f));
+	m_vertices.push_back(Vector4f(-0.5f * width, 1.0f, 0.0f, 1.0f));
+	m_vertices.push_back(Vector4f(0.5f * width, 1.0f, 0.0f, 1.0f));
 	setShader(shader);
 }
 void DrawableObject::setShader(uint shader)
@@ -31,7 +32,7 @@ void DrawableObject::setShader(uint shader)
     checkGlError("glEnableVertexAttribArray");
 
 }
-bool DrawableObject::draw(PaintState& state)
+bool DrawableObject::draw(PaintState& state) const
 {
 	glUseProgram(m_shaderProgram);
     checkGlError("glUseProgram");
@@ -64,16 +65,16 @@ void DrawableObject::setWdith(float pos, float width)
 	{
 		if((*it)[1] == pos)
 		{
-			(*it)[0] = -width / 2.0f;
-			(*(++it))[0] = width / 2.0f; 
+			(*it)[0] = m_width * (-width / 2.0f);
+			(*(++it))[0] = m_width * (width / 2.0f); 
 			break;
 		}
 		else if((*it)[1] > pos)  { insert = true; break; }
 	}
 	if(insert)
 	{
-		it = m_vertices.insert(it,Vector4f(width / 2.0f, pos, 0.0f,1.0f));
-		m_vertices.insert(it,Vector4f(-width / 2.0f, pos, 0.0f,1.0f));
+		it = m_vertices.insert(it,Vector4f (m_width*(width / 2.0f), pos, 0.0f,1.0f));
+		m_vertices.insert(it,Vector4f(m_width * (-width / 2.0f), pos, 0.0f,1.0f));
 	}
 }
 
