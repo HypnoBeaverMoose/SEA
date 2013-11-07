@@ -23,17 +23,10 @@ TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, 
 
 }
 
-void TurtleGraphics::init()
+TurtleGraphics::~TurtleGraphics(void)
 {
-	//m_program = App::createProgram(s_VertexShader, s_FragmentShader);
-	//m_positionHandle = glGetAttribLocation(m_program, "vPosition");
-	//checkGlError("glGetAttribLocation");
-	//m_modelviewHandle = glGetUniformLocation(m_program,"mModelView");
-	//checkGlError("glGetUniformLocation");
-	//m_colorHandle = glGetUniformLocation(m_program,"vColor");
-	//checkGlError("glGetUniformLocation");
-
 }
+
 bool TurtleGraphics::drawPlant(const Plant& plant)
 {
 	m_paintState.ModelView =  Matrix4f::Translation(plant.getPosition()[0], plant.getPosition()[1], plant.getPosition()[2]).Transposed();
@@ -55,6 +48,9 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 			break;
 		case '-':
 			m_paintState.ModelView *=Matrix4f::Rotation(-m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
+			break;
+		case '&':
+			m_paintState.ModelView *=Matrix4f::Translation(0, m_paintState.LineWidth.getValue(), 0).Transposed();
 			break;
 		case '[':
 			m_StateStack.push(m_paintState);
@@ -132,11 +128,6 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 //	return true;
 //}
 
-
-TurtleGraphics::~TurtleGraphics(void)
-{
-}
-
 //float TurtleGraphics::initialLineLength()
 //{
 //	return s_initialLineLength;
@@ -166,3 +157,15 @@ TurtleGraphics::~TurtleGraphics(void)
 //	
 //	return true;
 //}
+
+void TurtleGraphics::init()
+{
+	//m_program = App::createProgram(s_VertexShader, s_FragmentShader);
+	//m_positionHandle = glGetAttribLocation(m_program, "vPosition");
+	//checkGlError("glGetAttribLocation");
+	//m_modelviewHandle = glGetUniformLocation(m_program,"mModelView");
+	//checkGlError("glGetUniformLocation");
+	//m_colorHandle = glGetUniformLocation(m_program,"vColor");
+	//checkGlError("glGetUniformLocation");
+
+}

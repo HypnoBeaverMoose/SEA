@@ -1,0 +1,6 @@
+C:\Users\krien\Documents\GitHub\SEA\MendelsGarden\MendelsGarden\bin\Debug\MendelsGarden.exe.config
+C:\Users\krien\Documents\GitHub\SEA\MendelsGarden\MendelsGarden\bin\Debug\MendelsGarden.exe
+C:\Users\krien\Documents\GitHub\SEA\MendelsGarden\MendelsGarden\bin\Debug\MendelsGarden.pdb
+C:\Users\krien\Documents\GitHub\SEA\MendelsGarden\MendelsGarden\obj\Debug\MendelsGarden.csprojResolveAssemblyReference.cache
+C:\Users\krien\Documents\GitHub\SEA\MendelsGarden\MendelsGarden\obj\Debug\MendelsGarden.exe
+C:\Users\krien\Documents\GitHub\SEA\MendelsGarden\MendelsGarden\obj\Debug\MendelsGarden.pdb

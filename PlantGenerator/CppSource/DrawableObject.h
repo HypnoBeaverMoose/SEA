@@ -9,6 +9,9 @@
 class DrawableObject// : public IDrawableObject
 {
 public:
+
+	friend DrawableObject CombineObjects( const DrawableObject& lhs, const DrawableObject& rhs, float bias);
+
 	DrawableObject();
 	
 	DrawableObject(char letter, const Colorf& baseColor, float width, uint shader, float offset = 0);
@@ -18,6 +21,8 @@ public:
 	void setWdith(float pos, float width);
 
 	void setShader(uint shader);
+
+	float  getWidth(float pos) const;
 
 	void setLetter(char letter) { m_letter = letter; }
 
@@ -33,6 +38,7 @@ private:
 	std::vector<Vector4f>	m_vertices;
 	char					m_letter;
 	float					m_width;
+	float					m_height;
 	float					m_verticalOffset;
 };
 

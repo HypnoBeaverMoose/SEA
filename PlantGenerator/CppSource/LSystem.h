@@ -24,7 +24,9 @@ class LSystem
 public:
 	LSystem(std::string axiom) : m_axiom(axiom), m_currentIteration(0) {}
 		
-	const Rule& getRule(int index) { return m_rules[index]; }
+	int getRulesCount() const { return m_rules.size();}
+
+	const Rule& getRule(int index) const { return m_rules[index]; }
 
 	const std::string& getSystemString() const { return m_generatedSystem; }
 
@@ -35,6 +37,8 @@ public:
 	const std::string& Iterate(int iterations);
 
 	void reset() { m_currentIteration = 0; m_generatedSystem.clear(); }
+
+	const std::string& getAxiom() const { return m_axiom; }
 
 private:
 	
