@@ -3,6 +3,9 @@
 class Plant
 {
 public:
+
+	friend Plant CombinePlants(const Plant& lhs, const Plant& rhs, float bias);
+
 	Plant(float angle, float scale, float angleInc, float scaleInc, const std::string& axiom, int iterations);
 	
 	float getAngle() const { return m_angle; }
@@ -31,7 +34,6 @@ public:
 	void setIterations(int iter) { m_iterationsCount = iter; }
 
 	~Plant(void);
-
 private:
 	float m_angle;
 	float m_scale;

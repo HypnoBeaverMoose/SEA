@@ -19,6 +19,8 @@ template<class T>
 
 		Color<T> operator+(Color<T> add) const;
 
+		float operator[](int index) const { return m_data[index]; }
+
 		T* getValuePtr();
 
 		const T* getValuePtr() const;

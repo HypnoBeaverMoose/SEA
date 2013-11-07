@@ -56,6 +56,9 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 		case '-':
 			m_paintState.ModelView *=Matrix4f::Rotation(-m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
+		case '&':
+			m_paintState.ModelView *=Matrix4f::Translation(0, m_paintState.LineWidth.getValue(), 0).Transposed();
+			break;
 		case '[':
 			m_StateStack.push(m_paintState);
 			break;

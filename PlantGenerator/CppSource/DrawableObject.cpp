@@ -43,7 +43,7 @@ bool DrawableObject::draw(PaintState& state) const
 	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE,  mat.getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 
-	glUniform4fv(m_colorHandle,1.0f,m_baseColor.getValuePtr());
+	glUniform4fv(m_colorHandle, 1, m_baseColor.getValuePtr());
     checkGlError("glUniform1fv");
 
 	glVertexAttribPointer(m_positionHandle, 4, GL_FLOAT, GL_FALSE, m_vertices[0].stride(), m_vertices.data());
@@ -81,4 +81,47 @@ void DrawableObject::setWdith(float pos, float width)
 
 DrawableObject::~DrawableObject()
 {
+}
+
+float DrawableObject::getWidth(float pos) const
+{
+	if(pos < 0.0f || pos > 1.0f) return -1;
+
+	uint i  = 0; 
+	for(; i < m_vertices.size(); i+=2){
+		if( pos < m_vertices[i][1]) 
+			break;
+	}
+
+	if(i == (m_vertices.size()))
+		i-= 2;
+
+	float len = (m_vertices[i + 1][1] - m_vertices[i -1][1]);
+	float t = (pos - m_vertices[i - 1][1]) / len;
+
+	return (1 - t)  * m_vertices[i - 1][0] + t * m_vertices[i + 1][0];
+}
+
+DrawableObject CombineObjects( const DrawableObject& lhs, const DrawableObject& rhs, float bias)
+{
+	Colorf color(	lhs.m_baseColor[0] * (1.0f - bias) + rhs.m_baseColor[0] * bias,
+						lhs.m_baseColor[1] * (1.0f - bias) + rhs.m_baseColor[1] * bias,
+							lhs.m_baseColor[2] * (1.0f - bias) + rhs.m_baseColor[2] * bias,
+								1.0f);
+
+	///we assume that the letters of the objects are unique
+	DrawableObject obj(	lhs.getLetter(), color,
+						lhs.m_width * (1.0f - bias) + rhs.m_width * bias,
+						lhs.m_shaderProgram,lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias );
+
+	const DrawableObject& first = lhs.m_vertices.size() > rhs.m_vertices.size() ? lhs : rhs;
+	const DrawableObject& second = lhs.m_vertices.size() < rhs.m_vertices.size() ? lhs : rhs;
+	for(uint i = 0; i < first.m_vertices.size(); i+=2)
+	{
+		float pos = first.m_vertices[i][1];
+		float width1 = first.m_vertices[i+1][0] / first.m_width;
+		float width2 = second.getWidth(pos) / second.m_width;
+		obj.setWdith(pos, 2 * ( width1 * (1.0f - bias) + width2 * bias));
+	}
+	return obj;
 }

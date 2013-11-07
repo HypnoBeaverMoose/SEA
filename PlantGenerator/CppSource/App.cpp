@@ -26,37 +26,33 @@ char* App::s_FragmentShader =
 
 App::App() 
 	:	m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 10.0f, 10.0f, 10.0f, 10.0f), 
-		needsRedraw(true)
+		needsRedraw(true), m_bias(0.0f)
 
 {
 }
 
 void App::SetUpPlant()
 {
+	DrawableObject cactusTrunk('f',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
+	DrawableObject top('t',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
+	top.setWdith(1.0f,0.0f);
+	top.setWdith(0.5f,0.8f);
+	top.setWdith(0.7f,0.6f);
+	top.setWdith(0.9f,0.4f);
+	DrawableObject bottom('b',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
+	bottom.setWdith(0.0f,0.6f);
+	bottom.setWdith(0.5f,0.8f);
 
-	DrawableObject petal('p',Colorf(0.0f, 0.8f, 0.0f,0.0f),1.0f, m_programId);
-	petal.setWdith(0.0f,0.5f);
-	petal.setWdith(0.6f,0.9f);
-	petal.setWdith(0.9f,0.6f);
-	petal.setWdith(1.0f,0.3f);
+	DrawableObject thorn('l',Colorf(0,0,0, 0), 0.1f, m_programId,0.0f);
+	Plant cactus(22.5f,1.0f,0.3f,0.3f,">>>>>b<<<<<F>>>>>t",5);
+	cactus.addObject(cactusTrunk);
+	cactus.addObject(thorn);
+	cactus.addObject(top);
+	cactus.addObject(bottom);
+	cactus.addRule(Rule('F',"[L][R]FFf"));
+	cactus.addRule(Rule('L',"&[----&&&&&l]&[----&&&&&l]&[----&&&&&l]L"));
+	cactus.addRule(Rule('R',"&[++++&&&&&l]&[++++&&&&&l]&[++++&&&&&l]R"));
 
-	DrawableObject center('c',Colorf(1.0f, 0.8f, 0.0f,0.0f),1.0f, m_programId,0.5f);
-	center.setWdith(0,0);
-	center.setWdith(0.5f,1.0f);
-	center.setWdith(1.0f,0);
-	DrawableObject obj2('f',Colorf(56 / 256.0f,133 / 256.0f, 0),0.1f, m_programId);
-
-	Plant plant(60, 10.0f, 10.0f, 0.8f,"P",3);
-	plant.addObject(petal);
-	plant.addObject(center);
-	plant.addObject(obj2);
-	plant.addRule(Rule('P',""));
-	//plant.addRule(Rule('S',"Sf"));
-
-	//plant.addRule(Rule('t',"[[p][+p][++p][+++p]]c"));
-	
-	
-		
 	DrawableObject leaf('l',Colorf(56 / 256.0f,133 / 256.0f, 0), 0.3f, m_programId);
 	leaf.setWdith(0.0f,0.0f);
 	leaf.setWdith(0.2f,0.6f);	
@@ -68,7 +64,7 @@ void App::SetUpPlant()
 
 
 	m_plants.push_back(Plant(5.0f, 5.2f, 5.0f, 0.7f, "-f-f-f-S", 1));
-	m_plants.push_back(plant);
+	m_plants.push_back(cactus);
 	m_plants[1].setPosition(Vector3f(0,-45,0));
 	m_plants[0].setPosition(Vector3f(0,-45,0));
 	m_plants[0].addObject(leaf);
@@ -81,9 +77,7 @@ void App::SetUpPlant()
 	m_plants[0].addRule(Rule('S',"/[-f[-L]-f-f[-L]-S+\\\\[+l][-l]]",0.2f));
 	m_plants[0].addRule(Rule('S',"/[+f[+R]+f[+R]+f+S+\\\\[+l][-l][-l]]",0.2f));	
 
-	//m_plants[1].setIterations(1);
-
-
+	m_plants[0].setIterations(4);
 }
 void App::OnCreate()
 {
@@ -100,10 +94,33 @@ void App::OnRender()
 {
 	if(needsRedraw)
 	{
-		m_plants[1].regeneratePlant();
+		//DrawableObject cactusTrunk('f',Colorf(56 / 256.0f,133 / 256.0f, 0), 2.0f, m_programId);
+
+		//DrawableObject obj('f',Colorf(134 / 256.0f, 91 / 256.0f, 74 / 256.0f), 0.3f, m_programId);
+		//DrawableObject dro = CombineObjects(cactusTrunk,obj,m_bias);
+		Plant plant = CombinePlants(m_plants[0],m_plants[1],m_bias);
+		plant.regeneratePlant();
+		plant.setPosition(Vector3f(0,-40,0));
+
+
+		//Plant plant1(0,10,0,0, "f",1);
+		//Plant plant2(0,10,0,0, "f",1);
+		//plant.addObject(cactusTrunk);
+		//plant1.addObject(dro);
+		//plant2.addObject(obj);
+
+		//plant1.regeneratePlant();
+		//plant2.regeneratePlant();
+		//plant1.setPosition(Vector3f(10,-40,0));
+		//plant2.setPosition(Vector3f(10,-40,0));
+
+		
+		//m_plants[0].regeneratePlant();
 		glClearColor(1.0f,1.0f,1.0f,0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		m_painter.drawPlant(m_plants[1]);
+		glClear(GL_COLOR_BUFFER_BIT);		
+		m_painter.drawPlant(plant);
+		//m_painter.drawPlant(plant1);
+		//m_painter.drawPlant(plant2);
 		needsRedraw = false;		
 	}
 }
@@ -189,7 +206,9 @@ uint App::createProgram(const char* pVertexSource, const char* pFragmentSource)
 
 void App::OnTouch(int posx, int posy)
 {
-	//m_plants[0].setIterations(m_plants[0].getIterations() + 1);
+	//m_plants[1].setIterations(m_plants[1].getIterations() + 1);
+	m_bias+=0.1f;
+	m_bias = std::min(m_bias,1.0f);
 	needsRedraw = true;
 }
 

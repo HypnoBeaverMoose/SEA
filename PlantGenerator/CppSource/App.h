@@ -30,23 +30,21 @@ public:
 	static uint loadShader(uint shaderType, const char* pSource);
 
 protected:	
-	//LSystem			m_lSystem;
-	//Plant			m_plant;
 	std::vector<Plant> m_plants;
 	TurtleGraphics	m_painter;
 	Matrix4f m_projectionMatrix;
 	//std::vector<float> m_triangle;
+	//LSystem		m_lSystem;
+	//Plant			m_plant;
 
 private:
-
 	void SetUpPlant();
 	bool  needsRedraw;
 	static char* s_VertexShader;
 	static char* s_FragmentShader;
-
+	float m_bias;
 	uint m_programId;
 	//uint m_positionHandle;
 	//uint m_modelViewHandle;
 	//uint m_projectionHandle;
-
 };

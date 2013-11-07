@@ -5,7 +5,6 @@
 #include "DrawableObject.h"
 #include "Plant.h"
 
-
 Plant::Plant(float angle, float scale, float angleInc, float scaleInc, const std::string& axiom, int iterations) 
 	:	m_angle(angle),			m_scale(scale), 
 		m_angleInc(angleInc),	m_scaleInc(scaleInc), 
@@ -48,4 +47,45 @@ void Plant::regeneratePlant()
 
 Plant::~Plant(void)
 {
+}
+
+Plant CombinePlants(const Plant& lhs, const Plant& rhs, float bias)
+{
+
+	std::string axiom = bias < 0.5f ? lhs.m_system.getAxiom() : rhs.m_system.getAxiom();
+
+	Plant newPlant(	lhs.getAngle() * (1.0f - bias) + rhs.getAngle() * bias,
+					lhs.getScale() * (1.0f - bias) + rhs.getScale() * bias,
+					lhs.getAngleInc() * (1.0f - bias) + rhs.getAngleInc() * bias,
+					lhs.getScaleInc() * (1.0f - bias) + rhs.getScaleInc() * bias,
+					axiom,lhs.getIterations() * (1.0f - bias) + rhs.getIterations() * bias);
+
+
+	const std::map<char, DrawableObject>& first = lhs.m_parts.size() > rhs.m_parts.size() ? lhs.m_parts : rhs.m_parts;
+	const std::map<char, DrawableObject>& second = lhs.m_parts.size() < rhs.m_parts.size() ? lhs.m_parts : rhs.m_parts;
+	for(std::map<char, DrawableObject>::const_iterator iter = first.begin(); iter !=first.end(); ++iter)
+	{
+		std::map<char, DrawableObject>::const_iterator matchingRule =  second.find(iter->first);
+		if(matchingRule == second.end()) {
+			newPlant.addObject(iter->second);
+		}
+		else {
+			newPlant.addObject(CombineObjects(matchingRule->second, iter->second,bias));
+		}
+	}
+
+	if(bias < 0.5f)
+	{
+		int count = lhs.m_system.getRulesCount();
+		for(int i = 0; i < count; i++)
+			newPlant.addRule(lhs.m_system.getRule(i));			
+	}
+	else
+	{
+		int count = rhs.m_system.getRulesCount();
+		for(int i = 0; i < count; i++)
+			newPlant.addRule(rhs.m_system.getRule(i));			
+	}
+	
+	return newPlant;
 }
