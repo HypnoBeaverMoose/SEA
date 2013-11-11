@@ -1,15 +1,38 @@
 <?xml version="1.0"?>
 <!-- There are two main tags: sketch and fragment.
-Fragment indicates it will show a sequence of movies. The program wil try to get all the fragments from the search result, if it matches the requirements.
-Sketch indicates it will show only one thing. The program will pick only one of them, after checking the requirements.
-There are two types of requirements/attributes: first and requirement. 
+Fragment indicates it will show a sequence of movies. The program wil try to get all the fragments from the search result, if it matches the requirement1s.
+Sketch indicates it will show only one thing. The program will pick only one of them, after checking the requirement1s.
+There are two types of requirement1s/attributes: first and requirement1. 
 First means it will show that sketch/fragment during the first time, but not after that. 
 Requirement means it will check if the plant has that requirement. If the plant doesn't, the sketch/fragment will not be shown.
-Requirement will automaticly cause the program to not show a sketch/fragment, if you place it in start/feedback_no_plants_scanned and feedback_no_plants_assembled.
-ID is used to keep track of the dialogue history. -->
+Requirements are entered like this: Border|Include|Type. Border is the number it has to breach to make it matter. Include is either Y or N, and determines if it should be included. Type is a string that indicates which attribute the plant should(n't) have.
+For an instance: req1border="0.6", req1include="1", req1type="poison" means that the dialog can only be shown if the plant has atleast more than 0.6 poison, while: req1border="0.2", req1include="0", req1type="fruit" means that it WONT be shown if the plant has atleast 0.2 fruit
+ID is used to keep track of the dialogue history. 
+Character will be used later, when there are more characters. It will add one extra requirement1 to the program, the character that should be currently talking. -->
 
 <dialogues>
 <dialogues_quest id="1" name="Help_The_Daughter">
+	<test>
+	<fragment req1border="0.2" req1include="0" req1type="thorns">
+	start
+	</fragment>
+	<fragment req1border="0.2" req1include="1" req1type="fruit" req2border="0.2" req2include="0" req2type="poison">
+	It has fruit, but no poison.
+	</fragment>
+	<fragment req1border="0.2" req1include="1" req1type="water">
+		<fragment>
+		It uses water to be awesome.
+		</fragment>
+		<fragment>
+			<fragment>
+			Really awesome
+			</fragment>
+		</fragment>
+	</fragment>
+	<fragment req1border="0.2" req1include="1" req1type="thorns">
+	Thorns to keep the animals away!
+	</fragment>
+	</test>
 	<start>
 	<sketch id="1" name="Daughter_Starts">
 	Hallo! Goed dat je er bent. Het is namelijk zo… ik heb je hulp heel erg nodig! Waar je namelijk bent, hebben ze een machine die planten kan maken… en dat heeft mijn vader nu echt heel erg nodig. Hij is namelijk een boer, maar door recente gebeurtenissen, kan hij geen goeie planten meer verbouwen.
@@ -70,70 +93,69 @@ ID is used to keep track of the dialogue history. -->
 	</sketch>
 	</feedback_wait_for_calculation>
 	
-	<feedback_new_plant_assembled>
-	<sketch id="1" name="Feedback_Daughter">
+	<feedback_new_plant_assembled id="1" name="Feedback_Daughter">
 		<fragment id="1" name="Positive_Feedback"> 
-		<sketch id="1" first="0" requirement="fruit" name="fruit_is_good">
+		<sketch id="1" first="0" req1border="0.2" req1include="1" req1type="fruit" name="fruit_is_good">
 		Slim dat je eraan gedacht hebt om het eetbaar te maken! Mijn familie staat immers altijd al bekend om zijn fruit, en dat willen we wel graag maken.
 		</sketch>
-		<sketch id="2" first="0" requirement="tall" name="tall_is_good">
+		<sketch id="2" first="0" req1border="0.2" req1include="1" req1type="tall" name="tall_is_good">
 		Zo, dat is wel een hele lange plant! Die zien ze van mijlenver aankomen!
 		</sketch>
-		<sketch id="3" first="0" requirement="water" name="water_is_good">
+		<sketch id="3" first="0" req1border="0.2" req1include="1" req1type="water" name="water_is_good">
 		Oh, wow, je hebt een plant gemaakt die tegen overstroming kan, dat kan wel eens helpen!
 		</sketch>
-		<sketch id="4" first="0" requirement="quickly_growing" name="quickly_growing_is_good">
+		<sketch id="4" first="0" req1border="0.2" req1include="1" req1type="fast_growing" name="fast_growing_is_good">
 		Ik zie dat je een planteigenschap hebt gebruikt waardoor hij slim groeit, dat is wel handig.
 		</sketch>
-		<sketch id="5" first="0" requirement="poison" name="poison_is_good">
+		<sketch id="5" first="0" req1border="0.2" req1include="1" req1type="poison" name="poison_is_good">
 		Nou, het gif dat erin zit zal er in ieder geval voor zorgen dat dieren het niet opeten.
 		</sketch>
-		<sketch id="6" first="0" requirement="smell" name="smell_is_good">
+		<sketch id="6" first="0" req1border="0.2" req1include="1" req1type="smell" name="smell_is_good">
 		Die geur van die plant is echt overal te ruiken!
 		</sketch>
-		<sketch id="7" first="0" requirement="thorns" name="thorns_is_good">
+		<sketch id="7" first="0" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_good">
 		Met die stekels denk ik niet dat iemand er zo maar aan wilt zitten.
 		</sketch>
-		<sketch id="8" first="0" requirement="soft" name="soft_is_good">
+		<sketch id="8" first="0" req1border="0.2" req1include="1" req1type="soft" name="soft_is_good">
 		Hmm, die bast heb je goed uitgekozen… dat is zo zacht!
 		</sketch>
 		</fragment> 
 		
 		<fragment id="2" name="Criticism"> 
-		<sketch id="1" first="1" requirement="not_fruit" name="not_fruit_is_bad_first">
+		<sketch id="1" first="1" req1border="0.2" req1include="0" req1type="fruit" name="not_fruit_is_bad_first">
 		Maar misschien kan je er een fruit van maken? Onze familie staat namelijk bekend om zijn fruit! Ananas, pompoenen, tomaten, je noemt het maar op. 
 		</sketch>
-		<sketch id="2" first="0" requirement="not_fruit" name="not_fruit_is_bad_second">
+		<sketch id="2" first="0" req1border="0.2" req1include="0" req1type="fruit" name="not_fruit_is_bad_second">
 		Maar zoals ik net al zei, hebben we echt een fruit nodig. Is er geen fruitplant dat je hier kan gebruiken? Volgens mij zijn er toch wel tomaten daar… 
 		</sketch>
-		<sketch id="3" first="1" requirement="not_drought" name="not_drought_is_bad_first">
+		<sketch id="3" first="1" req1border="0.2" req1include="0" req1type="drought" name="not_drought_is_bad_first">
 		We hebben echter een beetje een probleem met de droogte. Onze planten zijn daarvoor al doodgegaan. Ik denk dat de nieuwe plant die wel moet kunnen overleven…
 		</sketch>
-		<sketch id="4" first="0" requirement="not_drought" name="not_drought_is_bad_second">
+		<sketch id="4" first="0" req1border="0.2" req1include="0" req1type="drought" name="not_drought_is_bad_second">
 		Maar nogmaals, we hebben echt een probleem met de droogte. Zijn er geen planten daar die tegen de droogte kunnen? Ik heb gehoord dat cactussen goed tegen de hitte kunnen!
 		</sketch>
-		<sketch id="5" first="1" requirement="thorns" name="thorns_is_bad_first">
+		<sketch id="5" first="1" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_bad_first">
 		Het probleem is alleen, door die stekels kan mijn vader er ook niet meer aan zitten. En dan kan hij het moeilijk plukken.
 		</sketch>
-		<sketch id="6" first="0" requirement="thorns" name="thorns_is_bad_second">
+		<sketch id="6" first="0" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_bad_second">
 		Ik vind het echt jammer dat mijn vader dus niks met die stekels kan. Ik denk dat er genoeg is te vinden dat lekker zacht is toch? Misschien kan je de planten voelen om te kijken of ze zacht zijn of hard.
 		</sketch>
-		<sketch id="7" first="1" requirement="soft" name="soft_is_bad_first">
+		<sketch id="7" first="1" req1border="0.2" req1include="1" req1type="soft" name="soft_is_bad_first">
 		Echter… we hebben ook nogal een probleem met de dieren die van onze fruit proberen te snoepen. En als het zacht is, dan is het wel heel makkelijk voor ze om het op te eten.
 		</sketch>
-		<sketch id="8" first="0" requirement="soft" name="soft_is_bad_second">
+		<sketch id="8" first="0" req1border="0.2" req1include="1" req1type="soft" name="soft_is_bad_second">
 		De dieren vormen echter nog steeds een probleem. Je kan iets proberen te vinden met stekels. Ik wed dat ze ergens een cactus hebben die je kan gebruiken!
 		</sketch>
-		<sketch id="9" first="1" requirement="poison" name="poison_is_bad_first">
+		<sketch id="9" first="1" req1border="0.2" req1include="1" req1type="poison" name="poison_is_bad_first">
 		Het is alleen jammer dat het gif in deze plant er voor zorgt dat we het niet meer kunnen opeten. We willen onze niet klanten vergiftigen he!
 		</sketch>
-		<sketch id="10" first="0" requirement="poison" name="poison_is_bad_second">
+		<sketch id="10" first="0" req1border="0.2" req1include="1" req1type="poison" name="poison_is_bad_second">
 		Maar, onze klanten zijn nog steeds niet bestand tegen het gif dat je in je plant hebt. Je kan eventueel altijd de kaartjes lezen bij de planten, om te checken of ze inderdaad giftig zijn.
 		</sketch>
-		<sketch id="11" first="1" requirement="smell" name="smell_is_bad_first">
+		<sketch id="11" first="1" req1border="0.2" req1include="1" req1type="smell" name="smell_is_bad_first">
 		Ik denk alleen dat de geur van de plant de dieren misschien zal lokken… Misschien kan je het geurloos maken?
 		</sketch>
-		<sketch id="12" first="0" requirement="smell" name="smell_is_bad_second">
+		<sketch id="12" first="0" req1border="0.2" req1include="1" req1type="smell" name="smell_is_bad_second">
 		Het punt is dus wel, dat als dieren het kunnen ruiken, ze weten waar onze planten zijn! Misschien kun je aan de planten ruiken om te weten of ze geur hebben of niet?
 		</sketch>
 		</fragment> 
@@ -152,7 +174,6 @@ ID is used to keep track of the dialogue history. -->
 		Het is maar een klein puntje van kritiek hoor. Je bent goed op dreef. Maar als je dat nog even zou willen aanpassen, dan zou dat echt geweldig zijn!
 		</sketch>
 		</fragment> 
-	</sketch>
 	</feedback_new_plant_assembled>
 		
 	<feedback_found_right_plant>
@@ -160,10 +181,10 @@ ID is used to keep track of the dialogue history. -->
 	Wow! Dat is echt een geweldige plant. Ik heb het aan mijn vader laten zien, en moet je eens kijken hoe hij het nu met hem gaat!
 	[foto gelukkige familie voor boerderij met bloeiende planten] De boerderij heeft meer planten dan ooit tevoren. Lekkere heerlijke planten, waar mensen van wijde ver voor komen. 
 	</fragment>
-	<fragment id="2" requirement="water" name="feedback_found_right_plant_2">
+	<fragment id="2" req1border="0.2" req1include="1" req1type="water" name="feedback_found_right_plant_2">
 	[foto van zware regenbui waar planten niets van merken] Daarnaast, omdat je het waterbestendig heeft gemaakt, hebben die planten laatst een flinke regenbui overleeft! 
 	</fragment>
-	<fragment id="3" requirement="fruit" name="feedback_found_right_plant_3">
+	<fragment id="3" req1border="0.2" req1include="1" req1type="fruit" name="feedback_found_right_plant_3">
 	[foto van bezoekers die in de verte wijzen naar boerderij] En omdat het zo lang is, zien mensen al in de verte onze planten al staan en weten ze wat zij bij ons kunnen kopen. We hebben nog nooit zoveel bezoekers gehad.
 	</fragment>
 	<fragment id="4" name="feedback_found_right_plant_4">
@@ -175,7 +196,7 @@ ID is used to keep track of the dialogue history. -->
 </dialogues_quest>
 
 <end_text name="There_are_no_more_quests">
-	<sketch id="1" first="0" name="Daughter_Excuses_Herself">
+	<sketch character="1" id="1" first="0" name="Daughter_Excuses_Herself">
 	Sorry! Ik moet mijn vader echt helpen. Maar misschien heb ik een andere dag je hulp wel weer nodig! Misschien kan je me dan helpen?
 	</sketch>
 </end_text>

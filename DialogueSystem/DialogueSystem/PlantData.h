@@ -1,14 +1,16 @@
 namespace Dialogue{
-	class PlantData
+	struct PlantData
 	{
 		private:
-			enum TypeOfPlant { None, SpinnenPlant, Klimop, RegenboogEucalyptus, Appelboom, Oleander, Roos, Cactus, Bamboo, AardbeienPlant, Brandnetel, Count };
+			enum TypeOfPlant { None, Ananas, Cactus, TomatenPlant, Waterhyacint, DustyMiller, Count };
 			TypeOfPlant typeOfPlants[3];
 			TypeOfPlant turnIntToPlant(int i); 
 			void makeTotalPlant();
-			float size, blocking, survivability, poisonous, colorful, fruits, thorns, reproduceAble;
+			void ResetPlant();
 
 		public:
-			PlantData(int plants[3]);
+			PlantData();
+			void SetPlant(int plants[3]);
+			double drought, thorns, poison, smell, fruit, softness, fastGrowing, flood;
 	};
 }

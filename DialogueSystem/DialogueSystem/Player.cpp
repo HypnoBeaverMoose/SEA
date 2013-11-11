@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Player.h"
+#include "TinyXMLHandler.h"
 #include <iostream>
 #include <vector>
 #include <string> 
@@ -20,7 +21,7 @@ namespace Dialogue{
 		{
 			int typeOfPlants[3];
 			// checkinput 
-			std::cout << "[None = 0, SpinnenPlant = 1, Klimop = 2, RegenboogEucalyptus = 3, Appelboom = 4, Oleander = 5, Roos = 6, Cactus = 7, Bamboo = 8, AardbeienPlant = 9, Brandnetel = 10] " << std::endl;
+			std::cout << "[None = 0, Ananas = 1, Cactus = 2, TomatenPlant = 3, Waterhyacint = 4, DustyMiller = 5]" << std::endl;
 			std::cout << "First Plant";
 			std::cin >> typeOfPlants[0];
 			std::cout << std::endl;
@@ -30,7 +31,8 @@ namespace Dialogue{
 			std::cout << "Third Plant";
 			std::cin >> typeOfPlants[2];
 			std::cout << std::endl;
-			PlantData plant(typeOfPlants);
+			dialogueData.plant.SetPlant(typeOfPlants);
+			outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueData));
 		}
 		else
 		{
@@ -45,14 +47,20 @@ namespace Dialogue{
 	bool Player::PlayStartQuestDialogue()
 	{
 		bool playStartingQuest = true;
-		std::vector<tinyXMLHandler::DialogueStruct> dialogueVector  = txml.getStartText(dialogueData.questNumber);
+		std::vector<Player::DialogueStruct> dialogueVector  = tinyXMLHandler::instance()->getStartText(dialogueData);
 		if(dialogueVector.size() == 0)
 		{
-			dialogueVector  = txml.getEndText();
+			dialogueVector = tinyXMLHandler::instance()->getEndText();
 			playStartingQuest = false;
 		}
+		outputText(dialogueVector);
+		return playStartingQuest;
+	}
+
+	void Player::outputText(std::vector<Player::DialogueStruct> dialogueVector)
+	{
 		std::string newString;
-		for (std::vector<tinyXMLHandler::DialogueStruct>::size_type i = 0; i < dialogueVector.size(); i++)
+		for (std::vector<Player::DialogueStruct>::size_type i = 0; i < dialogueVector.size(); i++)
 		{
 			newString = dialogueVector[i].speaker;
 			if(newString.empty() == false)
@@ -65,7 +73,7 @@ namespace Dialogue{
 				std::cout << dialogueVector[i].dialogue << std::endl << std::endl;
 			}
 		}
-		return playStartingQuest;
 	}
+
 }
 

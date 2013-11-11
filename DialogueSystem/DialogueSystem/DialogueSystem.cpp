@@ -1,10 +1,11 @@
 // DialogueSystem.cpp : Defines the entry point for the console application.
 //
-
+#pragma once
 #include "stdafx.h"
+#include "Player.h"
 #include <iostream>
 #include <map>
-#include "Player.h"
+
 using namespace Dialogue;
 
 int _tmain(int argc, _TCHAR* argv[])

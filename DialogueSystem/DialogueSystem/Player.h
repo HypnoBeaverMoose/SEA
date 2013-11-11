@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "TinyXMLHandler.h"
 #include "PlantData.h"
 
 namespace Dialogue
@@ -8,20 +7,25 @@ namespace Dialogue
 	class Player
 	{
 		public:
-		  Player();
-		  void PlayDialogue();
-		  enum State{PlayQuest, WaitForPlant};
-		  State currentState;
+			Player();
+			void PlayDialogue();
+			enum State{PlayQuest, WaitForPlant};
+			State currentState;
+			struct DialogueStruct
+			{
+				std::string dialogue, speaker;
+			};
 			struct DialogueData
 			{
 				int lastSpeaker,questNumber;
 				std::vector<int> integers;
+				PlantData plant;
 			};
 
 		private:
-			tinyXMLHandler txml;
 			int age;
 			DialogueData dialogueData;
 			bool PlayStartQuestDialogue();
+			void outputText(std::vector<DialogueStruct> dialogueVector);
 	};
 }

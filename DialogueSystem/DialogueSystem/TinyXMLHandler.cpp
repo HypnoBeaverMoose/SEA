@@ -6,75 +6,67 @@
 
 namespace Dialogue
 {
-	std::vector<tinyXMLHandler::DialogueStruct> tinyXMLHandler::getStartText(int questID) // it is a vector, in case we need a sequence of movies
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getFeedBackWithPlantText(Player::DialogueData currentPlayer) // it is a vector, in case we need a sequence of movies
 	{
+		_currentPlayer = currentPlayer;
 		tinyxml2::XMLDocument doc;
-		std::vector<tinyXMLHandler::DialogueStruct> newVector;
-		std::string searchParameters[] = {"dialogues_quest","start", "sketch"};
+		std::vector<Player::DialogueStruct> newVector;
+		std::string searchParameters[] = {"dialogues_quest","feedback_new_plant_assembled"};
 		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
-		std::string idchecks[] = {std::to_string(questID)};
+		std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
 		std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
 
 		tinyxml2::XMLElement *elem = checkDialogue(idVector, searchParametersVector, &doc);
-		if(elem)
-		{
-			tinyXMLHandler::DialogueStruct ds;
-			ds.dialogue = elem->GetText();
-			newVector.push_back(ds);
-		}
+		newVector = getTexts(elem);
 		return newVector;
 	}
 
-	std::vector<tinyXMLHandler::DialogueStruct> tinyXMLHandler::getEndText() 
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getStartText(Player::DialogueData currentPlayer) // it is a vector, in case we need a sequence of movies
+	{
+		_currentPlayer = currentPlayer;
+		tinyxml2::XMLDocument doc;
+		std::vector<Player::DialogueStruct> newVector;
+		std::string searchParameters[] = {"dialogues_quest","start"};
+		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+		std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+		std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+
+		tinyxml2::XMLElement *elem = checkDialogue(idVector, searchParametersVector, &doc);
+		newVector = getTexts(elem);
+		return newVector;
+	}
+
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getEndText() 
 	{
 		tinyxml2::XMLDocument doc;
-		std::vector<tinyXMLHandler::DialogueStruct> newVector;
+		std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"end_text","sketch"};
 		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
 		std::vector<std::string> idVector;
 
 		tinyxml2::XMLElement *elem = checkDialogue(idVector, searchParametersVector, &doc);
-		if(elem)
-		{
-			newVector = getTexts(elem);
-		}
+		newVector = getTexts(elem);
 		return newVector;
 	}
-
-	/*std::vector<DialogueStruct> getStartTextFromXml(std::vector<std::string> idChecks, std::vector<std::string> searchParameters)
+	
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getTexts(tinyxml2::XMLElement *elem) 
 	{
-		std::vector<DialogueStruct> newVector;
-		tinyxml2::XMLElement *xmlElement = 0; //checkDialogue(idChecks, searchParameters); 
-		if(xmlElement == NULL)
+		std::vector<Player::DialogueStruct> newVector;
+		
+		if(elem)
 		{
-			return newVector;
-		}
-
-		for (tinyxml2::XMLElement* child = xmlElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-		{ // add the dialogues of the xml found to the vector and return those
-			DialogueStruct ds;
-			ds.dialogue = child->GetText();
-			if(child->Attribute("name") != NULL)
+			std::vector<tinyxml2::XMLElement*> elemVector = getElements(elem);
+			for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < elemVector.size(); i++)
 			{
-				ds.speaker = child->Attribute("name");
+				Player::DialogueStruct ds;
+				if(elemVector[i]->GetText() != NULL)
+				{
+					ds.dialogue = elemVector[i]->GetText();
+					newVector.push_back(ds);
+				}
 			}
-			newVector.push_back(ds);
 		}
-		return newVector;
-	}*/
 
-	std::vector<tinyXMLHandler::DialogueStruct> tinyXMLHandler::getTexts(tinyxml2::XMLElement *elem) 
-	{
-		std::vector<tinyXMLHandler::DialogueStruct> newVector;
-		
-		std::vector<tinyxml2::XMLElement*> elemVector = getElements(elem);
-		for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < elemVector.size(); i++)
-		{
-			tinyXMLHandler::DialogueStruct ds;
-			ds.dialogue = elemVector[i]->GetText();
-			newVector.push_back(ds);
-		}
-		
 		return newVector;
 	}
 
@@ -86,23 +78,123 @@ namespace Dialogue
 			for (tinyxml2::XMLElement* child = elem->FirstChildElement("fragment"); child != NULL; child = child->NextSiblingElement("fragment"))
 			{ 
 				// check for requirements
-
-				// add the elements with fragment to the list
-				std::vector<tinyxml2::XMLElement*> newestVector = getElements(child);
-				for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < newestVector.size(); i++)
+				if(checkRequirements(child))
 				{
-					newVector.push_back(newestVector[i]);
+					// add all fragments to the list (that meets the requirements
+					std::vector<tinyxml2::XMLElement*> newestVector = getElements(child);
+					for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < newestVector.size(); i++)
+					{
+						newVector.push_back(newestVector[i]);
+					}
 				}
 			}
 		}
-		else if(elem->FirstChildElement("sketch") != NULL) // if it doesnt have a fragment child, check if it has a sketch child
+		else // if it doesnt have a fragment child, check if it has a sketch child
 		{
+			tinyxml2::XMLElement* child = elem->FirstChildElement("sketch");
+			if(child != NULL) 
+			{
+				std::vector<tinyxml2::XMLElement*> elemVector;
+				for (child; child != NULL; child = child->NextSiblingElement("sketch"))
+				{ 
+					// check for requirements
+					if(checkRequirements(child))
+					{
+						// add all sketches to the list
+						elemVector.push_back(child);
+					}
+				}
+				if(elemVector.size() > 0)
+				{
+					child = checkID(elemVector);
+					std::vector<tinyxml2::XMLElement*> newestVector = getElements(child);
+					for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < newestVector.size(); i++)
+					{
+						newVector.push_back(newestVector[i]);
+					}
+				}
+			}
+			else // just return the element, there are no more children
+			{
+				newVector.push_back(elem);
+			}
 		}
-		else // else get the text of the element
-		{
-			newVector.push_back(elem);
-		}
+		
 		return newVector;
+	}
+
+	bool tinyXMLHandler::checkRequirements(tinyxml2::XMLElement* elem)
+	{ // check the requirements of the fragment/sketch
+		int i = 1;
+		while(elem->Attribute(("req" + std::to_string(i) + "type").c_str()) != NULL)
+		{
+			bool include = true;
+			double reqAmount = 0.0;
+			std::string req = elem->Attribute(("req" + std::to_string(i) + "type").c_str());
+			if(elem->Attribute(("req" + std::to_string(i) + "border").c_str()) != NULL)
+			{
+				reqAmount = std::strtod(elem->Attribute(("req" + std::to_string(i) + "border").c_str()), NULL);
+			}
+			if(elem->Attribute(("req" + std::to_string(i) + "include").c_str()) != NULL)
+			{
+				std::string test = elem->Attribute(("req" + std::to_string(i) + "include").c_str());
+				if(test == "0")
+				{
+					include = false;
+				}
+			}
+
+			float check = 1;
+			if(req == "drought")
+			{
+				check = _currentPlayer.plant.drought;
+			}
+			else if(req == "fast_growing")
+			{
+				check = _currentPlayer.plant.fastGrowing;
+			}
+			else if(req == "water")
+			{
+				check = _currentPlayer.plant.flood;
+			}
+			else if(req == "fruit")
+			{
+				check = _currentPlayer.plant.fruit;
+			}
+			else if(req == "poison")
+			{
+				check = _currentPlayer.plant.poison;
+			}
+			else if(req == "smell")
+			{
+				check = _currentPlayer.plant.smell;
+			}
+			else if(req == "softness")
+			{
+				check = _currentPlayer.plant.softness;
+			}
+			else if(req == "thorns")
+			{
+				check = _currentPlayer.plant.thorns;
+			}
+			if((check < reqAmount && include == true) || (check > reqAmount && include == false))
+			{
+				return false;
+			}
+
+			i++;
+		}
+		return true;
+	}
+
+	tinyxml2::XMLElement* tinyXMLHandler::checkID(std::vector<tinyxml2::XMLElement*> elemVector)
+	{ // checks amongst a list of sketches which sketch it should use
+
+		tinyxml2::XMLElement* elem;
+
+		elem = elemVector[0];
+
+		return elem;
 	}
 
 	tinyxml2::XMLElement *tinyXMLHandler::checkDialogue(std::vector<std::string> idChecks, std::vector<std::string> searchParameters, tinyxml2::XMLDocument *doc)
@@ -167,5 +259,15 @@ namespace Dialogue
 		return xmlElement; 
 	}
 
+	tinyXMLHandler *tinyXMLHandler::instance()
+    {
+        if (!tinyXMLHandler::s_instance)
+		{
+			tinyXMLHandler::s_instance = new tinyXMLHandler;
+		}
+        return s_instance;
+    }
+
+	tinyXMLHandler *tinyXMLHandler::s_instance;
 }
 
