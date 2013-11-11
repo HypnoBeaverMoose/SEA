@@ -24,10 +24,6 @@
     <ProjectName>PlantGenerator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
-    <AndroidAPILevel>android-14</AndroidAPILevel>
-    <AndroidArch>armv7-a</AndroidArch>
-  </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -35,37 +31,34 @@
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <PlatformToolset>arm-linux-androideabi-4.6</PlatformToolset>
+    <AndroidAPILevel>android-14</AndroidAPILevel>
+    <AndroidArch>armv7-a</AndroidArch>
+    <AndroidStlType>gnustl_static</AndroidStlType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <PlatformToolset>arm-linux-androideabi-4.6</PlatformToolset>
+    <AndroidAPILevel>android-14</AndroidAPILevel>
+    <AndroidArch>armv7-a</AndroidArch>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>Bin\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\Bin\$(Configuration)</OutDir>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
-    <AntBuild>
-      <AntBuildPath>$(ProjectDir)\AndroidApk</AntBuildPath>
-      <IgnoreJavaOpts>false</IgnoreJavaOpts>
-      <JVMHeapInitial>
-      </JVMHeapInitial>
-      <JVMHeapMaximum>
-      </JVMHeapMaximum>
-    </AntBuild>
-    <Link>
-      <AdditionalOptions>-lGLESv2 %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
-    <AntBuild>
-      <AntBuildPath>$(ProjectDir)\AndroidApk</AntBuildPath>
-    </AntBuild>
-    <Link>
-      <AdditionalOptions>-lGLESv2 %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -84,56 +77,76 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>./Dependencies/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <AntBuild>
+      <AntBuildPath>$(ProjectDir)\AndroidApk</AntBuildPath>
+    </AntBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <AntBuild>
+      <IgnoreJavaOpts>false</IgnoreJavaOpts>
+    </AntBuild>
+    <Link>
+      <AdditionalDependencies>-lGLESv2;-landroid </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <AntBuild>
+      <AntBuildPath>$(ProjectDir)\AndroidApk</AntBuildPath>
+    </AntBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <AntBuild>
+      <IgnoreJavaOpts>false</IgnoreJavaOpts>
+    </AntBuild>
+    <Link>
+      <AdditionalDependencies>-landroid</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CppSource\App.cpp" />
-    <ClCompile Include="CppSource\AppAndroid.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="CppSource\DrawableObject.cpp" />
-    <ClCompile Include="CppSource\LSystem.cpp" />
-    <ClCompile Include="CppSource\main.cpp">
+    <ClCompile Include="src\plantGenerator\App.cpp" />
+    <ClCompile Include="src\plantGenerator\AppAndroid.cpp" />
+    <ClCompile Include="src\plantGenerator\DrawableObject.cpp" />
+    <ClCompile Include="src\plantGenerator\LSystem.cpp" />
+    <ClCompile Include="src\plantGenerator\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="CppSource\Plant.cpp" />
-    <ClCompile Include="CppSource\RandomValue.cpp" />
-    <ClCompile Include="CppSource\TurtleGraphics.cpp" />
-    <ClCompile Include="CppSource\WinApp.cpp">
+    <ClCompile Include="src\plantGenerator\Plant.cpp" />
+    <ClCompile Include="src\plantGenerator\RandomValue.cpp" />
+    <ClCompile Include="src\plantGenerator\TurtleGraphics.cpp" />
+    <ClCompile Include="src\plantGenerator\WinApp.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AndroidApk\AndroidManifest.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <ClInclude Include="src\plantGenerator\App.h" />
+    <ClInclude Include="src\plantGenerator\AppAndroid.h" />
+    <ClInclude Include="src\plantGenerator\Color.h" />
+    <ClInclude Include="src\plantGenerator\Definitions.h" />
+    <ClInclude Include="src\plantGenerator\DrawableObject.h" />
+    <ClInclude Include="src\plantGenerator\LSystem.h" />
+    <ClInclude Include="src\plantGenerator\Matrix.h" />
+    <ClInclude Include="src\plantGenerator\PaintState.h" />
+    <ClInclude Include="src\plantGenerator\Plant.h" />
+    <ClInclude Include="src\plantGenerator\RandomValue.h" />
+    <ClInclude Include="src\plantGenerator\TurtleGraphics.h" />
+    <ClInclude Include="src\plantGenerator\Vector.h" />
+    <ClInclude Include="src\plantGenerator\WinApp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AndroidApk\AndroidManifest.xml" />
     <None Include="AndroidApk\build.xml" />
     <None Include="AndroidApk\project.properties" />
-    <None Include="AndroidApk\res\values\strings.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="AndroidApk\res\values\strings.xml" />
     <None Include="AndroidApk\src\com\android\plantgen\PlantGenActivity.java" />
     <None Include="AndroidApk\src\com\android\plantgen\PlantGenLib.java" />
     <None Include="AndroidApk\src\com\android\plantgen\PlantGenView.java" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CppSource\App.h" />
-    <ClInclude Include="CppSource\AppAndroid.h" />
-    <ClInclude Include="CppSource\Color.h" />
-    <ClInclude Include="CppSource\Definitions.h" />
-    <ClInclude Include="CppSource\DrawableObject.h" />
-    <ClInclude Include="CppSource\PaintState.h" />
-    <ClInclude Include="CppSource\LSystem.h" />
-    <ClInclude Include="CppSource\Matrix.h" />
-    <ClInclude Include="CppSource\Plant.h" />
-    <ClInclude Include="CppSource\RandomValue.h" />
-    <ClInclude Include="CppSource\TurtleGraphics.h" />
-    <ClInclude Include="CppSource\Vector.h" />
-    <ClInclude Include="CppSource\WinApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

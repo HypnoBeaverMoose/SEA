@@ -15,47 +15,76 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CppSource\WinApp.cpp">
+    <ClCompile Include="src\plantGenerator\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\main.cpp">
+    <ClCompile Include="src\plantGenerator\AppAndroid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\App.cpp">
+    <ClCompile Include="src\plantGenerator\DrawableObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\LSystem.cpp">
+    <ClCompile Include="src\plantGenerator\TurtleGraphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\TurtleGraphics.cpp">
+    <ClCompile Include="src\plantGenerator\Plant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\AppAndroid.cpp">
+    <ClCompile Include="src\plantGenerator\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\DrawableObject.cpp">
+    <ClCompile Include="src\plantGenerator\RandomValue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\RandomValue.cpp">
+    <ClCompile Include="src\plantGenerator\WinApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CppSource\Plant.cpp">
+    <ClCompile Include="src\plantGenerator\LSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AndroidApk\AndroidManifest.xml">
-      <Filter>AndroidApk</Filter>
-    </None>
-    <None Include="AndroidApk\build.xml">
-      <Filter>AndroidApk</Filter>
-    </None>
-    <None Include="AndroidApk\res\values\strings.xml">
-      <Filter>AndroidApk</Filter>
-    </None>
-    <None Include="AndroidApk\project.properties">
-      <Filter>AndroidApk</Filter>
-    </None>
+    <ClInclude Include="src\plantGenerator\Definitions.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\AppAndroid.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\Color.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\App.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\DrawableObject.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\LSystem.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\Plant.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\TurtleGraphics.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\PaintState.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\RandomValue.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\Matrix.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\Vector.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plantGenerator\WinApp.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="AndroidApk\src\com\android\plantgen\PlantGenActivity.java">
       <Filter>AndroidApk\JavaSource</Filter>
     </None>
@@ -65,46 +94,17 @@
     <None Include="AndroidApk\src\com\android\plantgen\PlantGenView.java">
       <Filter>AndroidApk\JavaSource</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CppSource\Definitions.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\WinApp.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\App.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\LSystem.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\TurtleGraphics.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\Matrix.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\Vector.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\Color.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\AppAndroid.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\DrawableObject.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\PaintState.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\RandomValue.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CppSource\Plant.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
+    <None Include="AndroidApk\AndroidManifest.xml">
+      <Filter>AndroidApk</Filter>
+    </None>
+    <None Include="AndroidApk\build.xml">
+      <Filter>AndroidApk</Filter>
+    </None>
+    <None Include="AndroidApk\project.properties">
+      <Filter>AndroidApk</Filter>
+    </None>
+    <None Include="AndroidApk\res\values\strings.xml">
+      <Filter>AndroidApk</Filter>
+    </None>
   </ItemGroup>
 </Project>

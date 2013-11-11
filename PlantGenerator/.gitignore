@@ -1,5 +1,7 @@
 /Android/
-/Debug/
+/Bin/
 *.opensdf
 *.sdf
 *.suo
+*.user
+Output-Debug.txt

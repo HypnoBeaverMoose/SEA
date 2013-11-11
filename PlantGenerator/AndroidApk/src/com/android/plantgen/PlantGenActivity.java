@@ -16,21 +16,24 @@
 
 package com.android.plantgen;
 
+import android.content.res.AssetManager;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
-
 import java.io.File;
 
-
-public class PlantGenActivity extends Activity {
+public class PlantGenActivity extends Activity 
+{
 
     PlantGenView mView;
-
+	//private AssetManager mgr;
     @Override protected void onCreate(Bundle icicle) 
 	{
-        mView = new PlantGenView(getApplication());
+		AssetManager mgr = getResources().getAssets();
+		PlantGenLib.SetAssetManager(mgr);
+        
+		mView = new PlantGenView(getApplication());
         super.onCreate(icicle);
 		setContentView(mView);
     }

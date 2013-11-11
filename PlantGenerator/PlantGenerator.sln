@@ -1,7 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlantGenerator", "PlantGenerator.vcxproj", "{158CCAFB-7A8D-4532-91DF-99284FCDABEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib\zlib.vcxproj", "{4E9643AC-99D6-457B-BF89-AC29F67BD179}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pnglib", "pnglib\pnglib.vcxproj", "{889F1CA1-E5CA-4C38-8594-145566B7979F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179} = {4E9643AC-99D6-457B-BF89-AC29F67BD179}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlantGenerator", "plantGenerator\PlantGenerator.vcxproj", "{158CCAFB-7A8D-4532-91DF-99284FCDABEA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{889F1CA1-E5CA-4C38-8594-145566B7979F} = {889F1CA1-E5CA-4C38-8594-145566B7979F}
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179} = {4E9643AC-99D6-457B-BF89-AC29F67BD179}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,6 +22,26 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Android.ActiveCfg = Debug|Android
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Android.Build.0 = Debug|Android
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Android.Deploy.0 = Debug|Android
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Win32.Build.0 = Debug|Win32
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Android.ActiveCfg = Release|Android
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Android.Build.0 = Release|Android
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Android.Deploy.0 = Release|Android
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Win32.ActiveCfg = Release|Win32
+		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Win32.Build.0 = Release|Win32
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Android.ActiveCfg = Debug|Android
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Android.Build.0 = Debug|Android
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Android.Deploy.0 = Debug|Android
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Win32.Build.0 = Debug|Win32
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Release|Android.ActiveCfg = Release|Android
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Release|Android.Build.0 = Release|Android
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Release|Android.Deploy.0 = Release|Android
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Release|Win32.ActiveCfg = Release|Win32
+		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Release|Win32.Build.0 = Release|Win32
 		{158CCAFB-7A8D-4532-91DF-99284FCDABEA}.Debug|Android.ActiveCfg = Debug|Android
 		{158CCAFB-7A8D-4532-91DF-99284FCDABEA}.Debug|Android.Build.0 = Debug|Android
 		{158CCAFB-7A8D-4532-91DF-99284FCDABEA}.Debug|Android.Deploy.0 = Debug|Android
