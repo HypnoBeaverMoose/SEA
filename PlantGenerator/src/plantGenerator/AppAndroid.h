@@ -16,7 +16,7 @@ public:
 	static AppAndroid* getInstance();
 	static bool LoadImageFromFile();
 private:
-static AppAndroid* s_instance;
+//static AppAndroid* s_instance;
 };
 //extern "C" 
 //{	

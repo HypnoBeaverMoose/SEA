@@ -16,7 +16,7 @@ protected:
 					WinApp(int width,int heigth,HINSTANCE instance,char* name);	
 
 protected:
-	static	WinApp* Instance;
+	static	WinApp* const getInstance();
 	static	LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 private:

@@ -25,6 +25,16 @@ char* App::s_FragmentShader =
     "}\n";
 
 
+App* App::s_instance = 0;
+
+App* const App::getInstance()
+{
+//	LOGI("App::getInstance()");
+	if(s_instance == NULL)
+		s_instance = new App;
+	return s_instance;
+}
+
 App::App() 
 	:	m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 10.0f, 10.0f, 10.0f, 10.0f), 
 		needsRedraw(true), m_bias(0.0f)
@@ -35,7 +45,7 @@ App::App()
 void App::SetUpPlant()
 {
 	png::image<png::rgba_pixel> img;
-	loadImageFromFile(this, img,"test.png");
+	loadImageFromFile(img,"img.png");
 	DrawableObject cactusTrunk('f',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
 	DrawableObject top('t',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
 	top.setWdith(1.0f,0.0f);
@@ -208,9 +218,9 @@ uint App::createProgram(const char* pVertexSource, const char* pFragmentSource)
 }
 
 
-bool App::loadImageFromFile(App* app, png::image<png::rgba_pixel>& image, const char* filename)
+bool App::loadImageFromFile(png::image<png::rgba_pixel>& image, const char* filename)
 {
-	return app->loadImage(image,filename);
+	return getInstance()->loadImage(image,filename);
 }
 
 bool App::loadImage(png::image<png::rgba_pixel>& image, const char* filename)

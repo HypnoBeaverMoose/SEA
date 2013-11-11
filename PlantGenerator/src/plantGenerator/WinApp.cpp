@@ -1,14 +1,15 @@
 #include "Definitions.h"
 #include "WinApp.h"
 
-WinApp* WinApp::Instance = NULL;
+//WinApp* WinApp::Instance = NULL;
 
  int WinApp::InitInstance(int width, int heigth, HINSTANCE instance, char* name)
 {
 
-	if(Instance == NULL)
+	if(s_instance == NULL)
 	{
-		Instance = new WinApp(width, heigth, instance, name);
+		s_instance = new WinApp(width, heigth, instance, name);
+		//Instance = new WinApp(width, heigth, instance, name);
 		return 0;
 	}
 
@@ -181,13 +182,13 @@ bool WinApp::CreateGLWindow(char* title, int width, int height)
 
 int WinApp::RunMainLoop(int cmdShow)
 {	
-	return Instance->MainLoop(cmdShow);
+	return ((WinApp*)s_instance)->MainLoop(cmdShow);
 }
 
 int WinApp::MainLoop(int cmdShow)
 {	
-
-	ShowWindow(Instance->m_hWnd,cmdShow);
+	WinApp* l_instance = (WinApp*)s_instance;
+	ShowWindow(l_instance->m_hWnd,cmdShow);
 	UpdateWindow(m_hWnd);
 	
 	while(true)									// Loop That Runs While done=FALSE
@@ -214,13 +215,14 @@ LRESULT CALLBACK WinApp::WndProc(	HWND	hWnd,			// Handle For This Window
 							WPARAM	wParam,			// Additional Message Information
 							LPARAM	lParam)			// Additional Message Information
 {
+	WinApp* l_instance = (WinApp*)s_instance;
 	switch (uMsg)									// Check For Windows Messages
 	{
 		case WM_LBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			Instance->OnTouch(0,0); break;
+			l_instance->OnTouch(0,0); break;
 		case WM_SIZE:								// Resize The OpenGL Window
-			Instance->OnResize(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
+			l_instance->OnResize(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			break;
 		case WM_SYSCOMMAND:							// Intercept System Commands
 			switch (wParam)							// Check System Calls

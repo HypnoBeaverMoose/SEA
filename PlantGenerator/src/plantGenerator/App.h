@@ -9,8 +9,6 @@
 class App
 {
 public:
-	App();
-	
 	virtual void OnCreate();
 
 	virtual void OnRender();
@@ -28,14 +26,17 @@ public:
 public:
 	static uint createProgram(const char* pVertexSource, const char* pFragmentSource);
 	static uint loadShader(uint shaderType, const char* pSource);
-	static bool loadImageFromFile(App* app, png::image<png::rgba_pixel>& image, const char* filename);
+	static bool loadImageFromFile(png::image<png::rgba_pixel>& image, const char* filename);
+	static App* const getInstance(); 
 
 protected:	
+	App();
+
 	std::vector<Plant> m_plants;
 	TurtleGraphics	m_painter;
 	Matrix4f m_projectionMatrix;
 	virtual bool loadImage(png::image<png::rgba_pixel>& image, const char* filename);
-
+	static App* s_instance;
 private:
 	void SetUpPlant();
 	bool  needsRedraw;
