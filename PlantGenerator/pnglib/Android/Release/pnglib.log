@@ -1,0 +1,27 @@
+﻿Build started 11.11.2013 г. 11:11:03 ч..
+     1>Project "G:\SEA\PlantGenerator\pnglib\pnglib.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         G:\Android\android-ndk-r9\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\bin\arm-linux-androideabi-g++.exe 
+         png.c
+         pngerror.c
+         pngget.c
+         pngmem.c
+         pngpread.c
+         pngread.c
+         pngrio.c
+         pngrtran.c
+         pngrutil.c
+         pngset.c
+         pngtrans.c
+         pngwio.c
+         pngwrite.c
+         pngwtran.c
+         pngwutil.c
+       Lib:
+         G:\Android\android-ndk-r9\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\bin\arm-linux-androideabi-ar.exe rcs G:/SEA/PlantGenerator/Dependencies/android/libpng.a Android/Release/png.o Android/Release/pngerror.o Android/Release/pngget.o Android/Release/pngmem.o Android/Release/pngpread.o Android/Release/pngread.o Android/Release/pngrio.o Android/Release/pngrtran.o Android/Release/pngrutil.o Android/Release/pngset.o Android/Release/pngtrans.o Android/Release/pngwio.o Android/Release/pngwrite.o Android/Release/pngwtran.o Android/Release/pngwutil.o 
+         pnglib.vcxproj -> G:\SEA\PlantGenerator\Dependencies\android\libpng.a
+     1>Done Building Project "G:\SEA\PlantGenerator\pnglib\pnglib.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.26

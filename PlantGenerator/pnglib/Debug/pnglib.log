@@ -1,0 +1,42 @@
+﻿Build started 11.11.2013 г. 10:55:30 ч..
+     1>Project "G:\SEA\PlantGenerator\pnglib\pnglib.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IG:\SEA\PlantGenerator\\Dependencies\Include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /wd4996 /analyze- /errorReport:prompt ..\src\libpng\png.c ..\src\libpng\pngerror.c ..\src\libpng\pngget.c ..\src\libpng\pngmem.c ..\src\libpng\pngpread.c ..\src\libpng\pngread.c ..\src\libpng\pngrio.c ..\src\libpng\pngrtran.c ..\src\libpng\pngrutil.c ..\src\libpng\pngset.c ..\src\libpng\pngtrans.c ..\src\libpng\pngwio.c ..\src\libpng\pngwrite.c ..\src\libpng\pngwtran.c ..\src\libpng\pngwutil.c
+         pngwutil.c
+         pngwtran.c
+         pngwrite.c
+         pngwio.c
+         pngtrans.c
+         pngset.c
+         pngrutil.c
+         pngrtran.c
+         pngrio.c
+         pngread.c
+         pngpread.c
+         pngmem.c
+         pngget.c
+         pngerror.c
+         png.c
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"G:\SEA\PlantGenerator\Dependencies\lib\libpngd.lib" /NOLOGO Debug\png.obj
+         Debug\pngerror.obj
+         Debug\pngget.obj
+         Debug\pngmem.obj
+         Debug\pngpread.obj
+         Debug\pngread.obj
+         Debug\pngrio.obj
+         Debug\pngrtran.obj
+         Debug\pngrutil.obj
+         Debug\pngset.obj
+         Debug\pngtrans.obj
+         Debug\pngwio.obj
+         Debug\pngwrite.obj
+         Debug\pngwtran.obj
+         Debug\pngwutil.obj
+         pnglib.vcxproj -> G:\SEA\PlantGenerator\Dependencies\lib\libpngd.lib
+     1>Done Building Project "G:\SEA\PlantGenerator\pnglib\pnglib.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.11

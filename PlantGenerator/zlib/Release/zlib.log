@@ -1,0 +1,41 @@
+﻿Build started 11.11.2013 г. 10:58:20 ч..
+     1>Project "G:\SEA\PlantGenerator\zlib\zlib.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IG:\SEA\PlantGenerator\\Dependencies\Include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TC /wd4996 /analyze- /errorReport:prompt ..\src\zlib\adler32.c ..\src\zlib\compress.c ..\src\zlib\crc32.c ..\src\zlib\deflate.c ..\src\zlib\gzclose.c ..\src\zlib\gzlib.c ..\src\zlib\gzread.c ..\src\zlib\gzwrite.c ..\src\zlib\infback.c ..\src\zlib\inffast.c ..\src\zlib\inflate.c ..\src\zlib\inftrees.c ..\src\zlib\trees.c ..\src\zlib\uncompr.c ..\src\zlib\zutil.c
+         adler32.c
+         compress.c
+         crc32.c
+         deflate.c
+         gzclose.c
+         gzlib.c
+         gzread.c
+         gzwrite.c
+         infback.c
+         inffast.c
+         inflate.c
+         inftrees.c
+         trees.c
+         uncompr.c
+         zutil.c
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"G:\SEA\PlantGenerator\\Dependencies\lib\zlib.lib" /NOLOGO /LTCG Release\adler32.obj
+         Release\compress.obj
+         Release\crc32.obj
+         Release\deflate.obj
+         Release\gzclose.obj
+         Release\gzlib.obj
+         Release\gzread.obj
+         Release\gzwrite.obj
+         Release\infback.obj
+         Release\inffast.obj
+         Release\inflate.obj
+         Release\inftrees.obj
+         Release\trees.obj
+         Release\uncompr.obj
+         Release\zutil.obj
+         zlib.vcxproj -> G:\SEA\PlantGenerator\\Dependencies\lib\zlib.lib
+     1>Done Building Project "G:\SEA\PlantGenerator\zlib\zlib.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.54

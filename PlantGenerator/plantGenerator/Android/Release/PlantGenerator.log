@@ -1,0 +1,140 @@
+﻿Build started 11.11.2013 г. 11:11:08 ч..
+     1>Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         G:\Android\android-ndk-r9\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\bin\arm-linux-androideabi-g++.exe 
+         App.cpp
+     1>G:\SEA\PlantGenerator\src\plantGenerator\App.cpp(17,5): warning : deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+     1>G:\SEA\PlantGenerator\src\plantGenerator\App.cpp(24,5): warning : deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+         AppAndroid.cpp
+         DrawableObject.cpp
+         LSystem.cpp
+         Plant.cpp
+         RandomValue.cpp
+         TurtleGraphics.cpp
+       Link:
+         G:\Android\android-ndk-r9\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\bin\arm-linux-androideabi-g++.exe Android/Release/App.o Android/Release/AppAndroid.o Android/Release/DrawableObject.o Android/Release/LSystem.o Android/Release/Plant.o Android/Release/RandomValue.o Android/Release/TurtleGraphics.o -o G:/SEA/PlantGenerator/Android/Release/PlantGenerator.so -LG:/SEA/PlantGenerator/Dependencies/android -landroid -lGLESv2 G:/SEA/PlantGenerator/Dependencies/android/libpng.a G:/SEA/PlantGenerator/Dependencies/android/zlib.a -nostdlib -lc -lm -llog -lgcc -Wl,-soname,libPlantGenerator -Wl,--no-undefined -shared -Wl,-z,noexecstack -Wl,-rpath-link=G:/Android/android-ndk-r9/platforms/android-14/arch-arm/usr/lib --sysroot=G:/Android/android-ndk-r9/platforms/android-14/arch-arm/usr/lib/../.. G:/Android/android-ndk-r9/toolchains/arm-linux-androideabi-4.6/prebuilt/windows/lib/gcc/arm-linux-androideabi/4.6/armv7-a/crtbeginS.o -lstdc++ -lsupc++ -lgnustl_static -lgcc -LG:/Android/android-ndk-r9/platforms/android-14/arch-arm/usr/lib -LG:/Android/android-ndk-r9/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a -LG:/Android/android-ndk-r9/toolchains/arm-linux-androideabi-4.6/prebuilt/windows/lib/gcc/arm-linux-androideabi/4.6/armv7-a
+         PlantGenerator.vcxproj -> G:\SEA\PlantGenerator\Android\Release\PlantGenerator.so
+       AntBuild:
+         G:\Android\apache-ant-1.9.2\bin\ant.bat release 
+         Envvar: JAVA_HOME is set to 'C:\Program Files (x86)\Java\jdk1.7.0_45'
+         G:\Android\apache-ant-1.9.2\bin\ant.bat  release
+         Buildfile: G:\SEA\PlantGenerator\AndroidApk\build.xml
+         
+         -set-mode-check:
+         
+         -set-release-mode:
+         
+         -release-obfuscation-check:
+              [echo] proguard.config is ${proguard.config}
+         
+         -pre-build:
+         
+         -check-env:
+          [checkenv] Android SDK Tools Revision 22.2.1
+          [checkenv] Installed at G:\Android\adt-bundle-windows-x86_64-20130219\sdk
+         
+         -setup:
+              [echo] Project Name: PlantGenerator
+           [gettype] Project Type: Application
+         
+         -build-setup:
+         [getbuildtools] Using latest Build Tools: 18.1.1
+              [echo] Resolving Build Target for PlantGenerator...
+         [gettarget] Project Target:   Android 4.1.2
+         [gettarget] API level:        16
+              [echo] ----------
+              [echo] Creating output directories if needed...
+             [mkdir] Created dir: G:\SEA\PlantGenerator\AndroidApk\bin\rsObj
+             [mkdir] Created dir: G:\SEA\PlantGenerator\AndroidApk\bin\rsLibs
+              [echo] ----------
+              [echo] Resolving Dependencies for PlantGenerator...
+         [dependency] Library dependencies:
+         [dependency] No Libraries
+         [dependency] 
+         [dependency] ------------------
+              [echo] ----------
+              [echo] Building Libraries with 'release'...
+            [subant] No sub-builds to iterate on
+         
+         -code-gen:
+         [mergemanifest] Found Deleted Target File
+         [mergemanifest] Merging AndroidManifest files into one.
+         [mergemanifest] Manifest merger disabled. Using project manifest only.
+              [echo] Handling aidl files...
+              [aidl] No AIDL files to compile.
+              [echo] ----------
+              [echo] Handling RenderScript files...
+              [echo] ----------
+              [echo] Handling Resources...
+              [aapt] Found Deleted Target File
+              [aapt] Generating resource IDs...
+              [echo] ----------
+              [echo] Handling BuildConfig class...
+         [buildconfig] No need to generate new BuildConfig.
+         
+         -pre-compile:
+         
+         -compile:
+             [javac] Compiling 1 source file to G:\SEA\PlantGenerator\AndroidApk\bin\classes
+         
+         -post-compile:
+         
+         -obfuscate:
+         
+         -dex:
+               [dex] input: G:\SEA\PlantGenerator\AndroidApk\bin\classes
+               [dex] Found Deleted Target File
+               [dex] Converting compiled files and external libraries into G:\SEA\PlantGenerator\AndroidApk\bin\classes.dex...
+                [dx] Picked up _JAVA_OPTIONS: -Xms256m -Xmx512m
+         
+         -crunch:
+            [crunch] Crunching PNG Files in source dir: G:\SEA\PlantGenerator\AndroidApk\res
+            [crunch] To destination dir: G:\SEA\PlantGenerator\AndroidApk\bin\res
+            [crunch] Crunched 0 PNG files to update cache
+         
+         -package-resources:
+              [aapt] Found Deleted Target File
+              [aapt] Creating full resource package...
+         
+         -package:
+         [apkbuilder] Found Deleted Target File
+         [apkbuilder] Creating PlantGenerator-release-unsigned.apk for release...
+         
+         -post-package:
+         
+         -release-prompt-for-password:
+         
+         -release-nosign:
+              [echo] No key.store and key.alias properties found in build.properties.
+              [echo] Please sign G:\SEA\PlantGenerator\AndroidApk\bin\PlantGenerator-release-unsigned.apk manually
+              [echo] and run zipalign from the Android SDK tools.
+         [propertyfile] Updating property file: G:\SEA\PlantGenerator\AndroidApk\bin\build.prop
+         [propertyfile] Updating property file: G:\SEA\PlantGenerator\AndroidApk\bin\build.prop
+         [propertyfile] Updating property file: G:\SEA\PlantGenerator\AndroidApk\bin\build.prop
+         [propertyfile] Updating property file: G:\SEA\PlantGenerator\AndroidApk\bin\build.prop
+         
+         -release-sign:
+         
+         -post-build:
+         
+         release:
+         
+         BUILD SUCCESSFUL
+         Total time: 3 seconds
+         Picked up _JAVA_OPTIONS: -Xms256m -Xmx512m
+       PostAntDeploy:
+         
+         
+         Deploying... ( Use 'Build -> Cancel' - to halt deploy )
+         
+         G:\Android\adt-bundle-windows-x86_64-20130219\sdk\\platform-tools\adb.exe wait-for-device 
+         G:\Android\adt-bundle-windows-x86_64-20130219\sdk\\platform-tools\adb.exe  wait-for-device
+         G:\Android\adt-bundle-windows-x86_64-20130219\sdk\\platform-tools\adb.exe install -r "G:\SEA\PlantGenerator\AndroidApk\bin\PlantGenerator-release.apk" 
+         G:\Android\adt-bundle-windows-x86_64-20130219\sdk\\platform-tools\adb.exe  install -r "G:\SEA\PlantGenerator\AndroidApk\bin\PlantGenerator-release.apk"
+         can't find 'G:\SEA\PlantGenerator\AndroidApk\bin\PlantGenerator-release.apk' to install
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Platforms\Android\Microsoft.Cpp.Android.Targets(363,5): error MSB6006: "G:\Android\adt-bundle-windows-x86_64-20130219\sdk\\platform-tools\adb.exe" exited with code 1.
+     1>Done Building Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:06.58

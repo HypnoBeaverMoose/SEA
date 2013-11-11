@@ -24,6 +24,5 @@
 <resources>
     <!-- Simple strings. -->
     <string name="plantgenerator_activity">PlantGenerator</string>
-
 </resources>
 

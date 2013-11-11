@@ -1,0 +1,10 @@
+﻿Build started 11.11.2013 г. 11:12:59 ч..
+     1>Project "G:\SEA\PlantGenerator\zlib\zlib.vcxproj" on node 2 (Build target(s)).
+     1>Lib:
+         G:\Android\android-ndk-r9\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\bin\arm-linux-androideabi-ar.exe rcs G:/SEA/PlantGenerator/Dependencies/android/zlibd.a Android/Debug/adler32.o Android/Debug/compress.o Android/Debug/crc32.o Android/Debug/deflate.o Android/Debug/gzclose.o Android/Debug/gzlib.o Android/Debug/gzread.o Android/Debug/gzwrite.o Android/Debug/infback.o Android/Debug/inffast.o Android/Debug/inflate.o Android/Debug/inftrees.o Android/Debug/trees.o Android/Debug/uncompr.o Android/Debug/zutil.o 
+         zlib.vcxproj -> G:\SEA\PlantGenerator\Dependencies\android\zlibd.a
+     1>Done Building Project "G:\SEA\PlantGenerator\zlib\zlib.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.23

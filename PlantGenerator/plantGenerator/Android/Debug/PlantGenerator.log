@@ -1,0 +1,11 @@
+﻿Build started 7.11.2013 г. 20:08:18 ч..
+     1>Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         G:\Android\android-ndk-r9\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\bin\arm-linux-androideabi-g++.exe Android/Debug/App.o Android/Debug/AppAndroid.o Android/Debug/DrawableObject.o Android/Debug/LSystem.o Android/Debug/Plant.o Android/Debug/RandomValue.o Android/Debug/TurtleGraphics.o -o G:/SEA/PlantGenerator/Android/Debug/PlantGenerator.so -LG:/SEA/PlantGenerator/Dependencies/android/ -landroid -lGLESv2 -lzlib -nostdlib -lc -lm -llog -lgcc -Wl,-soname,libPlantGenerator -Wl,--no-undefined -shared -Wl,-z,noexecstack -Wl,-rpath-link=G:/Android/android-ndk-r9/platforms/android-14/arch-arm/usr/lib --sysroot=G:/Android/android-ndk-r9/platforms/android-14/arch-arm/usr/lib/../.. G:/Android/android-ndk-r9/toolchains/arm-linux-androideabi-4.6/prebuilt/windows/lib/gcc/arm-linux-androideabi/4.6/armv7-a/crtbeginS.o -lstdc++ -lsupc++ -lgnustl_static -lgcc -LG:/Android/android-ndk-r9/platforms/android-14/arch-arm/usr/lib -LG:/Android/android-ndk-r9/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a -LG:/SEA/PlantGenerator/Dependencies/android/ -LG:/Android/android-ndk-r9/toolchains/arm-linux-androideabi-4.6/prebuilt/windows/lib/gcc/arm-linux-androideabi/4.6/armv7-a
+     1>g:/android/android-ndk-r9/toolchains/arm-linux-androideabi-4.6/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.6/../../../../arm-linux-androideabi/bin/ld.exe : error : cannot find -lzlib
+         collect2: ld returned 1 exit status
+     1>Done Building Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.19
