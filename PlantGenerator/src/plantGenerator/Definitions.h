@@ -17,6 +17,7 @@
 #include<gl/GLU.h>
 #undef near
 #undef far
+#define FAR 
 #endif
 
 #include<vector>
@@ -28,6 +29,8 @@
 #include<stack>
 #include<cmath>
 #include<cstdlib>
+#include<fstream>
+#include<png.hpp>
 
 #ifdef ANDROID
 

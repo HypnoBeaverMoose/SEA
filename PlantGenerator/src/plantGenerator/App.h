@@ -28,14 +28,13 @@ public:
 public:
 	static uint createProgram(const char* pVertexSource, const char* pFragmentSource);
 	static uint loadShader(uint shaderType, const char* pSource);
+	static bool loadImageFromFile(App* app, png::image<png::rgba_pixel>& image, const char* filename);
 
 protected:	
 	std::vector<Plant> m_plants;
 	TurtleGraphics	m_painter;
 	Matrix4f m_projectionMatrix;
-	//std::vector<float> m_triangle;
-	//LSystem		m_lSystem;
-	//Plant			m_plant;
+	virtual bool loadImage(png::image<png::rgba_pixel>& image, const char* filename);
 
 private:
 	void SetUpPlant();
@@ -44,7 +43,4 @@ private:
 	static char* s_FragmentShader;
 	float m_bias;
 	uint m_programId;
-	//uint m_positionHandle;
-	//uint m_modelViewHandle;
-	//uint m_projectionHandle;
 };

@@ -1,18 +1,100 @@
-﻿Build started 11.11.2013 г. 10:55:36 ч..
-     1>Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 11.11.2013 г. 15:21:59 ч..
+     1>Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IG:\SEA\PlantGenerator\\Dependencies\Include /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D _MBCS /D _MBCS /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\plantGenerator\App.cpp ..\src\plantGenerator\DrawableObject.cpp ..\src\plantGenerator\LSystem.cpp ..\src\plantGenerator\main.cpp ..\src\plantGenerator\Plant.cpp ..\src\plantGenerator\RandomValue.cpp ..\src\plantGenerator\TurtleGraphics.cpp ..\src\plantGenerator\WinApp.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IG:\SEA\PlantGenerator\\Dependencies\Include /IG:\SEA\PlantGenerator\\Dependencies\pngInclude /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D _MBCS /D _MBCS /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\plantGenerator\App.cpp
          App.cpp
-         DrawableObject.cpp
-         LSystem.cpp
-     1>..\src\plantGenerator\LSystem.cpp(63): warning C4018: '<' : signed/unsigned mismatch
-         main.cpp
-         Plant.cpp
-     1>..\src\plantGenerator\Plant.cpp(61): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-         RandomValue.cpp
-         TurtleGraphics.cpp
-         WinApp.cpp
-         Generating Code...
+     1>g:\sea\plantgenerator\src\plantgenerator\Definitions.h(20): warning C4005: 'FAR' : macro redefinition
+                 C:\Program Files (x86)\Windows Kits\8.0\Include\shared\minwindef.h(150) : see previous definition of 'FAR'
+     1>g:\sea\plantgenerator\dependencies\pnginclude\error.hpp(78): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\string.h(164) : see declaration of 'strerror'
+     1>g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(135): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+                 g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(64) : see reference to function template instantiation 'void png::detail::convert_color_space_impl<pixel>::handle_alpha<reader>(reader &,png::uint_32)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     reader=png::reader<std::ifstream>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(64) : see reference to function template instantiation 'void png::detail::convert_color_space_impl<pixel>::handle_alpha<reader>(reader &,png::uint_32)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     reader=png::reader<std::ifstream>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\consumer.hpp(162) : see reference to function template instantiation 'void png::detail::convert_color_space_impl<pixel>::operator ()<png::reader<istream>>(reader &) const' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     istream=std::ifstream,
+                     reader=png::reader<std::ifstream>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\consumer.hpp(162) : see reference to function template instantiation 'void png::detail::convert_color_space_impl<pixel>::operator ()<png::reader<istream>>(reader &) const' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     istream=std::ifstream,
+                     reader=png::reader<std::ifstream>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\image.hpp(240) : see reference to function template instantiation 'void png::consumer<pixel,pixcon,info_holder,interlacing_supported>::read<istream,transformation>(istream &,const transformation &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     pixcon=png::image<png::rgba_pixel>::pixel_consumer,
+                     info_holder=png::image_info_ref_holder,
+                     interlacing_supported=true,
+                     istream=std::ifstream,
+                     transformation=png::convert_color_space<png::rgba_pixel>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\image.hpp(240) : see reference to function template instantiation 'void png::consumer<pixel,pixcon,info_holder,interlacing_supported>::read<istream,transformation>(istream &,const transformation &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     pixcon=png::image<png::rgba_pixel>::pixel_consumer,
+                     info_holder=png::image_info_ref_holder,
+                     interlacing_supported=true,
+                     istream=std::ifstream,
+                     transformation=png::convert_color_space<png::rgba_pixel>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\image.hpp(229) : see reference to function template instantiation 'void png::image<pixel>::read_stream<istream,png::convert_color_space<png::rgba_pixel>>(istream &,const transformation &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     istream=std::ifstream,
+                     transformation=png::convert_color_space<png::rgba_pixel>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\image.hpp(229) : see reference to function template instantiation 'void png::image<pixel>::read_stream<istream,png::convert_color_space<png::rgba_pixel>>(istream &,const transformation &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     istream=std::ifstream,
+                     transformation=png::convert_color_space<png::rgba_pixel>
+                 ]
+                 ..\src\plantGenerator\App.cpp(218) : see reference to function template instantiation 'void png::image<pixel>::read_stream<std::ifstream>(istream &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     istream=std::ifstream
+                 ]
+                 ..\src\plantGenerator\App.cpp(218) : see reference to function template instantiation 'void png::image<pixel>::read_stream<std::ifstream>(istream &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     istream=std::ifstream
+                 ]
+     1>g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(137): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(190): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+                 g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(66) : see reference to function template instantiation 'void png::detail::convert_color_space_impl<pixel>::handle_rgb<reader>(reader &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     reader=png::reader<std::ifstream>
+                 ]
+                 g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(66) : see reference to function template instantiation 'void png::detail::convert_color_space_impl<pixel>::handle_rgb<reader>(reader &)' being compiled
+                 with
+                 [
+                     pixel=png::rgba_pixel,
+                     reader=png::reader<std::ifstream>
+                 ]
+     1>g:\sea\plantgenerator\dependencies\pnginclude\convert_color_space.hpp(191): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.exe" /NOLOGO /LIBPATH:G:\SEA\PlantGenerator\\Dependencies\lib\ opengl32.lib glu32.lib glew32.lib zlibd.lib libpngd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.lib" /MACHINE:X86 /SAFESEH Debug\App.obj
          Debug\DrawableObject.obj
@@ -22,9 +104,10 @@
          Debug\RandomValue.obj
          Debug\TurtleGraphics.obj
          Debug\WinApp.obj
+     1>libpngd.lib(pngread.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
          PlantGenerator.vcxproj -> G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.exe
-     1>Done Building Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.31
+Time Elapsed 00:00:01.81

@@ -8,6 +8,7 @@
 #include "TurtleGraphics.h"
 #include "App.h"
 
+
 char* App::s_VertexShader = 
     "attribute vec3 vPosition;\n"
 	"uniform mat4 mModelView;\n"
@@ -33,6 +34,8 @@ App::App()
 
 void App::SetUpPlant()
 {
+	png::image<png::rgba_pixel> img;
+	loadImageFromFile(this, img,"test.png");
 	DrawableObject cactusTrunk('f',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
 	DrawableObject top('t',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
 	top.setWdith(1.0f,0.0f);
@@ -202,6 +205,25 @@ uint App::createProgram(const char* pVertexSource, const char* pFragmentSource)
         }
     }
     return program;
+}
+
+
+bool App::loadImageFromFile(App* app, png::image<png::rgba_pixel>& image, const char* filename)
+{
+	return app->loadImage(image,filename);
+}
+
+bool App::loadImage(png::image<png::rgba_pixel>& image, const char* filename)
+{
+	std::ifstream fileInput(filename, std::ios::binary);
+	
+	if(!fileInput.is_open()) 
+	{
+		LOGE("IMAGE LOAD:CANNOT OPEN FILE");
+		return false;
+	}
+	image.read_stream(fileInput);
+	return true;
 }
 
 void App::OnTouch(int posx, int posy)
