@@ -41,6 +41,16 @@ class PlantDatabase
 			float scaleInc;
 			int iterCount;
 			std::string axiom;
+
+			float antidrought;
+			float thorns;
+			float poison;
+			float smell;
+			float fruit;
+			float soft;
+			float growth;
+			float antiwater;
+
 			std::vector<DrawData> drawData;
 			std::vector<LRule> rules;
 		};

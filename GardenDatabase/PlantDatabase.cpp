@@ -19,8 +19,6 @@ PlantDatabase::PlantDatabase()
 		doc.InsertFirstChild(root);
 		doc.SaveFile("database.xml");
 	}
-
-	//TODO: attempt to open database.xml => if cannot open, create empty database file
 }
 
 
@@ -67,12 +65,22 @@ PlantDatabase::PlantData PlantDatabase::getPlant( int plantID, bool &result ) co
 		}
 
 		// plant found => fill PlantData struct
-		pData.angle     = plant->FloatAttribute("angle");
-		pData.scale     = plant->FloatAttribute("scale");
-		pData.angleInc  = plant->FloatAttribute("angleInc");
-		pData.scaleInc  = plant->FloatAttribute("scaleInc");
-		pData.iterCount = plant->IntAttribute("iterCnt");
-		pData.axiom     = plant->Attribute("axiom");
+		pData.angle       = plant->FloatAttribute("angle");
+		pData.scale       = plant->FloatAttribute("scale");
+		pData.angleInc    = plant->FloatAttribute("angleInc");
+		pData.scaleInc    = plant->FloatAttribute("scaleInc");
+		pData.iterCount   = plant->IntAttribute("iterCnt");
+		pData.axiom       = plant->Attribute("axiom");
+
+		XMLElement *abilities = plant->FirstChildElement("abilities");
+		pData.antidrought = abilities->FloatAttribute("antidrought");
+		pData.thorns      = abilities->FloatAttribute("thorns");
+		pData.poison      = abilities->FloatAttribute("poison");
+		pData.smell       = abilities->FloatAttribute("smell");
+		pData.fruit       = abilities->FloatAttribute("fruit");
+		pData.soft        = abilities->FloatAttribute("soft");
+		pData.growth      = abilities->FloatAttribute("growth");
+		pData.antiwater   = abilities->FloatAttribute("antiwater");
 
 		// parse DrawableObject data
 		XMLElement *drawObj = plant->FirstChildElement("do");
@@ -154,6 +162,18 @@ bool PlantDatabase::addPlant( const PlantDatabase::PlantData &data )
 		plant->SetAttribute("scaleInc", data.scaleInc);
 		plant->SetAttribute("iterCnt", data.iterCount);
 		plant->SetAttribute("axiom", data.axiom.c_str());
+
+		XMLElement *abilities = doc.NewElement("abilities");
+		abilities->SetAttribute("antidrought", data.antidrought);
+		abilities->SetAttribute("thorns", data.thorns);
+		abilities->SetAttribute("poison", data.poison);
+		abilities->SetAttribute("smell", data.smell);
+		abilities->SetAttribute("fruit", data.fruit);
+		abilities->SetAttribute("soft", data.soft);
+		abilities->SetAttribute("growth", data.growth);
+		abilities->SetAttribute("antiwater", data.antiwater);
+		
+		plant->InsertEndChild(abilities);
 
 		// fill DrawableObject elements
 		std::vector<DrawData>::const_iterator dIt;
