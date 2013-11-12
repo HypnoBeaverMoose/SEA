@@ -17,6 +17,15 @@ int main( int argc, char* argv[] )
 	newPlant.iterCount = 5;
 	newPlant.axiom     = "newPlant";
 
+	newPlant.antidrought = 0.1f;
+	newPlant.thorns      = 0.2f;
+	newPlant.poison      = 0.3f;
+	newPlant.smell       = 0.4f;
+	newPlant.fruit       = 0.5f;
+	newPlant.soft        = 0.6f;
+	newPlant.growth      = 0.7f;
+	newPlant.antiwater   = 0.8f;
+
 	int i;
 	// add dummy DrawableObject data
 	for ( i = 0; i < 5; ++i )
