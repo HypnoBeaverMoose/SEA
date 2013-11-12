@@ -334,7 +334,7 @@ class PlantGenView extends GLSurfaceView {
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-           PlantGenLib.OnCreate();
+			PlantGenLib.OnCreate();
         }
     }
 }

@@ -33,10 +33,6 @@ public class PlantGenLib {
 	public static native void OnRender();
 	public static native void OnDestroy();
 	public static native void OnCreate();
+	public static native void SetAssetManager(Object mgr);
 
-/*
-     public static native void init(int width, int height);
-     public static native void step();
-
-*/
 }

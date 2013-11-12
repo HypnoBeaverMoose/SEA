@@ -1,0 +1,30 @@
+﻿Build started 11.11.2013 г. 10:55:36 ч..
+     1>Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IG:\SEA\PlantGenerator\\Dependencies\Include /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D _MBCS /D _MBCS /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\plantGenerator\App.cpp ..\src\plantGenerator\DrawableObject.cpp ..\src\plantGenerator\LSystem.cpp ..\src\plantGenerator\main.cpp ..\src\plantGenerator\Plant.cpp ..\src\plantGenerator\RandomValue.cpp ..\src\plantGenerator\TurtleGraphics.cpp ..\src\plantGenerator\WinApp.cpp
+         App.cpp
+         DrawableObject.cpp
+         LSystem.cpp
+     1>..\src\plantGenerator\LSystem.cpp(63): warning C4018: '<' : signed/unsigned mismatch
+         main.cpp
+         Plant.cpp
+     1>..\src\plantGenerator\Plant.cpp(61): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+         RandomValue.cpp
+         TurtleGraphics.cpp
+         WinApp.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.exe" /NOLOGO /LIBPATH:G:\SEA\PlantGenerator\\Dependencies\lib\ opengl32.lib glu32.lib glew32.lib zlibd.lib libpngd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.lib" /MACHINE:X86 /SAFESEH Debug\App.obj
+         Debug\DrawableObject.obj
+         Debug\LSystem.obj
+         Debug\main.obj
+         Debug\Plant.obj
+         Debug\RandomValue.obj
+         Debug\TurtleGraphics.obj
+         Debug\WinApp.obj
+         PlantGenerator.vcxproj -> G:\SEA\PlantGenerator\\Bin\Debug\PlantGenerator.exe
+     1>Done Building Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:07.31
