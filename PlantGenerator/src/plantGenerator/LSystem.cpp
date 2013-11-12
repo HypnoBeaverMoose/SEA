@@ -60,7 +60,7 @@ std::string LSystem::generateRule(char cond)
 {
 	float prob = 0.0f;
 	std::vector< std::pair<float, int> > possibleRules;
-	for(int i = 0; i < m_rules.size(); i++)
+	for(uint i = 0; i < m_rules.size(); i++)
 	{
 		if(m_rules[i].getCondition() == cond)
 		{

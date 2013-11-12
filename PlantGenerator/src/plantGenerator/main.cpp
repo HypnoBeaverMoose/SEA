@@ -6,7 +6,7 @@
 
 int APIENTRY WinMain( HINSTANCE hInstance,HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	WinApp::InitInstance(640, 640,  hInstance, "Plant Generator");
+	WinApp::InitInstance(1280, 800,  hInstance, "Plant Generator");
 	WinApp::RunMainLoop(nCmdShow);
 }
 

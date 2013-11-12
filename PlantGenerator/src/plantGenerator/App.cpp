@@ -8,22 +8,27 @@
 #include "TurtleGraphics.h"
 #include "App.h"
 
-
 char* App::s_VertexShader = 
-    "attribute vec3 vPosition;\n"
+    "attribute vec4 vPosition;\n"
+	"attribute vec2 vTexCoord;\n"
 	"uniform mat4 mModelView;\n"
 	"uniform mat4 mProjection;\n"
+	"varying vec2 varTexCoord;\n"
     "void main() {\n"
-	"  gl_Position = mProjection * mModelView * vec4(vPosition, 1.0);\n"
+	"	gl_Position = mProjection * mModelView * vPosition;\n"
+	"	varTexCoord = vTexCoord;//(mProjection * mModelView * vPosition).xy; \n"
     "}\n";
+
 
 char* App::s_FragmentShader = 
     "precision mediump float;\n"
-	"uniform vec4 vColor;\n"
-    "void main() {\n"
-    "  gl_FragColor = vColor;//vec4(0.0, 0.0, 0.0, 1.0);\n"
+	"varying vec2 varTexCoord;\n"
+	"uniform sampler2D tDiffuse;"
+	"uniform vec4 vColor;\n"	
+	"void main() {\n"
+	"	vec4 color = texture2D(tDiffuse, varTexCoord);\n"
+    "	gl_FragColor = color * vColor;\n"
     "}\n";
-
 
 App* App::s_instance = 0;
 
@@ -45,105 +50,40 @@ App::App()
 void App::SetUpPlant()
 {
 	png::image<png::rgba_pixel> img;
-	loadImageFromFile(img,"img.png");
-	DrawableObject cactusTrunk('f',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
-	DrawableObject top('t',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
-	top.setWdith(1.0f,0.0f);
-	top.setWdith(0.5f,0.8f);
-	top.setWdith(0.7f,0.6f);
-	top.setWdith(0.9f,0.4f);
-	DrawableObject bottom('b',Colorf(56 / 256.0f,133 / 256.0f, 0), 10.0f, m_programId);
-	bottom.setWdith(0.0f,0.6f);
-	bottom.setWdith(0.5f,0.8f);
-
-	DrawableObject thorn('l',Colorf(0,0,0, 0), 0.1f, m_programId,0.0f);
-	Plant cactus(22.5f,1.0f,0.3f,0.3f,">>>>>b<<<<<F>>>>>t",5);
-	cactus.addObject(cactusTrunk);
-	cactus.addObject(thorn);
-	cactus.addObject(top);
-	cactus.addObject(bottom);
-	cactus.addRule(Rule('F',"[L][R]FFf"));
-	cactus.addRule(Rule('L',"&[----&&&&&l]&[----&&&&&l]&[----&&&&&l]L"));
-	cactus.addRule(Rule('R',"&[++++&&&&&l]&[++++&&&&&l]&[++++&&&&&l]R"));
-
-	DrawableObject leaf('l',Colorf(56 / 256.0f,133 / 256.0f, 0), 0.3f, m_programId);
-	leaf.setWdith(0.0f,0.0f);
-	leaf.setWdith(0.2f,0.6f);	
-	leaf.setWdith(0.6f,0.8f);
-	leaf.setWdith(0.8f,0.7f);
-	leaf.setWdith(0.85f,0.5f);
-	leaf.setWdith(1.0f,0.0f);
-	DrawableObject obj('f',Colorf(134 / 256.0f, 91 / 256.0f, 74 / 256.0f), 0.3f, m_programId);
-
-
-	m_plants.push_back(Plant(5.0f, 5.2f, 5.0f, 0.7f, "-f-f-f-S", 1));
-	m_plants.push_back(cactus);
-	m_plants[1].setPosition(Vector3f(0,-45,0));
-	m_plants[0].setPosition(Vector3f(0,-45,0));
-	m_plants[0].addObject(leaf);
-	m_plants[0].addObject(obj);
-	m_plants[0].setPosition(Vector3f(0,-45,0));
-	m_plants[0].addRule(Rule('L',"[>>>>\\\\))))--l]"));
-	m_plants[0].addRule(Rule('R',"[>>>>\\\\))))++l]"));
-	m_plants[0].addRule(Rule('S',"[<<\\\\\\\\f]/+++[[+R]+f+fR+fR+S+\\\\\\[)))))---[+l][+++l]]]---[L-f-fL-fL+S+\\\\\\[)))))+++[-l][--l][---l]]]"));
-	m_plants[0].addRule(Rule('S',"[<<\\\\\\\\f]/+++[[+R]+f+f+fR+S+\\\\\\[))))---[+l][++l][+++l]]]---[L-f-f-fL+S+\\\\\\[))))+++[-l][---l]]]"));
-	m_plants[0].addRule(Rule('S',"/[-f[-L]-f-f[-L]-S+\\\\[+l][-l]]",0.2f));
-	m_plants[0].addRule(Rule('S',"/[+f[+R]+f[+R]+f+S+\\\\[+l][-l][-l]]",0.2f));	
-
-	m_plants[0].setIterations(4);
+	loadImage(img,"checker.png");
+	m_plants.push_back(Plant(0,100,0,0,"f",2));
+	m_plants[0].addObject(DrawableObject('f',Colorf(1,1,0,1),img,1.0f, m_programId));
+	m_plants[0].addRule(Rule('f',"f"));
+	m_plants[0].regeneratePlant();
+	m_plants[0].setPosition(Vector3f(0,-0.5f,0));
 }
 void App::OnCreate()
 {
-	LOGI("OnCreate()");
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-	m_painter.init();
-	m_programId = createProgram(s_VertexShader, s_FragmentShader);
-
+	glActiveTexture(GL_TEXTURE0);
+	checkGlError("glActiveTexture");
+	m_programId = createProgram(s_VertexShader, s_FragmentShader);	
 	SetUpPlant();
 	needsRedraw = true;
 }
 
 void App::OnRender()
 {
-	if(needsRedraw)
+	//if(needsRedraw)
 	{
-		//DrawableObject cactusTrunk('f',Colorf(56 / 256.0f,133 / 256.0f, 0), 2.0f, m_programId);
-
-		//DrawableObject obj('f',Colorf(134 / 256.0f, 91 / 256.0f, 74 / 256.0f), 0.3f, m_programId);
-		//DrawableObject dro = CombineObjects(cactusTrunk,obj,m_bias);
-		Plant plant = CombinePlants(m_plants[0],m_plants[1],m_bias);
-		plant.regeneratePlant();
-		plant.setPosition(Vector3f(0,-40,0));
-
-
-		//Plant plant1(0,10,0,0, "f",1);
-		//Plant plant2(0,10,0,0, "f",1);
-		//plant.addObject(cactusTrunk);
-		//plant1.addObject(dro);
-		//plant2.addObject(obj);
-
-		//plant1.regeneratePlant();
-		//plant2.regeneratePlant();
-		//plant1.setPosition(Vector3f(10,-40,0));
-		//plant2.setPosition(Vector3f(10,-40,0));
-
-		
-		//m_plants[0].regeneratePlant();
 		glClearColor(1.0f,1.0f,1.0f,0);
 		glClear(GL_COLOR_BUFFER_BIT);		
-		m_painter.drawPlant(plant);
-		//m_painter.drawPlant(plant1);
-		//m_painter.drawPlant(plant2);
+		m_painter.drawPlant(m_plants[0]);
 		needsRedraw = false;		
 	}
 }
 
 void App::OnResize(int width, int height)
 {
-	LOGI("OnResize()");
 	glViewport(0,0,width,std::max(1, height));
 	float aspect = width /(float) std::max(1, height);
-	m_projectionMatrix = Matrix4f::Orthographic(0.1f,10.0f,-50.0f,50.0f,-50.0f,50.0f);
+	m_projectionMatrix = Matrix4f::Orthographic(1.0f, 30.0f,-50.0f, 50.0f ,-50.0f * aspect,50.0f * aspect);
+	//m_projectionMatrix = Matrix4f::Identity();
 	glUseProgram(m_programId);
 	checkGlError("glUseProgram");
 	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());
@@ -245,9 +185,7 @@ void App::OnTouch(int posx, int posy)
 }
 
 void App::OnDestroy()
-
 {
-
 }
 
 App::~App()

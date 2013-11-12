@@ -6,12 +6,6 @@
 #include "TurtleGraphics.h"
 #include "App.h"
 
-//float TurtleGraphics::s_initialLineLength = 1.0f;	
-//float TurtleGraphics::s_lengthModifier = 1.0f;
-//float TurtleGraphics::s_widthModifier = 1.0f;
-//float TurtleGraphics::s_angleModifier = 5.0f;
-
-
 
 TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, float maxLength, float minWidth, float maxWidth) 
 {

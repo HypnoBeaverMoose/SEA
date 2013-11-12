@@ -17,6 +17,7 @@
 #include<gl/GLU.h>
 #undef near
 #undef far
+#undef FAR
 #define FAR 
 #endif
 

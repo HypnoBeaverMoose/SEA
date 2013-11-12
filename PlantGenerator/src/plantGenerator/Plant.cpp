@@ -78,7 +78,7 @@ Plant CombinePlants(const Plant& lhs, const Plant& rhs, float bias)
 	{
 		int count = lhs.m_system.getRulesCount();
 		for(int i = 0; i < count; i++)
-			newPlant.addRule(lhs.m_system.getRule(i));			
+			newPlant.addRule(lhs.m_system.getRule(i));
 	}
 	else
 	{
