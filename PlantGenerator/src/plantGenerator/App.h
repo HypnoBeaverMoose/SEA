@@ -21,6 +21,10 @@ public:
 
 	virtual void OnDestroy();
 
+	void setRenderSize(int width, int height);
+
+	byte* getPlantImage(uint& width, uint& height);
+
 	virtual ~App();
 
 public:
@@ -31,17 +35,34 @@ public:
 
 protected:	
 	App();
-
-	std::vector<Plant> m_plants;
-	TurtleGraphics	m_painter;
-	Matrix4f m_projectionMatrix;
+	void RenderPlant();
 	virtual bool loadImage(png::image<png::rgba_pixel>& image, const char* filename);
-	static App* s_instance;
+
+protected:	
+	std::vector<Plant>		m_plants;
+	TurtleGraphics			m_painter;
+	Matrix4f				m_projectionMatrix;
+	static App*				s_instance;
 private:
 	void SetUpPlant();
-	bool  needsRedraw;
-	static char* s_VertexShader;
-	static char* s_FragmentShader;
-	float m_bias;
-	uint m_programId;
+
+private:	
+	bool				needsRedraw;
+	static char*		s_VertexShader;
+	static char*		s_FragmentShader;
+	uint				m_programId;
+	float				m_bias;
+	uint				m_framebufferHandle;
+	uint				m_targetTexHandle;
+	uint				m_previewTexHandle;
+	Vector2f			m_renderSize;
+	Vector2f			m_viewportSize;
+	std::vector<Vector4f> m_renderQuad;
+	std::vector<Vector2f> m_renderUV;
+
+	uint					m_colorHandle;
+	uint					m_positionHandle;	
+	uint					m_textureCoordsHandle;
+	uint					m_modelViewHandle;
+
 };

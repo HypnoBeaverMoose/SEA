@@ -28,11 +28,10 @@ DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::
 void DrawableObject::setShader(uint shader)
 {
 	m_shaderProgram = shader;
-	m_textureCoordsHandle  = glGetAttribLocation(m_shaderProgram, "vTexCoord");
+	m_textureCoordsHandle = glGetAttribLocation(m_shaderProgram, "vTexCoord");
 	checkGlError("glGetAttribLocation");
 	m_positionHandle = glGetAttribLocation(m_shaderProgram, "vPosition");
 	checkGlError("glGetAttribLocation");
-
 
 	m_modelViewHandle = glGetUniformLocation(m_shaderProgram,"mModelView");
 	checkGlError("glGetUniformLocation");
