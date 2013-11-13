@@ -5,6 +5,7 @@
 #include "Player.h"
 #include <iostream>
 #include <map>
+#include <ctime>
 
 using namespace Dialogue;
 
@@ -16,6 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	while(endGame == false)
 	{
 		// continue this loop
+		srand(time(0));
 
 		int id;
 		std::cout << "Enter Player ID: " << std::endl;

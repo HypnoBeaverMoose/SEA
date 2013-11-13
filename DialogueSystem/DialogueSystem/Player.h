@@ -31,6 +31,7 @@ namespace Dialogue
 			DialogueHistory dialogueHistory;
 			bool PlayStartQuestDialogue();
 			void outputText(std::vector<DialogueStruct> dialogueVector);
+			void FinishQuest();
 			void MakeQuest();
 	};
 }

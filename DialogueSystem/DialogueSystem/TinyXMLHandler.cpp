@@ -3,10 +3,24 @@
 #include "TinyXMLHandler.h"
 #include <iostream>
 #include <ostream>
-#include <ctime>
 
 namespace Dialogue
 {
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getFinishQuestText(Player::DialogueHistory currentPlayer) 
+	{
+		_currentPlayer = currentPlayer;
+		tinyxml2::XMLDocument doc;
+		std::vector<Player::DialogueStruct> newVector;
+		std::string searchParameters[] = {"dialogues_quest","feedback_found_right_plant"};
+		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+		std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+		std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+
+		tinyxml2::XMLElement *elem = checkDialogue(idVector, searchParametersVector, &doc);
+		newVector = getTexts(elem);
+		return newVector;
+	}
+
 	std::vector<Player::DialogueStruct> tinyXMLHandler::getFeedBackWithPlantText(Player::DialogueHistory currentPlayer) // it is a vector, in case we need a sequence of movies
 	{
 		_currentPlayer = currentPlayer;
@@ -135,7 +149,7 @@ namespace Dialogue
 
 		// first check if the dialogue should only be shown one time and is already shown
 		std::string check;
-		if(elem->BoolAttribute("once") != NULL && elem->BoolAttribute("once"))
+		if(elem->BoolAttribute("once"))
 		{
 			if(elem->Attribute("id") != NULL)
 			{
@@ -178,54 +192,64 @@ namespace Dialogue
 		count = 1;
 		while(elem->Attribute(("req" + std::to_string(count) + "type").c_str()) != NULL)
 		{
-			bool include = true;
-			double reqAmount = 0.0;
+			bool include = true, QuestRelated = false;
+			float reqAmount = 0.0f;
 			std::string req = elem->Attribute(("req" + std::to_string(count) + "type").c_str());
+
 			if(elem->Attribute(("req" + std::to_string(count) + "border").c_str()) != NULL)
 			{
-				reqAmount = std::strtod(elem->Attribute(("req" + std::to_string(count) + "border").c_str()), NULL);
-			}
-			if(elem->Attribute(("req" + std::to_string(count) + "include").c_str()) != NULL)
-			{
-				std::string test = elem->Attribute(("req" + std::to_string(count) + "include").c_str());
-				if(test == "0")
+				std::string checkForQuest = elem->Attribute(("req" + std::to_string(count) + "border").c_str());
+				if(checkForQuest == "quest")
 				{
-					include = false;
+					QuestRelated = true;
+				}
+				else
+				{
+					reqAmount = std::stof(checkForQuest.c_str(), NULL);
 				}
 			}
+			include = elem->BoolAttribute(("req" + std::to_string(count) + "include").c_str());
 
 			float check = 1;
 			if(req == "drought")
 			{
 				check = _currentPlayer.newPlant.antidrought;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.antidrought;
 			}
 			else if(req == "growth")
 			{
 				check = _currentPlayer.newPlant.growth;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.growth;
 			}
 			else if(req == "water")
 			{
 				check = _currentPlayer.newPlant.antiwater;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.antiwater;
 			}
 			else if(req == "fruit")
 			{
 				check = _currentPlayer.newPlant.fruit;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.fruit;
 			}
 			else if(req == "poison")
 			{
 				check = _currentPlayer.newPlant.poison;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.poison;
 			}
 			else if(req == "smell")
 			{
 				check = _currentPlayer.newPlant.smell;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.smell;
 			}
 			else if(req == "soft")
 			{
 				check = _currentPlayer.newPlant.soft;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.soft;
 			}
 			else if(req == "thorns")
 			{
 				check = _currentPlayer.newPlant.thorns;
+				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.thorns;
 			}
 			else
 			{
@@ -281,7 +305,6 @@ namespace Dialogue
 			}
 
 			border = 0;
-			srand(time(0));
 			while(elem == NULL)
 			{
 				if(border >= elemSize)

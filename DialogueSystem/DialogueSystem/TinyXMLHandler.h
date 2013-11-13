@@ -12,6 +12,7 @@ namespace Dialogue
 			std::vector<Player::DialogueStruct> getStartText(Player::DialogueHistory currentPlayer);
 			std::vector<Player::DialogueStruct> getEndText();
 			std::vector<Player::DialogueStruct> getFeedBackWithPlantText(Player::DialogueHistory currentPlayer);
+			std::vector<Player::DialogueStruct> getFinishQuestText(Player::DialogueHistory currentPlayer);
 			static tinyXMLHandler *instance();
 		
 		private:

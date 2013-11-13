@@ -24,8 +24,19 @@ namespace Dialogue{
 			dialogueHistory.previousPlant = dialogueHistory.newPlant;
 			dialogueHistory.newPlant = pd.getPlant(id, check);
 			if(dialogueHistory.targetPlant.id == 0)
-			{
+			{ // if there is no quest made yet, make a quest!
 				MakeQuest();
+			}
+			else
+			{ // else, check if the new plant matches the guest.
+				if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought && dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
+					&& dialogueHistory.newPlant.fruit >= dialogueHistory.targetPlant.fruit && dialogueHistory.newPlant.growth >= dialogueHistory.targetPlant.growth
+					&& dialogueHistory.newPlant.poison >= dialogueHistory.targetPlant.poison && dialogueHistory.newPlant.smell >= dialogueHistory.targetPlant.smell
+					&& dialogueHistory.newPlant.soft >= dialogueHistory.targetPlant.soft && dialogueHistory.newPlant.thorns >= dialogueHistory.targetPlant.thorns)
+				{
+					check = false;
+					FinishQuest();
+				}
 			}
 			if(check)
 			{
@@ -73,46 +84,66 @@ namespace Dialogue{
 		}
 	}
 
+	void Player::FinishQuest()
+	{
+		outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory));
+	}
+
 	void Player::MakeQuest()
 	{
-		// check which is highest, make that one of the goals
-		/*float border = 0;
-		float *pointer;
-		if(dialogueHistory.newPlant.antidrought > border)
-			pointer = dialogueHistory.targetPlant
+		// first make all the attributes 0
+		float border = 0;
+		int selected = 0, i = 0;
+		float *pointer[8] = {&dialogueHistory.targetPlant.antidrought, &dialogueHistory.targetPlant.antiwater, &dialogueHistory.targetPlant.fruit, &dialogueHistory.targetPlant.growth, &dialogueHistory.targetPlant.poison, &dialogueHistory.targetPlant.smell, &dialogueHistory.targetPlant.soft, &dialogueHistory.targetPlant.thorns};
+		for(i; i < 8; i++)
+		{
+			*pointer[i] = 0.0f;
+		}
+
+		// then check what the player has included the most into the plant, that is one of the goals
+		float integers[8] = {dialogueHistory.newPlant.antidrought, dialogueHistory.newPlant.antiwater, dialogueHistory.newPlant.fruit, dialogueHistory.newPlant.growth, dialogueHistory.newPlant.poison, dialogueHistory.newPlant.smell, dialogueHistory.newPlant.soft, dialogueHistory.newPlant.thorns};
+		for(i = 0; i < 8; i++)
+		{
+			if(integers[i] > border)
 			{
-				check = dialogueHistory.newPlant.antidrought;
+				border = integers[i];
+				selected = i;
 			}
-			else if(req == "growth")
-			{
-				check = _currentPlayer.newPlant.growth;
-			}
-			else if(req == "water")
-			{
-				check = _currentPlayer.newPlant.antiwater;
-			}
-			else if(req == "fruit")
-			{
-				check = _currentPlayer.newPlant.fruit;
-			}
-			else if(req == "poison")
-			{
-				check = _currentPlayer.newPlant.poison;
-			}
-			else if(req == "smell")
-			{
-				check = _currentPlayer.newPlant.smell;
-			}
-			else if(req == "soft")
-			{
-				check = _currentPlayer.newPlant.soft;
-			}
-			else if(req == "thorns")
-			{
-				check = _currentPlayer.newPlant.thorns;
-			}
+		}
+		*pointer[selected] = 0.4f;
+
 		// check which is lowest, make that one of the goals
-		*/
+		border = 1;
+		for(i = 0; i < 8; i++)
+		{
+			if(integers[i] < border)
+			{
+				border = integers[i];
+				selected = i;
+			}
+		}
+		*pointer[selected] = border + 0.2f;
+
+		float randborder = 100/(6);
+		for(int i = 0, j = 0; j < dialogueHistory.questNumber; i++)
+		{
+			if(i >= 8)
+			{
+				i = 0;
+			}
+			if(*pointer[i] < 0.01f)
+			{
+				if (rand() % 100 < randborder)
+				{
+					*pointer[i] = 0.2f;
+					j++;
+				}
+			}
+		}
+		
+		dialogueHistory.targetPlant.id = id;
 	}
+
+
 }
 

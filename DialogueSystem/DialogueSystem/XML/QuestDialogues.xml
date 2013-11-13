@@ -103,41 +103,41 @@ Character will be used later, when there are more characters. It will add one ex
 		</fragment> 
 		
 		<fragment id="fnp2" name="Criticism"> 
-		<sketch id="fnp2.1" once="1" req1border="0.2" req1include="0" req1type="fruit" name="not_fruit_is_bad_once">
+		<sketch id="fnp2.1" once="1" req1border="quest" req1include="0" req1type="fruit" name="not_fruit_is_bad_once">
 		Maar misschien kan je er een fruit van maken? Onze familie staat namelijk bekend om zijn fruit! Ananas, pompoenen, tomaten, je noemt het maar op. 
 		</sketch>
-		<sketch id="fnp2.2" followup1="fnp2.1" req1border="0.2" req1include="0" req1type="fruit" name="not_fruit_is_bad_second">
+		<sketch id="fnp2.2" followup1="fnp2.1" req1border="quest" req1include="0" req1type="fruit" name="not_fruit_is_bad_second">
 		Maar zoals ik net al zei, hebben we echt een fruit nodig. Is er geen fruitplant dat je hier kan gebruiken? Volgens mij zijn er toch wel tomaten daar… 
 		</sketch>
-		<sketch id="fnp2.3" once="1" req1border="0.2" req1include="0" req1type="drought" name="not_drought_is_bad_once">
+		<sketch id="fnp2.3" once="1" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_once">
 		We hebben echter een beetje een probleem met de droogte. Onze planten zijn daarvoor al doodgegaan. Ik denk dat de nieuwe plant die wel moet kunnen overleven…
 		</sketch>
-		<sketch id="fnp2.4" followup1="fnp2.3" req1border="0.2" req1include="0" req1type="drought" name="not_drought_is_bad_second">
+		<sketch id="fnp2.4" followup1="fnp2.3" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_second">
 		Maar nogmaals, we hebben echt een probleem met de droogte. Zijn er geen planten daar die tegen de droogte kunnen? Ik heb gehoord dat cactussen goed tegen de hitte kunnen!
 		</sketch>
-		<sketch id="fnp2.5" once="1" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_bad_once">
-		Het probleem is alleen, door die stekels kan mijn vader er ook niet meer aan zitten. En dan kan hij het moeilijk plukken.
+		<sketch id="fnp2.5" once="1" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_once">
+    We hebben ook nogal een probleem met dieren die van onze planten proberen te snoepen. Misschien dat we de plant iets scherps kunnen geven, dat houd ze vast wel weg!
+    </sketch>
+		<sketch id="fnp2.6" followup1="fnp2.5" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_second">
+    Probeer anders iets te vinden met stekels, of doorns. Ik wed dat ze ergens een cactus hebben die je kan gebruiken!
+    </sketch>
+		<sketch id="fnp2.7" once="1" req1border="quest" req1include="0" req1type="soft" name="not_soft_is_bad_once">
+    Hmm, we willen deze planten ook verkopen, misschien is het handig als ie ook zachte bladeren heeft.
+    </sketch>
+		<sketch id="fnp2.8" followup1="fnp2.7" req1border="quest" req1include="0" req1type="soft" name="not_soft_is_bad_second">
+    Ik denk dat er genoeg is te vinden dat lekker zacht is! Misschien kan je de planten voelen om te kijken of ze zacht zijn?
+    </sketch>
+		<sketch id="fnp2.9" once="1" req1border="quest" req1include="0" req1type="poison" name="not_poison_is_bad_once">
+    We hebben ook nogal een probleem met dieren die van onze planten proberen te snoepen. Misschien dat we de bladeren giftig kunnen maken!
+    </sketch>
+		<sketch id="fnp2.10" followup1="fnp2.9" req1border="quest" req1include="0" req1type="poison" name="not_poison_is_bad_second">
+    Het jammere is, is dat hij nog steeds niet giftig genoeg is! Je kan altijd de bordjes lezen om te kijken of het giftig is.
+    </sketch>
+		<sketch id="fnp2.11" once="1" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_once">
+		Maar weet je wat pas echt fijn zal zijn... als hij lekker ruikt! Daar houden onze klanten vast van.
 		</sketch>
-		<sketch id="fnp2.6" followup1="fnp2.5" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_bad_second">
-		Ik vind het echt jammer dat mijn vader dus niks met die stekels kan. Ik denk dat er genoeg is te vinden dat lekker zacht is toch? Misschien kan je de planten voelen om te kijken of ze zacht zijn of hard.
-		</sketch>
-		<sketch id="fnp2.7" once="1" req1border="0.2" req1include="1" req1type="soft" name="soft_is_bad_once">
-		Echter… we hebben ook nogal een probleem met de dieren die van onze fruit proberen te snoepen. En als het zacht is, dan is het wel heel makkelijk voor ze om het op te eten.
-		</sketch>
-		<sketch id="fnp2.8" followup1="fnp2.7" req1border="0.2" req1include="1" req1type="soft" name="soft_is_bad_second">
-		De dieren vormen echter nog steeds een probleem. Je kan iets proberen te vinden met stekels. Ik wed dat ze ergens een cactus hebben die je kan gebruiken!
-		</sketch>
-		<sketch id="fnp2.9" once="1" req1border="0.2" req1include="1" req1type="poison" name="poison_is_bad_once">
-		Het is alleen jammer dat het gif in deze plant er voor zorgt dat we het niet meer kunnen opeten. We willen onze niet klanten vergiftigen he!
-		</sketch>
-		<sketch id="fnp2.10" followup1="fnp2.9" req1border="0.2" req1include="1" req1type="poison" name="poison_is_bad_second">
-		Maar, onze klanten zijn nog steeds niet bestand tegen het gif dat je in je plant hebt. Je kan eventueel altijd de kaartjes lezen bij de planten, om te checken of ze inderdaad giftig zijn.
-		</sketch>
-		<sketch id="fnp2.11" once="1" req1border="0.2" req1include="1" req1type="smell" name="smell_is_bad_once">
-		Ik denk alleen dat de geur van de plant de dieren misschien zal lokken… Misschien kan je het geurloos maken?
-		</sketch>
-		<sketch id="fnp2.12" followup1="fnp2.11" req1border="0.2" req1include="1" req1type="smell" name="smell_is_bad_second">
-		Het punt is dus wel, dat als dieren het kunnen ruiken, ze weten waar onze planten zijn! Misschien kun je aan de planten ruiken om te weten of ze geur hebben of niet?
+		<sketch id="fnp2.12" followup1="fnp2.11" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_second">
+		Ik denk dat de geur alleen nog wel wat sterker kan! Je kan altijd ruiken aan de planten om zeker te weten dat ze lekker ruiken.
 		</sketch>
 		</fragment> 
 		
