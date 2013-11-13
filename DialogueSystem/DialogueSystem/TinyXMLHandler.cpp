@@ -3,10 +3,11 @@
 #include "TinyXMLHandler.h"
 #include <iostream>
 #include <ostream>
+#include <ctime>
 
 namespace Dialogue
 {
-	std::vector<Player::DialogueStruct> tinyXMLHandler::getFeedBackWithPlantText(Player::DialogueData currentPlayer) // it is a vector, in case we need a sequence of movies
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getFeedBackWithPlantText(Player::DialogueHistory currentPlayer) // it is a vector, in case we need a sequence of movies
 	{
 		_currentPlayer = currentPlayer;
 		tinyxml2::XMLDocument doc;
@@ -21,7 +22,7 @@ namespace Dialogue
 		return newVector;
 	}
 
-	std::vector<Player::DialogueStruct> tinyXMLHandler::getStartText(Player::DialogueData currentPlayer) // it is a vector, in case we need a sequence of movies
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getStartText(Player::DialogueHistory currentPlayer) // it is a vector, in case we need a sequence of movies
 	{
 		_currentPlayer = currentPlayer;
 		tinyxml2::XMLDocument doc;
@@ -56,12 +57,18 @@ namespace Dialogue
 		if(elem)
 		{
 			std::vector<tinyxml2::XMLElement*> elemVector = getElements(elem);
+			tinyxml2::XMLElement* elem;
 			for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < elemVector.size(); i++)
 			{
+				elem = elemVector[i];
 				Player::DialogueStruct ds;
 				if(elemVector[i]->GetText() != NULL)
 				{
 					ds.dialogue = elemVector[i]->GetText();
+					if(elem->Attribute("id") != NULL)
+					{
+						ds.id = elem->Attribute("id");
+					}
 					newVector.push_back(ds);
 				}
 			}
@@ -125,19 +132,62 @@ namespace Dialogue
 
 	bool tinyXMLHandler::checkRequirements(tinyxml2::XMLElement* elem)
 	{ // check the requirements of the fragment/sketch
-		int i = 1;
-		while(elem->Attribute(("req" + std::to_string(i) + "type").c_str()) != NULL)
+
+		// first check if the dialogue should only be shown one time and is already shown
+		std::string check;
+		if(elem->BoolAttribute("once") != NULL && elem->BoolAttribute("once"))
+		{
+			if(elem->Attribute("id") != NULL)
+			{
+				check = elem->Attribute("id");
+				for(std::vector<std::string>::size_type i = 0; i < _currentPlayer.ids.size(); i++)
+				{
+					if(check == _currentPlayer.ids[i])
+					{
+						return false;
+					}
+				}
+			}
+		}
+
+		// check if it is a follow up dialogue, if so, check all id's in the dialogue history to see if the former dialogue is shown
+		int count = 1;
+		while(elem->Attribute(("followup" + std::to_string(count)).c_str()) != NULL)
+		{
+			std::string req = elem->Attribute(("followup" + std::to_string(count)).c_str());
+			std::vector<std::string>::size_type size = _currentPlayer.ids.size();
+			if(size == 0)
+			{
+				return false;
+			}
+			for(std::vector<std::string>::size_type i = 0; i < size; i++)
+			{
+				if(req == _currentPlayer.ids[i])
+				{
+					break;
+				}
+				else if(i + 1 == size)
+				{
+					return false;
+				}
+			}
+			count++;
+		}
+
+		// check if the requirements match with the plant, return false if they dont, if there are no requirements, it will return true, if there is a requirement that isnt mentioned in the code (for an instance: the requirement is house), it will also return false
+		count = 1;
+		while(elem->Attribute(("req" + std::to_string(count) + "type").c_str()) != NULL)
 		{
 			bool include = true;
 			double reqAmount = 0.0;
-			std::string req = elem->Attribute(("req" + std::to_string(i) + "type").c_str());
-			if(elem->Attribute(("req" + std::to_string(i) + "border").c_str()) != NULL)
+			std::string req = elem->Attribute(("req" + std::to_string(count) + "type").c_str());
+			if(elem->Attribute(("req" + std::to_string(count) + "border").c_str()) != NULL)
 			{
-				reqAmount = std::strtod(elem->Attribute(("req" + std::to_string(i) + "border").c_str()), NULL);
+				reqAmount = std::strtod(elem->Attribute(("req" + std::to_string(count) + "border").c_str()), NULL);
 			}
-			if(elem->Attribute(("req" + std::to_string(i) + "include").c_str()) != NULL)
+			if(elem->Attribute(("req" + std::to_string(count) + "include").c_str()) != NULL)
 			{
-				std::string test = elem->Attribute(("req" + std::to_string(i) + "include").c_str());
+				std::string test = elem->Attribute(("req" + std::to_string(count) + "include").c_str());
 				if(test == "0")
 				{
 					include = false;
@@ -147,42 +197,46 @@ namespace Dialogue
 			float check = 1;
 			if(req == "drought")
 			{
-				check = _currentPlayer.plant.drought;
+				check = _currentPlayer.newPlant.antidrought;
 			}
-			else if(req == "fast_growing")
+			else if(req == "growth")
 			{
-				check = _currentPlayer.plant.fastGrowing;
+				check = _currentPlayer.newPlant.growth;
 			}
 			else if(req == "water")
 			{
-				check = _currentPlayer.plant.flood;
+				check = _currentPlayer.newPlant.antiwater;
 			}
 			else if(req == "fruit")
 			{
-				check = _currentPlayer.plant.fruit;
+				check = _currentPlayer.newPlant.fruit;
 			}
 			else if(req == "poison")
 			{
-				check = _currentPlayer.plant.poison;
+				check = _currentPlayer.newPlant.poison;
 			}
 			else if(req == "smell")
 			{
-				check = _currentPlayer.plant.smell;
+				check = _currentPlayer.newPlant.smell;
 			}
-			else if(req == "softness")
+			else if(req == "soft")
 			{
-				check = _currentPlayer.plant.softness;
+				check = _currentPlayer.newPlant.soft;
 			}
 			else if(req == "thorns")
 			{
-				check = _currentPlayer.plant.thorns;
+				check = _currentPlayer.newPlant.thorns;
+			}
+			else
+			{
+				return false;
 			}
 			if((check < reqAmount && include == true) || (check > reqAmount && include == false))
 			{
 				return false;
 			}
 
-			i++;
+			count++;
 		}
 		return true;
 	}
@@ -190,11 +244,62 @@ namespace Dialogue
 	tinyxml2::XMLElement* tinyXMLHandler::checkID(std::vector<tinyxml2::XMLElement*> elemVector)
 	{ // checks amongst a list of sketches which sketch it should use
 
-		tinyxml2::XMLElement* elem;
+		std::vector<tinyxml2::XMLElement*>::size_type elemSize = elemVector.size();
+		int iterations = 0;
+		if(elemSize > 0)
+		{
+			tinyxml2::XMLElement* elem = NULL;
+			tinyxml2::XMLElement* checkElem = NULL;
 
-		elem = elemVector[0];
+			// get the likelyness each of these elements will be shown
+			std::vector<float> percentChance;
+		
+			std::vector<std::string>::size_type border = 20; // dont look any further than this number
+			std::vector<std::string>::size_type size = _currentPlayer.ids.size();
+			int extra = border - size + 1;
 
-		return elem;
+			for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < elemSize; i++)
+			{ // for each element
+				checkElem = elemVector[i];
+				if(checkElem->Attribute("id") != NULL && size > 0)
+				{ // get the id of the element
+					std::string id = checkElem->Attribute("id");
+					float percent = 80; 
+					for (std::vector<std::string>::size_type i = size - 1; i >= (size < border ? 0 : size - border) && i < size; i--)
+					{ // check the last border (20) elements, the longer ago the dialogue was chosen, the more likely it is that the dialogue will be chosen again
+						if(_currentPlayer.ids[i] == id)
+						{
+							percent -= (75.0f / (float)border * (i + extra));
+						}
+					}
+					percentChance.push_back(percent);
+				}
+				else
+				{
+					percentChance.push_back((float)100/elemSize);
+				}
+			}
+
+			border = 0;
+			srand(time(0));
+			while(elem == NULL)
+			{
+				if(border >= elemSize)
+				{
+					border = 0;
+				}
+				if(rand() % 100 < percentChance[border])
+				{
+					elem = elemVector[border];
+				}
+				border++;
+			}
+			return elem;
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 
 	tinyxml2::XMLElement *tinyXMLHandler::checkDialogue(std::vector<std::string> idChecks, std::vector<std::string> searchParameters, tinyxml2::XMLDocument *doc)

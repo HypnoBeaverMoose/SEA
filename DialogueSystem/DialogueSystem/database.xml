@@ -1,0 +1,68 @@
+<database>
+    <plant id="66" angle="0.100000" scale="0.200000" angleInc="0.300000" scaleInc="0.400000" iterCnt="5" axiom="newPlant">
+        <abilities antidrought="0.100000" thorns="0.200000" poison="0.300000" smell="0.400000" fruit="0.100000" soft="0.600000" growth="0.700000" antiwater="0.800000"/>
+        <do color="#AABBCCDD" letter="97" vertOffset="0.000000">
+            <point width="0.000000" height="0.500000"/>
+            <point width="1.000000" height="1.500000"/>
+            <point width="2.000000" height="2.500000"/>
+            <point width="3.000000" height="3.500000"/>
+            <point width="4.000000" height="4.500000"/>
+            <point width="5.000000" height="5.500000"/>
+            <point width="6.000000" height="6.500000"/>
+            <point width="7.000000" height="7.500000"/>
+            <point width="8.000000" height="8.500000"/>
+            <point width="9.000000" height="9.500000"/>
+        </do>
+        <do color="#AABBCCDD" letter="97" vertOffset="1.000000">
+            <point width="0.000000" height="0.500000"/>
+            <point width="1.000000" height="1.500000"/>
+            <point width="2.000000" height="2.500000"/>
+            <point width="3.000000" height="3.500000"/>
+            <point width="4.000000" height="4.500000"/>
+            <point width="5.000000" height="5.500000"/>
+            <point width="6.000000" height="6.500000"/>
+            <point width="7.000000" height="7.500000"/>
+            <point width="8.000000" height="8.500000"/>
+            <point width="9.000000" height="9.500000"/>
+        </do>
+        <do color="#AABBCCDD" letter="97" vertOffset="2.000000">
+            <point width="0.000000" height="0.500000"/>
+            <point width="1.000000" height="1.500000"/>
+            <point width="2.000000" height="2.500000"/>
+            <point width="3.000000" height="3.500000"/>
+            <point width="4.000000" height="4.500000"/>
+            <point width="5.000000" height="5.500000"/>
+            <point width="6.000000" height="6.500000"/>
+            <point width="7.000000" height="7.500000"/>
+            <point width="8.000000" height="8.500000"/>
+            <point width="9.000000" height="9.500000"/>
+        </do>
+        <do color="#AABBCCDD" letter="97" vertOffset="3.000000">
+            <point width="0.000000" height="0.500000"/>
+            <point width="1.000000" height="1.500000"/>
+            <point width="2.000000" height="2.500000"/>
+            <point width="3.000000" height="3.500000"/>
+            <point width="4.000000" height="4.500000"/>
+            <point width="5.000000" height="5.500000"/>
+            <point width="6.000000" height="6.500000"/>
+            <point width="7.000000" height="7.500000"/>
+            <point width="8.000000" height="8.500000"/>
+            <point width="9.000000" height="9.500000"/>
+        </do>
+        <do color="#AABBCCDD" letter="97" vertOffset="4.000000">
+            <point width="0.000000" height="0.500000"/>
+            <point width="1.000000" height="1.500000"/>
+            <point width="2.000000" height="2.500000"/>
+            <point width="3.000000" height="3.500000"/>
+            <point width="4.000000" height="4.500000"/>
+            <point width="5.000000" height="5.500000"/>
+            <point width="6.000000" height="6.500000"/>
+            <point width="7.000000" height="7.500000"/>
+            <point width="8.000000" height="8.500000"/>
+            <point width="9.000000" height="9.500000"/>
+        </do>
+        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
+        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
+        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
+    </plant>
+</database>

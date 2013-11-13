@@ -9,30 +9,28 @@
 namespace Dialogue{
 	Player::Player()
 	{
+		dialogueHistory.targetPlant.id = 0;
 		currentState = PlayQuest;
 		age = 18; // this doesn't do anything yet, but it can influence which dialogue will be shown at a later point
-		dialogueData.questNumber = 1;
-		dialogueData.lastSpeaker = 1;
+		dialogueHistory.questNumber = 1;
+		dialogueHistory.lastSpeaker = 1;
 	}
 
 	void Player::PlayDialogue()
 	{
 		if(currentState == WaitForPlant)
 		{
-			int typeOfPlants[3];
-			// checkinput 
-			std::cout << "[None = 0, Ananas = 1, Cactus = 2, TomatenPlant = 3, Waterhyacint = 4, DustyMiller = 5]" << std::endl;
-			std::cout << "First Plant";
-			std::cin >> typeOfPlants[0];
-			std::cout << std::endl;
-			std::cout << "Second Plant";
-			std::cin >> typeOfPlants[1];
-			std::cout << std::endl;
-			std::cout << "Third Plant";
-			std::cin >> typeOfPlants[2];
-			std::cout << std::endl;
-			dialogueData.plant.SetPlant(typeOfPlants);
-			outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueData));
+			bool check;
+			dialogueHistory.previousPlant = dialogueHistory.newPlant;
+			dialogueHistory.newPlant = pd.getPlant(id, check);
+			if(dialogueHistory.targetPlant.id == 0)
+			{
+				MakeQuest();
+			}
+			if(check)
+			{
+				outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory));
+			}
 		}
 		else
 		{
@@ -47,7 +45,7 @@ namespace Dialogue{
 	bool Player::PlayStartQuestDialogue()
 	{
 		bool playStartingQuest = true;
-		std::vector<Player::DialogueStruct> dialogueVector  = tinyXMLHandler::instance()->getStartText(dialogueData);
+		std::vector<Player::DialogueStruct> dialogueVector  = tinyXMLHandler::instance()->getStartText(dialogueHistory);
 		if(dialogueVector.size() == 0)
 		{
 			dialogueVector = tinyXMLHandler::instance()->getEndText();
@@ -60,20 +58,61 @@ namespace Dialogue{
 	void Player::outputText(std::vector<Player::DialogueStruct> dialogueVector)
 	{
 		std::string newString;
+		DialogueStruct ds;
 		for (std::vector<Player::DialogueStruct>::size_type i = 0; i < dialogueVector.size(); i++)
 		{
-			newString = dialogueVector[i].speaker;
-			if(newString.empty() == false)
+			ds = dialogueVector[i];
+			if(ds.dialogue.empty() == false)
 			{
-				std::cout << newString << ": " << std::endl;
+				std::cout << ds.dialogue << std::endl << std::endl;
 			}
-			newString = dialogueVector[i].dialogue;
-			if(newString.empty() == false)
+			if(ds.id.empty() == false)
 			{
-				std::cout << dialogueVector[i].dialogue << std::endl << std::endl;
+				dialogueHistory.ids.push_back(ds.id);
 			}
 		}
 	}
 
+	void Player::MakeQuest()
+	{
+		// check which is highest, make that one of the goals
+		/*float border = 0;
+		float *pointer;
+		if(dialogueHistory.newPlant.antidrought > border)
+			pointer = dialogueHistory.targetPlant
+			{
+				check = dialogueHistory.newPlant.antidrought;
+			}
+			else if(req == "growth")
+			{
+				check = _currentPlayer.newPlant.growth;
+			}
+			else if(req == "water")
+			{
+				check = _currentPlayer.newPlant.antiwater;
+			}
+			else if(req == "fruit")
+			{
+				check = _currentPlayer.newPlant.fruit;
+			}
+			else if(req == "poison")
+			{
+				check = _currentPlayer.newPlant.poison;
+			}
+			else if(req == "smell")
+			{
+				check = _currentPlayer.newPlant.smell;
+			}
+			else if(req == "soft")
+			{
+				check = _currentPlayer.newPlant.soft;
+			}
+			else if(req == "thorns")
+			{
+				check = _currentPlayer.newPlant.thorns;
+			}
+		// check which is lowest, make that one of the goals
+		*/
+	}
 }
 

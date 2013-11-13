@@ -1,31 +1,36 @@
 #pragma once
 #include <vector>
-#include "PlantData.h"
+#include "PlantDatabase.h"
 
 namespace Dialogue
 {
 	class Player
 	{
 		public:
+			int id;
 			Player();
 			void PlayDialogue();
-			enum State{PlayQuest, WaitForPlant};
-			State currentState;
+			PlantDatabase pd;
 			struct DialogueStruct
 			{
-				std::string dialogue, speaker;
+				std::string dialogue, id;
 			};
-			struct DialogueData
+			struct DialogueHistory
 			{
 				int lastSpeaker,questNumber;
-				std::vector<int> integers;
-				PlantData plant;
+				std::vector<std::string> ids;
+				PlantDatabase::PlantData targetPlant; // quest
+				PlantDatabase::PlantData newPlant; // the plant you just made
+				PlantDatabase::PlantData previousPlant; // the plant you made before
 			};
 
 		private:
+			enum State{PlayQuest, WaitForPlant};
+			State currentState;
 			int age;
-			DialogueData dialogueData;
+			DialogueHistory dialogueHistory;
 			bool PlayStartQuestDialogue();
 			void outputText(std::vector<DialogueStruct> dialogueVector);
+			void MakeQuest();
 	};
 }
