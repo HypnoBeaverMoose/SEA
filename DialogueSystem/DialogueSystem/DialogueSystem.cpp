@@ -25,6 +25,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		if(players.find(id) == players.end()) // search till you reach the end, if there aint any players with this id, make a new id
 		{
 			Dialogue::Player currentPlayer;
+			currentPlayer.id = id;
 			players.insert(std::pair<int, Player>(id, currentPlayer));
 		}
 		
