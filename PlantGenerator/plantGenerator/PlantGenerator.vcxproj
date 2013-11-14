@@ -37,6 +37,7 @@
     <AndroidAPILevel>android-14</AndroidAPILevel>
     <AndroidArch>armv7-a</AndroidArch>
     <AndroidStlType>gnustl_static</AndroidStlType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <PlatformToolset>arm-linux-androideabi-4.6</PlatformToolset>

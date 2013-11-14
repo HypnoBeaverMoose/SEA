@@ -24,7 +24,6 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Android.ActiveCfg = Debug|Android
 		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Android.Build.0 = Debug|Android
-		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Android.Deploy.0 = Debug|Android
 		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Debug|Win32.Build.0 = Debug|Win32
 		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Android.ActiveCfg = Release|Android
@@ -34,7 +33,6 @@ Global
 		{4E9643AC-99D6-457B-BF89-AC29F67BD179}.Release|Win32.Build.0 = Release|Win32
 		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Android.ActiveCfg = Debug|Android
 		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Android.Build.0 = Debug|Android
-		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Android.Deploy.0 = Debug|Android
 		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Debug|Win32.Build.0 = Debug|Win32
 		{889F1CA1-E5CA-4C38-8594-145566B7979F}.Release|Android.ActiveCfg = Release|Android

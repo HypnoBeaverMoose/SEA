@@ -59,7 +59,7 @@ App::App()
 	m_renderQuad.push_back(Vector4f(-1.0f, 1.0f, 0, 1.0f));
 	m_renderQuad.push_back(Vector4f(1.0f, 1.0f, 0, 1.0f));
 
-	m_resultTexture.assign(m_renderSize[0] * m_renderSize[1] * 4,0);
+	//m_resultTexture.assign(m_renderSize[0] * m_renderSize[1] * 4,0);
 
 }
 
@@ -67,11 +67,11 @@ void App::SetUpPlant()
 {
 	png::image<png::rgba_pixel> img;
 	loadImage(img,"checker.png");
-	m_plants.push_back(Plant(0,100,0,0,"f",2));
-	m_plants[0].addObject(DrawableObject('f',Colorf(1,1,1,1),img,1.0f, m_programId));
+	m_plants.push_back(Plant(0,1.0f,0,0,"f",2));
+	m_plants[0].addObject(DrawableObject('f',Colorf(1,1,1,1),img, 1.0f, m_programId));
 	m_plants[0].addRule(Rule('f',"f"));
 	m_plants[0].regeneratePlant();
-	m_plants[0].setPosition(Vector3f(0,-0.5f,0));
+	m_plants[0].setPosition(Vector3f(0.5f,0,0));
 }
 void App::OnCreate()
 {
@@ -130,8 +130,8 @@ void App::RenderPlant()
 	glUseProgram(m_programId);
 	checkGlError("glUseProgram");
 
-	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, 
-		Matrix4f::Orthographic(1.0f, 30.0f,-50.0f, 50.0f ,-50.0f * aspect, 50.0f * aspect).getValuePtr());
+	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_TRUE, 
+		Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 
 	glClearColor(1.0f,1.0f,1.0f,1.0f);
@@ -162,11 +162,11 @@ void App::OnRender()
 	glClearColor(1.0f,1.0f,1.0f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);		
 	float aspect = m_viewportSize[0] /(float) std::max(1.0f, m_viewportSize[1]);
-	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f,-aspect, +aspect);
+	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f, -aspect, aspect);
 	
 	///draw full screen quad with the texture
 	glUseProgram(m_programId);
-	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, m_projectionMatrix.getValuePtr());
+	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_TRUE, m_projectionMatrix.getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 
 	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE, Matrix4f::Identity().getValuePtr());
