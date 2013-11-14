@@ -16,162 +16,220 @@ Character will be used later, when there are more characters. It will add one ex
 <dialogues_quest id="1" name="Help_The_Daughter">
 	<start>
 	<sketch character="1" name="Daughter_Starts">
-	Hallo! Goed dat je er bent. Het is namelijk zo… ik heb je hulp heel erg nodig! Waar je namelijk bent, hebben ze een machine die planten kan maken… en dat heeft mijn vader nu echt heel erg nodig. Hij is namelijk een boer, maar door recente gebeurtenissen, kan hij geen goeie planten meer verbouwen.
-	[foto boer en meisje, gelukkig  toont succesvolle boerderij] We hadden altijd een boerderij waar iedereen graag het fruit van wilde kopen. We verkochten tomaten, en pompoenen en zelfs ananassen!
-	[foto boer en meisje, voor uitgedroogd fruit]  Maar nu willen ze niet meer groeien… en verkopen we helemaal niets meer…
-	Met de machine die daar staat, kan je een nieuwe plant maken… misschien zelfs één die mijn vader wel kan verbouwen. Het is echt heel simpel. Zoek naar planten die een plaatje eraan hebben hangen. Hou je apparaat erbij, en een lampje licht op, wat betekent dat je de plant kan gebruiken. Heb je er drie, dan kan je hier een nieuwe plant maken [laat icoontje zien naar plant generator]. Ik zal dan met mijn vader bespreken of we die plant kunnen verbouwen!
-	</sketch>
+    Hey daar! Goed dat je er bent!
+    Ik heb je hulp heel hard nodig!
+    Er is daar bij jou een machine die planten kan maken…
+    En die zou ik echt heel goed kunnen gebruiken.
+    Samen met onze familie hebben we namelijk een boerderij,
+    alleen gaat het daar de laatste tijd minder goed mee.
+
+
+    Vroeger kon iedereen in het dorp fruit en bloemen bij ons kopen.
+    We verkochten rozen, tomaten, tulpen en zelfs ananassen!
+    Maar nu wil niks meer groeien… en verkopen we helemaal niets meer…
+
+
+    Maar met de scanner die jij vasthoud kun je een nieuwe plant maken!
+    misschien zelfs ééntje die m'n vader kan verbouwen!
+    Het is echt heel simpel.
+    Zoek naar planten die een plaatje eraan hebben hangen.
+    Hou je scanner erbij, en een lampje licht op,
+    wat betekent dat je die plant kan gebruiken.
+    Heb je er drie, dan kan je hier een nieuwe plant maken.
+    Misschien dat we die kunnen gebruiken op onze boerderij!
+  </sketch>
 	</start>
 	
 	<feedback_no_plants_scanned>
-	<sketch id="fnops1" once="1" name="once_text">
-	Mijn vader is heel erg benieuwd naar wat je kan vinden. Probeer anders eerst gewoon een plant te vinden die je kan gebruiken. Dan kunnen we daarna uitproberen of die zal werken!
-	</sketch>
-	<sketch id="fnops2" followup1="fnops1" name="second_text_1">
-	Ik denk dat daarbuiten een plant is die je kan gebruiken. Zoek gewoon naar zo’n plaatje, ongeveer ter grootte van een muntstuk. Leg daar je apparaat op.
-	</sketch>
-	<sketch id="fnops3" followup1="fnops1" name="second_text_2">
-	Hier in de buurt zijn vast planten die je kan gebruiken!  Probeer het plaatje te vinden. Hij is ongeveer net zo groot als een muntstuk, dus je moet wel even zoeken hoor.
-	</sketch>
+	<sketch id="nps1" once="1" name="first_feedback_no_plants_scanned">
+    Ik ben heel erg benieuwd wat je kan vinden!
+    Probeer anders eerst een plant te vinden met een plaatje die je leuk vind.
+    Dan kunnen we daarna uitproberen of die zal werken!
+  </sketch>
+	<sketch id="nps2" followup1="noscan1" name="second_feedback_no_plants_scanned">
+    Hier in deze tuin zijn er vast planten die leuk zijn!
+    Zoek gewoon naar zo’n plaatje, ongeveer ter grootte van een munt.
+    En leg je scanner erop!
+  </sketch>
 	</feedback_no_plants_scanned>
-	
-	<feedback_no_plant_assembled>
-	<sketch id="fnopa1" once="1" name="once_text">
-	Uitstekend, dat kunnen goeie planten zijn om te gebruiken! Zie je die knop daar? Druk daar op om een nieuwe plant te maken. Dan kunnen we zien of we iets moois kunnen maken.
-	</sketch>
-	<sketch id="fnopa2" followup1="fnopa1" name="second_text_1">
-	Die planten kunnen zeker bruikbaar zijn. Wil je anders kijken of je er iets goeds mee kan maken? Druk gewoon op de knop, en we zien het vanzelf. 
-	</sketch>
-	<sketch id="fnopa3" followup1="fnopa1" name="second_text_2">
-	Interessante keuzes! Ik ben benieuwd of je daar iets mee kan maken. Druk op de knop, en probeer iets moois te maken.
-	</sketch>
-	</feedback_no_plant_assembled>
+
+  <feedback_too_few_plants_scanned>
+    <sketch id="tfps1" name="feedback_not_enough_plants_scanned">
+      Je bent al goed op weg!
+      Maar om een nieuwe plant te maken,
+      moet je wel drie planten gescanned hebben.
+      Kijk maar of je iets leuks kunt vinden!
+    </sketch>
+  </feedback_too_few_plants_scanned>
+  
+	<feedback_no_plant_made>
+	<sketch id="npm1" name="once_text">
+    Ja, heel goed gedaan!
+    Dit zien er uit als echt leuke planten!
+    Zie je die knop daar in de hoek?
+    Druk daar op om een nieuwe plant te maken!
+  </sketch>
+	</feedback_no_plant_made>
 	
 	<feedback_same_plant>
-	<sketch id="fsp1" name="feedback_1">
+	<sketch id="sp1" name="feedback_1">
 	Die plant hadden we toch al bekeken? Het heeft denk ik wel wat anders nodig.
 	</sketch>
-	<sketch id="fsp2" name="feedback_2">
+	<sketch id="sp2" name="feedback_2">
 	Haha, je laat me gewoon dezelfde plant zien. Ik heb je wel door hoor!
-	</sketch>
-	<sketch id="fsp3" name="feedback_3">
-	Dat is dezelfde plant. Misschien kan je iets anders maken?
 	</sketch>
 	</feedback_same_plant>
 	
 	<feedback_wait_for_calculation>
-	<sketch id="fwc1" name="feedback_1">
+	<sketch id="cf1" name="feedback_1">
 	Oke, laten we eens zien of dit gaat werken…
 	</sketch>
-	<sketch id="fwc2" name="feedback_2">
+	<sketch id="cf2" name="feedback_2">
 	Dat is een interessante plant, ik zal even vragen aan mijn vader of hij zoiets zou willen maken!
-	</sketch>
-	<sketch id="fwc3" name="feedback_3">
-	Oh, dat ziet er leuk uit. Ik zal het meteen controleren!
-	</sketch>
-	<sketch id="fwc4" name="feedback_4">
-	Hmm, ik ben benieuwd of dit zal werken. Ik zal het voor je navragen!
 	</sketch>
 	</feedback_wait_for_calculation>
 	
 	<feedback_new_plant_assembled character="1" name="Feedback_Daughter">
-		<fragment id="fnp1" name="Positive_Feedback"> 
-		<sketch id="fnp1.1" req1border="0.2" req1include="1" req1type="fruit" name="fruit_is_good">
-		Slim dat je eraan gedacht hebt om het eetbaar te maken! Mijn familie staat immers altijd al bekend om zijn fruit, en dat willen we wel graag maken.
-		</sketch>
-		<sketch id="fnp1.2" req1border="0.2" req1include="1" req1type="growth" name="growth_is_good">
-		Zo, die groeit snel! Die kunnen we heel snel verbouwen!
-		</sketch>
-		<sketch id="fnp1.3" req1border="0.2" req1include="1" req1type="water" name="water_is_good">
-		Oh, wow, je hebt een plant gemaakt die tegen overstroming kan, dat kan wel eens helpen!
-		</sketch>
-		<sketch id="fnp1.4" req1border="0.2" req1include="1" req1type="drought" name="drought_is_good">
-		Ik zie dat je een planteneigenschap gebruikt waardoor hij droogte kan overleven. Dat is slim!
-		</sketch>
-		<sketch id="fnp1.5" req1border="0.2" req1include="1" req1type="poison" name="poison_is_good">
-		Nou, het gif dat erin zit zal er in ieder geval voor zorgen dat dieren het niet opeten.
-		</sketch>
-		<sketch id="fnp1.6" req1border="0.2" req1include="1" req1type="smell" name="smell_is_good">
-		Die geur van die plant is echt overal te ruiken!
-		</sketch>
-		<sketch id="fnp1.7" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_good">
-		Met die stekels denk ik niet dat iemand er zo maar aan wilt zitten.
-		</sketch>
-		<sketch id="fnp1.8" req1border="0.2" req1include="1" req1type="soft" name="soft_is_good">
-		Hmm, die bast heb je goed uitgekozen… dat is zo zacht!
-		</sketch>
+		<fragment id="p0" name="Positive_Feedback"> 
+		<sketch id="p01" req1border="0.2" req1include="1" req1type="fruit" name="fruit_is_good">
+      Wat goed dat ie fruit heeft!
+      Nu kunnen we eindelijk weer fruit gaan verkopen!
+    </sketch>
+		<sketch id="p02" req1border="0.2" req1include="1" req1type="water" name="water_is_good">
+      Een plant dat goed is tegen water,
+      dat kan wel eens helpen!
+    </sketch>
+		<sketch id="p03" req1border="0.2" req1include="1" req1type="growth" name="growth_is_good">
+      Ik zie dat je een plant hebt die sneller groeit,
+      dat is wel echt handig!
+    </sketch>
+		<sketch id="p04" req1border="0.2" req1include="1" req1type="poison" name="poison_is_good">
+      Slim dat je het giftig hebt gemaakt.
+      Nu eten dieren het niet op!
+    </sketch>
+		<sketch id="p05" req1border="0.2" req1include="1" req1type="smell" name="smell_is_good">
+      -Ruikt- Wow, die ruikt echt lekker!
+    </sketch>
+		<sketch id="p06" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_good">
+      Haha, hij heeft stekels!
+      Zo laten dieren ze wel met rust!
+    </sketch>
+		<sketch id="p07" req1border="0.2" req1include="1" req1type="soft" name="soft_is_good">
+      Hmm, dat is wel lekker zacht.
+    </sketch>
+		<sketch id="p08" req1border="0.2" req1include="1" req1type="drought" name="drought_is_good">
+      Een plant dat tegen de zon kan
+      is altijd fijn om te hebben!
+    </sketch>
 		</fragment> 
 		
-		<fragment id="fnp2" name="Criticism"> 
-		<sketch id="fnp2.1" once="1" req1border="quest" req1include="0" req1type="fruit" name="not_fruit_is_bad_once">
-		Maar misschien kan je er een fruit van maken? Onze familie staat namelijk bekend om zijn fruit! Ananas, pompoenen, tomaten, je noemt het maar op. 
-		</sketch>
-		<sketch id="fnp2.2" followup1="fnp2.1" req1border="quest" req1include="0" req1type="fruit" name="not_fruit_is_bad_second">
-		Maar zoals ik net al zei, hebben we echt een fruit nodig. Is er geen fruitplant dat je hier kan gebruiken? Volgens mij zijn er toch wel tomaten daar… 
-		</sketch>
-		<sketch id="fnp2.3" once="1" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_once">
-		We hebben echter een beetje een probleem met de droogte. Onze planten zijn daarvoor al doodgegaan. Ik denk dat de nieuwe plant die wel moet kunnen overleven…
-		</sketch>
-		<sketch id="fnp2.4" followup1="fnp2.3" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_second">
-		Maar nogmaals, we hebben echt een probleem met de droogte. Zijn er geen planten daar die tegen de droogte kunnen? Ik heb gehoord dat cactussen goed tegen de hitte kunnen!
-		</sketch>
-		<sketch id="fnp2.5" once="1" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_once">
-    We hebben ook nogal een probleem met dieren die van onze planten proberen te snoepen. Misschien dat we de plant iets scherps kunnen geven, dat houd ze vast wel weg!
+		<fragment id="c0" name="Criticism"> 
+		<sketch id="c01" once="1" req1border="quest" req1include="0" req1type="fruit" name="not_fruit_is_bad_once">
+      Maar misschien kan je nog wat fruit toevoegen?
+      De boerderij stond daar altijd bekend om!
     </sketch>
-		<sketch id="fnp2.6" followup1="fnp2.5" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_second">
-    Probeer anders iets te vinden met stekels, of doorns. Ik wed dat ze ergens een cactus hebben die je kan gebruiken!
+		<sketch id="c02" followup1="c01" req1border="quest" req1include="0" req1type="fruit" name="not_fruit_is_bad_second">
+      Er moet alleen nog net wat meer fruit bij.
+      Ik heb gehoord dat daar planten zijn,
+      die vruchten dragen in de plaats van bloemen!
+      Misschien kan je die gebruiken?
     </sketch>
-		<sketch id="fnp2.7" once="1" req1border="quest" req1include="0" req1type="soft" name="not_soft_is_bad_once">
-    Hmm, we willen deze planten ook verkopen, misschien is het handig als ie ook zachte bladeren heeft.
+		<sketch id="c03" once="1" req1border="quest" req1include="0" req1type="water" name="not_water_is_bad_once">
+      We kampen hier alleen met heel veel regen.
+      Je plant moet echt een overstroming kunnen overleven!
     </sketch>
-		<sketch id="fnp2.8" followup1="fnp2.7" req1border="quest" req1include="0" req1type="soft" name="not_soft_is_bad_second">
-    Ik denk dat er genoeg is te vinden dat lekker zacht is! Misschien kan je de planten voelen om te kijken of ze zacht zijn?
+		<sketch id="c04" followup1="c03" req1border="quest" req1include="0" req1type="water" name="not_water_is_bad_second">
+      Hij moet echter nog wat meer tegen water kunnen.
+      Er is zoveel regen hier in Nederland!
+      We hebben echt een waterplant nodig.
     </sketch>
-		<sketch id="fnp2.9" once="1" req1border="quest" req1include="0" req1type="poison" name="not_poison_is_bad_once">
-    We hebben ook nogal een probleem met dieren die van onze planten proberen te snoepen. Misschien dat we de bladeren giftig kunnen maken!
+    <sketch id="c05" once="1" req1border="quest" req1include="0" req1type="growth" name="not_growth_is_bad_once">
+      Mijn papa zegt dat we snel een nieuwe plant moeten hebben…
+      Misschien kan je het wat sneller laten groeien?
     </sketch>
-		<sketch id="fnp2.10" followup1="fnp2.9" req1border="quest" req1include="0" req1type="poison" name="not_poison_is_bad_second">
-    Het jammere is, is dat hij nog steeds niet giftig genoeg is! Je kan altijd de bordjes lezen om te kijken of het giftig is.
+    <sketch id="c06" followup1="c05" req1border="quest" req1include="0" req1type="growth" name="not_growth_is_bad_second">
+      Maar kom op, laat hem nog sneller groeien!
+      Ik heb gehoord dat dat vaak door de wortels komt.
     </sketch>
-		<sketch id="fnp2.11" once="1" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_once">
-		Maar weet je wat pas echt fijn zal zijn... als hij lekker ruikt! Daar houden onze klanten vast van.
-		</sketch>
-		<sketch id="fnp2.12" followup1="fnp2.11" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_second">
-		Ik denk dat de geur alleen nog wel wat sterker kan! Je kan altijd ruiken aan de planten om zeker te weten dat ze lekker ruiken.
-		</sketch>
+    <sketch id="c07" once="1" req1border="quest" req1include="0" req1type="poison" name="not_poison_is_bad_once">
+      Wat ook fijn is, is als je het nog giftiger kan maken.
+      Dan eten dieren het nooit meer op!
+    </sketch>
+    <sketch id="c08" followup1="c07" req1border="quest" req1include="0" req1type="poison" name="not_poison_is_bad_second">
+      De dieren zijn echter nog steeds een probleem…
+      Sommige bladeren van planten zijn giftig!
+      Misschien kan je daar nog wat meer van gebruiken?
+    </sketch>
+    <sketch id="c09" once="1" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_once">
+      De geur mag nog wel wat sterker…
+      Zou je dat kunnen doen?
+      De mensen willen namelijk altijd aan de planten ruiken!
+    </sketch>
+    <sketch id="c010" followup1="c09" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_second">
+      Ik wed dat je de geur wel wat meer kan maken!
+      Als je daar aan de planten ruikt
+      dan weet je meteen of het goed is!
+    </sketch>
+		<sketch id="c011" once="1" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_once">
+      Maar weet je wat het nóg beter zou maken?
+      Meer stekels! Want dan blijven de dieren weg!
+    </sketch>
+		<sketch id="c012" followup1="c011" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_second">
+      Zou je alleen nog meer stekels kunnen toevoegen?
+      We hebben echt iets nodig dat veel stekels heeft!
+      Je kent dieren, die eten geen cactussen!
+    </sketch>
+		<sketch id="c013" once="1" req1border="quest" req1include="0" req1type="soft" name="not_soft_is_bad_once">
+      De plant moet alleen nog wat zachter.
+      Dat is leuk voor de kinderen!
+    </sketch>
+		<sketch id="c014" followup1="c013" req1border="quest" req1include="0" req1type="soft" name="not_soft_is_bad_second">
+      Maar ik wed dat je het nog veel zachter kan maken!
+      Voel anders aan de planten daar of ze zacht zijn!
+    </sketch>		
+    <sketch id="c015" once="1" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_once">
+      De zon schijnt hier alleen nogal fel…
+      Misschien kan je daar wat extra bescherming tegen geven?
+    </sketch>
+    <sketch id="c016" followup1="c015" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_second">
+      Hij moet echter nog net iets beter tegen droogte kunnen.
+      Want het is soms net een woestijn hier!
+    </sketch>
 		</fragment> 
 		
-		<fragment id="fnp3" name="Get_the_player_to_work"> 
-		<sketch id="fnp3.1" name="get_the_player_to_work_1">
-		Ik vind het wel super wat je al bereikt hebt! Misschien kan je een andere plant vinden waarmee je het nog beter kan maken?
-		</sketch>
-		<sketch id="fnp3.2" name="get_the_player_to_work_2">
-		Je bent wel al ver gekomen zeg! Ik denk dat je nog maar een paar dingen hoeft aan te passen. Er zal vast wel iets zijn hier om het mee te verbeteren.
-		</sketch>
-		<sketch id="fnp3.3" name="get_the_player_to_work_3">
-		Laat je echter niet tegenhouden door mijn commentaar. Je deed het echt goed! Als je iets nieuws kan vinden om het te verbeteren, dan wed ik dat je zo al klaar bent.
-		</sketch>
-		<sketch id="fnp3.4" name="get_the_player_to_work_4">
-		Het is maar een klein puntje van kritiek hoor. Je bent goed op dreef. Maar als je dat nog even zou willen aanpassen, dan zou dat echt geweldig zijn!
-		</sketch>
+		<fragment id="fnp3" name="Go Away"> 
+		<sketch id="ga1" name="get_the_player_to_work_1">
+      Maar ik moet wel zeggen. Je hebt het echt super gedaan.
+      De volgende plant is misschien net wat we zoeken!
+    </sketch>
+		<sketch id="ga2" name="get_the_player_to_work_2">
+      Je bent wel al ver gekomen zeg!
+      Ik denk dat je nog maar een paar dingen hoeft aan te passen.
+    </sketch>
+		<sketch id="ga3" name="get_the_player_to_work_3">
+      Laat je echter niet tegenhouden hoor.
+      Die plant was echt goed!
+      Je bent vast zo klaar.
+    </sketch>
 		</fragment> 
 	</feedback_new_plant_assembled>
 		
 	<feedback_found_right_plant>
-	<fragment id="ffrp1" name="feedback_found_right_plant_1">
-	Wow! Dat is echt een geweldige plant. Ik heb het aan mijn vader laten zien, en moet je eens kijken hoe hij het nu met hem gaat!
-	[foto gelukkige familie voor boerderij met bloeiende planten] De boerderij heeft meer planten dan ooit tevoren. Lekkere heerlijke planten, waar mensen van wijde ver voor komen. 
-	</fragment>
-	<fragment id="ffrp2" req1border="0.2" req1include="1" req1type="water" name="feedback_found_right_plant_2">
-	[foto van zware regenbui waar planten niets van merken] Daarnaast, omdat je het waterbestendig heeft gemaakt, hebben die planten laatst een flinke regenbui overleeft! 
-	</fragment>
-	<fragment id="ffrp3" req1border="0.2" req1include="1" req1type="fruit" name="feedback_found_right_plant_3">
-	[foto van bezoekers die in de verte wijzen naar boerderij] En omdat het zo lang is, zien mensen al in de verte onze planten al staan en weten ze wat zij bij ons kunnen kopen. We hebben nog nooit zoveel bezoekers gehad.
-	</fragment>
-	<fragment id="ffrp4" name="feedback_found_right_plant_4">
-	En dat is allemaal dankzij jou! Jij hebt ons zo ontzettend goed geholpen. Ik wed dat je anderen daarmee ook enorm kan helpen… Misschien zou je het je beroep later moeten maken! Ik wed dat je daar heel goed in bent. Vraag maar na bij de Universiteit Utrecht anders, dan kan je ze vertellen over hoe je ons hebt geholpen.
-	Maar ik moet ervandoor, mijn vader heeft me nodig met fruit plukken. Ik hoop dat we elkaar weer spreken. Je kan later altijd langskomen bij het museum. Misschien kan ik je dan voorstellen aan anderen die je hulp nodig hebben. Tot ziens!
-	</fragment>
+	<fragment id="frp1" name="feedback_found_right_plant_1">
+    Wow! Dat is echt een geweldige plant.
+    Ik heb ‘em aan mijn vader laten zien,
+    En hij was echt super blij!
+    [foto gelukkige familie voor boerderij met bloeiende planten]
+    De boerderij heeft meer planten dan ooit tevoren.
+    Iedereen in het dorp komt bij ons op visite!
+  </fragment>
+	<fragment id="frp2" name="feedback_found_right_plant_2">
+    Hey, en allemaal dankzij jou he!
+    Echt ontzettend bedankt voor je hulp!
+    Als je wilt, kun je altijd nog meer planten maken!
+    Laat maar aan me zien,
+    en dan kijk ik wel of we ‘em op de boerderij kunnen gebruiken!
+  </fragment>
 	</feedback_found_right_plant>
 	
 </dialogues_quest>

@@ -149,7 +149,7 @@ namespace Dialogue
 
 		// first check if the dialogue should only be shown one time and is already shown
 		std::string check;
-		if(elem->BoolAttribute("once"))
+		if(elem->Attribute("once") != NULL && elem->BoolAttribute("once"))
 		{
 			if(elem->Attribute("id") != NULL)
 			{
@@ -208,8 +208,10 @@ namespace Dialogue
 					reqAmount = std::stof(checkForQuest.c_str(), NULL);
 				}
 			}
-			include = elem->BoolAttribute(("req" + std::to_string(count) + "include").c_str());
-
+			if(elem->Attribute(("req" + std::to_string(count) + "include").c_str()))
+			{
+				include = elem->BoolAttribute(("req" + std::to_string(count) + "include").c_str());
+			}
 			float check = 1;
 			if(req == "drought")
 			{
@@ -294,6 +296,7 @@ namespace Dialogue
 						if(_currentPlayer.ids[i] == id)
 						{
 							percent -= (75.0f / (float)border * (i + extra));
+							break;
 						}
 					}
 					percentChance.push_back(percent);

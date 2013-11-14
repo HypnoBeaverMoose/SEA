@@ -1,6 +1,6 @@
 <database>
     <plant id="66" angle="0.100000" scale="0.200000" angleInc="0.300000" scaleInc="0.400000" iterCnt="5" axiom="newPlant">
-        <abilities antidrought="0.600000" thorns="0.100000" poison="0.100000" smell="0.100000" fruit="0.100000" soft="0.100000" growth="0.100000" antiwater="0.100000"/>
+        <abilities antidrought="0.100000" thorns="0.600000" poison="0.100000" smell="0.600000" fruit="0.600000" soft="0.600000" growth="0.600000" antiwater="0.600000"/>
         <do color="#AABBCCDD" letter="97" vertOffset="0.000000">
             <point width="0.000000" height="0.500000"/>
             <point width="1.000000" height="1.500000"/>

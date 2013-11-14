@@ -86,7 +86,9 @@ namespace Dialogue{
 
 	void Player::FinishQuest()
 	{
-		outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory));
+		outputText(tinyXMLHandler::instance()->getFinishQuestText(dialogueHistory));
+		dialogueHistory.questNumber++;
+		currentState = PlayQuest;
 	}
 
 	void Player::MakeQuest()
