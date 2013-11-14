@@ -7,10 +7,10 @@
 using namespace tinyxml2;
 
 
-PlantDatabase::PlantDatabase()
+PlantDatabase::PlantDatabase( std::string dbFile )
 {
 	XMLDocument doc;
-	if ( doc.LoadFile("database.xml") != XML_SUCCESS )
+	if ( doc.LoadFile( dbFile.c_str() ) != XML_SUCCESS )
 	{
 		std::cout << "Warning: could not find database.xml. Creating new document." << std::endl;
 
@@ -65,6 +65,7 @@ PlantDatabase::PlantData PlantDatabase::getPlant( int plantID, bool &result ) co
 		}
 
 		// plant found => fill PlantData struct
+		pData.name        = plant->Attribute("name");
 		pData.angle       = plant->FloatAttribute("angle");
 		pData.scale       = plant->FloatAttribute("scale");
 		pData.angleInc    = plant->FloatAttribute("angleInc");
@@ -72,15 +73,39 @@ PlantDatabase::PlantData PlantDatabase::getPlant( int plantID, bool &result ) co
 		pData.iterCount   = plant->IntAttribute("iterCnt");
 		pData.axiom       = plant->Attribute("axiom");
 
-		XMLElement *abilities = plant->FirstChildElement("abilities");
-		pData.antidrought = abilities->FloatAttribute("antidrought");
-		pData.thorns      = abilities->FloatAttribute("thorns");
-		pData.poison      = abilities->FloatAttribute("poison");
-		pData.smell       = abilities->FloatAttribute("smell");
-		pData.fruit       = abilities->FloatAttribute("fruit");
-		pData.soft        = abilities->FloatAttribute("soft");
-		pData.growth      = abilities->FloatAttribute("growth");
-		pData.antiwater   = abilities->FloatAttribute("antiwater");
+		// parse abilities
+		XMLElement *abilities = plant->FirstChildElement("flower");
+		pData.abs[PlantData::ABS_FLOWER].antidrought = abilities->FloatAttribute("antidrought");
+		pData.abs[PlantData::ABS_FLOWER].thorns      = abilities->FloatAttribute("thorns");
+		pData.abs[PlantData::ABS_FLOWER].poison      = abilities->FloatAttribute("poison");
+		pData.abs[PlantData::ABS_FLOWER].smell       = abilities->FloatAttribute("smell");
+		pData.abs[PlantData::ABS_FLOWER].fruit       = abilities->FloatAttribute("fruit");
+		pData.abs[PlantData::ABS_FLOWER].soft        = abilities->FloatAttribute("soft");
+		pData.abs[PlantData::ABS_FLOWER].growth      = abilities->FloatAttribute("growth");
+		pData.abs[PlantData::ABS_FLOWER].antiwater   = abilities->FloatAttribute("antiwater");
+		pData.abs[PlantData::ABS_FLOWER].img         = abilities->Attribute("img");
+
+		abilities = plant->FirstChildElement("stalk");
+		pData.abs[PlantData::ABS_STALK].antidrought = abilities->FloatAttribute("antidrought");
+		pData.abs[PlantData::ABS_STALK].thorns      = abilities->FloatAttribute("thorns");
+		pData.abs[PlantData::ABS_STALK].poison      = abilities->FloatAttribute("poison");
+		pData.abs[PlantData::ABS_STALK].smell       = abilities->FloatAttribute("smell");
+		pData.abs[PlantData::ABS_STALK].fruit       = abilities->FloatAttribute("fruit");
+		pData.abs[PlantData::ABS_STALK].soft        = abilities->FloatAttribute("soft");
+		pData.abs[PlantData::ABS_STALK].growth      = abilities->FloatAttribute("growth");
+		pData.abs[PlantData::ABS_STALK].antiwater   = abilities->FloatAttribute("antiwater");
+		pData.abs[PlantData::ABS_STALK].img         = abilities->Attribute("img");
+
+		abilities = plant->FirstChildElement("leaf");
+		pData.abs[PlantData::ABS_LEAF].antidrought = abilities->FloatAttribute("antidrought");
+		pData.abs[PlantData::ABS_LEAF].thorns      = abilities->FloatAttribute("thorns");
+		pData.abs[PlantData::ABS_LEAF].poison      = abilities->FloatAttribute("poison");
+		pData.abs[PlantData::ABS_LEAF].smell       = abilities->FloatAttribute("smell");
+		pData.abs[PlantData::ABS_LEAF].fruit       = abilities->FloatAttribute("fruit");
+		pData.abs[PlantData::ABS_LEAF].soft        = abilities->FloatAttribute("soft");
+		pData.abs[PlantData::ABS_LEAF].growth      = abilities->FloatAttribute("growth");
+		pData.abs[PlantData::ABS_LEAF].antiwater   = abilities->FloatAttribute("antiwater");
+		pData.abs[PlantData::ABS_LEAF].img         = abilities->Attribute("img");
 
 		// parse DrawableObject data
 		XMLElement *drawObj = plant->FirstChildElement("do");
@@ -156,6 +181,7 @@ bool PlantDatabase::addPlant( const PlantDatabase::PlantData &data )
 
 		XMLElement *plant = doc.NewElement("plant");
 		plant->SetAttribute("id", data.id);
+		plant->SetAttribute("name", data.name.c_str());
 		plant->SetAttribute("angle", data.angle);
 		plant->SetAttribute("scale", data.scale);
 		plant->SetAttribute("angleInc", data.angleInc);
@@ -163,16 +189,41 @@ bool PlantDatabase::addPlant( const PlantDatabase::PlantData &data )
 		plant->SetAttribute("iterCnt", data.iterCount);
 		plant->SetAttribute("axiom", data.axiom.c_str());
 
-		XMLElement *abilities = doc.NewElement("abilities");
-		abilities->SetAttribute("antidrought", data.antidrought);
-		abilities->SetAttribute("thorns", data.thorns);
-		abilities->SetAttribute("poison", data.poison);
-		abilities->SetAttribute("smell", data.smell);
-		abilities->SetAttribute("fruit", data.fruit);
-		abilities->SetAttribute("soft", data.soft);
-		abilities->SetAttribute("growth", data.growth);
-		abilities->SetAttribute("antiwater", data.antiwater);
-		
+		// generate ability tags
+		XMLElement *abilities = doc.NewElement("stalk");
+		abilities->SetAttribute("antidrought", data.abs[PlantData::ABS_STALK].antidrought);
+		abilities->SetAttribute("thorns", data.abs[PlantData::ABS_STALK].thorns);
+		abilities->SetAttribute("poison", data.abs[PlantData::ABS_STALK].poison);
+		abilities->SetAttribute("smell", data.abs[PlantData::ABS_STALK].smell);
+		abilities->SetAttribute("fruit", data.abs[PlantData::ABS_STALK].fruit);
+		abilities->SetAttribute("soft", data.abs[PlantData::ABS_STALK].soft);
+		abilities->SetAttribute("growth", data.abs[PlantData::ABS_STALK].growth);
+		abilities->SetAttribute("antiwater", data.abs[PlantData::ABS_STALK].antiwater);
+		abilities->SetAttribute("img", data.abs[PlantData::ABS_STALK].img.c_str());
+		plant->InsertEndChild(abilities);
+
+		abilities = doc.NewElement("leaf");
+		abilities->SetAttribute("antidrought", data.abs[PlantData::ABS_LEAF].antidrought);
+		abilities->SetAttribute("thorns", data.abs[PlantData::ABS_LEAF].thorns);
+		abilities->SetAttribute("poison", data.abs[PlantData::ABS_LEAF].poison);
+		abilities->SetAttribute("smell", data.abs[PlantData::ABS_LEAF].smell);
+		abilities->SetAttribute("fruit", data.abs[PlantData::ABS_LEAF].fruit);
+		abilities->SetAttribute("soft", data.abs[PlantData::ABS_LEAF].soft);
+		abilities->SetAttribute("growth", data.abs[PlantData::ABS_LEAF].growth);
+		abilities->SetAttribute("antiwater", data.abs[PlantData::ABS_LEAF].antiwater);
+		abilities->SetAttribute("img", data.abs[PlantData::ABS_LEAF].img.c_str());
+		plant->InsertEndChild(abilities);
+
+		abilities = doc.NewElement("flower");
+		abilities->SetAttribute("antidrought", data.abs[PlantData::ABS_FLOWER].antidrought);
+		abilities->SetAttribute("thorns", data.abs[PlantData::ABS_FLOWER].thorns);
+		abilities->SetAttribute("poison", data.abs[PlantData::ABS_FLOWER].poison);
+		abilities->SetAttribute("smell", data.abs[PlantData::ABS_FLOWER].smell);
+		abilities->SetAttribute("fruit", data.abs[PlantData::ABS_FLOWER].fruit);
+		abilities->SetAttribute("soft", data.abs[PlantData::ABS_FLOWER].soft);
+		abilities->SetAttribute("growth", data.abs[PlantData::ABS_FLOWER].growth);
+		abilities->SetAttribute("antiwater", data.abs[PlantData::ABS_FLOWER].antiwater);
+		abilities->SetAttribute("img", data.abs[PlantData::ABS_FLOWER].img.c_str());
 		plant->InsertEndChild(abilities);
 
 		// fill DrawableObject elements
