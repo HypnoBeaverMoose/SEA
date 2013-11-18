@@ -11,8 +11,11 @@ namespace Dialogue
 		public:
 			std::vector<Player::DialogueStruct> getStartText(Player::DialogueHistory currentPlayer);
 			std::vector<Player::DialogueStruct> getEndText();
+			std::vector<Player::DialogueStruct> getCalculationText(Player::DialogueHistory currentPlayer);
+			std::vector<Player::DialogueStruct> getFeedBackWithSamePlantText(Player::DialogueHistory currentPlayer);
 			std::vector<Player::DialogueStruct> getFeedBackWithPlantText(Player::DialogueHistory currentPlayer);
 			std::vector<Player::DialogueStruct> getFinishQuestText(Player::DialogueHistory currentPlayer);
+			std::vector<Player::DialogueStruct> getFeedBackWithNoPlant(Player::DialogueHistory currentPlayer);
 			static tinyXMLHandler *instance();
 		
 		private:

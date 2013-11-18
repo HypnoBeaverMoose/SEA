@@ -6,6 +6,81 @@
 
 namespace Dialogue
 {
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getCalculationText(Player::DialogueHistory currentPlayer)
+	{
+		_currentPlayer = currentPlayer;
+		tinyxml2::XMLDocument doc;
+		std::vector<Player::DialogueStruct> newVector;
+		std::string searchParameters[] = {"dialogues_quest","feedback_wait_for_calculation"};
+		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+		std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+		std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+
+		tinyxml2::XMLElement *elem = checkDialogue(idVector, searchParametersVector, &doc);
+		newVector = getTexts(elem);
+		return newVector;
+	}
+
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getFeedBackWithSamePlantText(Player::DialogueHistory currentPlayer)
+	{
+		_currentPlayer = currentPlayer;
+		tinyxml2::XMLDocument doc;
+		std::vector<Player::DialogueStruct> newVector;
+		std::string searchParameters[] = {"dialogues_quest","feedback_same_plant"};
+		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+		std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+		std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+
+		tinyxml2::XMLElement *elem = checkDialogue(idVector, searchParametersVector, &doc);
+		newVector = getTexts(elem);
+		return newVector;
+	}
+
+	std::vector<Player::DialogueStruct> tinyXMLHandler::getFeedBackWithNoPlant(Player::DialogueHistory currentPlayer)
+	{
+		_currentPlayer = currentPlayer;
+		std::vector<Player::DialogueStruct> newVector;
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLElement *elem;
+
+		int amountOfScannedPlant = 0;
+		for(int i = 0; i < Dialogue::NUMBER_OF_PLANTS; i++)
+		{
+			if(_currentPlayer.scannedPlantsIds[i] > 0)
+			{
+				amountOfScannedPlant++;
+			}
+		}
+
+		if(amountOfScannedPlant == 0)
+		{
+			std::string searchParameters[] = {"dialogues_quest","feedback_no_plants_scanned"};
+			std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+			std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+			std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+			elem = checkDialogue(idVector, searchParametersVector, &doc);
+		}
+		else if(amountOfScannedPlant == Dialogue::NUMBER_OF_PLANTS)
+		{
+			std::string searchParameters[] = {"dialogues_quest","feedback_no_plant_made"};
+			std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+			std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+			std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+			elem = checkDialogue(idVector, searchParametersVector, &doc);
+		}
+		else
+		{
+			std::string searchParameters[] = {"dialogues_quest","feedback_too_few_plants_scanned"};
+			std::string idchecks[] = {std::to_string(currentPlayer.questNumber)};
+			std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
+			std::vector<std::string> idVector (idchecks, idchecks + sizeof(idchecks) / sizeof(std::string) );
+			elem = checkDialogue(idVector, searchParametersVector, &doc);
+		}
+
+		newVector = getTexts(elem);
+		return newVector;
+	}
+
 	std::vector<Player::DialogueStruct> tinyXMLHandler::getFinishQuestText(Player::DialogueHistory currentPlayer) 
 	{
 		_currentPlayer = currentPlayer;
@@ -307,7 +382,7 @@ namespace Dialogue
 				}
 			}
 
-			border = 0;
+			border = rand() % elemSize;
 			while(elem == NULL)
 			{
 				if(border >= elemSize)
