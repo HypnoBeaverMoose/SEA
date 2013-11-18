@@ -46,7 +46,7 @@ Character will be used later, when there are more characters. It will add one ex
     Probeer anders eerst een plant te vinden met een plaatje die je leuk vind.
     Dan kunnen we daarna uitproberen of die zal werken!
   </sketch>
-	<sketch id="nps2" followup1="noscan1" name="second_feedback_no_plants_scanned">
+	<sketch id="nps2" followup1="nps1" name="second_feedback_no_plants_scanned">
     Hier in deze tuin zijn er vast planten die leuk zijn!
     Zoek gewoon naar zo’n plaatje, ongeveer ter grootte van een munt.
     En leg je scanner erop!

@@ -10,37 +10,56 @@ namespace Dialogue{
 	Player::Player()
 	{
 		dialogueHistory.targetPlant.id = 0;
-		currentState = PlayQuest;
-		age = 18; // this doesn't do anything yet, but it can influence which dialogue will be shown at a later point
 		dialogueHistory.questNumber = 1;
 		dialogueHistory.lastSpeaker = 1;
+		currentState = PlayQuest;
 	}
 
-	void Player::PlayDialogue()
+	void Player::PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID)
 	{
 		if(currentState == WaitForPlant)
 		{
-			bool check;
 			dialogueHistory.previousPlant = dialogueHistory.newPlant;
-			dialogueHistory.newPlant = pd.getPlant(id, check);
-			if(dialogueHistory.targetPlant.id == 0)
-			{ // if there is no quest made yet, make a quest!
-				MakeQuest();
+			bool plantFound = true;
+			for(int i = 0; i < Dialogue::NUMBER_OF_PLANTS; i++)
+			{
+				dialogueHistory.scannedPlantsIds[i] = plantIDs[i];
+			}
+			if(assembledPlantID <= 0)
+			{
+				outputText(tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory));
+				return;
+			}
+			dialogueHistory.newPlant = pd.getPlant(assembledPlantID, plantFound);
+			if(!plantFound)
+			{
+				outputText(tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory));
 			}
 			else
-			{ // else, check if the new plant matches the guest.
-				if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought && dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
+			{
+				if(dialogueHistory.targetPlant.id == 0)
+				{ // if there is no quest made yet, make a quest!
+					MakeQuest();
+				}
+				if(dialogueHistory.newPlant.antidrought == dialogueHistory.previousPlant.antidrought && dialogueHistory.newPlant.antiwater == dialogueHistory.previousPlant.antiwater
+					&& dialogueHistory.newPlant.fruit == dialogueHistory.previousPlant.fruit && dialogueHistory.newPlant.growth == dialogueHistory.previousPlant.growth
+					&& dialogueHistory.newPlant.poison == dialogueHistory.previousPlant.poison && dialogueHistory.newPlant.smell == dialogueHistory.previousPlant.smell
+					&& dialogueHistory.newPlant.soft == dialogueHistory.previousPlant.soft && dialogueHistory.newPlant.thorns == dialogueHistory.previousPlant.thorns)
+				{ // check if the previous plant and the new plant are the same
+					outputText(tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory));
+				}
+				else if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought && dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
 					&& dialogueHistory.newPlant.fruit >= dialogueHistory.targetPlant.fruit && dialogueHistory.newPlant.growth >= dialogueHistory.targetPlant.growth
 					&& dialogueHistory.newPlant.poison >= dialogueHistory.targetPlant.poison && dialogueHistory.newPlant.smell >= dialogueHistory.targetPlant.smell
 					&& dialogueHistory.newPlant.soft >= dialogueHistory.targetPlant.soft && dialogueHistory.newPlant.thorns >= dialogueHistory.targetPlant.thorns)
-				{
-					check = false;
+				{ // else, check if the new plant matches the quest.
 					FinishQuest();
 				}
-			}
-			if(check)
-			{
-				outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory));
+				else
+				{ // else, output feedback so you know what to do better
+					outputText(tinyXMLHandler::instance()->getCalculationText(dialogueHistory));
+					outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory));
+				}
 			}
 		}
 		else
@@ -87,7 +106,11 @@ namespace Dialogue{
 	void Player::FinishQuest()
 	{
 		outputText(tinyXMLHandler::instance()->getFinishQuestText(dialogueHistory));
-		dialogueHistory.questNumber++;
+		int quest = dialogueHistory.questNumber + 1;
+		dialogueHistory = DialogueHistory();
+		dialogueHistory.targetPlant.id = 0;
+		dialogueHistory.lastSpeaker = 1;
+		dialogueHistory.questNumber = quest;
 		currentState = PlayQuest;
 	}
 
