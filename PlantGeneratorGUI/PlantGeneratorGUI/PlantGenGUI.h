@@ -1,7 +1,7 @@
 #ifndef PLANTGENGUI_H
 #define PLANTGENGUI_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QGraphicsOpacityEffect>
 
 #include "PlantDatabase.h"
@@ -10,7 +10,7 @@ namespace Ui {
 class PlantGenGUI;
 }
 
-class PlantGenGUI : public QMainWindow
+class PlantGenGUI : public QWidget
 {
     Q_OBJECT
 

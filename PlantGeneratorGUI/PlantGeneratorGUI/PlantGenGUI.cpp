@@ -7,7 +7,7 @@
 
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
-    QMainWindow(parent),
+    QWidget(parent),
     ui(new Ui::PlantGenGUI), pdb(), plants(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
     opFxFruit(), opFxToy(), opFxTree(), opFxRain()
