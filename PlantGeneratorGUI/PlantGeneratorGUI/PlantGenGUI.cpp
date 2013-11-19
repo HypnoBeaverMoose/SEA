@@ -2,6 +2,9 @@
 #include <iostream>
 #include <sstream>
 
+#include <QFile>
+#include <QFontDatabase>
+
 #include "PlantGenGUI.h"
 #include "ui_PlantGenGUI.h"
 
@@ -13,6 +16,30 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     opFxFruit(), opFxToy(), opFxTree(), opFxRain()
 {
     ui->setupUi(this);
+
+
+    // load plant label font
+    QFile fontFile(":/PlantGen/PRISTINA.TTF");
+    if (!fontFile.open(QIODevice::ReadOnly))
+        std::cout << "failed to open font file" << std::endl;
+    QByteArray fontData = fontFile.readAll();
+
+    if (QFontDatabase::addApplicationFontFromData(fontData) == -1)
+        std::cout << "failed to add a font" << std::endl;
+    QFont font("Pristina", 18, QFont::Normal);
+
+    ui->plant1Label->setFont(font);
+    ui->plant2Label->setFont(font);
+    ui->plant3Label->setFont(font);
+
+
+    ui->guiSwitchBtn->setSize( QSize(122, 122) );
+    QImage btnImg;
+
+    if ( !btnImg.load(":/PlantGen/toPortraitBtn.png") )
+        std::cout << "Error loading image" << std::endl;
+    ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
+
 
     // connect graphicsEffects to the icon glows
     ui->glowSun->setGraphicsEffect(&opFxSun);
@@ -36,6 +63,12 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 PlantGenGUI::~PlantGenGUI()
 {
     delete ui;
+}
+
+
+QPushButton * PlantGenGUI::getGUISwitchBtn()
+{
+    return ui->guiSwitchBtn;
 }
 
 
@@ -84,8 +117,6 @@ void PlantGenGUI::updateIcons( int )
         soft        += (pLeft->abs[i].soft * a.left) + (pRight->abs[i].soft * a.right);
         growth      += (pLeft->abs[i].growth * a.left) + (pRight->abs[i].growth * a.right);
         antiwater   += (pLeft->abs[i].antiwater * a.left) + (pRight->abs[i].antiwater * a.right);
-
-        std::cout << "dial " << i << std::endl;
     }
 
     opFxSun.setOpacity(antiDrought);

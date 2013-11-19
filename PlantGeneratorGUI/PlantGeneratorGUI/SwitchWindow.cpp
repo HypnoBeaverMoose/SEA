@@ -1,6 +1,4 @@
 
-#include <QSignalMapper>
-
 #include "PlantGenGUI.h"
 #include "SwitchWindow.h"
 #include "ui_SwitchWindow.h"
@@ -11,22 +9,24 @@ SwitchWindow::SwitchWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    int idxGen = this->addWidget(&genGUI);
-    int idx = this->addWidget(&portGUI);
-    setCurrentIndex(idx);
+    plantGenIdx = this->addWidget(&genGUI);
+    portraitIdx = this->addWidget(&portGUI);
+    setCurrentIndex(plantGenIdx);
 
-
-    //TODO: remove leak
-    /*QSignalMapper *mapper = new QSignalMapper(this);
-    mapper->setMapping(ui->pushButton, idx);
-    QObject::connect(ui->pushButton, SIGNAL(clicked()), mapper, SLOT(map()));
-    QObject::connect(mapper, SIGNAL(mapped(int)), this, SLOT(setCurrentIndex(int)));*/
-
-
-    //QObject::connect( ui->pushButton, SIGNAL(clicked()), this, SLOT(updateIcons(int)) );
+    QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
+    QObject::connect( portGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
 }
 
 SwitchWindow::~SwitchWindow()
 {
     delete ui;
+}
+
+
+void SwitchWindow::toggleGUI()
+{
+    if ( currentIndex() == plantGenIdx )
+        setCurrentIndex(portraitIdx);
+    else setCurrentIndex(plantGenIdx);
+
 }

@@ -8,8 +8,6 @@
 ArrowDial::ArrowDial( QWidget *parent )
     : QDial(parent), arrowImg()
 {
-    std::cout << "ArrowDial created." << std::endl;
-
     QImage img(":/PlantGen/dialArrow.png");
     if ( img.isNull() )
         std::cout << "Warning: unable to load :/PlantGen/dialArrow.png" << std::endl;
@@ -27,17 +25,14 @@ ArrowDial::Area ArrowDial::getCurArea()
     // check which area the pointer is in
     if ( value() >= 0 && value() <= 33 )           // area a => [0 - 33]
     {
-        std::cout << "area a" << std::endl;
         a.id        = 1;
         interpValue = float(value()) / 33;
     } else if ( value() >= 34 && value() <= 66 )    // area b => [34 - 66]
     {
-        std::cout << "area b" << std::endl;
         a.id        = 2;
         interpValue = float(value() - 34) / 32;
     } else                                          // area c => [67 - 99]
     {
-        std::cout << "area c" << std::endl;
         a.id        = 3;
         interpValue = float(value() - 67) / 32;
     }

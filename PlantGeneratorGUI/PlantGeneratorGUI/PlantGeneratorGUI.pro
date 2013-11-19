@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     PlantDatabase.cpp \
     PlantGenGUI.cpp \
     SwitchWindow.cpp \
-    PortraitGUI.cpp
+    PortraitGUI.cpp \
+    MaskedButton.cpp
 
 HEADERS  += \
     ArrowDial.h \
@@ -26,7 +27,8 @@ HEADERS  += \
     PlantDatabase.h \
     PlantGenGUI.h \
     SwitchWindow.h \
-    PortraitGUI.h
+    PortraitGUI.h \
+    MaskedButton.h
 
 INCLUDEPATH += .
 

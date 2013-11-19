@@ -21,5 +21,11 @@
         <file>stalkDustyMiller.png</file>
         <file>stalkTomato.png</file>
         <file>database.xml</file>
+        <file>toPortraitBtn.png</file>
+        <file>PRISTINA.TTF</file>
+    </qresource>
+    <qresource prefix="/Portrait">
+        <file>portraitBG.png</file>
+        <file>toGenBtn.png</file>
     </qresource>
 </RCC>

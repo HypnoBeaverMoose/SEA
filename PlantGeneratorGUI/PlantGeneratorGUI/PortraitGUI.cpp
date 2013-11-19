@@ -10,10 +10,20 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    std::cout << "PortraitGUI" << std::endl;
+    ui->guiSwitchBtn->setSize( QSize(122, 122) );
+    QImage btnImg;
+
+    if ( !btnImg.load(":/Portrait/toGenBtn.png") )
+        std::cout << "Error loading image" << std::endl;
+    ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
 }
 
 PortraitGUI::~PortraitGUI()
 {
     delete ui;
+}
+
+QPushButton * PortraitGUI::getGUISwitchBtn()
+{
+    return ui->guiSwitchBtn;
 }

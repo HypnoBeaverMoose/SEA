@@ -2,6 +2,7 @@
 #define PORTRAITGUI_H
 
 #include <QWidget>
+#include <QPushButton>
 
 namespace Ui {
 class PortraitGUI;
@@ -14,6 +15,8 @@ class PortraitGUI : public QWidget
 public:
     explicit PortraitGUI(QWidget *parent = 0);
     ~PortraitGUI();
+
+    QPushButton * getGUISwitchBtn();
 
 private:
     Ui::PortraitGUI *ui;
