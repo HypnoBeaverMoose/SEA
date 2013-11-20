@@ -1,31 +1,40 @@
 #pragma once
 #include <vector>
-#include "PlantData.h"
+#include "PlantDatabase.h"
 
 namespace Dialogue
 {
+	const int NUMBER_OF_PLANTS = 3; 
+
 	class Player
 	{
 		public:
+			int id;
 			Player();
-			void PlayDialogue();
-			enum State{PlayQuest, WaitForPlant};
-			State currentState;
-			struct DialogueStruct
+			void PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID);
+			PlantDatabase pd;
+			struct DialogueStruct // all the information that will be send back from the xml
 			{
-				std::string dialogue, speaker;
+				std::string dialogue, id;
 			};
-			struct DialogueData
+			struct DialogueHistory // contains all information to get right dialogue
 			{
 				int lastSpeaker,questNumber;
-				std::vector<int> integers;
-				PlantData plant;
+				std::vector<std::string> ids;
+				int scannedPlantsIds[Dialogue::NUMBER_OF_PLANTS]; // in case you want to give feedback according to the plant you have picked
+				PlantDatabase::PlantData targetPlant; // quest
+				PlantDatabase::PlantData newPlant; // the plant you just made
+				PlantDatabase::PlantData previousPlant; // the plant you made before
 			};
 
 		private:
+			enum State{PlayQuest, WaitForPlant};
+			State currentState;
 			int age;
-			DialogueData dialogueData;
+			DialogueHistory dialogueHistory;
 			bool PlayStartQuestDialogue();
 			void outputText(std::vector<DialogueStruct> dialogueVector);
+			void FinishQuest();
+			void MakeQuest();
 	};
 }

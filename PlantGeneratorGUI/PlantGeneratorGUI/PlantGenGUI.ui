@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlantGenGUI</class>
+ <widget class="QWidget" name="PlantGenGUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>1280</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PlantGenGUI</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>843</width>
+     <height>1271</height>
+    </rect>
+   </property>
+   <widget class="QLabel" name="bgImg">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>1281</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/genBG.png</pixmap>
+    </property>
+   </widget>
+   <widget class="ArrowDial" name="dialStalk">
+    <property name="geometry">
+     <rect>
+      <x>239</x>
+      <y>-10</y>
+      <width>271</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+    <property name="invertedControls">
+     <bool>false</bool>
+    </property>
+    <property name="wrapping">
+     <bool>true</bool>
+    </property>
+    <property name="notchesVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="ArrowDial" name="dialLeaf">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>140</y>
+      <width>271</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+    <property name="invertedControls">
+     <bool>false</bool>
+    </property>
+    <property name="wrapping">
+     <bool>true</bool>
+    </property>
+    <property name="notchesVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="ArrowDial" name="dialFlower">
+    <property name="geometry">
+     <rect>
+      <x>-20</x>
+      <y>139</y>
+      <width>271</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+    <property name="invertedControls">
+     <bool>false</bool>
+    </property>
+    <property name="wrapping">
+     <bool>true</bool>
+    </property>
+    <property name="notchesVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plant1Label">
+    <property name="geometry">
+     <rect>
+      <x>141</x>
+      <y>1165</y>
+      <width>163</width>
+      <height>59</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Pristina</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Plant1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plant2Label">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>1165</y>
+      <width>163</width>
+      <height>59</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Pristina</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Plant2</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plant3Label">
+    <property name="geometry">
+     <rect>
+      <x>495</x>
+      <y>1165</y>
+      <width>163</width>
+      <height>59</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Pristina</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Plant3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowThorns">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>-16</x>
+      <y>622</y>
+      <width>177</width>
+      <height>205</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconApple">
+    <property name="geometry">
+     <rect>
+      <x>702</x>
+      <y>800</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconApple.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconToy">
+    <property name="geometry">
+     <rect>
+      <x>702</x>
+      <y>669</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconToy.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconTree">
+    <property name="geometry">
+     <rect>
+      <x>701</x>
+      <y>934</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconTree.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconRain">
+    <property name="geometry">
+     <rect>
+      <x>702</x>
+      <y>536</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconRain.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconNose">
+    <property name="geometry">
+     <rect>
+      <x>21</x>
+      <y>933</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconNose.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconThorns">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>667</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconThorns.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconSkull">
+    <property name="geometry">
+     <rect>
+      <x>21</x>
+      <y>798</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconSkull.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="iconSun">
+    <property name="geometry">
+     <rect>
+      <x>19</x>
+      <y>536</y>
+      <width>76</width>
+      <height>102</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconSun.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowSkull">
+    <property name="geometry">
+     <rect>
+      <x>-16</x>
+      <y>751</y>
+      <width>169</width>
+      <height>210</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowSun">
+    <property name="geometry">
+     <rect>
+      <x>-16</x>
+      <y>487</y>
+      <width>183</width>
+      <height>208</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowNose">
+    <property name="geometry">
+     <rect>
+      <x>-16</x>
+      <y>889</y>
+      <width>158</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowRain">
+    <property name="geometry">
+     <rect>
+      <x>665</x>
+      <y>491</y>
+      <width>191</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowApple">
+    <property name="geometry">
+     <rect>
+      <x>665</x>
+      <y>755</y>
+      <width>186</width>
+      <height>202</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowTree">
+    <property name="geometry">
+     <rect>
+      <x>665</x>
+      <y>886</y>
+      <width>179</width>
+      <height>206</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="glowToy">
+    <property name="geometry">
+     <rect>
+      <x>665</x>
+      <y>620</y>
+      <width>198</width>
+      <height>208</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/iconGlow.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="flowerPlant1">
+    <property name="geometry">
+     <rect>
+      <x>95</x>
+      <y>326</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="flowerPlant2">
+    <property name="geometry">
+     <rect>
+      <x>38</x>
+      <y>213</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="flowerPlant3">
+    <property name="geometry">
+     <rect>
+      <x>153</x>
+      <y>211</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="stalkPlant3">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>58</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="stalkPlant1">
+    <property name="geometry">
+     <rect>
+      <x>352</x>
+      <y>171</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="stalkPlant2">
+    <property name="geometry">
+     <rect>
+      <x>297</x>
+      <y>67</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="leafPlant2">
+    <property name="geometry">
+     <rect>
+      <x>548</x>
+      <y>223</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="leafPlant3">
+    <property name="geometry">
+     <rect>
+      <x>668</x>
+      <y>213</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="leafPlant1">
+    <property name="geometry">
+     <rect>
+      <x>611</x>
+      <y>327</y>
+      <width>97</width>
+      <height>99</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/PlantGen/stalkCactus.png</pixmap>
+    </property>
+   </widget>
+   <widget class="MaskedButton" name="guiSwitchBtn">
+    <property name="geometry">
+     <rect>
+      <x>668</x>
+      <y>9</y>
+      <width>122</width>
+      <height>122</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/PlantGen/toPortraitBtn.png</normaloff>:/PlantGen/toPortraitBtn.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>122</width>
+      <height>121</height>
+     </size>
+    </property>
+   </widget>
+   <zorder>bgImg</zorder>
+   <zorder>plant1Label</zorder>
+   <zorder>plant2Label</zorder>
+   <zorder>plant3Label</zorder>
+   <zorder>glowThorns</zorder>
+   <zorder>glowSkull</zorder>
+   <zorder>glowSun</zorder>
+   <zorder>glowNose</zorder>
+   <zorder>glowRain</zorder>
+   <zorder>glowApple</zorder>
+   <zorder>glowTree</zorder>
+   <zorder>glowToy</zorder>
+   <zorder>iconNose</zorder>
+   <zorder>iconRain</zorder>
+   <zorder>iconSkull</zorder>
+   <zorder>iconToy</zorder>
+   <zorder>iconApple</zorder>
+   <zorder>iconTree</zorder>
+   <zorder>iconThorns</zorder>
+   <zorder>iconSun</zorder>
+   <zorder>flowerPlant1</zorder>
+   <zorder>flowerPlant2</zorder>
+   <zorder>flowerPlant3</zorder>
+   <zorder>stalkPlant3</zorder>
+   <zorder>stalkPlant1</zorder>
+   <zorder>stalkPlant2</zorder>
+   <zorder>leafPlant2</zorder>
+   <zorder>leafPlant3</zorder>
+   <zorder>leafPlant1</zorder>
+   <zorder>dialStalk</zorder>
+   <zorder>dialFlower</zorder>
+   <zorder>dialLeaf</zorder>
+   <zorder>guiSwitchBtn</zorder>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ArrowDial</class>
+   <extends>QDial</extends>
+   <header>ArrowDial.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MaskedButton</class>
+   <extends>QPushButton</extends>
+   <header>MaskedButton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

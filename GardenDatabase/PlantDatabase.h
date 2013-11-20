@@ -32,16 +32,8 @@ class PlantDatabase
 			std::string rhs;
 		};
 
-		struct PlantData
+		struct Abilities
 		{
-			int id;
-			float angle;
-			float scale;
-			float angleInc;
-			float scaleInc;
-			int iterCount;
-			std::string axiom;
-
 			float antidrought;
 			float thorns;
 			float poison;
@@ -50,12 +42,39 @@ class PlantDatabase
 			float soft;
 			float growth;
 			float antiwater;
+			std::string img;
+		};
+
+		struct PlantData
+		{
+			PlantData()
+			{
+				abs[ABS_FLOWER] = Abilities();
+				abs[ABS_STALK]  = Abilities();
+				abs[ABS_LEAF]   = Abilities();
+			}
+
+			int id;
+			std::string name;
+			float angle;
+			float scale;
+			float angleInc;
+			float scaleInc;
+			int iterCount;
+			std::string axiom;
+
+			enum { ABS_FLOWER, ABS_STALK, ABS_LEAF, NUM_ABS };
+			Abilities abs[NUM_ABS];
+
+			/*Abilities stalk;
+			Abilities leaf;
+			Abilities flower;*/
 
 			std::vector<DrawData> drawData;
 			std::vector<LRule> rules;
 		};
 
-		PlantDatabase();
+		PlantDatabase( std::string dbFile );
 		//~PlantDatabase();
 
 		PlantData getPlant( int plantID, bool &result ) const;

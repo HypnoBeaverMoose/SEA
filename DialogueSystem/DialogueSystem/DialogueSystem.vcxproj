@@ -41,6 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Robin\Documents\GitHub\SEA\GardenDatabase;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -79,7 +80,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlantData.h" />
+    <ClInclude Include="..\..\GardenDatabase\PlantDatabase.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -87,8 +88,10 @@
     <ClInclude Include="TinyXMLHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\GardenDatabase\PlantDatabase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="DialogueSystem.cpp" />
-    <ClCompile Include="PlantData.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
