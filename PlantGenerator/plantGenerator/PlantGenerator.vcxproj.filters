@@ -77,6 +77,12 @@
     <ClInclude Include="..\src\plantGenerator\WinApp.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\plantGenerator\PlantGeneratorApp.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\plantGenerator\PlantGenerator.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\plantGenerator\AppAndroid.cpp">
@@ -104,6 +110,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\plantGenerator\LSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\plantGenerator\PlantGeneratorApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\plantGenerator\PlantGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

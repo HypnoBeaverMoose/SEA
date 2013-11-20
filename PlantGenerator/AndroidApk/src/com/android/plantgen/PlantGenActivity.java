@@ -23,6 +23,13 @@ import android.util.Log;
 import android.view.WindowManager;
 import java.io.File;
 
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.opengles.GL10;
+
+
 public class PlantGenActivity extends Activity 
 {
 
@@ -31,11 +38,13 @@ public class PlantGenActivity extends Activity
     @Override protected void onCreate(Bundle icicle) 
 	{
 		AssetManager mgr = getResources().getAssets();
-		PlantGenLib.SetAssetManager(mgr);
+		PlantGenLib.SetAssetManager(mgr);        
+		//mView = new PlantGenView(getApplication());
         
-		mView = new PlantGenView(getApplication());
-        super.onCreate(icicle);
-		setContentView(mView);
+		super.onCreate(icicle);
+
+		PlantGenLib.OnCreate();
+		//setContentView(mView);
     }
 
     @Override protected void onPause() 

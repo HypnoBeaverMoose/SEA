@@ -15,13 +15,4 @@ public:
 	static void DestroyCallback();
 	static AppAndroid* getInstance();
 	static bool LoadImageFromFile();
-private:
-//static AppAndroid* s_instance;
 };
-//extern "C" 
-//{	
-//    JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnResize(JNIEnv * env, jobject obj,  jint width, jint height);
-//    JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnRender(JNIEnv * env, jobject obj);
-//	JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnDestroy(JNIEnv * env, jobject obj);
-//	JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnCreate(JNIEnv * env, jobject obj);
-//};

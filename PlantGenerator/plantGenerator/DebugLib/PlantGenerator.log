@@ -1,0 +1,12 @@
+﻿Build started 18.11.2013 г. 17:03:29 ч..
+     1>Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" on node 2 (ClCompile target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IG:\SEA\PlantGenerator\\Dependencies\Include /IG:\SEA\PlantGenerator\\Dependencies\pngInclude /Zi /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D _MBCS /D _MBCS /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"DebugLib\\" /Fd"DebugLib\vc110.pdb" /Gd /TP /wd4996 /wd4800 /analyze- /errorReport:prompt ..\src\plantGenerator\PlantGeneratorApp.cpp
+         PlantGeneratorApp.cpp
+     1>..\src\plantGenerator\PlantGeneratorApp.cpp(172): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\src\plantGenerator\PlantGeneratorApp.cpp(173): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Done Building Project "G:\SEA\PlantGenerator\plantGenerator\PlantGenerator.vcxproj" (ClCompile target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.38

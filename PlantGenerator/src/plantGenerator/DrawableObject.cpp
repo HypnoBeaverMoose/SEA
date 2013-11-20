@@ -14,10 +14,10 @@ DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::
 				:	m_letter(letter), m_baseColor(baseColor),m_width(width), 
 					m_verticalOffset(offset), m_texture(texture)
 {
-	m_textureCoords.push_back(Vector2f(0, 1));
-	m_textureCoords.push_back(Vector2f(1, 1));
 	m_textureCoords.push_back(Vector2f(0, 0));
 	m_textureCoords.push_back(Vector2f(1, 0));
+	m_textureCoords.push_back(Vector2f(0, 1));
+	m_textureCoords.push_back(Vector2f(1, 1));
 
 	m_vertices.push_back(Vector4f(-0.5f * width, 0.0f, -1, 1.0f));
 	m_vertices.push_back(Vector4f(0.5f * width, 0.0f, -1, 1.0f));
@@ -47,7 +47,7 @@ void DrawableObject::setShader(uint shader)
 	{
 		std::vector<unsigned char> image;
 		image.reserve(m_texture.get_height() * m_texture.get_width());	
-		for(uint y = 0; y < m_texture.get_height(); y++){
+		for(uint y = m_texture.get_height() - 1; y >=0 ; y--){
 			for(uint x = 0; x < m_texture.get_width(); x++) {
 				image.push_back(m_texture.get_pixel(x,y).red);
 				image.push_back(m_texture.get_pixel(x,y).green);
@@ -79,7 +79,9 @@ bool DrawableObject::draw(PaintState& state) const
 
 	float length = state.LineLength.getValue();
 	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
+	
 	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();
+
 	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE,  mat.getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 

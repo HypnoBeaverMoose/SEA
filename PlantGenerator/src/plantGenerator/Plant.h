@@ -5,6 +5,7 @@ class Plant
 public:
 
 	friend Plant CombinePlants(const Plant& lhs, const Plant& rhs, float bias);
+	Plant();
 
 	Plant(float angle, float scale, float angleInc, float scaleInc, const std::string& axiom, int iterations);
 	
@@ -39,7 +40,6 @@ private:
 	float m_scale;
 	float m_angleInc;
 	float m_scaleInc;
-	///std::vector<DrawableObject> m_parts;
 	std::map<char, DrawableObject> m_parts;
 	LSystem  m_system;
 	int m_iterationsCount;

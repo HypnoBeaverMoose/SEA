@@ -13,5 +13,6 @@ public:
 	//float		Angle;
 	RandomValue	LineWidth;
 	RandomValue	LineLength;
+
 	RandomValue	Angle;
 };

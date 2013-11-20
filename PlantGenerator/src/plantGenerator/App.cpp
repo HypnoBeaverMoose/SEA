@@ -44,11 +44,6 @@ App::App()
 		needsRedraw(true), m_bias(0.0f), m_renderSize(512,512), m_viewportSize(0,0) 
 
 {
-	//m_renderUV.push_back(Vector2f(0, 1));
-	//m_renderUV.push_back(Vector2f(1, 1));
-	//m_renderUV.push_back(Vector2f(0, 0));
-	//m_renderUV.push_back(Vector2f(1, 0));
-
 	m_renderUV.push_back(Vector2f(0, 0));
 	m_renderUV.push_back(Vector2f(1, 0));
 	m_renderUV.push_back(Vector2f(0, 1));
@@ -58,21 +53,19 @@ App::App()
 	m_renderQuad.push_back(Vector4f(1.0f, -1.0f, 0, 1.0f));
 	m_renderQuad.push_back(Vector4f(-1.0f, 1.0f, 0, 1.0f));
 	m_renderQuad.push_back(Vector4f(1.0f, 1.0f, 0, 1.0f));
-
-	//m_resultTexture.assign(m_renderSize[0] * m_renderSize[1] * 4,0);
-
 }
 
 void App::SetUpPlant()
 {
 	png::image<png::rgba_pixel> img;
 	loadImage(img,"checker.png");
+	m_plants[0].regeneratePlant();
 	m_plants.push_back(Plant(0,1.0f,0,0,"f",2));
 	m_plants[0].addObject(DrawableObject('f',Colorf(1,1,1,1),img, 1.0f, m_programId));
 	m_plants[0].addRule(Rule('f',"f"));
-	m_plants[0].regeneratePlant();
 	m_plants[0].setPosition(Vector3f(0.5f,0,0));
 }
+
 void App::OnCreate()
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
@@ -114,7 +107,7 @@ void App::OnCreate()
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 	checkGlError("glBindFramebuffer");
 	
-	SetUpPlant();
+	//SetUpPlant();
 	needsRedraw = true;
 }
 void App::RenderPlant()
@@ -282,6 +275,13 @@ void App::OnTouch(int posx, int posy)
 	m_bias+=0.1f;
 	m_bias = std::min(m_bias,1.0f);
 	needsRedraw = true;
+}
+
+void App::SetDefaultBiases(float leaves, float stalk, float flowers)
+{
+	m_flowerBias = flowers;
+	m_leafBias = leaves;
+	m_stalkBias = stalk;
 }
 
 void App::setRenderSize(int width, int height)

@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugLib|Android">
+      <Configuration>DebugLib</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugLib|Win32">
+      <Configuration>DebugLib</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Android">
       <Configuration>Debug</Configuration>
       <Platform>Android</Platform>
@@ -28,6 +36,11 @@
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'" Label="Configuration">
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -37,7 +50,14 @@
     <AndroidAPILevel>android-14</AndroidAPILevel>
     <AndroidArch>armv7-a</AndroidArch>
     <AndroidStlType>gnustl_static</AndroidStlType>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'" Label="Configuration">
+    <PlatformToolset>arm-linux-androideabi-4.6</PlatformToolset>
+    <AndroidAPILevel>android-14</AndroidAPILevel>
+    <AndroidArch>armv7-a</AndroidArch>
+    <AndroidStlType>gnustl_static</AndroidStlType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <PlatformToolset>arm-linux-androideabi-4.6</PlatformToolset>
@@ -51,6 +71,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
+    <TargetName>libpg</TargetName>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\Bin\$(Configuration)</OutDir>
   </PropertyGroup>
@@ -60,11 +84,35 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <LibraryPath>$(AndroidLibDir);$(AndroidStlLibPath);</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi</ExtensionsToDeleteOnClean>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>$(AndroidLibDir);$(AndroidStlLibPath);</LibraryPath>
+    <TargetName>libpg</TargetName>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi</ExtensionsToDeleteOnClean>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;$(SolutionDir)\Dependencies\pngInclude;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4996;4800</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;zlibd.lib;libpngd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AssemblyDebug>true</AssemblyDebug>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;$(SolutionDir)\Dependencies\pngInclude;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -96,12 +144,17 @@
       <AntBuildPath>$(SolutionDir)\AndroidApk</AntBuildPath>
     </AntBuild>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">
+    <AntBuild>
+      <AntBuildPath>$(SolutionDir)\AndroidApk</AntBuildPath>
+    </AntBuild>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
     <AntBuild>
       <IgnoreJavaOpts>false</IgnoreJavaOpts>
     </AntBuild>
     <Link>
-      <AdditionalDependencies>-landroid;-lGLESv2; $(SolutionDir)Dependencies\android\libpngd.a; $(SolutionDir)Dependencies\android\zlibd.a</AdditionalDependencies>
+      <AdditionalDependencies>-lEGL; -landroid;-lGLESv2; $(SolutionDir)Dependencies\android\libpngd.a; $(SolutionDir)Dependencies\android\zlibd.a</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\android\</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
@@ -111,6 +164,25 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;$(SolutionDir)\Dependencies\pngInclude</AdditionalIncludeDirectories>
       <GccExceptionHandling>true</GccExceptionHandling>
     </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">
+    <AntBuild>
+      <IgnoreJavaOpts>false</IgnoreJavaOpts>
+    </AntBuild>
+    <Link>
+      <AdditionalDependencies>-lEGL;-landroid;-lGLESv2; $(SolutionDir)Dependencies\android\libpngd.a; $(SolutionDir)Dependencies\android\zlibd.a</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\android\</AdditionalLibraryDirectories>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;$(SolutionDir)\Dependencies\pngInclude</AdditionalIncludeDirectories>
+      <GccExceptionHandling>true</GccExceptionHandling>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>$(SolutionDir)\copylibs.bat</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <AntBuild>
@@ -143,7 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\plantGenerator\App.h" />
-    <ClInclude Include="..\src\plantGenerator\AppAndroid.h" />
+    <ClInclude Include="..\src\plantGenerator\AppAndroid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\src\plantGenerator\Color.h" />
     <ClInclude Include="..\src\plantGenerator\Definitions.h" />
     <ClInclude Include="..\src\plantGenerator\DrawableObject.h" />
@@ -151,6 +225,12 @@
     <ClInclude Include="..\src\plantGenerator\Matrix.h" />
     <ClInclude Include="..\src\plantGenerator\PaintState.h" />
     <ClInclude Include="..\src\plantGenerator\Plant.h" />
+    <ClInclude Include="..\src\plantGenerator\PlantGenerator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\plantGenerator\PlantGeneratorApp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\src\plantGenerator\RandomValue.h" />
     <ClInclude Include="..\src\plantGenerator\TurtleGraphics.h" />
     <ClInclude Include="..\src\plantGenerator\Vector.h" />
@@ -160,20 +240,32 @@
     <ClCompile Include="..\src\plantGenerator\App.cpp" />
     <ClCompile Include="..\src\plantGenerator\AppAndroid.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\plantGenerator\DrawableObject.cpp" />
     <ClCompile Include="..\src\plantGenerator\LSystem.cpp" />
     <ClCompile Include="..\src\plantGenerator\main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\plantGenerator\Plant.cpp" />
+    <ClCompile Include="..\src\plantGenerator\PlantGenerator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\plantGenerator\PlantGeneratorApp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\plantGenerator\RandomValue.cpp" />
     <ClCompile Include="..\src\plantGenerator\TurtleGraphics.cpp" />
     <ClCompile Include="..\src\plantGenerator\WinApp.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Android'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

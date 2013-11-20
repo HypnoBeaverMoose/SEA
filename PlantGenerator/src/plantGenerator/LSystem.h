@@ -40,6 +40,8 @@ public:
 
 	const std::string& getAxiom() const { return m_axiom; }
 
+	void setAxiom(const char* axiom) { m_axiom = axiom; }
+
 private:
 	
 	void normalizeProbs();

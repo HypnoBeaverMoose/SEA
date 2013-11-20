@@ -5,6 +5,14 @@
 #include "DrawableObject.h"
 #include "Plant.h"
 
+
+Plant::Plant()	:	m_angle(0),			m_scale(0), 
+					m_angleInc(0),		m_scaleInc(0), 
+					m_system(""),		m_iterationsCount(0),
+					m_position(0, 0, 0)
+{
+
+}
 Plant::Plant(float angle, float scale, float angleInc, float scaleInc, const std::string& axiom, int iterations) 
 	:	m_angle(angle),			m_scale(scale), 
 		m_angleInc(angleInc),	m_scaleInc(scaleInc), 
