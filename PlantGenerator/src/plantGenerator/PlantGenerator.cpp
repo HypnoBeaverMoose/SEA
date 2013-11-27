@@ -60,6 +60,10 @@
 //}
 
 PlantGeneratorApp* PlantGenerator::instance = NULL;
+void* PlantGenerator::m_pContext = 0;
+void* PlantGenerator::m_pDisplay = 0;
+void* PlantGenerator::m_pSurface = 0;
+
 void PlantGenerator::setAssetManager(JNIEnv * env, jobject mgr)
 {
 	PlantGeneratorApp* l_instance = PlantGenerator::getInstance();
@@ -107,8 +111,6 @@ bool PlantGenerator::InitGenerator()
 	EGLSurface prevSurfaceRead = eglGetCurrentSurface(EGL_READ);
 	EGLSurface prevSurfaceDraw = eglGetCurrentSurface(EGL_DRAW);
 
-	LOGI("CrateCallback");	
-	LOGI("EGL ERROR: STEP_ONE");
 	const EGLint l_attribs[] = 
 	{
 		EGL_RENDERABLE_TYPE,		EGL_OPENGL_ES2_BIT,
@@ -138,7 +140,6 @@ bool PlantGenerator::InitGenerator()
 	eglChooseConfig(l_display, l_attribs, l_pConfigs.get(),num_configs,&l_nConfig);
 	EGLConfig* l_configs = l_pConfigs.get();
 	int i = 0; bool  found = false;
-	LOGI("EGL ERROR: STEP_TWO, CONFIG COUNT: %d", l_nConfig);
 	for(; i < l_nConfig; i++)
 	{
 		int r,g,b,a;
@@ -161,20 +162,14 @@ bool PlantGenerator::InitGenerator()
 	{
 		EGL_WIDTH, 512,
 		EGL_HEIGHT, 512,
-		//EGL_COLORSPACE, GL_RGBA,
-		//EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGB,
-		//EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
 		EGL_LARGEST_PBUFFER, EGL_TRUE,
 		EGL_NONE
 	};
 	
-	LOGI("EGL ERROR: STEP_THREE");
 	EGLSurface l_surface = 	eglCreatePbufferSurface(l_display, l_configs[i], srfPbufferAttr);	
 	if(l_surface == EGL_NO_SURFACE) {		
 		LOGE("EGL ERROR: FAILED TO CREATE RENDERING SURFACE	%d",eglGetError());
 		return false;
-
-	LOGI("EGL ERROR: STEP_FOUR");
 	}
 
 	EGLContext l_context = eglCreateContext(l_display, l_configs[i], EGL_NO_CONTEXT, l_contextAttribs);
@@ -183,24 +178,25 @@ bool PlantGenerator::InitGenerator()
 		return false;
 	}
 
-	LOGI("EGL ERROR: STEP_FIVE");
 	if(eglMakeCurrent(l_display,l_surface, l_surface, l_context) == EGL_FALSE){
 		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
 		return false;
 	}	
-	
+	m_pDisplay = l_display;
+	m_pContext = l_context;
+	m_pSurface = l_surface;
 	LOGI("EGL ERROR: EGL CONTEXT SET UP!");
-	//getInstance()->m_renderSize[0] = getInstance()->m_renderSize[1] = 512;
-	//getInstance()->OnCreate();
+	getInstance()->m_renderSize[0] = getInstance()->m_renderSize[1] = 512;
+	getInstance()->OnCreate();
 
-	//if(prevDisplay != EGL_NO_DISPLAY && prevSurfaceDraw != EGL_NO_SURFACE 
-	//				&& prevSurfaceRead != EGL_NO_SURFACE && prevContext !=EGL_NO_CONTEXT)
-	//{
-	//	if(eglMakeCurrent(prevDisplay,prevSurfaceDraw, prevSurfaceRead, prevContext) == EGL_FALSE){
-	//		LOGE("EGL ERROR: FAILED TO SET PREVIOUS CONTEXT");
-	//		return false;
-	//	}	
-	//}
+	if(prevDisplay != EGL_NO_DISPLAY && prevSurfaceDraw != EGL_NO_SURFACE 
+					&& prevSurfaceRead != EGL_NO_SURFACE && prevContext !=EGL_NO_CONTEXT)
+	{
+		if(eglMakeCurrent(prevDisplay,prevSurfaceDraw, prevSurfaceRead, prevContext) == EGL_FALSE){
+			LOGE("EGL ERROR: FAILED TO SET PREVIOUS CONTEXT");
+			return false;
+		}	
+	}
 }
 
 void PlantGenerator::setDefaulBias(float leaves, float stalk, float flowers)
@@ -217,14 +213,16 @@ PlantGeneratorApp* PlantGenerator::getInstance()
 
 void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase::PlantData plantTwo, PlantDatabase::PlantData plantThree)
 {
-	Plant plant_one(plantOne.angle, plantOne.scale, plantOne.angleInc, plantOne.scaleInc, plantOne.axiom, plantOne.iterCount);
-	Plant plant_two(plantTwo.angle, plantTwo.scale, plantTwo.angleInc, plantTwo.scaleInc, plantTwo.axiom, plantTwo.iterCount);	
-	Plant plant_three(plantThree.angle, plantThree.scale, plantThree.angleInc, plantThree.scaleInc, plantThree.axiom, plantThree.iterCount);	
-
 	getInstance()->m_plants.clear();
-	getInstance()->m_plants.push_back(plant_one);
-	getInstance()->m_plants.push_back(plant_two);
-	getInstance()->m_plants.push_back(plant_three);
+	getInstance()->m_plants.resize(3);
+
+	getInstance()->loadPlant(plantOne, 0);
+	getInstance()->loadPlant(plantTwo, 1);
+	getInstance()->loadPlant(plantThree, 2);	
+}
+void PlantGenerator::loadPlant(PlantDatabase::PlantData plant, int index)
+{
+	getInstance()->loadPlant(plant, index);
 }
 
 void PlantGenerator::setCombination(PlantGenerator::PlantPart plantPart, int lhs, int rhs, float bias)
@@ -242,13 +240,23 @@ void PlantGenerator::setCombination(PlantGenerator::PlantPart plantPart, int lhs
 
 bool PlantGenerator::RenderPlant(int width, int height)
 {
+	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
+		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
+		return false;
+	}	
+
 	getInstance()->m_renderSize[0] = width;
 	getInstance()->m_renderSize[1] = height;
 	getInstance()->RenderPlant();
 	return true;
 }
 
-const unsigned char* PlantGenerator::getRenderedImage(unsigned int& width, unsigned int& height)
+unsigned char* PlantGenerator::getRenderedImage(unsigned int& width, unsigned int& height)
 {
+	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
+		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
+		return 0;
+	}	
+
 	return getInstance()->getPlantImage(width, height);
 }

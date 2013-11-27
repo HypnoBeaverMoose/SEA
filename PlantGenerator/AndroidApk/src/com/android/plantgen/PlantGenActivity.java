@@ -34,17 +34,15 @@ public class PlantGenActivity extends Activity
 {
 
     PlantGenView mView;
-	//private AssetManager mgr;
+	private AssetManager mgr;
     @Override protected void onCreate(Bundle icicle) 
 	{
-		AssetManager mgr = getResources().getAssets();
-		PlantGenLib.SetAssetManager(mgr);        
-		//mView = new PlantGenView(getApplication());
+		mgr = getResources().getAssets();
+		PlantGenLib.SetAssetManager(mgr);
+		mView = new PlantGenView(getApplication());
         
 		super.onCreate(icicle);
-
-		PlantGenLib.OnCreate();
-		//setContentView(mView);
+		setContentView(mView);
     }
 
     @Override protected void onPause() 

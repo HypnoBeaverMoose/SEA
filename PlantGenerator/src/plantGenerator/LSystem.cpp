@@ -4,7 +4,7 @@
 int LSystem::addRule(const Rule r) 
 { 
 	m_rules.push_back(r); 
-	normalizeProbs();
+	//normalizeProbs();
 	return m_rules.size() - 1; 
 }
 int LSystem::nextStep() 
@@ -55,6 +55,24 @@ void LSystem::normalizeProbs()
 		m_rules[i].setProbability(m_rules[i].getProbability() / prbsMap[m_rules[i].getCondition()]);
 }
 
+const void LSystem::getRules(char condition, std::vector<Rule>& out) const
+{
+	for(uint i = 0; i < m_rules.size(); i++){
+		if(m_rules[i].getCondition() == condition)
+			out.push_back(m_rules[i]);
+	}
+}
+
+void LSystem::removeRule(char condition)
+{
+	for(std::vector<Rule>::iterator iter = m_rules.begin(); iter != m_rules.end(); ++iter){
+		if(iter->getCondition() == condition){
+			iter = m_rules.erase(iter);
+			if(iter == m_rules.end()) 
+				break;
+		}
+	}
+}
 
 std::string LSystem::generateRule(char cond) 
 {

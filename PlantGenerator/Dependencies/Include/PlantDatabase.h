@@ -20,6 +20,7 @@ class PlantDatabase
 		struct DrawData
 		{
 			std::string clr;
+			std::string texture;
 			char letter;
 			float vertOffset;
 			std::vector<Point> verts;

@@ -90,6 +90,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <LibraryPath>$(AndroidLibDir);$(AndroidStlLibPath);</LibraryPath>
     <TargetName>libpg</TargetName>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi</ExtensionsToDeleteOnClean>
@@ -179,9 +180,12 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\Include;$(SolutionDir)\Dependencies\pngInclude</AdditionalIncludeDirectories>
       <GccExceptionHandling>true</GccExceptionHandling>
+      <OptimizationLevel>O0</OptimizationLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </ClCompile>
     <PostBuildEvent>
-      <Command>$(SolutionDir)\copylibs.bat</Command>
+      <Command>$(SolutionDir)copylibs.bat</Command>
+      <Message>"copy libraries"</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
@@ -227,9 +231,11 @@
     <ClInclude Include="..\src\plantGenerator\Plant.h" />
     <ClInclude Include="..\src\plantGenerator\PlantGenerator.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\src\plantGenerator\PlantGeneratorApp.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\src\plantGenerator\RandomValue.h" />
     <ClInclude Include="..\src\plantGenerator\TurtleGraphics.h" />
@@ -255,9 +261,11 @@
     <ClCompile Include="..\src\plantGenerator\Plant.cpp" />
     <ClCompile Include="..\src\plantGenerator\PlantGenerator.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\plantGenerator\PlantGeneratorApp.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\plantGenerator\RandomValue.cpp" />
     <ClCompile Include="..\src\plantGenerator\TurtleGraphics.cpp" />

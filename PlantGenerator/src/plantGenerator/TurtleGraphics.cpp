@@ -30,7 +30,7 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 	m_paintState.LineWidth= RandomValue(plant.getScale(), plant.getScale());//// into Scale
 	m_paintState.Color = Colorf(1,1,1,1);
 	
-	const char* system = plant.getLSystem();
+	const char* system = plant.getLSystemString();
 	for(int i = 0; i < plant.getSystemLength(); i++)
 	{
 		if(system[i]  > 'a')
@@ -54,23 +54,32 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 			m_StateStack.pop();
 			break;
 		case '(':
-			m_paintState.Angle.setMean(std::max(0.0f,m_paintState.Angle.getMean() - plant.getAngleInc())); 
+			m_paintState.Angle.setMean(m_paintState.Angle.getMean() *(1.0f /  plant.getAngleInc())); 
 			break;
 		case ')':
-			m_paintState.Angle.setMean(std::min(180.0f,m_paintState.Angle.getMean() + plant.getAngleInc())); 
+			m_paintState.Angle.setMean(m_paintState.Angle.getMean() * plant.getAngleInc()); 
 			break;
 		case '<':
-			m_paintState.LineLength.setMean(std::max(0.0f,m_paintState.LineLength.getMean() - plant.getScaleInc())); 
+			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() *(1.0f / plant.getScaleInc())); 
 			break;
 		case '>':
-			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() + plant.getScaleInc()); 
+			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() * plant.getScaleInc()); 
 			break;
 		case '\\':
-			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() + plant.getScaleInc()); 
+			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() * plant.getScaleInc()); 
 			break;
 		case '/':
-			m_paintState.LineWidth.setMean(std::max(0.0f,m_paintState.LineWidth.getMean() - plant.getScaleInc())); 
+			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() *(1.0f / plant.getScaleInc())); 
 			break;
+		case '@':
+			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() * plant.getScaleInc()); 
+			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() * plant.getScaleInc()); 
+			break;
+		case '#':
+			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() *(1.0f / plant.getScaleInc())); 
+			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() *(1.0f / plant.getScaleInc())); 
+			break;
+
 		}
 	}	
 	return true;

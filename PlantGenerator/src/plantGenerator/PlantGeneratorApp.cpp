@@ -11,9 +11,8 @@ PlantGeneratorApp::PlantGeneratorApp() : App()
 
 bool PlantGeneratorApp::loadImage(png::image<png::rgba_pixel>& image, const char* filename)
 {
-#ifdef ANDROID
 	AAsset* asset = AAssetManager_open(m_assetManager,filename,AASSET_MODE_STREAMING);
-
+	LOGI("LOAD IMAGE:: START");
 	if(asset == NULL){
 		LOGE("IMAGE LOADING FAIL: FAILED TO LOAD INITAL ASSET");	
 		return false;
@@ -44,6 +43,7 @@ bool PlantGeneratorApp::loadImage(png::image<png::rgba_pixel>& image, const char
 		LOGE("IMAGE LOADING FAIL: LOADING ERROR!");	
 	}
 	AAsset_close(asset);
-#endif
+
+	LOGI("LOAD IMAGE::END");
 	return true;
 }

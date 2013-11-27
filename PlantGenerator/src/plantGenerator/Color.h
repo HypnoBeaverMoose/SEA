@@ -9,6 +9,8 @@ template<class T>
 	public:
 		Color();
 
+		Color(const char* color);
+
 		Color(T r, T g, T b, T a);
 
 		Color(T r, T g, T b);
@@ -51,6 +53,31 @@ template<class T>
 		m_data.push_back(b);
 		m_data.push_back(a);
 	};
+	template<class T>
+	Color<T>::Color(const char* color)
+	{ 
+		const char* letter = color;		
+		for(int i = 0; i < 4; i++)
+		{
+			unsigned char color = 0;
+			for(int j = 0;j < 2; j++)
+			{
+				letter++;
+				char number;
+				
+				if(*letter > 48 && *letter <= 57)
+					number = *letter - 48;
+				else if(*letter > 65 && *letter <= 70)
+					number = *letter - 65 + 10;
+
+				if(j == 1)
+					color = color * 16 + number;
+				else 
+					color = number;
+			}
+			m_data.push_back(color / 255.0f);
+		}		
+	}
 
 	template<class T>
 	Color<T>::Color(T r, T g, T b)

@@ -54,20 +54,111 @@ App::App()
 	m_renderQuad.push_back(Vector4f(-1.0f, 1.0f, 0, 1.0f));
 	m_renderQuad.push_back(Vector4f(1.0f, 1.0f, 0, 1.0f));
 }
+void App::loadPlant(PlantDatabase::PlantData plant, int index)
+{
+	Plant _plant(plant.angle, plant.scale, plant.angleInc, plant.scaleInc, plant.axiom, plant.iterCount);
+	for(uint i = 0; i < plant.rules.size(); i++){
+		_plant.addRule(Rule(plant.rules[i].lhs,plant.rules[i].rhs,plant.rules[i].prob));
+	}
+
+	for(uint i = 0; i < plant.drawData.size(); i++){		
+		png::image<png::rgba_pixel> image;
+		getInstance()->loadImage(image, plant.drawData[i].texture.c_str());
+
+		DrawableObject obj(plant.drawData[i].letter, Colorf(plant.drawData[i].clr.c_str()),	image,1.0f, plant.drawData[i].vertOffset);
+		
+		for(uint j = 0; j < plant.drawData[i].verts.size();j++)
+			obj.setWdith(plant.drawData[i].verts[j].height, plant.drawData[i].verts[j].width);
+
+		_plant.addObject(obj);
+	}
+
+	m_plants[index] = _plant;
+}
 
 void App::SetUpPlant()
-{
-	png::image<png::rgba_pixel> img;
-	loadImage(img,"checker.png");
-	m_plants[0].regeneratePlant();
-	m_plants.push_back(Plant(0,1.0f,0,0,"f",2));
-	m_plants[0].addObject(DrawableObject('f',Colorf(1,1,1,1),img, 1.0f, m_programId));
-	m_plants[0].addRule(Rule('f',"f"));
-	m_plants[0].setPosition(Vector3f(0.5f,0,0));
+{	
+	//tomato plant mf!
+	Plant tomato(22.5, 0.02f,1.3f, 1.1f, "[(R][PF]", 5);
+	DrawableObject t_root('r',Colorf("#DB877CFF"), m_defaultTexture, 1.0f, m_programId, 0.0f, -1);
+	DrawableObject t_stalk('s',Colorf(0,1,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	DrawableObject t_leaf('l',Colorf(0,0,1,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	DrawableObject t_fruit('f',Colorf(1,0,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	
+	tomato.addObject(t_root);
+	tomato.addObject(t_stalk);
+	tomato.addObject(t_leaf);
+	tomato.addObject(t_fruit);
+
+	tomato.addRule(Rule('R',"r-r+r#R"));
+	//tomato.addRule(Rule('r',"r-#r+r"));
+	tomato.addRule(Rule('F',"f"));
+	tomato.addRule(Rule('L',"l"));
+
+	tomato.addRule(Rule('P',"[)))-AF][++L]S[)))+BF][--L]S+P"));
+	tomato.addRule(Rule('B',"#S[--L]S[++F]+B"));
+	tomato.addRule(Rule('A',"#S[++L]S[--F]-A"));
+	tomato.addRule(Rule('S',"sSs"));
+
+	tomato.setPosition(Vector3f(0.5f,0.3f,1));
+
+	Plant cactus(22.5f, 0.02f, 1.0f, 1.1f, "[--R][-R][R][+R][++R][#P#P#PF]", 4);
+	DrawableObject c_root('r',Colorf("#DB877CFF"), m_defaultTexture, 1.0f, m_programId, 0.0f, -1);
+	DrawableObject c_stalk('s',Colorf(0,1,0,1), m_defaultTexture, 5.0f, m_programId, 0.0f);
+	DrawableObject c_leaf('l',Colorf(0,0,1,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	DrawableObject c_fruit('f',Colorf(1,0,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	
+	cactus.addObject(c_root);
+	cactus.addObject(c_stalk);
+	cactus.addObject(c_leaf);
+	cactus.addObject(c_fruit);
+
+	cactus.addRule(Rule('F',"f"));
+	cactus.addRule(Rule('L',"l"));
+	cactus.addRule(Rule('R',"r+r-r##R"));
+	cactus.addRule(Rule('P',"S[----L][----&L][++++&L][++++L]SP"));
+	cactus.addRule(Rule('S',"s"));
+
+	cactus.addRule(Rule('A',"A"));
+	cactus.addRule(Rule('B',"B"));
+	cactus.setPosition(Vector3f(0.5f,0.3f,1));
+
+	Plant dustyMiller(30, 0.02f, 1.0f, 1.2f, "[>>>R]P[#-SF][#+SF]#SF", 5);
+
+	DrawableObject d_root('r',Colorf("#DB877CFF"), m_defaultTexture, 1.0f, m_programId, 0.0f, -1);
+	DrawableObject d_stalk('s',Colorf(0,1,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	DrawableObject d_leaf('l',Colorf(0,0,1,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	DrawableObject d_fruit('f',Colorf(1,0,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	
+	dustyMiller.addObject(d_root);
+	dustyMiller.addObject(d_stalk);
+	dustyMiller.addObject(d_leaf);
+	dustyMiller.addObject(d_fruit);
+
+	dustyMiller.addRule(Rule('F',"f"));
+	dustyMiller.addRule(Rule('L',"l"));
+	dustyMiller.addRule(Rule('R',"Rr[#-r][#+r]"));
+	dustyMiller.addRule(Rule('r',"#rr"));
+	
+	dustyMiller.addRule(Rule('P',"#S[+BL]S[-BL]P"));
+	dustyMiller.addRule(Rule('B',"#S[+++L][---L]SB"));
+	dustyMiller.addRule(Rule('A',"#S[+++L][---L]SA"));
+	dustyMiller.addRule(Rule('S',"sSs"));
+
+	dustyMiller.setPosition(Vector3f(0.5f,0.2f,1));
+
+	CombinePlants(cactus, tomato, dustyMiller, 0.5f, Stalk);
+	cactus.regeneratePlant();
+	m_plants.push_back(cactus);
 }
 
 void App::OnCreate()
 {
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	checkGlError("glPixelStorei");
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	checkGlError("glPixelStorei");
+
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glActiveTexture(GL_TEXTURE0);
 	checkGlError("glActiveTexture");
@@ -93,40 +184,42 @@ void App::OnCreate()
 	checkGlError("glGenTextures");	
 	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
 	checkGlError("glBindFramebuffer");	
+	
 	glBindTexture(GL_TEXTURE_2D, m_targetTexHandle);
 	checkGlError("glBindTexture");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	checkGlError("glTexParameteri");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	checkGlError("glTexParameteri");
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_renderSize[0], m_renderSize[1], 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
 	checkGlError("glTexImage2D");
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_targetTexHandle, 0);
 	checkGlError("glFramebufferTexture2D");
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 	checkGlError("glBindFramebuffer");
-	
-	//SetUpPlant();
+	glGenTextures(1, &m_previewTexHandle);
+	loadImageFromFile(m_defaultTexture,"default.png");
+	SetUpPlant();
 	needsRedraw = true;
 }
 void App::RenderPlant()
 {
+	m_plants[0].regeneratePlant();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	checkGlError("glBindTexture");
 	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
 	checkGlError("glBindFramebuffer");
-
-	glViewport(0,0,(int)m_renderSize[0],std::max(1, (int)m_renderSize[1]));
-	float aspect = m_renderSize[0] /(float) std::max(1.0f, m_renderSize[1]);
-
+	glViewport(0,0,(int)m_renderSize[0],(int)m_renderSize[1]);
+	float aspect = m_renderSize[0] / m_renderSize[1];
+	
 	glUseProgram(m_programId);
 	checkGlError("glUseProgram");
 
-	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_TRUE, 
-		Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).getValuePtr());
+	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, 
+		Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
 	checkGlError("glUniformMatrix4fv");
-
+	
 	glClearColor(1.0f,1.0f,1.0f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	m_painter.drawPlant(m_plants[0]);
@@ -135,11 +228,12 @@ void App::RenderPlant()
 
 byte* App::getPlantImage(uint& width, uint& height)
 {
-	width = m_renderSize[0]; height = m_renderSize[1];
-	std::auto_ptr<byte> tex(new byte(width * height * 4));
-	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
-	glReadPixels(0,0,width,height,GL_RGBA,GL_UNSIGNED_BYTE,tex.get());
+	width = (uint)m_renderSize[0]; height = (uint)m_renderSize[1];
+	std::auto_ptr<byte> tex(new byte[4 * width * height ]);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_framebufferHandle);
+	glReadPixels(0, 0, width,  height, GL_RGBA, GL_UNSIGNED_BYTE, tex.get());
 	glBindFramebuffer(GL_FRAMEBUFFER,0);	
+
 	return tex.release();
 }
 void App::OnRender()
@@ -149,17 +243,27 @@ void App::OnRender()
 	{
 		RenderPlant();
 		needsRedraw = false;	
+		uint width, height;
+		const byte* img = getPlantImage(width, height);
+		glBindTexture(GL_TEXTURE_2D, m_previewTexHandle);		
+		checkGlError("glBindTexture");
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		checkGlError("glTexParameteri");
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		checkGlError("glTexParameteri");
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
+		delete img;
 	}
-
-	glViewport(0,0,m_viewportSize[0],m_viewportSize[1]);
+	
+	glViewport(0,0,(int)m_viewportSize[0], (int)m_viewportSize[1]);
 	glClearColor(1.0f,1.0f,1.0f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);		
 	float aspect = m_viewportSize[0] /(float) std::max(1.0f, m_viewportSize[1]);
-	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f, -aspect, aspect);
-	
+	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f, -aspect, aspect).Transposed();
 	///draw full screen quad with the texture
 	glUseProgram(m_programId);
-	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_TRUE, m_projectionMatrix.getValuePtr());
+	uint loc = glGetUniformLocation(m_programId, "mProjection");
+	glUniformMatrix4fv(loc, 1, GL_FALSE, Matrix4f::Identity().getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 
 	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE, Matrix4f::Identity().getValuePtr());
@@ -174,16 +278,17 @@ void App::OnRender()
 	glVertexAttribPointer(m_positionHandle, 4, GL_FLOAT, GL_FALSE, m_renderQuad[0].stride(), m_renderQuad.data()->getValuePtr());
     checkGlError("glVertexAttribPointer");
 	
-	glBindTexture(GL_TEXTURE_2D, m_targetTexHandle);		
+	glBindTexture(GL_TEXTURE_2D, m_previewTexHandle);		
 	glUniform1i(glGetUniformLocation(m_programId,"tDiffuse"),0);	
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_renderQuad.size());
     checkGlError("glDrawArrays");
+	//elete img;
 }
 
 void App::OnResize(int width, int height)
 {
-	m_viewportSize[0] = width; m_viewportSize[1] = height;
+	m_viewportSize[0] = (float)width; m_viewportSize[1] = (float)height;
 	needsRedraw = true;	
 }
 
@@ -271,8 +376,10 @@ bool App::loadImage(png::image<png::rgba_pixel>& image, const char* filename)
 
 void App::OnTouch(int posx, int posy)
 {
-	//m_plants[1].setIterations(m_plants[1].getIterations() + 1);
+//	m_plants[0].setIterations(m_plants[0].getIterations() + 1);
 	m_bias+=0.1f;
+	m_plants.clear();
+	SetUpPlant();
 	m_bias = std::min(m_bias,1.0f);
 	needsRedraw = true;
 }
@@ -286,8 +393,8 @@ void App::SetDefaultBiases(float leaves, float stalk, float flowers)
 
 void App::setRenderSize(int width, int height)
 {
-	m_renderSize[0] = width;
-	m_renderSize[1] = height;
+	m_renderSize[0] = (float)width;
+	m_renderSize[1] = (float)height;
 }
 
 void App::OnDestroy()

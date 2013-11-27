@@ -5,14 +5,75 @@
 #include "PaintState.h"
 #include "DrawableObject.h"
 
+rgbaImage	DrawableObject::s_defaultTexture;
+uint		DrawableObject::s_defaultTexId = 0;
+
+void DrawableObject::prepareDefaultTexture()
+{
+	if(s_defaultTexture.get_width()  == 0){
+		s_defaultTexture.resize(16,16);
+		s_defaultTexture.set_pixel(0,0,png::rgba_pixel(1,1,1,1));
+	}
+
+	uint* tex; *tex = 0;
+	glGenTextures(1, &s_defaultTexId);
+	checkGlError("glGenTextures");	
+	
+	glBindTexture(GL_TEXTURE_2D, s_defaultTexId);
+	checkGlError("glBindTexture");	
+	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); 
+	checkGlError("glTexParameteri");	
+	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	checkGlError("glTexParameteri");	
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA,GL_UNSIGNED_BYTE, tex);
+	checkGlError("glTexImage2D");	
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+	checkGlError("glGenerateMipmap");	
+
+}
 DrawableObject::DrawableObject() : m_letter(' '), m_baseColor(0,0,0,1), m_textureId(0) 
 {
+	if(s_defaultTexture.get_width() == 0)
+		prepareDefaultTexture();
 }
 
+DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width, uint shader, float offset, int dir) 
+				:	m_letter(letter), m_baseColor(baseColor), m_width(width), m_verticalOffset(offset), m_textureId(0), m_direction(dir)
+{
+	initVerticies(width);
+	if(shader > 0)
+		setShader(shader);
+	if(s_defaultTexture.get_width() == 0)
+		prepareDefaultTexture();
+}
+
+
+
 DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, 
-				float width, uint shader, float offset) 
+				float width, uint shader, float offset, int dir) 
 				:	m_letter(letter), m_baseColor(baseColor),m_width(width), 
-					m_verticalOffset(offset), m_texture(texture)
+					m_verticalOffset(offset), m_texture(texture), m_textureId(0), m_direction(dir)
+{
+	initVerticies(width);
+	setShader(shader);
+	if(s_defaultTexture.get_width() == 0)
+		prepareDefaultTexture();
+}
+
+
+DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, 
+				float width, float offset, int dir):	m_letter(letter), m_baseColor(baseColor),m_width(width), 
+											m_verticalOffset(offset), m_texture(texture), m_direction(dir)
+{	
+	m_textureId = 0;
+	initVerticies(width);
+}
+
+void DrawableObject::initVerticies(float width)
 {
 	m_textureCoords.push_back(Vector2f(0, 0));
 	m_textureCoords.push_back(Vector2f(1, 0));
@@ -23,31 +84,33 @@ DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::
 	m_vertices.push_back(Vector4f(0.5f * width, 0.0f, -1, 1.0f));
 	m_vertices.push_back(Vector4f(-0.5f * width, 1.0f, -1, 1.0f));
 	m_vertices.push_back(Vector4f(0.5f * width, 1.0f, -1, 1.0f));
-	setShader(shader);
 }
+
 void DrawableObject::setShader(uint shader)
 {
 	m_shaderProgram = shader;
 	m_textureCoordsHandle = glGetAttribLocation(m_shaderProgram, "vTexCoord");
 	checkGlError("glGetAttribLocation");
+
 	m_positionHandle = glGetAttribLocation(m_shaderProgram, "vPosition");
 	checkGlError("glGetAttribLocation");
-
+	
 	m_modelViewHandle = glGetUniformLocation(m_shaderProgram,"mModelView");
 	checkGlError("glGetUniformLocation");
 	m_colorHandle = glGetUniformLocation(m_shaderProgram,"vColor");
+
 	checkGlError("glGetUniformLocation");
     glEnableVertexAttribArray(m_positionHandle);
     checkGlError("glEnableVertexAttribArray");	
     glEnableVertexAttribArray(m_textureCoordsHandle);
     checkGlError("glEnableVertexAttribArray");	
 
-
 	if(m_texture.get_height() > 0)
 	{
 		std::vector<unsigned char> image;
 		image.reserve(m_texture.get_height() * m_texture.get_width());	
-		for(uint y = m_texture.get_height() - 1; y >=0 ; y--){
+		bool test = false;
+		for(uint y = m_texture.get_height() - 1; y >0 ; y--){
 			for(uint x = 0; x < m_texture.get_width(); x++) {
 				image.push_back(m_texture.get_pixel(x,y).red);
 				image.push_back(m_texture.get_pixel(x,y).green);
@@ -60,7 +123,7 @@ void DrawableObject::setShader(uint shader)
 		checkGlError("glGenTextures");	
 		glBindTexture(GL_TEXTURE_2D, m_textureId);
 		checkGlError("glBindTexture");	
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST); 
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); 
 		checkGlError("glTexParameteri");	
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		checkGlError("glTexParameteri");	
@@ -69,15 +132,18 @@ void DrawableObject::setShader(uint shader)
 			m_texture.get_height(), 0, GL_RGBA,GL_UNSIGNED_BYTE,image.data());
 		checkGlError("glTexImage2D");			
 		glGenerateMipmap(GL_TEXTURE_2D);
+
 		checkGlError("glGenerateMipmap");	
 	}
 }
 bool DrawableObject::draw(PaintState& state) const
 {
+	if(m_shaderProgram == 0) return false;
+	
 	glUseProgram(m_shaderProgram);
     checkGlError("glUseProgram");
 
-	float length = state.LineLength.getValue();
+	float length = m_direction * state.LineLength.getValue();
 	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
 	
 	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();
@@ -93,10 +159,12 @@ bool DrawableObject::draw(PaintState& state) const
 
 	glVertexAttribPointer(m_positionHandle, 4, GL_FLOAT, GL_FALSE, m_vertices[0].stride(), m_vertices.data()->getValuePtr());
     checkGlError("glVertexAttribPointer");
-	
-	glBindTexture(GL_TEXTURE_2D, m_textureId);		
-	glUniform1i(glGetUniformLocation(m_shaderProgram,"tDiffuse"),0);	
 
+	//uint id =m_texture.get_width() > 0  ? m_textureId : s_defaultTexId;
+	glBindTexture(GL_TEXTURE_2D, m_textureId);		
+	checkGlError("glBindTexture");
+	glUniform1i(glGetUniformLocation(m_shaderProgram,"tDiffuse"),0);	
+	checkGlError("glUniform1i");
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertices.size());
     checkGlError("glDrawArrays");
 
@@ -185,7 +253,7 @@ DrawableObject CombineObjects( const DrawableObject& lhs, const DrawableObject& 
 	///we assume that the letters of the objects are unique
 	DrawableObject obj(lhs.getLetter(), color, img,
 						lhs.m_width * (1.0f - bias) + rhs.m_width * bias,
-						lhs.m_shaderProgram, lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias );
+						lhs.m_shaderProgram, lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias,lhs.m_direction);
 
 	const DrawableObject& first = lhs.m_vertices.size() > rhs.m_vertices.size() ? lhs : rhs;
 	const DrawableObject& second = lhs.m_vertices.size() < rhs.m_vertices.size() ? lhs : rhs;

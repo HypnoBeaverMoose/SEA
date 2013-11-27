@@ -26,6 +26,8 @@ public:
 
 	void SetDefaultBiases(float leaves, float stalk, float flowers);
 
+	void loadPlant(PlantDatabase::PlantData plant, int index);
+
 	virtual ~App();
 
 public:
@@ -68,7 +70,7 @@ private:
 	Vector2f				m_viewportSize;
 	std::vector<Vector4f>	m_renderQuad;
 	std::vector<Vector2f>	m_renderUV;
-
+	rgbaImage				m_defaultTexture;
 	uint					m_colorHandle;
 	uint					m_positionHandle;	
 	uint					m_textureCoordsHandle;
