@@ -9,6 +9,9 @@
 #include "ui_PlantGenGUI.h"
 
 
+PlantGenGUI *PlantGenGUI::pGUI = 0;
+
+
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlantGenGUI), pdb(), plants(),
@@ -58,6 +61,9 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     getPlants(66, 67, 68);
 
     updateIcons(0);
+
+    // set global pointer to plant generator GUI
+    pGUI = this;
 }
 
 PlantGenGUI::~PlantGenGUI()
@@ -69,6 +75,12 @@ PlantGenGUI::~PlantGenGUI()
 QPushButton * PlantGenGUI::getGUISwitchBtn()
 {
     return ui->guiSwitchBtn;
+}
+
+
+void PlantGenGUI::setTestLabelText( std::string text )
+{
+    ui->testLabel->setText( QString(text.c_str()) );
 }
 
 
@@ -154,7 +166,7 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
     QLabel *leafIcons[] = { ui->leafPlant1, ui->leafPlant2, ui->leafPlant3 };
 
     const std::string ICON_PATH = ":/PlantGen/";
-    int i;
+    unsigned int i;
     for ( i = 0; i < plants.size(); ++i )
     {
         plantNames[i]->setText( QString(plants[i].name.c_str()) );

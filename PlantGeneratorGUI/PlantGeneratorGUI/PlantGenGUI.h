@@ -22,7 +22,10 @@ public:
     explicit PlantGenGUI(QWidget *parent = 0);
     ~PlantGenGUI();
 
+    static PlantGenGUI *pGUI;
+
     QPushButton * getGUISwitchBtn();
+    void setTestLabelText( std::string text );
 
 private:
     void getPlants( int p1, int p2, int p3 );

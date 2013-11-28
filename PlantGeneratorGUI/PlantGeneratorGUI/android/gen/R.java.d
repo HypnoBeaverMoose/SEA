@@ -21,4 +21,5 @@ C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\
 C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-ru\strings.xml \
 C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-zh-rCN\strings.xml \
 C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-zh-rTW\strings.xml \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\xml\device_filter.xml \
 C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\bin\AndroidManifest.xml \
