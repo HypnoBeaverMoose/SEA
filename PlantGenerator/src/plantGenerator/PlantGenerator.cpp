@@ -1,7 +1,7 @@
 #include "Definitions.h"
 #include "PlantDatabase.h"
-#include "PlantGenerator.h"
 #include "App.h"
+#include "PlantGenerator.h"
 #include "PlantGeneratorApp.h"
 #include<EGL\egl.h>
 #include<EGL\eglplatform.h>
@@ -105,7 +105,7 @@ void PlantGenerator::setAssetManager(JNIEnv * env, jobject mgr)
 }
 
 bool PlantGenerator::InitGenerator()
-{
+{	
 	EGLContext prevContext = eglGetCurrentContext();
 	EGLDisplay prevDisplay = eglGetCurrentDisplay();
 	EGLSurface prevSurfaceRead = eglGetCurrentSurface(EGL_READ);
@@ -126,7 +126,8 @@ bool PlantGenerator::InitGenerator()
 	EGLint l_major, l_minor;
 	
 	eglInitialize(l_display, &l_major, &l_minor);
-	
+	LOGI("EGL PROGRESS: eglInitialize");
+
 	int l_nConfig;
 	eglChooseConfig(l_display,l_attribs, 0,  1, &l_nConfig);
 	const int num_configs = l_nConfig;
@@ -166,28 +167,34 @@ bool PlantGenerator::InitGenerator()
 		EGL_NONE
 	};
 	
+	LOGI("EGL PROGRESS: eglChooseConfig");
 	EGLSurface l_surface = 	eglCreatePbufferSurface(l_display, l_configs[i], srfPbufferAttr);	
 	if(l_surface == EGL_NO_SURFACE) {		
 		LOGE("EGL ERROR: FAILED TO CREATE RENDERING SURFACE	%d",eglGetError());
 		return false;
 	}
+	LOGI("EGL PROGRESS: eglCreatePbufferSurface");
 
 	EGLContext l_context = eglCreateContext(l_display, l_configs[i], EGL_NO_CONTEXT, l_contextAttribs);
 	if(l_context == EGL_NO_CONTEXT){
 		LOGE("EGL ERROR: FAILED TO CREATE CONTEXT, %d",eglGetError());
 		return false;
 	}
+	LOGI("EGL PROGRESS: eglCreateContext");
 
 	if(eglMakeCurrent(l_display,l_surface, l_surface, l_context) == EGL_FALSE){
 		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
 		return false;
 	}	
+	LOGI("EGL PROGRESS: eglMakeCurrent");
+
 	m_pDisplay = l_display;
 	m_pContext = l_context;
 	m_pSurface = l_surface;
 	LOGI("EGL ERROR: EGL CONTEXT SET UP!");
 	getInstance()->m_renderSize[0] = getInstance()->m_renderSize[1] = 512;
 	getInstance()->OnCreate();
+	LOGI("EGL PROGRESS: getInstance()->OnCreate()");
 
 	if(prevDisplay != EGL_NO_DISPLAY && prevSurfaceDraw != EGL_NO_SURFACE 
 					&& prevSurfaceRead != EGL_NO_SURFACE && prevContext !=EGL_NO_CONTEXT)
@@ -197,6 +204,7 @@ bool PlantGenerator::InitGenerator()
 			return false;
 		}	
 	}
+	LOGI("EGL PROGRESS: eglMakeCurrent");
 }
 
 void PlantGenerator::setDefaulBias(float leaves, float stalk, float flowers)
@@ -213,29 +221,23 @@ PlantGeneratorApp* PlantGenerator::getInstance()
 
 void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase::PlantData plantTwo, PlantDatabase::PlantData plantThree)
 {
-	getInstance()->m_plants.clear();
-	getInstance()->m_plants.resize(3);
+	//getInstance()->m_plants.clear();
+	//getInstance()->m_plants.resize(3);
 
-	getInstance()->loadPlant(plantOne, 0);
-	getInstance()->loadPlant(plantTwo, 1);
-	getInstance()->loadPlant(plantThree, 2);	
+	//getInstance()->loadPlant(plantOne, 0);
+	//getInstance()->loadPlant(plantTwo, 1);
+	//getInstance()->loadPlant(plantThree, 2);	
+	getInstance()->setUpPlant();
 }
 void PlantGenerator::loadPlant(PlantDatabase::PlantData plant, int index)
 {
 	getInstance()->loadPlant(plant, index);
 }
 
-void PlantGenerator::setCombination(PlantGenerator::PlantPart plantPart, int lhs, int rhs, float bias)
+void PlantGenerator::setCombination(uint plantPart, int lhs, int rhs, float bias)
 {
-	switch(plantPart)
-	{
-		case Stalk:
-			getInstance()->m_stalkBias = bias;break;
-		case Flowers:
-			getInstance()->m_flowerBias = bias;break;
-		case Leaves:
-			getInstance()->m_leafBias = bias;break;
-	}
+	getInstance()->setBias(bias, (PlantPart)plantPart);
+	getInstance()->combinePlants(lhs, rhs, (PlantPart)plantPart);
 }
 
 bool PlantGenerator::RenderPlant(int width, int height)

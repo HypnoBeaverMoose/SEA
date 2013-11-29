@@ -15,11 +15,11 @@ public:
 
 	DrawableObject();
 	
-	DrawableObject(char letter, const Colorf& baseColor = Colorf(1.0f,1.0f, 1.0f), float width = 0.0f, uint shader = 0, float offset = 0.0f, int dir  = 1);
+	DrawableObject(char letter, const Colorf& baseColor = Colorf(1.0f,1.0f, 1.0f), Vector2f size = Vector2f(0,0), uint shader = 0, float offset = 0.0f, float dir  = 1);
 
-	DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, float width, uint shader, float offset = 0, int dir  = 1);
+	DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, Vector2f size, uint shader, float offset = 0, float step  = 1);
 
-	DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, float width, float offset, int dir  = 1);
+	DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, Vector2f size, float offset, float step  = 1);
 
 	virtual bool draw(PaintState& state) const;
 
@@ -27,7 +27,7 @@ public:
 
 	void setShader(uint shader);
 
-	float  getWidth(float pos) const;
+	float getWidth(float pos) const;
 
 	void setLetter(char letter) { m_letter = letter; }
 
@@ -56,6 +56,7 @@ private:
 	float					m_height;
 	float					m_verticalOffset;
 	uint					m_textureId;
-	int						m_direction;
+	float					m_stepSize;
+
 };
 

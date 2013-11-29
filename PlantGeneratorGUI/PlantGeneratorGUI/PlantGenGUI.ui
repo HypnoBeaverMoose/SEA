@@ -617,8 +617,8 @@
    <widget class="QPushButton" name="testBtn">
     <property name="geometry">
      <rect>
-      <x>208</x>
-      <y>507</y>
+      <x>210</x>
+      <y>440</y>
       <width>380</width>
       <height>76</height>
      </rect>
@@ -641,6 +641,19 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="imgLabel">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>540</y>
+      <width>512</width>
+      <height>512</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <zorder>bgImg</zorder>
@@ -678,6 +691,7 @@
    <zorder>guiSwitchBtn</zorder>
    <zorder>testBtn</zorder>
    <zorder>testLabel</zorder>
+   <zorder>imgLabel</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

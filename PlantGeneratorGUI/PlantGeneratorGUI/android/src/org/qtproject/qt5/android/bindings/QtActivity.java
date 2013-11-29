@@ -169,6 +169,8 @@ public class QtActivity extends Activity
                                                         // this repository is used to push Qt snapshots.
     private String[] m_qtLibs = null; // required qt libs
 
+    private AssetManager m_mgr;
+    public static native void SetAssetManager(Object mgr);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////BEGIN NFC DOCKING STATION CODE //////////////////////////    
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -797,6 +799,9 @@ public class QtActivity extends Activity
                 System.loadLibrary(libName);
                 Log.d("Qt", "System.LoadLibrary(libName) called");
             }
+
+            m_mgr = getResources().getAssets();
+            SetAssetManager(m_mgr);
 
             Method startAppMethod=qtLoader.getClass().getMethod("startApplication");
             if (!(Boolean)startAppMethod.invoke(qtLoader))

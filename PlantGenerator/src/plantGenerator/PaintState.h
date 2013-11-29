@@ -8,9 +8,6 @@ struct PaintState
 public:
 	Matrix4f	ModelView;
 	Colorf		Color;
-	//float		LineWidth;
-	//float		LineLength;
-	//float		Angle;
 	RandomValue	LineWidth;
 	RandomValue	LineLength;
 
