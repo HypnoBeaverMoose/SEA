@@ -33,19 +33,25 @@ import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.kde.necessitas.ministro.IMinistro;
 import org.kde.necessitas.ministro.IMinistroCallback;
 
+import com.acs.smartcard.Reader;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -55,7 +61,10 @@ import android.content.res.Resources.Theme;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -79,9 +88,19 @@ import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 //@ANDROID-11
 
+import com.acs.smartcard.Features;
+import com.acs.smartcard.PinModify;
+import com.acs.smartcard.PinProperties;
+import com.acs.smartcard.PinVerify;
+import com.acs.smartcard.ReadKeyOption;
+import com.acs.smartcard.Reader;
+import com.acs.smartcard.Reader.OnStateChangeListener;
+import com.acs.smartcard.TlvProperties;
+
+
 public class QtActivity extends Activity
 {
-    private final static int MINISTRO_INSTALL_REQUEST_CODE = 0xf3ee; // request code used to know when Ministro instalation is finished
+    private final static int MINISTRO_INSTALL_REQUEST_CODE = 0xf3ee; // request code used to know when Ministro installation is finished
     private static final int MINISTRO_API_LEVEL = 3; // Ministro api level (check IMinistro.aidl file)
     private static final int NECESSITAS_API_LEVEL = 2; // Necessitas api level used by platform plugin
     private static final int QT_VERSION = 0x050100; // This app requires at least Qt version 5.1.0
@@ -148,6 +167,183 @@ public class QtActivity extends Activity
 
     private AssetManager m_mgr;
     public static native void SetAssetManager(Object mgr);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////BEGIN NFC DOCKING STATION CODE //////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+    private static final String[] stateStrings = { "Unknown", "Absent",
+        "Present", "Swallowed", "Powered", "Negotiable", "Specific" };
+    
+    private UsbManager mManager;
+    private Reader mReader;
+    private PendingIntent mPermissionIntent;
+    
+    // NFC docking station receiver class
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
+            String action = intent.getAction();
+            
+            if (ACTION_USB_PERMISSION.equals(action))
+            {
+                synchronized (this)
+                {
+                    UsbDevice device = (UsbDevice) intent
+                            .getParcelableExtra(UsbManager.EXTRA_DEVICE);
+
+                    if (intent.getBooleanExtra(
+                            UsbManager.EXTRA_PERMISSION_GRANTED, false))
+                    {
+
+                        if (device != null)
+                        {
+                            // Open reader
+                        	Log.v("Qt", "Opening reader: " + device.getDeviceName()
+                                    + "...");
+                            new OpenTask().execute(device);
+                        }
+                    } else
+                    {
+                    	Log.v("Qt", "Permission denied for device "
+                                + device.getDeviceName());
+                    }
+                }
+            } else if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(action))
+            {
+                synchronized (this)
+                {                	
+                	Log.v("Qt", "USB device detached!");
+                	
+                    UsbDevice device = (UsbDevice) intent
+                            .getParcelableExtra(UsbManager.EXTRA_DEVICE);
+
+                    if (device != null && device.equals(mReader.getDevice()))
+                    {
+                        // Close reader
+                    	Log.v("Qt", "Closing reader...");
+                        new CloseTask().execute();
+                    }
+                }
+            }
+        }
+    };
+    
+    private class OpenTask extends AsyncTask<UsbDevice, Void, Exception>
+    {
+        @Override
+        protected Exception doInBackground(UsbDevice... params)
+        {
+            Exception result = null;
+
+            try
+            {
+                mReader.open(params[0]);
+            } catch (Exception e)
+            {
+                result = e;
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Exception result)
+        {
+            if (result != null)
+            {
+                Log.v("Qt", result.toString());
+            } else
+            {
+            	Log.v("Qt", "Reader name: " + mReader.getReaderName());
+
+                int numSlots = mReader.getNumSlots();
+                Log.v("Qt", "Number of slots: " + numSlots);
+                
+                // Set parameters
+                PowerParams params = new PowerParams();
+                params.slotNum = 0;
+                params.action  = Reader.CARD_WARM_RESET;
+
+                // Perform power action
+                Log.v("Qt", "Slot 0: Warm reset...");
+                NFCStation.setLabelText("Reader name: " + mReader.getReaderName());
+                //NFCStation.processPlants(1, 2, 3);
+                //setLabelText("Reader name: " + mReader.getReaderName());
+                
+                new PowerTask().execute(params);
+            }
+        }
+    }
+
+    private class CloseTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            mReader.close();
+            return null;
+        }
+    }
+    
+    
+    private class PowerParams {
+
+        public int slotNum;
+        public int action;
+    }
+
+    private class PowerResult {
+
+        public byte[] atr;
+        public Exception e;
+    }
+
+    private class PowerTask extends AsyncTask<PowerParams, Void, PowerResult>
+    {
+        @Override
+        protected PowerResult doInBackground(PowerParams... params)
+        {
+            PowerResult result = new PowerResult();
+
+            try
+            {
+                result.atr = mReader.power(params[0].slotNum, params[0].action);
+            } catch (Exception e)
+            {
+                result.e = e;
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(PowerResult result)
+        {
+            if (result.e != null)
+            {
+            	Log.v("Qt", result.e.toString());
+            } else
+            {
+                // Show ATR
+                if (result.atr != null)
+                {
+                	for (byte b: result.atr)
+                	{
+                		 Log.i("Qt", String.format("0x%20x", b));
+                	}
+                } else
+                {
+                	Log.v("Qt", "ATR: None");
+                }
+            }
+        }
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////// END NFC DOCKING STATION CODE //////////////////////////    
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+ 
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
     {
@@ -206,7 +402,10 @@ public class QtActivity extends Activity
 
             // now load the application library so it's accessible from this class loader
             if (libName != null)
+            {
                 System.loadLibrary(libName);
+                Log.v("Qt", "System.LoadLibrary(libName) called");
+            }
 
             m_mgr = getResources().getAssets();
             SetAssetManager(m_mgr);
@@ -692,6 +891,44 @@ public class QtActivity extends Activity
                 setContentView(m_activityInfo.metaData.getInt("android.app.splash_screen"));
             startApp(true);
         }
+        
+        
+        // NFC docking station code
+    	// Get USB manager
+        mManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+
+        // Initialize reader
+        mReader = new Reader(mManager);
+        
+        if ( mReceiver != null )
+        {
+        	Log.v("Qt", "mReceiver initialized");
+        } else
+        {
+        	Log.v("Qt", "mReceiver not initialized");
+        }
+        
+        // Register receiver for USB permission
+        mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(
+                ACTION_USB_PERMISSION), 0);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_USB_PERMISSION);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        registerReceiver(mReceiver, filter);
+        
+        
+        // For each device
+        for (UsbDevice device : mManager.getDeviceList().values())
+        {
+        	if (mReader.isSupported(device)) {
+        		mManager.requestPermission(device,
+                        mPermissionIntent);
+                break;
+            }
+        }
+        
+        
+        Log.v("Qt", "OnCreate executed");
     }
     //---------------------------------------------------------------------------
 
@@ -1405,5 +1642,4 @@ public class QtActivity extends Activity
     }
     //---------------------------------------------------------------------------
 //@ANDROID-12
-
 }
