@@ -34,6 +34,9 @@ private:
     PlantDatabase pdb;
     std::vector<PlantDatabase::PlantData> plants;
 
+    //temp
+    int labelLines;
+
     // opacity effects for the icons
     QGraphicsOpacityEffect opFxSun;
     QGraphicsOpacityEffect opFxThorns;

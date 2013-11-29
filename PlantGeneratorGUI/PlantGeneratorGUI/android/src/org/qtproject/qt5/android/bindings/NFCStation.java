@@ -6,7 +6,7 @@ public final class NFCStation
 {
     public NFCStation()
     {
-        Log.v("Qt", "NFCStation created!");
+        Log.d("Qt", "NFCStation created!");
     }
 
     public static native void processPlants( int p1, int p2, int p3 );

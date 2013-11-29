@@ -88,6 +88,10 @@ import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 //@ANDROID-11
 
+
+
+
+
 import com.acs.smartcard.Features;
 import com.acs.smartcard.PinModify;
 import com.acs.smartcard.PinProperties;
@@ -168,9 +172,18 @@ public class QtActivity extends Activity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////BEGIN NFC DOCKING STATION CODE //////////////////////////    
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private static final String CMD_GET_TAG_ID     = "FFCA000004";
+    private static final String CMD_LOAD_AUTH_KEY  = "FF82000006FFFFFFFFFFFF";		//universal key 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF
+    private static final String CMD_AUTH_BLOCK_04  = "FF860000050100046100";
+    private static final String CMD_READ_BLOCK_04  = "FFB0000410"; 
+    private static final String CMD_CLEAR_BLOCK_04 = "FFD600041000000308D10104550042FE0000000000"; 
+    
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private static final String[] stateStrings = { "Unknown", "Absent",
         "Present", "Swallowed", "Powered", "Negotiable", "Specific" };
+    private static final byte[] transferTagID = { (byte)0x6D, (byte)0xF8, (byte)0xF9, (byte)0xC8 };
+    
+    //private static final String UNIVERSAL_KEY = "FFFFFFFFFFFF";
     
     private UsbManager mManager;
     private Reader mReader;
@@ -197,13 +210,13 @@ public class QtActivity extends Activity
                         if (device != null)
                         {
                             // Open reader
-                        	Log.v("Qt", "Opening reader: " + device.getDeviceName()
+                        	Log.d("Qt", "Opening reader: " + device.getDeviceName()
                                     + "...");
                             new OpenTask().execute(device);
                         }
                     } else
                     {
-                    	Log.v("Qt", "Permission denied for device "
+                    	Log.d("Qt", "Permission denied for device "
                                 + device.getDeviceName());
                     }
                 }
@@ -211,7 +224,7 @@ public class QtActivity extends Activity
             {
                 synchronized (this)
                 {                	
-                	Log.v("Qt", "USB device detached!");
+                	Log.d("Qt", "USB device detached!");
                 	
                     UsbDevice device = (UsbDevice) intent
                             .getParcelableExtra(UsbManager.EXTRA_DEVICE);
@@ -219,7 +232,7 @@ public class QtActivity extends Activity
                     if (device != null && device.equals(mReader.getDevice()))
                     {
                         // Close reader
-                    	Log.v("Qt", "Closing reader...");
+                    	Log.d("Qt", "Closing reader...");
                         new CloseTask().execute();
                     }
                 }
@@ -250,26 +263,15 @@ public class QtActivity extends Activity
         {
             if (result != null)
             {
-                Log.v("Qt", result.toString());
+                Log.d("Qt", "Open Task: " + result.toString());
             } else
             {
-            	Log.v("Qt", "Reader name: " + mReader.getReaderName());
+            	Log.d("Qt", "Reader name: " + mReader.getReaderName());
 
                 int numSlots = mReader.getNumSlots();
-                Log.v("Qt", "Number of slots: " + numSlots);
-                
-                // Set parameters
-                PowerParams params = new PowerParams();
-                params.slotNum = 0;
-                params.action  = Reader.CARD_WARM_RESET;
+                Log.d("Qt", "Number of slots: " + numSlots);
 
-                // Perform power action
-                Log.v("Qt", "Slot 0: Warm reset...");
                 NFCStation.setLabelText("Reader name: " + mReader.getReaderName());
-                //NFCStation.processPlants(1, 2, 3);
-                //setLabelText("Reader name: " + mReader.getReaderName());
-                
-                new PowerTask().execute(params);
             }
         }
     }
@@ -320,22 +322,413 @@ public class QtActivity extends Activity
         {
             if (result.e != null)
             {
-            	Log.v("Qt", result.e.toString());
+            	Log.d("Qt", "Power Task: " + result.e.toString());
             } else
             {
-                // Show ATR
-                if (result.atr != null)
+            	// Set Parameters
+                SetProtocolParams params = new SetProtocolParams();
+                params.slotNum = 0;
+                params.preferredProtocols = Reader.PROTOCOL_T0 | Reader.PROTOCOL_T1;
+
+                // Set protocol
+                Log.d("Qt", "Slot " + 0 + ": Setting protocol to T=0/T=1...");
+                new SetProtocolTask().execute(params);
+            }
+        }
+    }
+    
+    private class SetProtocolParams {
+
+        public int slotNum;
+        public int preferredProtocols;
+    }
+
+    private class SetProtocolResult
+    {
+        public int activeProtocol;
+        public Exception e;
+    }
+
+    private class SetProtocolTask extends
+            AsyncTask<SetProtocolParams, Void, SetProtocolResult> {
+
+        @Override
+        protected SetProtocolResult doInBackground(SetProtocolParams... params) {
+
+            SetProtocolResult result = new SetProtocolResult();
+
+            try
+            {
+                result.activeProtocol = mReader.setProtocol(params[0].slotNum,
+                        params[0].preferredProtocols);
+
+            } catch (Exception e)
+            {
+                result.e = e;
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(SetProtocolResult result) {
+
+            if (result.e != null)
+            {
+            	Log.d("Qt", "Set Protocol Task: " + result.e.toString());
+            } else
+            {
+                String activeProtocolString = "Active Protocol: ";
+
+                switch (result.activeProtocol) {
+
+                case Reader.PROTOCOL_T0:
+                    activeProtocolString += "T=0";
+                    break;
+
+                case Reader.PROTOCOL_T1:
+                    activeProtocolString += "T=1";
+                    break;
+
+                default:
+                    activeProtocolString += "Unknown";
+                    break;
+                }
+
+                // Show active protocol
+                Log.d("Qt", activeProtocolString);
+                
+                sendCommand(CMD_GET_TAG_ID);
+            }
+        }
+    }
+    
+    private class TransmitParams {
+
+        public int slotNum;
+        public int controlCode;
+        public String commandString;
+    }
+
+    private class TransmitProgress
+    {
+        public int controlCode;
+        public byte[] command;
+        public int commandLength;
+        public byte[] response;
+        public int responseLength;
+        public Exception e;
+    }
+
+    private class TransmitTask extends
+            AsyncTask<TransmitParams, TransmitProgress, Void>
+    {
+        @Override
+        protected Void doInBackground(TransmitParams... params)
+        {
+            TransmitProgress progress = new TransmitProgress();
+
+            byte[] command;
+            byte[] response = new byte[300];
+            int responseLength;
+            int foundIndex;
+            int startIndex = 0;
+
+            do {
+
+                // Find carriage return
+                foundIndex = params[0].commandString.indexOf('\n', startIndex);
+                if (foundIndex >= 0) {
+                    command = toByteArray(params[0].commandString.substring(
+                            startIndex, foundIndex));
+                } else {
+                    command = toByteArray(params[0].commandString
+                            .substring(startIndex));
+                }
+
+                // Set next start index
+                startIndex = foundIndex + 1;
+
+                progress.controlCode = params[0].controlCode;
+                try {
+
+                    if (params[0].controlCode < 0) {
+
+                        // Transmit APDU
+                        responseLength = mReader.transmit(params[0].slotNum,
+                                command, command.length, response,
+                                response.length);
+
+                    } else {
+
+                        // Transmit control command
+                        responseLength = mReader.control(params[0].slotNum,
+                                params[0].controlCode, command, command.length,
+                                response, response.length);
+                    }
+
+                    progress.command = command;
+                    progress.commandLength = command.length;
+                    progress.response = response;
+                    progress.responseLength = responseLength;
+                    progress.e = null;
+
+                } catch (Exception e) {
+
+                    progress.command = null;
+                    progress.commandLength = 0;
+                    progress.response = null;
+                    progress.responseLength = 0;
+                    progress.e = e;
+                }
+
+                publishProgress(progress);
+
+            } while (foundIndex >= 0);
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(TransmitProgress... progress)
+        {
+            if (progress[0].e != null)
+            {
+            	Log.d("Qt", "TransmitTask: " + progress[0].e.toString());
+            } else
+            {
+                String cmd = toHexString( progress[0].command );
+                if ( CMD_GET_TAG_ID.equals(cmd) )
                 {
-                	for (byte b: result.atr)
+                	Log.d("Qt", "Get Tag ID command response received: ");
+                	logBuffer(progress[0].response, progress[0].responseLength);
+                	
+                	int rLen = progress[0].responseLength;
+                	if ( progress[0].response[rLen - 2] == (byte)0x90
+                			&& progress[0].response[rLen - 1] == (byte)0x00 )		// 0x90 0x00 means command succeeded
                 	{
-                		 Log.i("Qt", String.format("0x%20x", b));
+                		// check for transfer tag ID
+                		for ( int i = 0; i < rLen - 2; ++i )
+                		{
+                			if ( i >= transferTagID.length )
+                				break;
+                			
+                			Log.d("Qt", progress[0].response[i] + "==" + transferTagID[i]);
+                			
+                			if ( progress[0].response[i] != transferTagID[i] )
+                			{
+                				Log.d("Qt", "Wrong Tag ID found...");
+                				return;												// tag is not the transferTag
+                			}
+                		}
+                		
+                		// send upload authentication key command
+                		sendCommand(CMD_LOAD_AUTH_KEY);
                 	}
+                } else if ( CMD_LOAD_AUTH_KEY.equals(cmd) )
+                {
+                	Log.d("Qt", "Load authentication key command response received: ");
+                	logBuffer(progress[0].response, progress[0].responseLength);
+                	
+                	int rLen = progress[0].responseLength;
+                	if ( progress[0].response[rLen - 2] == (byte)0x90
+                			&& progress[0].response[rLen - 1] == (byte)0x00 )		// 0x90 0x00 means command succeeded
+                	{
+                		// send authenticate block 4 command
+                		sendCommand(CMD_AUTH_BLOCK_04);
+                	}
+                } else if ( CMD_AUTH_BLOCK_04.equals(cmd) )
+                {
+                	Log.d("Qt", "Authenticate block 04 command response received: ");
+                	logBuffer(progress[0].response, progress[0].responseLength);
+                	
+                	int rLen = progress[0].responseLength;
+                	if ( progress[0].response[rLen - 2] == (byte)0x90
+                			&& progress[0].response[rLen - 1] == (byte)0x00 )		// 0x90 0x00 means command succeeded
+                	{
+                		// send read block 04 command
+                		sendCommand(CMD_READ_BLOCK_04);
+                	}
+                } else if ( CMD_READ_BLOCK_04.equals(cmd) )
+                {
+                	Log.d("Qt", "Read block 04 command response received: ");
+                	logBuffer(progress[0].response, progress[0].responseLength);
+                	
+                	int rLen = progress[0].responseLength;
+                	if ( progress[0].response[rLen - 2] == (byte)0x90
+                			&& progress[0].response[rLen - 1] == (byte)0x00 )		// 0x90 0x00 means command succeeded
+                	{
+                		int[] plants = { -1, -1, -1 };
+                		int pCounter = 0;
+                		
+                		// parse block 04 data
+                		if ( progress[0].response[7] == 85 )						//85 == 0x55 == 'U', which identifies the Well Known Type (WKT) for an URI record
+                		{ 										
+                			for ( int i = 10; i < 16; ++i )							// skip WKT identifier, URI identifier code and plant block start identifier of the first block of the section
+                			{
+                				if ( progress[0].response[i] == 254
+                						|| pCounter >= 3 )							// 254 == 0xFE == TLV block terminator
+                					break;
+                				
+                				plants[pCounter] = progress[0].response[i];
+                				pCounter++;
+                			}
+                			
+                			NFCStation.processPlants( plants[0], plants[1], plants[2] );
+                			
+                			sendCommand(CMD_CLEAR_BLOCK_04);
+                		} else
+                		{
+                			Log.d("Qt", "Error parsing block 04 data");
+                		}
+                	}
+                } else if ( CMD_CLEAR_BLOCK_04.equals(cmd) )
+                {
+                	Log.d("Qt", "Transfertag cleared");
+                	Log.d("Qt", "Read block 04 command response received: ");
+                	logBuffer(progress[0].response, progress[0].responseLength);
                 } else
                 {
-                	Log.v("Qt", "ATR: None");
+                	Log.d("Qt", "Response received from unknown command " + cmd);
                 }
             }
         }
+    }
+    
+    
+    private void sendCommand( String command )
+    {
+        TransmitParams params = new TransmitParams();
+        params.slotNum        = 0;
+        params.controlCode    = -1;
+        params.commandString  = command;
+
+        // Transmit APDU
+        Log.d("Qt", "Slot " + 0 + ": Transmitting APDU: " + command);
+        new TransmitTask().execute(params);
+    }
+    
+    
+    /**
+     * Converts the HEX string to byte array.
+     * 
+     * @param hexString
+     *            the HEX string.
+     * @return the byte array.
+     */
+    private byte[] toByteArray(String hexString) {
+
+        int hexStringLength = hexString.length();
+        byte[] byteArray = null;
+        int count = 0;
+        char c;
+        int i;
+
+        // Count number of hex characters
+        for (i = 0; i < hexStringLength; i++) {
+
+            c = hexString.charAt(i);
+            if (c >= '0' && c <= '9' || c >= 'A' && c <= 'F' || c >= 'a'
+                    && c <= 'f') {
+                count++;
+            }
+        }
+
+        byteArray = new byte[(count + 1) / 2];
+        boolean first = true;
+        int len = 0;
+        int value;
+        for (i = 0; i < hexStringLength; i++) {
+
+            c = hexString.charAt(i);
+            if (c >= '0' && c <= '9') {
+                value = c - '0';
+            } else if (c >= 'A' && c <= 'F') {
+                value = c - 'A' + 10;
+            } else if (c >= 'a' && c <= 'f') {
+                value = c - 'a' + 10;
+            } else {
+                value = -1;
+            }
+
+            if (value >= 0) {
+
+                if (first) {
+
+                    byteArray[len] = (byte) (value << 4);
+
+                } else {
+
+                    byteArray[len] |= value;
+                    len++;
+                }
+
+                first = !first;
+            }
+        }
+
+        return byteArray;
+    }
+    
+    
+    /**
+     * Converts the byte array to HEX string.
+     * 
+     * @param buffer
+     *            the buffer.
+     * @return the HEX string.
+     */
+    private String toHexString(byte[] buffer) {
+
+        String bufferString = "";
+
+        for (int i = 0; i < buffer.length; i++) {
+
+            String hexChar = Integer.toHexString(buffer[i] & 0xFF);
+            if (hexChar.length() == 1) {
+                hexChar = "0" + hexChar;
+            }
+
+            bufferString += hexChar.toUpperCase();
+        }
+
+        return bufferString;
+    }
+    
+    
+    /**
+     * Logs the contents of buffer.
+     * 
+     * @param buffer
+     *            the buffer.
+     * @param bufferLength
+     *            the buffer length.
+     */
+    private void logBuffer(byte[] buffer, int bufferLength) {
+
+        String bufferString = "";
+
+        for (int i = 0; i < bufferLength; i++)
+        {
+            String hexChar = Integer.toHexString(buffer[i] & 0xFF);
+            if (hexChar.length() == 1) {
+                hexChar = "0" + hexChar;
+            }
+
+            if (i % 16 == 0)
+            {
+                if (bufferString != "")
+                {
+                	Log.d("Qt", bufferString);
+                    bufferString = "";
+                }
+            }
+
+            bufferString += hexChar.toUpperCase() + " ";
+        }
+
+        if (bufferString != "")
+        	Log.d("Qt", bufferString);
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////// END NFC DOCKING STATION CODE //////////////////////////    
@@ -402,7 +795,7 @@ public class QtActivity extends Activity
             if (libName != null)
             {
                 System.loadLibrary(libName);
-                Log.v("Qt", "System.LoadLibrary(libName) called");
+                Log.d("Qt", "System.LoadLibrary(libName) called");
             }
 
             Method startAppMethod=qtLoader.getClass().getMethod("startApplication");
@@ -894,13 +1287,57 @@ public class QtActivity extends Activity
 
         // Initialize reader
         mReader = new Reader(mManager);
+        mReader.setOnStateChangeListener(new OnStateChangeListener()
+        {
+            @Override
+            public void onStateChange(int slotNum, int prevState, int currState)
+            {
+
+                if (prevState < Reader.CARD_UNKNOWN
+                        || prevState > Reader.CARD_SPECIFIC)
+                {
+                    prevState = Reader.CARD_UNKNOWN;
+                }
+
+                if (currState < Reader.CARD_UNKNOWN
+                        || currState > Reader.CARD_SPECIFIC)
+                {
+                    currState = Reader.CARD_UNKNOWN;
+                }
+                
+                /*
+                     private static final String[] stateStrings = { "Unknown", "Absent",
+            					"Present", "Swallowed", "Powered", "Negotiable", "Specific" };
+                */
+                
+                if ( currState == 2 )			//card present
+                {
+                	Log.d("Qt", "Powering card...");
+                	
+                	// Set parameters
+                    PowerParams params = new PowerParams();
+                    params.slotNum = 0;
+                    params.action  = Reader.CARD_WARM_RESET;
+
+                    // Perform power action
+                    new PowerTask().execute(params);
+                }
+
+                // Create output string
+                final String outputString = "Slot " + slotNum + ": "
+                        + stateStrings[prevState] + " -> "
+                        + stateStrings[currState];
+                
+                Log.d("Qt", outputString);
+            }
+        });
         
         if ( mReceiver != null )
         {
-        	Log.v("Qt", "mReceiver initialized");
+        	Log.d("Qt", "mReceiver initialized");
         } else
         {
-        	Log.v("Qt", "mReceiver not initialized");
+        	Log.d("Qt", "mReceiver not initialized");
         }
         
         // Register receiver for USB permission
@@ -923,7 +1360,7 @@ public class QtActivity extends Activity
         }
         
         
-        Log.v("Qt", "OnCreate executed");
+        Log.d("Qt", "OnCreate executed");
     }
     //---------------------------------------------------------------------------
 

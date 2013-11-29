@@ -633,11 +633,11 @@
       <x>217</x>
       <y>635</y>
       <width>370</width>
-      <height>280</height>
+      <height>487</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

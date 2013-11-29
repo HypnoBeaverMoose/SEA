@@ -16,10 +16,9 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlantGenGUI), pdb(), plants(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain()
+    opFxFruit(), opFxToy(), opFxTree(), opFxRain(), labelLines(0)
 {
     ui->setupUi(this);
-
 
     // load plant label font
     QFile fontFile(":/PlantGen/PRISTINA.TTF");
@@ -80,7 +79,15 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
 
 void PlantGenGUI::setTestLabelText( std::string text )
 {
-    ui->testLabel->setText( QString(text.c_str()) );
+    if ( labelLines >= 6 )
+    {
+        labelLines = 0;
+        ui->testLabel->setText( QString(text.c_str()) );
+    } else
+    {
+        labelLines++;
+        ui->testLabel->setText( ui->testLabel->text() + "\n" + QString(text.c_str()) );
+    }
 }
 
 
