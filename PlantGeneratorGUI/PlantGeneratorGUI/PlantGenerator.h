@@ -18,7 +18,7 @@ public:
 	static void loadPlant(PlantDatabase::PlantData plant, int index);
 
 	///Combine two plant parts;
-	static void setCombination(PlantPart plantPart, int l_index, int r_index, float bias);
+	static void setCombination(uint plantPart, int l_index, int r_index, float bias);
 
 	///Render the plant to an image, the width and height might 
 	///not allways the ones specified in the fucntion

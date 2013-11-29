@@ -1,6 +1,6 @@
 #pragma once
 
-enum PlantPart { Leaves = 0, Stalk, Flowers};
+enum PlantPart {Flowers= 0, Stalk, Leaves };
 class Plant
 {
 public:

@@ -21,4 +21,5 @@ G:\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-rs\strings.xml \
 G:\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-ru\strings.xml \
 G:\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-zh-rCN\strings.xml \
 G:\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\values-zh-rTW\strings.xml \
+G:\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\res\xml\device_filter.xml \
 G:\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android\bin\AndroidManifest.xml \

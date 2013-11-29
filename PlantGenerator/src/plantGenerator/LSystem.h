@@ -46,9 +46,10 @@ public:
 
 	void removeRule(char condition);
 
+	void normalizeProbs();
+
 private:
 	
-	void normalizeProbs();
 
 	std::string generateRule(char condition);
 

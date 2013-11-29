@@ -145,7 +145,7 @@ bool DrawableObject::draw(PaintState& state) const
     checkGlError("glUseProgram");
 
 	
-	float length = (m_stepSize / abs(m_stepSize)) * state.LineLength.getValue();
+	float length = (m_stepSize / std::abs(m_stepSize)) * state.LineLength.getValue();
 	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
 	mat *= Matrix4f::Scale(m_width,m_height, 1.0f);
 	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();
@@ -170,7 +170,7 @@ bool DrawableObject::draw(PaintState& state) const
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertices.size());
     checkGlError("glDrawArrays");
 
-	state.ModelView *= Matrix4f::Translation(0, length * abs(m_stepSize),0).Transposed();	
+	state.ModelView *= Matrix4f::Translation(0, length * std::abs(m_stepSize),0).Transposed();	
 	return true;
 }
 
@@ -255,7 +255,7 @@ DrawableObject CombineObjects( const DrawableObject& lhs, const DrawableObject& 
 	///we assume that the letters of the objects are unique
 	Vector2f size(lhs.m_width * (1.0f - bias) + rhs.m_width * bias, lhs.m_height * (1.0f - bias) + rhs.m_height * bias);
 	
-	DrawableObject obj(lhs.getLetter(), color, rhs.m_texture, size,						
+	DrawableObject obj(lhs.getLetter(), color, bias < 0.5f ? lhs.m_texture : rhs.m_texture, size,						
 				lhs.m_shaderProgram, lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias,
 															lhs.m_stepSize * ( 1.0f - bias)  + rhs.m_stepSize * bias);
 

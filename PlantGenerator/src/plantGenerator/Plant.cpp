@@ -67,7 +67,7 @@ Plant::~Plant(void)
 
 void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float bias, PlantPart part)
 {
-	if(part = Stalk)
+	if(part == Stalk)
 	{
 		DrawableObject stalk = CombineObjects(lhs.getPart('s'),rhs.getPart('s'), bias);
 		DrawableObject root = CombineObjects(lhs.getPart('r'),rhs.getPart('r'), bias);
@@ -115,6 +115,7 @@ void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float b
 			rulesRight[i].setProbability(rulesRight[i].getProbability() * bias);
 			basePlant.addRule(rulesRight[i]);			
 		}
+		basePlant.getLSystem().normalizeProbs();
 		basePlant.addObject(stalk);
 		basePlant.addObject(root);
 
@@ -167,7 +168,7 @@ void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float b
 
 	basePlant.addObject(lo);
 	basePlant.addObject(ro);
-
+	basePlant.getLSystem().normalizeProbs();
 
 }
 

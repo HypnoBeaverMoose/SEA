@@ -617,8 +617,8 @@
    <widget class="QPushButton" name="testBtn">
     <property name="geometry">
      <rect>
-      <x>208</x>
-      <y>507</y>
+      <x>210</x>
+      <y>440</y>
       <width>380</width>
       <height>76</height>
      </rect>
@@ -654,9 +654,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>android/assets/checker.png</pixmap>
     </property>
    </widget>
    <zorder>bgImg</zorder>

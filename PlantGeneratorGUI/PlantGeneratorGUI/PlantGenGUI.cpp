@@ -17,7 +17,7 @@ extern "C" {
 
 JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr)
 {
-    PlantGenerator::setAssetManager(env, mgr);    
+    PlantGenerator::setAssetManager(env, mgr);
 }
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
@@ -63,6 +63,11 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     ui->glowTree->setGraphicsEffect(&opFxTree);
     ui->glowRain->setGraphicsEffect(&opFxRain);
 
+
+    ui->dialFlower->setProperty("plantPart",0);
+    ui->dialStalk->setProperty("plantPart",1);
+    ui->dialLeaf->setProperty("plantPart",2);
+
     QObject::connect( ui->dialFlower, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
     QObject::connect( ui->dialStalk, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
     QObject::connect( ui->dialLeaf, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
@@ -71,6 +76,7 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QObject::connect( ui->dialStalk, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
     QObject::connect( ui->dialLeaf, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
 
+   PlantGenerator::loadPlants(PlantDatabase::PlantData(),PlantDatabase::PlantData(),PlantDatabase::PlantData());
 
     getPlants(66, 67, 68);
 
@@ -93,14 +99,50 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
 
 void PlantGenGUI::updatePlantImage()
 {
+    int ability = QObject::sender()->property("plantPart").toInt();
     uint width = ui->imgLabel->width(), height = ui->imgLabel->height();
-    PlantGenerator::RenderPlant(width, height);
-    if(m_img != 0)
-        delete m_img;
 
-    m_img = PlantGenerator::getRenderedImage(width, height);
-    QImage image(m_img, width, height, QImage::Format_ARGB32);
-    ui->imgLabel->setPixmap(QPixmap::fromImage(image));
+
+    ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
+    ArrowDial::Area a = dials[ability]->getCurArea();
+
+    int l_index, r_index;
+    switch ( a.id )
+    {
+        case 1:                     // plant 1 and 2
+            l_index = 0;
+            r_index = 1;
+            break;
+        case 2:                     // plant 2 and 3
+            l_index = 1;
+            r_index = 2;
+            break;
+        case 3:                     // plant 3 and 1
+            l_index = 2;
+            r_index = 0;
+            break;
+        default:
+            break;
+    }
+
+
+    float bias = std::min(a.left,1.0f);
+    PlantGenerator::setCombination(ability, l_index, r_index, 1.0f - bias);
+
+    PlantGenerator::RenderPlant(width, height);
+
+    unsigned char* img = PlantGenerator::getRenderedImage(width, height);
+
+    QImage image(img, width, height, QImage::Format_ARGB32);
+    for( int x = 0; x < image.width(); x++){
+        for( int y = 0; y < image.width(); y++){
+          QRgb  pix = image.pixel(x,y);
+          unsigned char* el = (unsigned char*)&pix;
+          std::swap(el[0],el[2]);
+          image.setPixel(x,y,pix);
+        }
+     }
+    ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
 }
 
 void PlantGenGUI::setTestLabelText( std::string text )
@@ -108,11 +150,32 @@ void PlantGenGUI::setTestLabelText( std::string text )
     ui->testLabel->setText( QString(text.c_str()) );
 }
 
+void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int ability)
+{
+    ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
 
+    switch ( dials[ability]->getCurArea().id )
+    {
+        case 1:                     // plant 1 and 2
+            l_index = 0;
+            r_index = 1;
+            break;
+        case 2:                     // plant 2 and 3
+            l_index = 1;
+            r_index = 2;
+            break;
+        case 3:                     // plant 3 and 1
+            l_index = 2;
+            r_index = 0;
+        break;
+        default:
+            break;
+    }
+    bias  =  dials[ability]->getCurArea().left;
+
+}
 void PlantGenGUI::updateIcons( int )
 {
-
-    ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
     float antiDrought = 0.0f;
     float thorns      = 0.0f;
     float poison      = 0.0f;
@@ -121,6 +184,8 @@ void PlantGenGUI::updateIcons( int )
     float soft        = 0.0f;
     float growth      = 0.0f;
     float antiwater   = 0.0f;
+
+    ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
 
     for ( int i = 0; i < PlantDatabase::PlantData::NUM_ABS; ++i )
     {

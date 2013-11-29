@@ -44,6 +44,7 @@ App::App()
 		needsRedraw(true), m_bias(0.0f), m_renderSize(512,512), m_viewportSize(0,0) 
 
 {
+	m_biases[0] = m_biases[1] = m_biases[2] = 0;
 	m_renderUV.push_back(Vector2f(0, 0));
 	m_renderUV.push_back(Vector2f(1, 0));
 	m_renderUV.push_back(Vector2f(0, 1));
@@ -80,8 +81,8 @@ void App::setUpPlant()
 {	
 	//tomato plant
 	png::image<png::rgba_pixel> leaf, fruit, cact, thorn, dusty, flower;
-	loadImageFromFile(leaf,"leaf.png");
-	loadImageFromFile(fruit, "tomato.png");
+	loadImage(leaf,"leaf.png");
+	loadImage(fruit, "tomato.png");
 	Plant tomato(3, 0.025f,1.5f, 1.3f, "[--R][-R][R][+R][++R][PF]", 5);
 	
 	DrawableObject t_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(1.0f, 1.2f), m_programId, 0.0f, -0.6);
@@ -107,8 +108,8 @@ void App::setUpPlant()
 
 	tomato.setPosition(Vector3f(0.5f,0.2f,1));
 
-	loadImageFromFile(cact, "cactus.png");
-	loadImageFromFile(thorn, "thorns.png");
+	loadImage(cact, "cactus.png");
+	loadImage(thorn, "thorns.png");
 
 	Plant cactus(2.0f, 0.03f, 1.5f, 1.1f, "[)))R][P]", 5);
 	DrawableObject c_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(3.0f,3.0f), m_programId, 1.0f, -0.9f);
@@ -135,8 +136,8 @@ void App::setUpPlant()
 
 	Plant dustyMiller(1.4, 0.025f, 1.5f, 1.2f, "[>>>R]P[((((Sf][)))))+++++Vf][))))))----Sf]", 5);
 
-	loadImageFromFile(dusty, "dusty.png");
-	loadImageFromFile(flower, "flower.png");
+	loadImage(dusty, "dusty.png");
+	loadImage(flower, "flower.png");
 	DrawableObject d_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(1.0f,1.0f), m_programId, 0.5f, -0.5f);
 	DrawableObject d_stalk('s',Colorf("#9CC7A1FF"), m_defaultTexture, Vector2f(1.0f,1.0f), m_programId, 0.0f, 0.7f);
 	DrawableObject d_leaf('l',Colorf(1,1,1,1), dusty, Vector2f(3.0f,3.0f), m_programId, 0.0f);
@@ -165,11 +166,15 @@ void App::setUpPlant()
 	m_plants.push_back(dustyMiller);
 	m_plants.push_back(cactus);
 	m_plants.push_back(tomato);	
+
+	m_resultPlant = Plant(tomato);
 }
 
 void App::combinePlants(int l_index, int r_index, PlantPart part)
 {
-	CombinePlants(m_resultPlant, m_plants[l_index], m_plants[r_index],m_biases[part],part);
+
+	LOGI("plant combination set: left: %d, right: %d, part: %d",l_index, r_index, (uint)part);
+	CombinePlants(m_resultPlant, m_plants[l_index], m_plants[r_index],m_biases[part], part);
 }
 
 void App::setBias( float bias, PlantPart part)
@@ -183,11 +188,18 @@ void App::OnCreate()
 	checkGlError("glPixelStorei");
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	checkGlError("glPixelStorei");
+	LOGI("OnCreate::ONE");
+	glEnable(GL_BLEND);
+	checkGlError("glEnable");
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glActiveTexture(GL_TEXTURE0);
 	checkGlError("glActiveTexture");
 	m_programId = createProgram(s_VertexShader, s_FragmentShader);	
+	LOGI("OnCreate::TWO");
 
 	m_textureCoordsHandle = glGetAttribLocation(m_programId, "vTexCoord");
 	checkGlError("glGetAttribLocation");
@@ -202,18 +214,14 @@ void App::OnCreate()
     checkGlError("glEnableVertexAttribArray");	
     glEnableVertexAttribArray(m_textureCoordsHandle);
     checkGlError("glEnableVertexAttribArray");	
-
+	LOGI("OnCreate::Three");
 	glGenFramebuffers(1,&m_framebufferHandle);
 	checkGlError("glGenFramebuffers");	
 	glGenTextures(1, &m_targetTexHandle);
 	checkGlError("glGenTextures");	
 	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
 	checkGlError("glBindFramebuffer");	
-	glEnable(GL_BLEND);
-	checkGlError("glEnablei");
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	LOGI("OnCreate::FOUR");
 	glBindTexture(GL_TEXTURE_2D, m_targetTexHandle);
 	checkGlError("glBindTexture");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -226,14 +234,18 @@ void App::OnCreate()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_targetTexHandle, 0);
 	checkGlError("glFramebufferTexture2D");
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	LOGI("OnCreate::FIVE");
 	checkGlError("glBindFramebuffer");
 	glGenTextures(1, &m_previewTexHandle);
-	loadImageFromFile(m_defaultTexture,"default.png");
 
+	loadImage(m_defaultTexture,"default.png");
+	LOGI("OnCreate::SIX");
 	needsRedraw = true;
 }
 void App::RenderPlant()
 {
+	//setBias(0.0f, PlantPart::Stalk);
+	//combinePlants(0, 2, PlantPart::Stalk);
 	m_resultPlant.regeneratePlant();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	checkGlError("glBindTexture");

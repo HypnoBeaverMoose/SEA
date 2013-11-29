@@ -11,8 +11,8 @@ PlantGeneratorApp::PlantGeneratorApp() : App()
 
 bool PlantGeneratorApp::loadImage(png::image<png::rgba_pixel>& image, const char* filename)
 {
-	AAsset* asset = AAssetManager_open(m_assetManager,filename,AASSET_MODE_STREAMING);
-	LOGI("LOAD IMAGE:: START");
+	LOGI("LOAD IMAGE::START");
+	AAsset* asset = AAssetManager_open(m_assetManager,filename,AASSET_MODE_BUFFER);	
 	if(asset == NULL){
 		LOGE("IMAGE LOADING FAIL: FAILED TO LOAD INITAL ASSET");	
 		return false;
