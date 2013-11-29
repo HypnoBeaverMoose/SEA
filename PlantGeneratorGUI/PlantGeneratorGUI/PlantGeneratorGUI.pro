@@ -101,3 +101,8 @@ OTHER_FILES += \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
     android/version.xml
 
+
+INCLUDEPATH += $$PWD/
+DEPENDPATH += $$PWD/
+
+LIBS += -lEGL -lGLESv2 -landroid -L$$PWD/lib/ -lpg -lpng

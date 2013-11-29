@@ -41,10 +41,11 @@ DrawableObject::DrawableObject() : m_letter(' '), m_baseColor(0,0,0,1), m_textur
 		prepareDefaultTexture();
 }
 
-DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width, uint shader, float offset, int dir) 
-				:	m_letter(letter), m_baseColor(baseColor), m_width(width), m_verticalOffset(offset), m_textureId(0), m_direction(dir)
+DrawableObject::DrawableObject(char letter, const Colorf& baseColor,  Vector2f size, uint shader, float offset, float step) 
+				:	m_letter(letter), m_baseColor(baseColor),m_width(size[0]),m_height(size[1]),
+												m_verticalOffset(offset), m_textureId(0), m_stepSize(step)
 {
-	initVerticies(width);
+	initVerticies(1.0f);
 	if(shader > 0)
 		setShader(shader);
 	if(s_defaultTexture.get_width() == 0)
@@ -54,11 +55,11 @@ DrawableObject::DrawableObject(char letter, const Colorf& baseColor, float width
 
 
 DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, 
-				float width, uint shader, float offset, int dir) 
-				:	m_letter(letter), m_baseColor(baseColor),m_width(width), 
-					m_verticalOffset(offset), m_texture(texture), m_textureId(0), m_direction(dir)
+				 Vector2f size, uint shader, float offset,float step) 
+				:	m_letter(letter), m_baseColor(baseColor),m_width(size[0]),m_height(size[1]),
+					m_verticalOffset(offset), m_texture(texture), m_textureId(0), m_stepSize(step)
 {
-	initVerticies(width);
+	initVerticies(1.0f);
 	setShader(shader);
 	if(s_defaultTexture.get_width() == 0)
 		prepareDefaultTexture();
@@ -66,11 +67,11 @@ DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::
 
 
 DrawableObject::DrawableObject(char letter, const Colorf& baseColor, const png::image<png::rgba_pixel>& texture, 
-				float width, float offset, int dir):	m_letter(letter), m_baseColor(baseColor),m_width(width), 
-											m_verticalOffset(offset), m_texture(texture), m_direction(dir)
+				 Vector2f size, float offset, float step):	m_letter(letter), m_baseColor(baseColor),m_width(size[0]),m_height(size[1]), 
+											m_verticalOffset(offset), m_texture(texture), m_stepSize(step)
 {	
 	m_textureId = 0;
-	initVerticies(width);
+	initVerticies(1.0f);
 }
 
 void DrawableObject::initVerticies(float width)
@@ -80,10 +81,10 @@ void DrawableObject::initVerticies(float width)
 	m_textureCoords.push_back(Vector2f(0, 1));
 	m_textureCoords.push_back(Vector2f(1, 1));
 
-	m_vertices.push_back(Vector4f(-0.5f * width, 0.0f, -1, 1.0f));
-	m_vertices.push_back(Vector4f(0.5f * width, 0.0f, -1, 1.0f));
-	m_vertices.push_back(Vector4f(-0.5f * width, 1.0f, -1, 1.0f));
-	m_vertices.push_back(Vector4f(0.5f * width, 1.0f, -1, 1.0f));
+	m_vertices.push_back(Vector4f(-0.5f , 0.0f, -1, 1.0f));
+	m_vertices.push_back(Vector4f(0.5f, 0.0f, -1, 1.0f));
+	m_vertices.push_back(Vector4f(-0.5f, 1.0f, -1, 1.0f));
+	m_vertices.push_back(Vector4f(0.5f, 1.0f, -1, 1.0f));
 }
 
 void DrawableObject::setShader(uint shader)
@@ -143,9 +144,10 @@ bool DrawableObject::draw(PaintState& state) const
 	glUseProgram(m_shaderProgram);
     checkGlError("glUseProgram");
 
-	float length = m_direction * state.LineLength.getValue();
-	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
 	
+	float length = (m_stepSize / abs(m_stepSize)) * state.LineLength.getValue();
+	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
+	mat *= Matrix4f::Scale(m_width,m_height, 1.0f);
 	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();
 
 	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE,  mat.getValuePtr());
@@ -168,13 +170,13 @@ bool DrawableObject::draw(PaintState& state) const
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertices.size());
     checkGlError("glDrawArrays");
 
-	state.ModelView *= Matrix4f::Translation(0,length,0).Transposed();	
+	state.ModelView *= Matrix4f::Translation(0, length * abs(m_stepSize),0).Transposed();	
 	return true;
 }
 
 void DrawableObject::setWdith(float pos, float width)
 {
-	if(pos < 0.0f || pos > 1.0f || width < 0.0f) return;
+	if(pos < 0.0f || pos > 1.0f || width < 0.0f || width > 1.0f) return;
 	bool insert = false;
 	std::vector<Vector4f>::iterator it = m_vertices.begin();
 	std::vector<Vector2f>::iterator tex_it = m_textureCoords.begin();
@@ -182,8 +184,8 @@ void DrawableObject::setWdith(float pos, float width)
 	{
 		if((*it)[1] == pos)
 		{
-			(*it)[0] = m_width * (-width / 2.0f);
-			(*(++it))[0] = m_width * (width / 2.0f); 
+			(*it)[0] = (-width / 2.0f);
+			(*(++it))[0] = (width / 2.0f); 
 			break;
 		}
 		else if((*it)[1] > pos)  { insert = true; break; }
@@ -191,8 +193,8 @@ void DrawableObject::setWdith(float pos, float width)
 	}
 	if(insert)
 	{
-		it = m_vertices.insert(it,Vector4f (m_width*(width / 2.0f), pos, 0.0f,1.0f));
-		m_vertices.insert(it,Vector4f(m_width * (-width / 2.0f), pos, 0.0f,1.0f));
+		it = m_vertices.insert(it,Vector4f ((width / 2.0f), pos, 0.0f,1.0f));
+		m_vertices.insert(it,Vector4f((-width / 2.0f), pos, 0.0f,1.0f));
 		tex_it  = m_textureCoords.insert(tex_it,Vector2f(0,pos));
 		m_textureCoords.insert(tex_it,Vector2f(1, pos));		
 	}
@@ -206,7 +208,7 @@ float DrawableObject::getWidth(float pos) const
 {
 	if(pos < 0.0f || pos > 1.0f) return -1;
 
-	uint i  = 0; 
+	uint i  = 0;
 	for(; i < m_vertices.size(); i+=2){
 		if( pos < m_vertices[i][1]) 
 			break;
@@ -218,7 +220,7 @@ float DrawableObject::getWidth(float pos) const
 	float len = (m_vertices[i + 1][1] - m_vertices[i -1][1]);
 	float t = (pos - m_vertices[i - 1][1]) / len;
 
-	return (1 - t)  * m_vertices[i - 1][0] + t * m_vertices[i + 1][0];
+	return (1 - t) * m_vertices[i - 1][0] + t * m_vertices[i + 1][0];
 }
 static void CombineTextures(const rgbaImage& lhs, const rgbaImage& rhs, rgbaImage& result, float  bias)
 {
@@ -251,9 +253,11 @@ DrawableObject CombineObjects( const DrawableObject& lhs, const DrawableObject& 
 	rgbaImage img;
 	CombineTextures(lhs.m_texture, rhs.m_texture, img, bias);
 	///we assume that the letters of the objects are unique
-	DrawableObject obj(lhs.getLetter(), color, img,
-						lhs.m_width * (1.0f - bias) + rhs.m_width * bias,
-						lhs.m_shaderProgram, lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias,lhs.m_direction);
+	Vector2f size(lhs.m_width * (1.0f - bias) + rhs.m_width * bias, lhs.m_height * (1.0f - bias) + rhs.m_height * bias);
+	
+	DrawableObject obj(lhs.getLetter(), color, rhs.m_texture, size,						
+				lhs.m_shaderProgram, lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias,
+															lhs.m_stepSize * ( 1.0f - bias)  + rhs.m_stepSize * bias);
 
 	const DrawableObject& first = lhs.m_vertices.size() > rhs.m_vertices.size() ? lhs : rhs;
 	const DrawableObject& second = lhs.m_vertices.size() < rhs.m_vertices.size() ? lhs : rhs;

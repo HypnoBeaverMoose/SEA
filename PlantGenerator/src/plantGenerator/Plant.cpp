@@ -74,6 +74,9 @@ void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float b
 
 		basePlant.getLSystem().removeRule('P');
 		basePlant.getLSystem().removeRule('S');
+		basePlant.getLSystem().removeRule('V');
+		basePlant.getLSystem().removeRule('K');
+
 		basePlant.getLSystem().removeRule('A');
 		basePlant.getLSystem().removeRule('B');
 		basePlant.getLSystem().removeRule('R');
@@ -83,6 +86,9 @@ void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float b
 		std::vector<Rule> rulesRight;
 		lhs.getLSystem().getRules('P', rulesLeft);
 		lhs.getLSystem().getRules('S', rulesLeft);
+		lhs.getLSystem().getRules('V', rulesLeft);
+		lhs.getLSystem().getRules('K', rulesLeft);
+
 		lhs.getLSystem().getRules('A', rulesLeft);
 		lhs.getLSystem().getRules('B', rulesLeft);
 		lhs.getLSystem().getRules('R', rulesLeft);
@@ -97,6 +103,9 @@ void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float b
 
 		rhs.getLSystem().getRules('P', rulesRight);
 		rhs.getLSystem().getRules('S', rulesRight);
+		rhs.getLSystem().getRules('V', rulesRight);
+		rhs.getLSystem().getRules('K', rulesRight);
+
 		rhs.getLSystem().getRules('A', rulesRight);
 		rhs.getLSystem().getRules('B', rulesRight);
 		rhs.getLSystem().getRules('R', rulesRight);

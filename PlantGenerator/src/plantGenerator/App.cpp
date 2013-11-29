@@ -27,7 +27,7 @@ char* App::s_FragmentShader =
 	"uniform vec4 vColor;\n"	
 	"void main() {\n"
 	"	vec4 color = texture2D(tDiffuse, varTexCoord);\n"
-    "	gl_FragColor = color * vColor;\n"
+	"	gl_FragColor = color * vColor;\n"
     "}\n";
 
 App* App::s_instance = 0;
@@ -65,7 +65,7 @@ void App::loadPlant(PlantDatabase::PlantData plant, int index)
 		png::image<png::rgba_pixel> image;
 		getInstance()->loadImage(image, plant.drawData[i].texture.c_str());
 
-		DrawableObject obj(plant.drawData[i].letter, Colorf(plant.drawData[i].clr.c_str()),	image,1.0f, plant.drawData[i].vertOffset);
+		DrawableObject obj(plant.drawData[i].letter, Colorf(plant.drawData[i].clr.c_str()),	image,Vector2f(1.0f,1.0f), plant.drawData[i].vertOffset);
 		
 		for(uint j = 0; j < plant.drawData[i].verts.size();j++)
 			obj.setWdith(plant.drawData[i].verts[j].height, plant.drawData[i].verts[j].width);
@@ -76,37 +76,45 @@ void App::loadPlant(PlantDatabase::PlantData plant, int index)
 	m_plants[index] = _plant;
 }
 
-void App::SetUpPlant()
+void App::setUpPlant()
 {	
-	//tomato plant mf!
-	Plant tomato(22.5, 0.02f,1.3f, 1.1f, "[(R][PF]", 5);
-	DrawableObject t_root('r',Colorf("#DB877CFF"), m_defaultTexture, 1.0f, m_programId, 0.0f, -1);
-	DrawableObject t_stalk('s',Colorf(0,1,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
-	DrawableObject t_leaf('l',Colorf(0,0,1,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
-	DrawableObject t_fruit('f',Colorf(1,0,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	//tomato plant
+	png::image<png::rgba_pixel> leaf, fruit, cact, thorn, dusty, flower;
+	loadImageFromFile(leaf,"leaf.png");
+	loadImageFromFile(fruit, "tomato.png");
+	Plant tomato(3, 0.025f,1.5f, 1.3f, "[--R][-R][R][+R][++R][PF]", 5);
 	
+	DrawableObject t_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(1.0f, 1.2f), m_programId, 0.0f, -0.6);
+	DrawableObject t_stalk('s',Colorf("#3D6E11FF"), m_defaultTexture, Vector2f(1.2f, 1.3f), m_programId, 0.0f, 0.8f);
+	DrawableObject t_leaf('l',Colorf("#FFFFFFFF"), leaf, Vector2f(5.0f,5.0f), m_programId, 0.0f);
+	DrawableObject t_fruit('f',Colorf("#FFFFFFFF"), fruit, Vector2f(3.0f,3.0f), m_programId, -0.1f);
+
 	tomato.addObject(t_root);
 	tomato.addObject(t_stalk);
 	tomato.addObject(t_leaf);
 	tomato.addObject(t_fruit);
 
 	tomato.addRule(Rule('R',"r-r+r#R"));
-	//tomato.addRule(Rule('r',"r-#r+r"));
 	tomato.addRule(Rule('F',"f"));
 	tomato.addRule(Rule('L',"l"));
 
-	tomato.addRule(Rule('P',"[)))-AF][++L]S[)))+BF][--L]S+P"));
-	tomato.addRule(Rule('B',"#S[--L]S[++F]+B"));
-	tomato.addRule(Rule('A',"#S[++L]S[--F]-A"));
-	tomato.addRule(Rule('S',"sSs"));
+	tomato.addRule(Rule('P',"[)))--A))---F][))))))++L]S[)))++BF][))))))--L]S+#P"));
+	tomato.addRule(Rule('B',"#S[))))))))+++L]S[))))))))+++F]B"));
+	tomato.addRule(Rule('A',"#V[))))))))---L]V[))))))))--F]V"));
+	tomato.addRule(Rule('S',"Ss+s"));
+	tomato.addRule(Rule('V',"Vs-s"));
+	tomato.addRule(Rule('K',"Kss"));
 
-	tomato.setPosition(Vector3f(0.5f,0.3f,1));
+	tomato.setPosition(Vector3f(0.5f,0.2f,1));
 
-	Plant cactus(22.5f, 0.02f, 1.0f, 1.1f, "[--R][-R][R][+R][++R][#P#P#PF]", 4);
-	DrawableObject c_root('r',Colorf("#DB877CFF"), m_defaultTexture, 1.0f, m_programId, 0.0f, -1);
-	DrawableObject c_stalk('s',Colorf(0,1,0,1), m_defaultTexture, 5.0f, m_programId, 0.0f);
-	DrawableObject c_leaf('l',Colorf(0,0,1,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
-	DrawableObject c_fruit('f',Colorf(1,0,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	loadImageFromFile(cact, "cactus.png");
+	loadImageFromFile(thorn, "thorns.png");
+
+	Plant cactus(2.0f, 0.03f, 1.5f, 1.1f, "[)))R][P]", 5);
+	DrawableObject c_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(3.0f,3.0f), m_programId, 1.0f, -0.9f);
+	DrawableObject c_stalk('s',Colorf(0,1,0,1), cact, Vector2f(5.0f,5.0f), m_programId, 0.0f, 0.7f);
+	DrawableObject c_leaf('l',Colorf(1,1,1,1), thorn, Vector2f(1.5f,1.5f), m_programId, 0.0f);
+	DrawableObject c_fruit('f',Colorf(1,0,0,1), m_defaultTexture, Vector2f(5.0f,5.0f), m_programId, 0.0f);
 	
 	cactus.addObject(c_root);
 	cactus.addObject(c_stalk);
@@ -115,20 +123,24 @@ void App::SetUpPlant()
 
 	cactus.addRule(Rule('F',"f"));
 	cactus.addRule(Rule('L',"l"));
-	cactus.addRule(Rule('R',"r+r-r##R"));
-	cactus.addRule(Rule('P',"S[----L][----&L][++++&L][++++L]SP"));
-	cactus.addRule(Rule('S',"s"));
+	cactus.addRule(Rule('R',"r+#r-#r#R"));
+	cactus.addRule(Rule('P',"SL"));
+	cactus.addRule(Rule('S',"s@S#s"));
+	cactus.addRule(Rule('V',"s@V#s"));
+	cactus.addRule(Rule('K',"sKs"));
 
 	cactus.addRule(Rule('A',"A"));
 	cactus.addRule(Rule('B',"B"));
-	cactus.setPosition(Vector3f(0.5f,0.3f,1));
+	cactus.setPosition(Vector3f(0.5f,0.2f,1));
 
-	Plant dustyMiller(30, 0.02f, 1.0f, 1.2f, "[>>>R]P[#-SF][#+SF]#SF", 5);
+	Plant dustyMiller(1.4, 0.025f, 1.5f, 1.2f, "[>>>R]P[((((Sf][)))))+++++Vf][))))))----Sf]", 5);
 
-	DrawableObject d_root('r',Colorf("#DB877CFF"), m_defaultTexture, 1.0f, m_programId, 0.0f, -1);
-	DrawableObject d_stalk('s',Colorf(0,1,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
-	DrawableObject d_leaf('l',Colorf(0,0,1,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
-	DrawableObject d_fruit('f',Colorf(1,0,0,1), m_defaultTexture, 1.0f, m_programId, 0.0f);
+	loadImageFromFile(dusty, "dusty.png");
+	loadImageFromFile(flower, "flower.png");
+	DrawableObject d_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(1.0f,1.0f), m_programId, 0.5f, -0.5f);
+	DrawableObject d_stalk('s',Colorf("#9CC7A1FF"), m_defaultTexture, Vector2f(1.0f,1.0f), m_programId, 0.0f, 0.7f);
+	DrawableObject d_leaf('l',Colorf(1,1,1,1), dusty, Vector2f(3.0f,3.0f), m_programId, 0.0f);
+	DrawableObject d_fruit('f',Colorf(1,1,1,1), flower, Vector2f(3.0f, 3.0f), m_programId, 0.5f);
 	
 	dustyMiller.addObject(d_root);
 	dustyMiller.addObject(d_stalk);
@@ -136,20 +148,33 @@ void App::SetUpPlant()
 	dustyMiller.addObject(d_fruit);
 
 	dustyMiller.addRule(Rule('F',"f"));
-	dustyMiller.addRule(Rule('L',"l"));
+	dustyMiller.addRule(Rule('L',"[)))--l][)))++l]"));
 	dustyMiller.addRule(Rule('R',"Rr[#-r][#+r]"));
 	dustyMiller.addRule(Rule('r',"#rr"));
-	
-	dustyMiller.addRule(Rule('P',"#S[+BL]S[-BL]P"));
-	dustyMiller.addRule(Rule('B',"#S[+++L][---L]SB"));
-	dustyMiller.addRule(Rule('A',"#S[+++L][---L]SA"));
-	dustyMiller.addRule(Rule('S',"sSs"));
+
+	dustyMiller.addRule(Rule('P',"[))))------B]K[))))+++++++A]P"));
+
+	dustyMiller.addRule(Rule('B',"-BS[L]S[L]"));
+	dustyMiller.addRule(Rule('A',"+AV[L]V[L]"));
+	dustyMiller.addRule(Rule('S',"Ss+s"));
+	dustyMiller.addRule(Rule('V',"Vs-s"));
+	dustyMiller.addRule(Rule('K',"Kss"));
 
 	dustyMiller.setPosition(Vector3f(0.5f,0.2f,1));
-
-	CombinePlants(cactus, tomato, dustyMiller, 0.5f, Stalk);
-	cactus.regeneratePlant();
+	
+	m_plants.push_back(dustyMiller);
 	m_plants.push_back(cactus);
+	m_plants.push_back(tomato);	
+}
+
+void App::combinePlants(int l_index, int r_index, PlantPart part)
+{
+	CombinePlants(m_resultPlant, m_plants[l_index], m_plants[r_index],m_biases[part],part);
+}
+
+void App::setBias( float bias, PlantPart part)
+{
+	m_biases[part] = bias;
 }
 
 void App::OnCreate()
@@ -184,7 +209,11 @@ void App::OnCreate()
 	checkGlError("glGenTextures");	
 	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
 	checkGlError("glBindFramebuffer");	
-	
+	glEnable(GL_BLEND);
+	checkGlError("glEnablei");
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glBindTexture(GL_TEXTURE_2D, m_targetTexHandle);
 	checkGlError("glBindTexture");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -200,12 +229,12 @@ void App::OnCreate()
 	checkGlError("glBindFramebuffer");
 	glGenTextures(1, &m_previewTexHandle);
 	loadImageFromFile(m_defaultTexture,"default.png");
-	SetUpPlant();
+
 	needsRedraw = true;
 }
 void App::RenderPlant()
 {
-	m_plants[0].regeneratePlant();
+	m_resultPlant.regeneratePlant();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	checkGlError("glBindTexture");
 	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
@@ -220,9 +249,9 @@ void App::RenderPlant()
 		Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 	
-	glClearColor(1.0f,1.0f,1.0f,1.0f);
+	glClearColor(1.0f,1.0f,1.0f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	m_painter.drawPlant(m_plants[0]);
+	m_painter.drawPlant(m_resultPlant);
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 }
 
@@ -254,13 +283,13 @@ void App::OnRender()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
 		delete img;
 	}
-	
+
+
 	glViewport(0,0,(int)m_viewportSize[0], (int)m_viewportSize[1]);
-	glClearColor(1.0f,1.0f,1.0f,1.0f);
+	glClearColor(1.0f,1.0f,1.0f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);		
 	float aspect = m_viewportSize[0] /(float) std::max(1.0f, m_viewportSize[1]);
 	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f, -aspect, aspect).Transposed();
-	///draw full screen quad with the texture
 	glUseProgram(m_programId);
 	uint loc = glGetUniformLocation(m_programId, "mProjection");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, Matrix4f::Identity().getValuePtr());
@@ -283,7 +312,6 @@ void App::OnRender()
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_renderQuad.size());
     checkGlError("glDrawArrays");
-	//elete img;
 }
 
 void App::OnResize(int width, int height)
@@ -379,16 +407,16 @@ void App::OnTouch(int posx, int posy)
 //	m_plants[0].setIterations(m_plants[0].getIterations() + 1);
 	m_bias+=0.1f;
 	m_plants.clear();
-	SetUpPlant();
+	setUpPlant();
 	m_bias = std::min(m_bias,1.0f);
 	needsRedraw = true;
 }
 
 void App::SetDefaultBiases(float leaves, float stalk, float flowers)
 {
-	m_flowerBias = flowers;
-	m_leafBias = leaves;
-	m_stalkBias = stalk;
+	m_biases[Flowers] = flowers;
+	m_biases[Leaves] = leaves;
+	m_biases[Stalk] = stalk;
 }
 
 void App::setRenderSize(int width, int height)

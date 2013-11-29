@@ -146,6 +146,8 @@ public class QtActivity extends Activity
                                                         // this repository is used to push Qt snapshots.
     private String[] m_qtLibs = null; // required qt libs
 
+    private AssetManager m_mgr;
+    public static native void SetAssetManager(Object mgr);
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
     {
@@ -205,6 +207,9 @@ public class QtActivity extends Activity
             // now load the application library so it's accessible from this class loader
             if (libName != null)
                 System.loadLibrary(libName);
+
+            m_mgr = getResources().getAssets();
+            SetAssetManager(m_mgr);
 
             Method startAppMethod=qtLoader.getClass().getMethod("startApplication");
             if (!(Boolean)startAppMethod.invoke(qtLoader))

@@ -1,7 +1,7 @@
 #include "Definitions.h"
 #include "PlantDatabase.h"
-#include "PlantGenerator.h"
 #include "App.h"
+#include "PlantGenerator.h"
 #include "PlantGeneratorApp.h"
 #include<EGL\egl.h>
 #include<EGL\eglplatform.h>
@@ -213,29 +213,23 @@ PlantGeneratorApp* PlantGenerator::getInstance()
 
 void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase::PlantData plantTwo, PlantDatabase::PlantData plantThree)
 {
-	getInstance()->m_plants.clear();
-	getInstance()->m_plants.resize(3);
+	//getInstance()->m_plants.clear();
+	//getInstance()->m_plants.resize(3);
 
-	getInstance()->loadPlant(plantOne, 0);
-	getInstance()->loadPlant(plantTwo, 1);
-	getInstance()->loadPlant(plantThree, 2);	
+	//getInstance()->loadPlant(plantOne, 0);
+	//getInstance()->loadPlant(plantTwo, 1);
+	//getInstance()->loadPlant(plantThree, 2);	
+	getInstance()->setUpPlant();
 }
 void PlantGenerator::loadPlant(PlantDatabase::PlantData plant, int index)
 {
 	getInstance()->loadPlant(plant, index);
 }
 
-void PlantGenerator::setCombination(PlantGenerator::PlantPart plantPart, int lhs, int rhs, float bias)
+void PlantGenerator::setCombination(PlantPart plantPart, int lhs, int rhs, float bias)
 {
-	switch(plantPart)
-	{
-		case Stalk:
-			getInstance()->m_stalkBias = bias;break;
-		case Flowers:
-			getInstance()->m_flowerBias = bias;break;
-		case Leaves:
-			getInstance()->m_leafBias = bias;break;
-	}
+	getInstance()->setBias(bias, plantPart);
+	getInstance()->combinePlants(lhs, rhs, plantPart);
 }
 
 bool PlantGenerator::RenderPlant(int width, int height)

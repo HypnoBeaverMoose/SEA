@@ -28,6 +28,12 @@ public:
 
 	void loadPlant(PlantDatabase::PlantData plant, int index);
 
+	void setUpPlant();
+
+	void combinePlants(int l_index, int r_index, PlantPart part);
+
+	void setBias( float bias, PlantPart part);
+
 	virtual ~App();
 
 public:
@@ -43,20 +49,16 @@ protected:
 
 public:
 	Vector2f				m_renderSize;
-	float					m_leafBias;
-	float					m_flowerBias;
-	float					m_stalkBias;
-	std::vector<Plant>		m_plants;
+
 
 protected:	
-	std::auto_ptr<Plant>	m_resultPlant;
+	std::vector<Plant>		m_plants;
+	Plant					m_resultPlant;
+	float					m_biases[3];
 	TurtleGraphics			m_painter;
 	Matrix4f				m_projectionMatrix;
 	static App*				s_instance;
-
-
-private:
-	void SetUpPlant();
+	
 
 private:	
 	bool					needsRedraw;

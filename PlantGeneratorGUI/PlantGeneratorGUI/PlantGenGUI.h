@@ -17,7 +17,7 @@ class PlantGenGUI : public QWidget
 
 public slots:
     void updateIcons(int);
-
+    void updatePlantImage();
 public:
     explicit PlantGenGUI(QWidget *parent = 0);
     ~PlantGenGUI();
@@ -40,6 +40,7 @@ private:
     QGraphicsOpacityEffect opFxToy;
     QGraphicsOpacityEffect opFxTree;
     QGraphicsOpacityEffect opFxRain;
+    unsigned char* m_img;
 };
 
 #endif // PLANTGENGUI_H

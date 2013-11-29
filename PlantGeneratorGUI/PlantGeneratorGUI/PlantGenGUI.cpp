@@ -1,22 +1,33 @@
 
 #include <iostream>
 #include <sstream>
-
+#include <jni.h>
 #include <QFile>
 #include <QFontDatabase>
-
+#include "PlantDatabase.h"
+#include "PlantGenerator.h"
 #include "PlantGenGUI.h"
 #include "ui_PlantGenGUI.h"
 
+
+extern "C" {
+    JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr);
+}
+
+JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr)
+{
+    PlantGenerator::setAssetManager(env, mgr);    
+}
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlantGenGUI), pdb(), plants(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain()
+    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0)
 {
-    ui->setupUi(this);
 
+    PlantGenerator::InitGenerator();
+    ui->setupUi(this);
 
     // load plant label font
     QFile fontFile(":/PlantGen/PRISTINA.TTF");
@@ -55,6 +66,11 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QObject::connect( ui->dialStalk, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
     QObject::connect( ui->dialLeaf, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
 
+    QObject::connect( ui->dialFlower, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
+    QObject::connect( ui->dialStalk, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
+    QObject::connect( ui->dialLeaf, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
+
+
     getPlants(66, 67, 68);
 
     updateIcons(0);
@@ -71,9 +87,21 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
     return ui->guiSwitchBtn;
 }
 
+void PlantGenGUI::updatePlantImage()
+{
+    uint width = ui->imgLabel->width(), height = ui->imgLabel->height();
+    PlantGenerator::RenderPlant(width, height);
+    if(m_img != 0)
+        delete m_img;
+
+    m_img = PlantGenerator::getRenderedImage(width, height);
+    QImage image(m_img, width, height, QImage::Format_ARGB32);
+    ui->imgLabel->setPixmap(QPixmap::fromImage(image));
+}
 
 void PlantGenGUI::updateIcons( int )
 {
+
     ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
     float antiDrought = 0.0f;
     float thorns      = 0.0f;

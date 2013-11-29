@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\Users\\krien\\Documents\\GitHub\\SEA\\PlantGeneratorGUI\\PlantGeneratorGUI\\android\\src\\org\\kde\\necessitas\\ministro\\IMinistroCallback.aidl
+ * Original file: G:\\SEA\\PlantGeneratorGUI\\PlantGeneratorGUI\\android\\src\\org\\kde\\necessitas\\ministro\\IMinistroCallback.aidl
  */
 package org.kde.necessitas.ministro;
 public interface IMinistroCallback extends android.os.IInterface
