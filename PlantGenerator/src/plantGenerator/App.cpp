@@ -41,7 +41,7 @@ App* const App::getInstance()
 
 App::App() 
 	:	m_projectionMatrix(Matrix4f::Identity()), m_painter(25, 30, 10.0f, 10.0f, 10.0f, 10.0f), 
-		needsRedraw(true), m_bias(0.0f), m_renderSize(512,512), m_viewportSize(0,0) 
+		needsRedraw(true), m_bias(0.0f), m_renderSize(1024,1024), m_viewportSize(0,0) 
 
 {
 	m_biases[0] = m_biases[1] = m_biases[2] = 0;
@@ -113,7 +113,7 @@ void App::setUpPlant()
 
 	Plant cactus(2.0f, 0.03f, 1.5f, 1.1f, "[)))R][P]", 5);
 	DrawableObject c_root('r',Colorf("#DB877CFF"), m_defaultTexture, Vector2f(3.0f,3.0f), m_programId, 1.0f, -0.9f);
-	DrawableObject c_stalk('s',Colorf(0,1,0,1), cact, Vector2f(5.0f,5.0f), m_programId, 0.0f, 0.7f);
+	DrawableObject c_stalk('s',Colorf(0,1,0,1), m_defaultTexture, Vector2f(5.0f,5.0f), m_programId, 0.0f, 0.7f);
 	DrawableObject c_leaf('l',Colorf(1,1,1,1), thorn, Vector2f(1.5f,1.5f), m_programId, 0.0f);
 	DrawableObject c_fruit('f',Colorf(1,0,0,1), m_defaultTexture, Vector2f(5.0f,5.0f), m_programId, 0.0f);
 	
@@ -167,7 +167,7 @@ void App::setUpPlant()
 	m_plants.push_back(cactus);
 	m_plants.push_back(tomato);	
 
-	m_resultPlant = Plant(tomato);
+	m_resultPlant = Plant(cactus);
 }
 
 void App::combinePlants(int l_index, int r_index, PlantPart part)
@@ -192,8 +192,7 @@ void App::OnCreate()
 	glEnable(GL_BLEND);
 	checkGlError("glEnable");
 	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glActiveTexture(GL_TEXTURE0);
@@ -224,11 +223,11 @@ void App::OnCreate()
 	LOGI("OnCreate::FOUR");
 	glBindTexture(GL_TEXTURE_2D, m_targetTexHandle);
 	checkGlError("glBindTexture");
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	checkGlError("glTexParameteri");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	checkGlError("glTexParameteri");
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
 	checkGlError("glTexImage2D");
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_targetTexHandle, 0);
@@ -261,7 +260,7 @@ void App::RenderPlant()
 		Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 	
-	glClearColor(1.0f,1.0f,1.0f,0.0f);
+	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	m_painter.drawPlant(m_resultPlant);
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
@@ -295,7 +294,20 @@ void App::OnRender()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
 		delete img;
 	}
+	//m_resultPlant.regeneratePlant();
+	//glViewport(0,0,(int)m_viewportSize[0], (int)m_viewportSize[1]);
+	//float aspect = m_renderSize[0] / m_renderSize[1];
+	//
+	//glUseProgram(m_programId);
+	//checkGlError("glUseProgram");
 
+	//glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, 
+	//	Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
+	//checkGlError("glUniformMatrix4fv");
+	//
+	//glClearColor(1.0f,1.0f,1.0f,0.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
+	//m_painter.drawPlant(m_resultPlant);
 
 	glViewport(0,0,(int)m_viewportSize[0], (int)m_viewportSize[1]);
 	glClearColor(1.0f,1.0f,1.0f,0.0f);
