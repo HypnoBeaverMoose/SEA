@@ -97,7 +97,7 @@ void App::setUpPlant()
 
 	tomato.addRule(Rule('R',"r-r+r#R"));
 	tomato.addRule(Rule('F',"f"));
-	tomato.addRule(Rule('L',"l"));
+	tomato.addRule(Rule('L',"[l]"));
 
 	tomato.addRule(Rule('P',"[)))--A))---F][))))))++L]S[)))++BF][))))))--L]S+#P"));
 	tomato.addRule(Rule('B',"#S[))))))))+++L]S[))))))))+++F]B"));
@@ -106,7 +106,7 @@ void App::setUpPlant()
 	tomato.addRule(Rule('V',"Vs-s"));
 	tomato.addRule(Rule('K',"Kss"));
 
-	tomato.setPosition(Vector3f(0.5f,0.2f,1));
+	tomato.setPosition(Vector3f(0.5f,0.2f,0));
 
 	loadImage(cact, "cactus.png");
 	loadImage(thorn, "thorns.png");
@@ -124,15 +124,15 @@ void App::setUpPlant()
 
 	cactus.addRule(Rule('F',"f"));
 	cactus.addRule(Rule('L',"l"));
-	cactus.addRule(Rule('R',"r+#r-#r#R"));
+	cactus.addRule(Rule('R',"r<+#r<-#r<#R"));
 	cactus.addRule(Rule('P',"SL"));
-	cactus.addRule(Rule('S',"s@S#s"));
+	cactus.addRule(Rule('S',"s>@S#>s"));
 	cactus.addRule(Rule('V',"s@V#s"));
 	cactus.addRule(Rule('K',"sKs"));
 
 	cactus.addRule(Rule('A',"A"));
 	cactus.addRule(Rule('B',"B"));
-	cactus.setPosition(Vector3f(0.5f,0.2f,1));
+	cactus.setPosition(Vector3f(0.5f,0.2f,0));
 
 	Plant dustyMiller(1.4, 0.025f, 1.5f, 1.2f, "[>>>R]P[((((Sf][)))))+++++Vf][))))))----Sf]", 5);
 
@@ -188,23 +188,23 @@ void App::OnCreate()
 	checkGlError("glPixelStorei");
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	checkGlError("glPixelStorei");
-	LOGI("OnCreate::ONE");
+	
+
+	///Enable blending and depth and set active texture
+	glEnable(GL_DEPTH_TEST);
+	checkGlError("glEnable");
 	glEnable(GL_BLEND);
 	checkGlError("glEnable");
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
-
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glActiveTexture(GL_TEXTURE0);
 	checkGlError("glActiveTexture");
+	///create shader and get all nessesary attributes for it
 	m_programId = createProgram(s_VertexShader, s_FragmentShader);	
-	LOGI("OnCreate::TWO");
-
 	m_textureCoordsHandle = glGetAttribLocation(m_programId, "vTexCoord");
 	checkGlError("glGetAttribLocation");
 	m_positionHandle = glGetAttribLocation(m_programId, "vPosition");
 	checkGlError("glGetAttribLocation");
-
 	m_modelViewHandle = glGetUniformLocation(m_programId,"mModelView");
 	checkGlError("glGetUniformLocation");
 	m_colorHandle = glGetUniformLocation(m_programId,"vColor");
@@ -213,14 +213,15 @@ void App::OnCreate()
     checkGlError("glEnableVertexAttribArray");	
     glEnableVertexAttribArray(m_textureCoordsHandle);
     checkGlError("glEnableVertexAttribArray");	
-	LOGI("OnCreate::Three");
+
+
+	//create and bind the framebuffer
 	glGenFramebuffers(1,&m_framebufferHandle);
 	checkGlError("glGenFramebuffers");	
+
+	//create, bind and set nessasary attributes to the framebuffer texture - we need to acess the color later
 	glGenTextures(1, &m_targetTexHandle);
 	checkGlError("glGenTextures");	
-	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
-	checkGlError("glBindFramebuffer");	
-	LOGI("OnCreate::FOUR");
 	glBindTexture(GL_TEXTURE_2D, m_targetTexHandle);
 	checkGlError("glBindTexture");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -230,16 +231,31 @@ void App::OnCreate()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
 	checkGlError("glTexImage2D");
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//create the depth renderbuffer - we don't need to output the depth
+	glGenRenderbuffers(1,&m_renderBufferId);
+	checkGlError("glGenRenderbuffers");
+	glBindRenderbuffer(GL_RENDERBUFFER,m_renderBufferId);
+	checkGlError("glBindRenderbuffer");
+	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,1024,1024);
+	checkGlError("glRenderbufferStorage");	
+	
+
+	//bind the texture to the color attachment and renderbuffer to the depth
+	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);	
+	checkGlError("glBindFramebuffer");		
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_targetTexHandle, 0);
 	checkGlError("glFramebufferTexture2D");
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
-	LOGI("OnCreate::FIVE");
-	checkGlError("glBindFramebuffer");
-	glGenTextures(1, &m_previewTexHandle);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,m_renderBufferId);
+	checkGlError("glFramebufferTexture2D");
 
+	
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	glBindRenderbuffer(GL_RENDERBUFFER,0);
+	glGenTextures(1, &m_previewTexHandle);
 	loadImage(m_defaultTexture,"default.png");
-	LOGI("OnCreate::SIX");
 	needsRedraw = true;
+	setUpPlant();
 }
 void App::RenderPlant()
 {
@@ -249,6 +265,8 @@ void App::RenderPlant()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	checkGlError("glBindTexture");
 	glBindFramebuffer(GL_FRAMEBUFFER,m_framebufferHandle);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.9f);
 	checkGlError("glBindFramebuffer");
 	glViewport(0,0,(int)m_renderSize[0],(int)m_renderSize[1]);
 	float aspect = m_renderSize[0] / m_renderSize[1];
@@ -257,13 +275,15 @@ void App::RenderPlant()
 	checkGlError("glUseProgram");
 
 	glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, 
-		Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
+		Matrix4f::Orthographic(-100.0f, 100.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
 	checkGlError("glUniformMatrix4fv");
 	
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClearDepthf(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_painter.drawPlant(m_resultPlant);
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	glDisable(GL_ALPHA_TEST);
 }
 
 byte* App::getPlantImage(uint& width, uint& height)
@@ -302,16 +322,18 @@ void App::OnRender()
 	//checkGlError("glUseProgram");
 
 	//glUniformMatrix4fv(glGetUniformLocation(m_programId, "mProjection"), 1, GL_FALSE, 
-	//	Matrix4f::Orthographic(0.0f, 1.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
+	//	Matrix4f::Orthographic(-10.0f, 10.0f, 0, 1, 0, aspect).Transposed().getValuePtr());
 	//checkGlError("glUniformMatrix4fv");
 	//
 	//glClearColor(1.0f,1.0f,1.0f,0.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
+	//glClearDepthf(1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//m_painter.drawPlant(m_resultPlant);
 
 	glViewport(0,0,(int)m_viewportSize[0], (int)m_viewportSize[1]);
 	glClearColor(1.0f,1.0f,1.0f,0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);		
+	glClearDepthf(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		
 	float aspect = m_viewportSize[0] /(float) std::max(1.0f, m_viewportSize[1]);
 	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f, -aspect, aspect).Transposed();
 	glUseProgram(m_programId);

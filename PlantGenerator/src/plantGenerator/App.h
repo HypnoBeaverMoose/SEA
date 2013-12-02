@@ -77,5 +77,5 @@ private:
 	uint					m_positionHandle;	
 	uint					m_textureCoordsHandle;
 	uint					m_modelViewHandle;
-
+	uint					m_renderBufferId;
 };
