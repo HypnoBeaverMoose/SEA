@@ -18,6 +18,10 @@
         <item>lib--Managed_by_Qt_Creator--plugins_imageformats_libqtga.so:plugins/imageformats/libqtga.so</item>
         <item>lib--Managed_by_Qt_Creator--plugins_imageformats_libqtiff.so:plugins/imageformats/libqtiff.so</item>
         <item>lib--Managed_by_Qt_Creator--plugins_imageformats_libqwbmp.so:plugins/imageformats/libqwbmp.so</item>
+        <item>libQt5MultimediaQuick_p.so:lib/libQt5MultimediaQuick_p.so</item>
+        <item>lib--Managed_by_Qt_Creator--plugins_mediaservice_libandroidmediaplayer.so:plugins/mediaservice/libandroidmediaplayer.so</item>
+        <item>lib--Managed_by_Qt_Creator--plugins_mediaservice_libqtmedia_audioengine.so:plugins/mediaservice/libqtmedia_audioengine.so</item>
+        <item>lib--Managed_by_Qt_Creator--plugins_bearer_libqgenericbearer.so:plugins/bearer/libqgenericbearer.so</item>
         <item>lib--Managed_by_Qt_Creator--plugins_accessible_libqtaccessiblequick.so:plugins/accessible/libqtaccessiblequick.so</item>
         <item>lib--Managed_by_Qt_Creator--plugins_accessible_libqtaccessiblewidgets.so:plugins/accessible/libqtaccessiblewidgets.so</item>
     </array>
@@ -26,6 +30,8 @@
         <item>gnustl_shared</item>
         <item>Qt5Core</item>
         <item>Qt5Gui</item>
+        <item>Qt5Network</item>
+        <item>Qt5Multimedia</item>
         <item>Qt5Widgets</item>
     </array>
 </resources>

@@ -614,19 +614,6 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="testBtn">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>440</y>
-      <width>380</width>
-      <height>76</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>DO NOT PUSH</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="testLabel">
     <property name="geometry">
      <rect>
@@ -689,7 +676,6 @@
    <zorder>dialFlower</zorder>
    <zorder>dialLeaf</zorder>
    <zorder>guiSwitchBtn</zorder>
-   <zorder>testBtn</zorder>
    <zorder>testLabel</zorder>
    <zorder>imgLabel</zorder>
   </widget>

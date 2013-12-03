@@ -4,6 +4,7 @@
 #include <jni.h>
 #include <QFile>
 #include <QFontDatabase>
+
 #include "PlantDatabase.h"
 #include "PlantGenerator.h"
 #include "PlantGenGUI.h"
@@ -22,21 +23,12 @@ JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAss
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PlantGenGUI), pdb(), plants(),
-    opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-<<<<<<< HEAD
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(), labelLines(0)
-=======
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0)
->>>>>>> 74f01d983dae7f91efd0c4834a72f2f042af9a16
+    ui(new Ui::PlantGenGUI), pdb(), plants(), mPlayer(),
+    opFxSun(), opFxThorns(), opFxSkull(), opFxNose(), labelLines(0), m_img(0)
 {
-
-<<<<<<< HEAD
-=======
     PlantGenerator::InitGenerator();
     ui->setupUi(this);
 
->>>>>>> 74f01d983dae7f91efd0c4834a72f2f042af9a16
     // load plant label font
     QFile fontFile(":/PlantGen/PRISTINA.TTF");
     if (!fontFile.open(QIODevice::ReadOnly))
@@ -88,6 +80,11 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     getPlants(66, 67, 68);
 
     updateIcons(0);
+
+    //play background music
+    mPlayer.setMedia( QUrl::fromLocalFile("assets:/music/Amaranthe_-_Hunger.mp3") );
+    mPlayer.setVolume(100);
+    mPlayer.play();
 
     // set global pointer to plant generator GUI
     pGUI = this;

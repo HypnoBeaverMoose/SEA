@@ -88,7 +88,7 @@ void loop(void)
     tagScanCounter++;
   }
   
-  delay(1000);
+  delay(500);
 }
 
 

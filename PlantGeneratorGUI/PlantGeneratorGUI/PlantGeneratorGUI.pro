@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 TARGET = PlantGeneratorGUI
 TEMPLATE = app
@@ -43,6 +43,12 @@ MOBILITY =
 RESOURCES += \
     resources.qrc
 
+deployment.files=music/Amaranthe_-_Hunger.mp3
+
+android {
+    deployment.path=/assets/music/Amaranthe_-_Hunger.mp3
+}
+
 OTHER_FILES += \
     android/AndroidManifest.xml \
     android/res/layout/splash.xml \
@@ -77,3 +83,5 @@ INCLUDEPATH += $$PWD/
 DEPENDPATH += $$PWD/
 
 LIBS += -lEGL -lGLESv2 -landroid -L$$PWD/lib/ -lpg -lpng
+
+INSTALLS += deployment
