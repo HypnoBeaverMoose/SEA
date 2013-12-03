@@ -24,19 +24,12 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlantGenGUI), pdb(), plants(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-<<<<<<< HEAD
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(), labelLines(0)
-=======
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0)
->>>>>>> 74f01d983dae7f91efd0c4834a72f2f042af9a16
+    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0), labelLines(0)
 {
 
-<<<<<<< HEAD
-=======
     PlantGenerator::InitGenerator();
     ui->setupUi(this);
 
->>>>>>> 74f01d983dae7f91efd0c4834a72f2f042af9a16
     // load plant label font
     QFile fontFile(":/PlantGen/PRISTINA.TTF");
     if (!fontFile.open(QIODevice::ReadOnly))
