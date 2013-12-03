@@ -61,6 +61,7 @@ public:
     MaskedButton *guiSwitchBtn;
     QPushButton *testBtn;
     QLabel *testLabel;
+    QLabel *imgLabel;
 
     void setupUi(QWidget *PlantGenGUI)
     {
@@ -229,11 +230,14 @@ public:
         guiSwitchBtn->setIconSize(QSize(122, 121));
         testBtn = new QPushButton(centralWidget);
         testBtn->setObjectName(QStringLiteral("testBtn"));
-        testBtn->setGeometry(QRect(208, 507, 380, 76));
+        testBtn->setGeometry(QRect(210, 440, 380, 76));
         testLabel = new QLabel(centralWidget);
         testLabel->setObjectName(QStringLiteral("testLabel"));
         testLabel->setGeometry(QRect(217, 635, 370, 487));
         testLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        imgLabel = new QLabel(centralWidget);
+        imgLabel->setObjectName(QStringLiteral("imgLabel"));
+        imgLabel->setGeometry(QRect(140, 540, 512, 512));
         bgImg->raise();
         plant1Label->raise();
         plant2Label->raise();
@@ -269,6 +273,7 @@ public:
         guiSwitchBtn->raise();
         testBtn->raise();
         testLabel->raise();
+        imgLabel->raise();
 
         retranslateUi(PlantGenGUI);
 
@@ -310,6 +315,7 @@ public:
         guiSwitchBtn->setText(QString());
         testBtn->setText(QApplication::translate("PlantGenGUI", "DO NOT PUSH", 0));
         testLabel->setText(QString());
+        imgLabel->setText(QString());
     } // retranslateUi
 
 };

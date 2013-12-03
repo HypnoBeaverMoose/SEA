@@ -17,35 +17,60 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 #include "MaskedButton.h"
+#include "qvideowidget.h"
+#include "videohandler.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_PortraitGUI
 {
 public:
-    MaskedButton *guiSwitchBtn;
+    VideoHandler *MovieView;
+    QWidget *portraitPage;
+    QLabel *portrait;
     QLabel *bgImg;
+    MaskedButton *guiSwitchBtn;
+    QLabel *ErrorMessage;
+    QVideoWidget *videoPage;
 
     void setupUi(QWidget *PortraitGUI)
     {
         if (PortraitGUI->objectName().isEmpty())
             PortraitGUI->setObjectName(QStringLiteral("PortraitGUI"));
         PortraitGUI->resize(800, 1280);
-        guiSwitchBtn = new MaskedButton(PortraitGUI);
-        guiSwitchBtn->setObjectName(QStringLiteral("guiSwitchBtn"));
-        guiSwitchBtn->setGeometry(QRect(668, 9, 122, 122));
-        QIcon icon;
-        icon.addFile(QStringLiteral(":/Portrait/toPortraitBtn.png"), QSize(), QIcon::Normal, QIcon::Off);
-        guiSwitchBtn->setIcon(icon);
-        guiSwitchBtn->setIconSize(QSize(122, 122));
-        bgImg = new QLabel(PortraitGUI);
+        MovieView = new VideoHandler(PortraitGUI);
+        MovieView->setObjectName(QStringLiteral("MovieView"));
+        MovieView->setGeometry(QRect(0, 0, 800, 1280));
+        portraitPage = new QWidget();
+        portraitPage->setObjectName(QStringLiteral("portraitPage"));
+        portraitPage->setAutoFillBackground(false);
+        portrait = new QLabel(portraitPage);
+        portrait->setObjectName(QStringLiteral("portrait"));
+        portrait->setGeometry(QRect(5, 2, 791, 1281));
+        portrait->setPixmap(QPixmap(QString::fromUtf8(":/Portrait/Images/FarmerGirl_5.png")));
+        bgImg = new QLabel(portraitPage);
         bgImg->setObjectName(QStringLiteral("bgImg"));
         bgImg->setGeometry(QRect(0, 0, 800, 1280));
-        bgImg->setPixmap(QPixmap(QString::fromUtf8(":/Portrait/portraitBG.png")));
-        bgImg->raise();
-        guiSwitchBtn->raise();
+        bgImg->setPixmap(QPixmap(QString::fromUtf8(":/Portrait/Images/portraitBG.png")));
+        guiSwitchBtn = new MaskedButton(portraitPage);
+        guiSwitchBtn->setObjectName(QStringLiteral("guiSwitchBtn"));
+        guiSwitchBtn->setGeometry(QRect(668, 9, 122, 122));
+        ErrorMessage = new QLabel(portraitPage);
+        ErrorMessage->setObjectName(QStringLiteral("ErrorMessage"));
+        ErrorMessage->setGeometry(QRect(40, 60, 621, 181));
+        QFont font;
+        font.setPointSize(20);
+        ErrorMessage->setFont(font);
+        ErrorMessage->setWordWrap(true);
+        MovieView->addWidget(portraitPage);
+        videoPage = new QVideoWidget();
+        videoPage->setObjectName(QStringLiteral("videoPage"));
+        MovieView->addWidget(videoPage);
 
         retranslateUi(PortraitGUI);
+
+        MovieView->setCurrentIndex(1);
+
 
         QMetaObject::connectSlotsByName(PortraitGUI);
     } // setupUi
@@ -53,8 +78,10 @@ public:
     void retranslateUi(QWidget *PortraitGUI)
     {
         PortraitGUI->setWindowTitle(QApplication::translate("PortraitGUI", "Form", 0));
-        guiSwitchBtn->setText(QString());
+        portrait->setText(QString());
         bgImg->setText(QString());
+        guiSwitchBtn->setText(QString());
+        ErrorMessage->setText(QString());
     } // retranslateUi
 
 };

@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: G:\\SEA\\PlantGeneratorGUI\\PlantGeneratorGUI\\android\\src\\org\\kde\\necessitas\\ministro\\IMinistro.aidl
+ * Original file: C:\\Users\\Robin\\Documents\\GitHub\\sea2\\PlantGeneratorGUI\\PlantGeneratorGUI\\android\\src\\org\\kde\\necessitas\\ministro\\IMinistro.aidl
  */
 package org.kde.necessitas.ministro;
 public interface IMinistro extends android.os.IInterface

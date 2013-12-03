@@ -25,7 +25,8 @@
         <file>PRISTINA.TTF</file>
     </qresource>
     <qresource prefix="/Portrait">
-        <file>portraitBG.png</file>
         <file>toGenBtn.png</file>
+        <file>Images/FarmerGirl_5.png</file>
+        <file>Images/portraitBG.png</file>
     </qresource>
 </RCC>
