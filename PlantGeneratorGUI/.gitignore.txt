@@ -1,1 +1,3 @@
-build-android-debug/
+/build-android-debug/
+/build-PlantGeneratorGUI-Desktop_Qt_5_1_1_MSVC2012_OpenGL_64bit-Debug/
+*.obj
