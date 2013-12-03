@@ -15,11 +15,16 @@ class PortraitGUI : public QWidget
 public:
     explicit PortraitGUI(QWidget *parent = 0);
     ~PortraitGUI();
+    void AfterShownSetVariables();
+    void PlayMovies();
 
     QPushButton * getGUISwitchBtn();
 
 private:
     Ui::PortraitGUI *ui;
+
+public slots:
+    void Exit();
 };
 
 #endif // PORTRAITGUI_H

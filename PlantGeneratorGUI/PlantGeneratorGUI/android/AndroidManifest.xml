@@ -1,8 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
+<<<<<<< HEAD
 <manifest android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android" package="org.qtproject.example.PlantGeneratorGUI" android:versionCode="1">
     <uses-feature android:name="android.hardware.usb.host"/>
     <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:debuggable="true" android:permission="android.permission.READ_EXTERNAL_STORAGE">
         <activity android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:screenOrientation="portrait">
+=======
+<manifest android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android" package="org.qtproject.example.PlantGeneratorGUI" android:versionName="1.0">
+    <uses-feature android:name="android.hardware.usb.host"/>
+    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:debuggable="true" android:permission="android.permission.READ_EXTERNAL_STORAGE" android:label="@string/app_name">
+        <activity android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="portrait" android:label="@string/app_name">
+>>>>>>> b4fc6f8d7a87cd7f91d42f688678b0451817b874
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -19,7 +26,11 @@
             <!-- Run with local libs -->
             <meta-data android:name="android.app.use_local_qt_libs" android:value="1"/>
             <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+<<<<<<< HEAD
             <meta-data android:name="android.app.load_local_libs" android:value="plugins/platforms/android/libqtforandroid.so:libs/libgnustl_shared.so:plugins/mediaservice/libandroidmediaplayer.so:"/>
+=======
+            <meta-data android:name="android.app.load_local_libs" android:value="libs/libgnustl_shared.so:plugins/mediaservice/libandroidmediaplayer.so:plugins/platforms/android/libqtforandroidGL.so:"/>
+>>>>>>> b4fc6f8d7a87cd7f91d42f688678b0451817b874
             <meta-data android:name="android.app.load_local_jars" android:value="jar/QtAndroid-bundled.jar:jar/QtMultimedia-bundled.jar:"/>
             <meta-data android:name="android.app.static_init_classes" android:value=":"/>
             <!--  Messages maps -->
@@ -32,7 +43,11 @@
             <!-- Splash screen -->
         </activity>
     </application>
+<<<<<<< HEAD
     <supports-screens android:largeScreens="true" android:anyDensity="true" android:smallScreens="true" android:normalScreens="true"/>
+=======
+    <supports-screens android:anyDensity="true" android:smallScreens="true" android:normalScreens="true" android:largeScreens="true"/>
+>>>>>>> b4fc6f8d7a87cd7f91d42f688678b0451817b874
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="16"/>

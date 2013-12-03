@@ -21,6 +21,7 @@ public slots:
 public:
     explicit SwitchWindow(QWidget *parent = 0);
     ~SwitchWindow();
+    void AfterShownSetVariables();
 
 private:
     Ui::SwitchWindow *ui;

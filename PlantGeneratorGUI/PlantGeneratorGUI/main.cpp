@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(resources);
     SwitchWindow w;
     w.show();
+    w.AfterShownSetVariables();
 
     return a.exec();
 }

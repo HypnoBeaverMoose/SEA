@@ -6,7 +6,13 @@
 
 QT       += core gui
 
+<<<<<<< HEAD
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
+=======
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets\
+multimedia\
+multimediawidgets
+>>>>>>> b4fc6f8d7a87cd7f91d42f688678b0451817b874
 
 TARGET = PlantGeneratorGUI
 TEMPLATE = app
@@ -19,7 +25,8 @@ SOURCES += main.cpp\
     PlantGenGUI.cpp \
     SwitchWindow.cpp \
     PortraitGUI.cpp \
-    MaskedButton.cpp
+    MaskedButton.cpp \
+    videohandler.cpp
 
 HEADERS  += \
     ArrowDial.h \
@@ -28,7 +35,8 @@ HEADERS  += \
     PlantGenGUI.h \
     SwitchWindow.h \
     PortraitGUI.h \
-    MaskedButton.h
+    MaskedButton.h \
+    videohandler.h
 
 INCLUDEPATH += .
 

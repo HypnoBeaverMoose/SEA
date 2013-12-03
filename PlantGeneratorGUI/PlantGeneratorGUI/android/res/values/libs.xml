@@ -33,5 +33,7 @@
         <item>Qt5Network</item>
         <item>Qt5Multimedia</item>
         <item>Qt5Widgets</item>
+        <item>Qt5OpenGL</item>
+        <item>Qt5MultimediaWidgets</item>
     </array>
 </resources>
