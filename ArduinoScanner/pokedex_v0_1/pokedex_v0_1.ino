@@ -18,6 +18,12 @@ uint8_t transUID[4] = { 109, 248, 249, 200 };
 
 void setup(void)
 {
+  // initialize the digital pin as an output.
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  
+  
   Serial.begin(115200);
   Serial.println("=== Plant encoder v0.1 ===");
   Serial.println("Looking for PN532...");
@@ -40,6 +46,11 @@ void setup(void)
   
   // reset storage card
   resetStorage();
+  
+  //beep 3 times to tell the user that the program is initialized
+  beep(50);
+  beep(50);
+  beep(50);
 }
 
 
@@ -132,39 +143,40 @@ bool addToStorage( int plantID, uint8_t uid[], uint8_t uidLength )
     int tagIt  = 0;
     int dataIt = 9;        // skip WKT identifier, URI identifier code and plant block start identifier of the first block of the section
     bool processing = true;
-    while ( processing )
+    for ( i = dataIt; i < 16; ++i )
     {
-      for ( i = dataIt; i < 16; ++i )
+      if ( data[i] == 254 )    // 254 == 0xFE == TLV block terminator
       {
-        if ( data[i] == 254 )    // 254 == 0xFE == TLV block terminator
-        {
-           processing = false;
-           break; 
-        }
-        
-        if ( data[i] == plantID )
-        {
-           Serial.println("Plant already stored in tag");
-           return false;
-        }
-        
-        tagData[tagIt] = data[i];
-        tagIt++;
+         processing = false;
+         break; 
       }
       
-      dataIt = 0;
-      curBlock++;
-      success = nfc.mifareclassic_ReadDataBlock(curBlock, data);
-      if ( !success )
+      if ( data[i] == plantID )
       {
-         Serial.print("Error: unable to read block ");
-         Serial.println(curBlock);
+         Serial.println("Plant already stored in tag");
          return false;
       }
+      
+      tagData[tagIt] = data[i];
+      tagIt++;
     }
     
+    Serial.print("tag size: ");
+    Serial.println(tagIt);
     
-     Serial.print("Stored in tagData before write: ");
+    digitalWrite(4, LOW);
+    digitalWrite(5, LOW);
+    digitalWrite(6, LOW);
+    
+    if ( tagIt >= 1 )
+      digitalWrite(4, HIGH);
+    if ( tagIt >= 2 )
+      digitalWrite(5, HIGH);
+    if ( tagIt >= 3 )
+      digitalWrite(6, HIGH);
+    
+    
+    Serial.print("Stored in tagData before write: ");
     for ( i = 0; i < len; ++i )
     {
       Serial.print( int(tagData[i]), DEC );
@@ -189,6 +201,9 @@ bool addToStorage( int plantID, uint8_t uid[], uint8_t uidLength )
       Serial.println("Error: unable to write to block");
       return false;  
     }
+    
+    // beep to signal that the plant has been saved on the tag
+      beep(200);
     
     return true;
   }
@@ -261,4 +276,13 @@ bool resetStorage()
   }
   
   return true;
+}
+
+
+void beep(unsigned char delayms)
+{
+  analogWrite(9, 20);
+  delay(delayms);
+  analogWrite(9, 0);
+  delay(delayms);
 }
