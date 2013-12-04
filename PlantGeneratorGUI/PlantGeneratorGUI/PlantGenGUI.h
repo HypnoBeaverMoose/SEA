@@ -27,6 +27,9 @@ public:
 
     QPushButton * getGUISwitchBtn();
 
+    void playMusic();
+    void stopMusic();
+
     void setTestLabelText( std::string text );
 
 private:

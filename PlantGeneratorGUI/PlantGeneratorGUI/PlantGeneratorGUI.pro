@@ -6,13 +6,7 @@
 
 QT       += core gui
 
-<<<<<<< HEAD
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
-=======
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets\
-multimedia\
-multimediawidgets
->>>>>>> b4fc6f8d7a87cd7f91d42f688678b0451817b874
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia multimediawidgets
 
 TARGET = PlantGeneratorGUI
 TEMPLATE = app
@@ -50,12 +44,6 @@ MOBILITY =
 
 RESOURCES += \
     resources.qrc
-
-deployment.files=music/Amaranthe_-_Hunger.mp3
-
-android {
-    deployment.path=/assets/music/Amaranthe_-_Hunger.mp3
-}
 
 OTHER_FILES += \
     android/AndroidManifest.xml \

@@ -46,10 +46,13 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
     QImage btnImg;
-
     if ( !btnImg.load(":/PlantGen/toPortraitBtn.png") )
         std::cout << "Error loading image" << std::endl;
-    ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
+
+    QImage btnImg_down;
+    if ( !btnImg_down.load(":/PlantGen/toPortraitBtn_down.png") )
+        std::cout << "Error loading image" << std::endl;
+    ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
 
     // connect graphicsEffects to the icon glows
@@ -81,10 +84,9 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     updateIcons(0);
 
-    //play background music
-    mPlayer.setMedia( QUrl::fromLocalFile("assets:/music/Amaranthe_-_Hunger.mp3") );
+    //setup background music
+    mPlayer.setMedia( QUrl("assets:/plantGenMusic.mp3") );
     mPlayer.setVolume(100);
-    mPlayer.play();
 
     // set global pointer to plant generator GUI
     pGUI = this;
@@ -100,6 +102,19 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
 {
     return ui->guiSwitchBtn;
 }
+
+
+void PlantGenGUI::playMusic()
+{
+    mPlayer.play();
+}
+
+
+void PlantGenGUI::stopMusic()
+{
+    mPlayer.stop();
+}
+
 
 void PlantGenGUI::updatePlantImage()
 {

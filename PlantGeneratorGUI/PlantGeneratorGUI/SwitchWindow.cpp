@@ -15,6 +15,7 @@ SwitchWindow::SwitchWindow(QWidget *parent) :
     plantGenIdx = this->addWidget(&genGUI);
     portraitIdx = this->addWidget(&portGUI);
     setCurrentIndex(portraitIdx);
+    portGUI.playMusic();
 
     QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
     QObject::connect( portGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
@@ -35,11 +36,15 @@ void SwitchWindow::toggleGUI()
     if ( currentIndex() == plantGenIdx )
     {
         setCurrentIndex(portraitIdx);
-        portGUI.PlayMovies();
+        //portGUI.PlayMovies();
+        genGUI.stopMusic();
+        portGUI.playMusic();
     }
     else
     {
         setCurrentIndex(plantGenIdx);
+        portGUI.stopMusic();
+        genGUI.playMusic();
     }
 
 }

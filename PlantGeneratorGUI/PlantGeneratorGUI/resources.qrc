@@ -1,14 +1,5 @@
 <RCC>
     <qresource prefix="/PlantGen">
-        <file>iconGlow.png</file>
-        <file>iconApple.png</file>
-        <file>iconNose.png</file>
-        <file>iconRain.png</file>
-        <file>iconSkull.png</file>
-        <file>iconSun.png</file>
-        <file>iconThorns.png</file>
-        <file>iconToy.png</file>
-        <file>iconTree.png</file>
         <file>genBG.png</file>
         <file>dialArrow.png</file>
         <file>flowerCactus.png</file>
@@ -23,10 +14,20 @@
         <file>database.xml</file>
         <file>toPortraitBtn.png</file>
         <file>PRISTINA.TTF</file>
+        <file>glowApple.png</file>
+        <file>glowNose.png</file>
+        <file>glowRain.png</file>
+        <file>glowSkull.png</file>
+        <file>glowSun.png</file>
+        <file>glowThorns.png</file>
+        <file>glowToy.png</file>
+        <file>glowTree.png</file>
+        <file>toPortraitBtn_down.png</file>
     </qresource>
     <qresource prefix="/Portrait">
         <file>toGenBtn.png</file>
         <file>Images/FarmerGirl_5.png</file>
         <file>Images/portraitBG.png</file>
+        <file>toGenBtn_down.png</file>
     </qresource>
 </RCC>

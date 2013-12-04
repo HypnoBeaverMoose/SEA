@@ -69,7 +69,7 @@ public:
 
         retranslateUi(PortraitGUI);
 
-        MovieView->setCurrentIndex(1);
+        MovieView->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(PortraitGUI);

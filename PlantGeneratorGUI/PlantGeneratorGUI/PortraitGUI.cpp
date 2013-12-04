@@ -12,13 +12,21 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     ui->setupUi(this);
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
-    QImage btnImg;
 
+    QImage btnImg;
     if ( !btnImg.load(":/Portrait/toGenBtn.png") )
         std::cout << "Error loading image" << std::endl;
-    ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
+    QImage btnImg_down;
+    if ( !btnImg_down.load(":/Portrait/toGenBtn_down.png") )
+        std::cout << "Error loading image" << std::endl;
+
+    ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
+
+    //setup background music
+    mPlayer.setMedia( QUrl("assets:/meikeMusic.mp3") );
+    mPlayer.setVolume(100);
 }
 
 void PortraitGUI::AfterShownSetVariables()
@@ -32,6 +40,19 @@ void PortraitGUI::PlayMovies()
     qs << "/sdcard/Music/test.mp3";
     ui->MovieView->PlayMovie(qs);
 }
+
+
+void PortraitGUI::playMusic()
+{
+    mPlayer.play();
+}
+
+
+void PortraitGUI::stopMusic()
+{
+    mPlayer.stop();
+}
+
 
 void PortraitGUI::Exit()
 {
