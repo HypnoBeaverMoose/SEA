@@ -42,6 +42,7 @@ private:
     std::vector<PlantDatabase::PlantData> plants;
 
     QMediaPlayer mPlayer;
+    QMediaPlayer sePlayer;
 
     //temp
     int labelLines;

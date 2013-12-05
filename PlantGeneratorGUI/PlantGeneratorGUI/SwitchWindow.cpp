@@ -19,6 +19,8 @@ SwitchWindow::SwitchWindow(QWidget *parent) :
 
     QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
     QObject::connect( portGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
+
+    buttonPlayer.setMedia( QUrl("assets:/SE-button.wav") );
 }
 
 SwitchWindow::~SwitchWindow()
@@ -33,6 +35,9 @@ void SwitchWindow::AfterShownSetVariables()
 
 void SwitchWindow::toggleGUI()
 {
+    buttonPlayer.stop();
+    buttonPlayer.setVolume(100);
+    buttonPlayer.play();
     if ( currentIndex() == plantGenIdx )
     {
         setCurrentIndex(portraitIdx);

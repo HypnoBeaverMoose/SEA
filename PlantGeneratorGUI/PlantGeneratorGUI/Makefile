@@ -444,29 +444,29 @@ compiler_rcc_clean:
 qrc_resources.cpp: resources.qrc \
 		database.xml \
 		PRISTINA.TTF \
-		Images\glowRain.png \
-		Images\portraitBG.png \
-		Images\flowerDustyMiller.png \
-		Images\stalkTomato.png \
-		Images\flowerTomato.png \
-		Images\leafCactus.png \
-		Images\toPortraitBtn.png \
-		Images\glowApple.png \
-		Images\glowTree.png \
-		Images\genBG.png \
-		Images\toPortraitBtn_down.png \
-		Images\glowSun.png \
-		Images\FarmerGirl_5.png \
-		Images\glowNose.png \
-		Images\dialArrow.png \
 		Images\stalkCactus.png \
-		Images\flowerCactus.png \
+		Images\genBG.png \
+		Images\glowNose.png \
 		Images\leafDustyMiller.png \
 		Images\glowThorns.png \
-		Images\glowToy.png \
-		Images\glowSkull.png \
+		Images\flowerDustyMiller.png \
 		Images\leafTomato.png \
+		Images\flowerTomato.png \
 		Images\stalkDustyMiller.png \
+		Images\glowSun.png \
+		Images\glowApple.png \
+		Images\portraitBG.png \
+		Images\stalkTomato.png \
+		Images\FarmerGirl_5.png \
+		Images\toPortraitBtn_down.png \
+		Images\glowRain.png \
+		Images\leafCactus.png \
+		Images\glowTree.png \
+		Images\glowToy.png \
+		Images\flowerCactus.png \
+		Images\dialArrow.png \
+		Images\glowSkull.png \
+		Images\toPortraitBtn.png \
 		Images\toGenBtn_down.png \
 		Images\toGenBtn.png \
 		Images\portraitBG.png \
@@ -7135,29 +7135,14 @@ PlantDatabase.obj: PlantDatabase.cpp ..\..\..\..\..\..\..\Android\android-ndk-r9
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\assert.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PlantDatabase.obj PlantDatabase.cpp
 
-PlantGenGUI.obj: PlantGenGUI.cpp ..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\iostream \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include\bits\c++config.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include\bits\os_defines.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include\bits\cpu_defines.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\ostream \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\ios \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\iosfwd \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\stringfwd.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\memoryfwd.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\postypes.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\cwchar \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\wchar.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\limits.h \
+PlantGenGUI.obj: PlantGenGUI.cpp ..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\stdlib.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\cdefs.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\cdefs_elf.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\android\api-level.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\limits.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\linux\limits.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\machine\internal_types.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\machine\limits.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\syslimits.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\asm\page.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\stdio.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\string.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\malloc.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\alloca.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\strings.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\types.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\stdint.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\_types.h \
@@ -7171,12 +7156,32 @@ PlantGenGUI.obj: PlantGenGUI.cpp ..\..\..\..\..\..\..\Android\android-ndk-r9b\so
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\linux\types.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\machine\kernel.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\sysmacros.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\memory.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\time.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\time.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\linux\time.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\asm\siginfo.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\asm-generic\siginfo.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\malloc.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\iostream \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include\bits\c++config.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include\bits\os_defines.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\include\bits\cpu_defines.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\ostream \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\ios \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\iosfwd \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\stringfwd.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\memoryfwd.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\postypes.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\cwchar \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\wchar.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\limits.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\limits.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\linux\limits.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\machine\internal_types.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\machine\limits.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\sys\syslimits.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\asm\page.h \
+		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\stdio.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\exception \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\atomic_lockfree_defines.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\bits\exception_ptr.h \
@@ -7214,11 +7219,6 @@ PlantGenGUI.obj: PlantGenGUI.cpp ..\..\..\..\..\..\..\Android\android-ndk-r9b\so
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\cstdio \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\parallel\types.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\cstdlib \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\stdlib.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\string.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\alloca.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\strings.h \
-		..\..\..\..\..\..\..\Android\android-ndk-r9b\platforms\android-9\arch-arm\usr\include\memory.h \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\limits \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\tr1\cstdint \
 		..\..\..\..\..\..\..\Android\android-ndk-r9b\sources\cxx-stl\gnu-libstdc++\4.8\include\parallel\tags.h \

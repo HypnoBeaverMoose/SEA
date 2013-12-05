@@ -1,4 +1,5 @@
-
+#include <stdlib.h>
+#include <time.h>
 #include <iostream>
 #include <sstream>
 #include <jni.h>
@@ -90,6 +91,8 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     // set global pointer to plant generator GUI
     pGUI = this;
+
+    srand (time(NULL));
 }
 
 PlantGenGUI::~PlantGenGUI()
@@ -162,6 +165,11 @@ void PlantGenGUI::updatePlantImage()
         }
      }
     ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
+
+    sePlayer.stop();
+    sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
+    sePlayer.setVolume(100);
+    sePlayer.play();
 }
 
 void PlantGenGUI::setTestLabelText( std::string text )
@@ -201,8 +209,21 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
     bias  =  dials[ability]->getCurArea().left;
 
 }
-void PlantGenGUI::updateIcons( int )
+void PlantGenGUI::updateIcons( int paraInt )
 {
+    // play sound of turning arrow
+    if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
+    {
+        sePlayer.stop();
+        int randomClip = rand() % 3 + 1;
+        QString fileName;
+        fileName = "assets:/SE-Arrow" + QString::number(randomClip) + ".wav";
+        sePlayer.setMedia( QUrl(fileName) );
+        int randomVolume = rand() % 20 + 80;
+        sePlayer.setVolume(randomVolume);
+        sePlayer.play();
+    }
+
     float antiDrought = 0.0f;
     float thorns      = 0.0f;
     float poison      = 0.0f;
