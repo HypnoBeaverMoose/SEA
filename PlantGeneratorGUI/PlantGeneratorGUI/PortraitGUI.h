@@ -13,9 +13,6 @@ class PortraitGUI : public QWidget
 {
     Q_OBJECT
 
-public slots:
-    void Exit();
-
 public:
     explicit PortraitGUI(QWidget *parent = 0);
     ~PortraitGUI();

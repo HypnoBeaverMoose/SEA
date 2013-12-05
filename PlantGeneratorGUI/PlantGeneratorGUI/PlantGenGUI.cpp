@@ -46,11 +46,11 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
     QImage btnImg;
-    if ( !btnImg.load(":/PlantGen/toPortraitBtn.png") )
+    if ( !btnImg.load(":/PlantGen/Images/toPortraitBtn.png") )
         std::cout << "Error loading image" << std::endl;
 
     QImage btnImg_down;
-    if ( !btnImg_down.load(":/PlantGen/toPortraitBtn_down.png") )
+    if ( !btnImg_down.load(":/PlantGen/Images/toPortraitBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
@@ -283,7 +283,7 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
     QLabel *stalkIcons[] = { ui->stalkPlant1, ui->stalkPlant2, ui->stalkPlant3 };
     QLabel *leafIcons[] = { ui->leafPlant1, ui->leafPlant2, ui->leafPlant3 };
 
-    const std::string ICON_PATH = ":/PlantGen/";
+    const std::string ICON_PATH = ":/PlantGen/Images/";
     unsigned int i;
     for ( i = 0; i < plants.size(); ++i )
     {
