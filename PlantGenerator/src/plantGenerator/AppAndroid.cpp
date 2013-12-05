@@ -2,7 +2,8 @@
 #include "AppAndroid.h"
 #include<png.hpp>
 #include<sstream>
-
+#include"EGL\egl.h"
+#include "EGL\eglplatform.h"
 extern "C" 
 {	
 	JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr);
@@ -11,6 +12,7 @@ extern "C"
 	JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnDestroy(JNIEnv * env, jobject obj);
 	JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnCreate(JNIEnv * env, jobject obj);	
 };
+
 
 JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnResize(JNIEnv * env, jobject obj,  jint width, jint height)
 {
@@ -30,8 +32,89 @@ JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnDestroy(JNIEnv * 
 
 JNIEXPORT void JNICALL Java_com_android_plantgen_PlantGenLib_OnCreate(JNIEnv * env, jobject obj)
 {	
-	LOGI("CrateCallback");	
-	
+	//LOGI("CrateCallback");	
+	//LOGI("EGL ERROR: STEP_ONE");
+	//const EGLint l_attribs[] = 
+	//{
+	//	EGL_RENDERABLE_TYPE,		EGL_OPENGL_ES2_BIT,
+	//	EGL_RED_SIZE,				8,
+	//	EGL_GREEN_SIZE,				8,
+	//	EGL_BLUE_SIZE,				8,
+	//	EGL_ALPHA_SIZE,				8,
+	//	EGL_SURFACE_TYPE,			EGL_PBUFFER_BIT,
+	//	EGL_NONE
+	//};
+
+	//EGLDisplay l_display = eglGetDisplay( EGL_DEFAULT_DISPLAY );
+	//EGLint l_major, l_minor;
+	//
+	//eglInitialize(l_display, &l_major, &l_minor);
+	//
+	//int l_nConfig;
+	//eglChooseConfig(l_display,l_attribs, 0,  1, &l_nConfig);
+	//const int num_configs = l_nConfig;
+	//
+	//if(l_nConfig <=0) {
+	//	LOGE("EGL ERROR: NO CONFIGS MATCH THE CONFIG SPEC");
+	//	return ;
+	//}
+	//std::auto_ptr<EGLConfig> l_pConfigs(new EGLConfig[num_configs]);
+	//
+	//eglChooseConfig(l_display, l_attribs, l_pConfigs.get(),num_configs,&l_nConfig);
+	//EGLConfig* l_configs = l_pConfigs.get();
+	//int i = 0; bool  found = false;
+	//LOGI("EGL ERROR: STEP_TWO, CONFIG COUNT: %d", l_nConfig);
+	//for(; i < l_nConfig; i++)
+	//{
+	//	int r,g,b,a;
+	//	eglGetConfigAttrib(l_display, l_configs[i], EGL_RED_SIZE, &r);
+ //       eglGetConfigAttrib(l_display, l_configs[i], EGL_GREEN_SIZE, &g);
+ //       eglGetConfigAttrib(l_display, l_configs[i], EGL_BLUE_SIZE, &b);
+ //       eglGetConfigAttrib(l_display, l_configs[i], EGL_ALPHA_SIZE, &a);
+	//	
+	//	if(r ==8 && g == 8 && b == a && a == 8) {
+	//		found = true; break; 
+	//	}
+	//}
+	//if(!found){
+	//	LOGE("EGL ERROR: FAILED TO FIND SUITABLE CONTEXT CONFIG");
+	//	return ;
+	//}
+
+	//int l_contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+	//const EGLint srfPbufferAttr[] =
+	//{
+	//	EGL_WIDTH, 512,
+	//	EGL_HEIGHT, 512,
+	//	//EGL_COLORSPACE, GL_RGBA,
+	//	//EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGB,
+	//	//EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+	//	EGL_LARGEST_PBUFFER, EGL_TRUE,
+	//	EGL_NONE
+	//};
+	//
+	//LOGI("EGL ERROR: STEP_THREE");
+	//EGLSurface l_surface = 	eglCreatePbufferSurface(l_display, l_configs[i], srfPbufferAttr);	
+	//if(l_surface == EGL_NO_SURFACE) {		
+	//	LOGE("EGL ERROR: FAILED TO CREATE RENDERING SURFACE	%d",eglGetError());
+	//	return ;
+
+	//LOGI("EGL ERROR: STEP_FOUR");
+	//}
+
+	//EGLContext l_context = eglCreateContext(l_display, l_configs[i], EGL_NO_CONTEXT, l_contextAttribs);
+	//if(l_context == EGL_NO_CONTEXT){
+	//	LOGE("EGL ERROR: FAILED TO CREATE CONTEXT, %d",eglGetError());
+	//	return ;	
+	//}
+
+	//LOGI("EGL ERROR: STEP_FIVE");
+	//if(eglMakeCurrent(l_display,l_surface, l_surface, l_context) == EGL_FALSE){
+	//	LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
+	//	return ;
+	//}	
+
+	//LOGI("EGL ERROR: EGL CONTEXT SET UP!");
 	AppAndroid::getInstance()->OnCreate();
 
 }

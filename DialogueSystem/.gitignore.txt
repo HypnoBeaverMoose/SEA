@@ -1,6 +1,6 @@
 *.sdf
 *.opensdf
-/Debug
-/Release
+Debug/
+Release/
 /ipch
 *.v11

@@ -1,10 +1,14 @@
 #pragma once
 
+enum PlantPart {Flowers= 0, Stalk, Leaves };
 class Plant
 {
 public:
 
-	friend Plant CombinePlants(const Plant& lhs, const Plant& rhs, float bias);
+	friend void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float bias, PlantPart part);
+	
+	
+	Plant();
 
 	Plant(float angle, float scale, float angleInc, float scaleInc, const std::string& axiom, int iterations);
 	
@@ -17,7 +21,9 @@ public:
 	void setPosition(const Vector3f& pos) { m_position = pos; }
 	const Vector3f& getPosition() const { return m_position; }
 	
-	//LSystem& getLSystem() { return m_system; }
+	const LSystem& getLSystem() const { return m_system; }
+
+	LSystem& getLSystem() { return m_system; }
 
 	void addObject(const DrawableObject& object);
 
@@ -26,20 +32,22 @@ public:
 
 	int getSystemLength() const;
 
-	const char* getLSystem() const;
+	const char* getLSystemString() const;
 
 	void drawPart(char letter, PaintState& state ) const;
+
+	DrawableObject getPart(char letter) const;
 
 	int getIterations() const { return m_iterationsCount; }
 	void setIterations(int iter) { m_iterationsCount = iter; }
 
 	~Plant(void);
+
 private:
 	float m_angle;
 	float m_scale;
 	float m_angleInc;
 	float m_scaleInc;
-	///std::vector<DrawableObject> m_parts;
 	std::map<char, DrawableObject> m_parts;
 	LSystem  m_system;
 	int m_iterationsCount;

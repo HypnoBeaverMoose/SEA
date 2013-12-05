@@ -1,0 +1,24 @@
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\AndroidDatabaseTest-debug-unaligned.apk : \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\AndroidDatabaseTest.ap_ \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes.dex \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\--Managed_by_Qt_Creator--QtAndroid-bundled.jar \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\gdbserver \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_accessible_libqtaccessiblequick.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_accessible_libqtaccessiblewidgets.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqgif.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqico.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqjpeg.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqmng.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqsvg.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqtga.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqtiff.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_imageformats_libqwbmp.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_platforms_android_libqtforandroid.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_platforms_android_libqtforandroidGL.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_platforms_libqminimal.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\lib--Managed_by_Qt_Creator--plugins_platforms_libqoffscreen.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\libAndroidDatabaseTest.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\libgnustl_shared.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\libQt5Core.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\libQt5Gui.so \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\libs\armeabi-v7a\libQt5Widgets.so \

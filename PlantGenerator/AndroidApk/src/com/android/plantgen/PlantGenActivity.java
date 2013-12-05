@@ -23,18 +23,25 @@ import android.util.Log;
 import android.view.WindowManager;
 import java.io.File;
 
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.opengles.GL10;
+
+
 public class PlantGenActivity extends Activity 
 {
 
     PlantGenView mView;
-	//private AssetManager mgr;
+	private AssetManager mgr;
     @Override protected void onCreate(Bundle icicle) 
 	{
-		AssetManager mgr = getResources().getAssets();
+		mgr = getResources().getAssets();
 		PlantGenLib.SetAssetManager(mgr);
-        
 		mView = new PlantGenView(getApplication());
-        super.onCreate(icicle);
+        
+		super.onCreate(icicle);
 		setContentView(mView);
     }
 

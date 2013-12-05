@@ -17,19 +17,28 @@ class PlantGenGUI : public QWidget
 
 public slots:
     void updateIcons(int);
-
+    void updatePlantImage();
 public:
     explicit PlantGenGUI(QWidget *parent = 0);
     ~PlantGenGUI();
 
+    static PlantGenGUI *pGUI;
+
     QPushButton * getGUISwitchBtn();
+
+    void setTestLabelText( std::string text );
 
 private:
     void getPlants( int p1, int p2, int p3 );
 
+    void getIndexesAndBias(int& l_index, int& r_index, float bias, int ability);
+
     Ui::PlantGenGUI *ui;
     PlantDatabase pdb;
     std::vector<PlantDatabase::PlantData> plants;
+
+    //temp
+    int labelLines;
 
     // opacity effects for the icons
     QGraphicsOpacityEffect opFxSun;
@@ -40,6 +49,8 @@ private:
     QGraphicsOpacityEffect opFxToy;
     QGraphicsOpacityEffect opFxTree;
     QGraphicsOpacityEffect opFxRain;
+
+   std::vector<unsigned char> m_img;
 };
 
 #endif // PLANTGENGUI_H

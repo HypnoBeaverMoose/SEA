@@ -9,8 +9,9 @@ Adafruit_NFCShield_I2C nfc(IRQ, RESET);
 
 uint8_t keyuniversal[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
-const int STORAGE_MAX_SIZE = 2;
+const int STORAGE_MAX_SIZE = 3;
 int lastScannedID          = -1;
+int tagScanCounter         = 0;
 
 // this is the UID of the card that is stuck to the bottom of the reader for transfering data
 uint8_t transUID[4] = { 109, 248, 249, 200 };
@@ -72,6 +73,19 @@ void loop(void)
        Serial.print("Found plant tag ");
        Serial.println( lastScannedID );
     }
+  }
+  
+  if ( tagScanCounter >= 1 )
+  {
+    tagScanCounter = 0; 
+    
+    nfc.toggleReset();
+    delay(100);
+    nfc.begin();
+    nfc.SAMConfig();
+  } else
+  {
+    tagScanCounter++;
   }
   
   delay(1000);

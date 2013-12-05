@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest package="org.qtproject.example.PlantGeneratorGUI" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0" android:versionCode="1">
-    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="@string/app_name">
+    <uses-feature android:name="android.hardware.usb.host" />
+    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="@string/app_name" android:debuggable="true" android:permission="android.permission.READ_EXTERNAL_STORAGE">
         <activity android:name="org.qtproject.qt5.android.bindings.QtActivity" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation" android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -34,4 +35,5 @@
     <supports-screens android:smallScreens="true" android:largeScreens="true" android:anyDensity="true" android:normalScreens="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-sdk android:targetSdkVersion="16" android:minSdkVersion="16"/>
 </manifest>

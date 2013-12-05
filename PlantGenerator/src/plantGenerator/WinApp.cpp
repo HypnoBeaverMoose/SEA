@@ -19,7 +19,6 @@
  WinApp::WinApp(int width,int heigth,HINSTANCE instance,char* name) : m_hInstance(instance)
 {
 	CreateGLWindow(name, width,  heigth);
-
 }
 
 WinApp::~WinApp(void)
@@ -215,14 +214,14 @@ LRESULT CALLBACK WinApp::WndProc(	HWND	hWnd,			// Handle For This Window
 							WPARAM	wParam,			// Additional Message Information
 							LPARAM	lParam)			// Additional Message Information
 {
-	WinApp* l_instance = (WinApp*)s_instance;
+	//WinApp* l_instance = (WinApp*)s_instance;
 	switch (uMsg)									// Check For Windows Messages
 	{
 		case WM_LBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			l_instance->OnTouch(0,0); break;
+			s_instance->OnTouch(0,0); break;
 		case WM_SIZE:								// Resize The OpenGL Window
-			l_instance->OnResize(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
+			s_instance->OnResize(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			break;
 		case WM_SYSCOMMAND:							// Intercept System Commands
 			switch (wParam)							// Check System Calls

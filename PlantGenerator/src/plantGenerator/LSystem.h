@@ -28,6 +28,8 @@ public:
 
 	const Rule& getRule(int index) const { return m_rules[index]; }
 
+	const void getRules(char condition, std::vector<Rule>& out) const;
+
 	const std::string& getSystemString() const { return m_generatedSystem; }
 
 	int addRule(const Rule r);
@@ -40,9 +42,14 @@ public:
 
 	const std::string& getAxiom() const { return m_axiom; }
 
+	void setAxiom(const char* axiom) { m_axiom = axiom; }
+
+	void removeRule(char condition);
+
+	void normalizeProbs();
+
 private:
 	
-	void normalizeProbs();
 
 	std::string generateRule(char condition);
 

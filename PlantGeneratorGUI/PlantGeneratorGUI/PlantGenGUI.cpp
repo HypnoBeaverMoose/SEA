@@ -1,22 +1,35 @@
 
 #include <iostream>
 #include <sstream>
-
+#include <jni.h>
 #include <QFile>
 #include <QFontDatabase>
-
+#include "PlantDatabase.h"
+#include "PlantGenerator.h"
 #include "PlantGenGUI.h"
 #include "ui_PlantGenGUI.h"
 
+
+PlantGenGUI *PlantGenGUI::pGUI = 0;
+extern "C" {
+    JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr);
+}
+
+JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr)
+{
+    PlantGenerator::setAssetManager(env, mgr);
+}
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PlantGenGUI), pdb(), plants(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain()
+    opFxFruit(), opFxToy(), opFxTree(), opFxRain(), labelLines(0),
+    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0)
 {
-    ui->setupUi(this);
 
+    PlantGenerator::InitGenerator();
+    ui->setupUi(this);
 
     // load plant label font
     QFile fontFile(":/PlantGen/PRISTINA.TTF");
@@ -51,13 +64,27 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     ui->glowTree->setGraphicsEffect(&opFxTree);
     ui->glowRain->setGraphicsEffect(&opFxRain);
 
+
+    ui->dialFlower->setProperty("plantPart",0);
+    ui->dialStalk->setProperty("plantPart",1);
+    ui->dialLeaf->setProperty("plantPart",2);
+
     QObject::connect( ui->dialFlower, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
     QObject::connect( ui->dialStalk, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
     QObject::connect( ui->dialLeaf, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
 
+    QObject::connect( ui->dialFlower, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
+    QObject::connect( ui->dialStalk, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
+    QObject::connect( ui->dialLeaf, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
+
+   PlantGenerator::loadPlants(PlantDatabase::PlantData(),PlantDatabase::PlantData(),PlantDatabase::PlantData());
+
     getPlants(66, 67, 68);
 
     updateIcons(0);
+
+    // set global pointer to plant generator GUI
+    pGUI = this;
 }
 
 PlantGenGUI::~PlantGenGUI()
@@ -71,10 +98,93 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
     return ui->guiSwitchBtn;
 }
 
+void PlantGenGUI::updatePlantImage()
+{
+    int ability = QObject::sender()->property("plantPart").toInt();
+    uint width = ui->imgLabel->width(), height = ui->imgLabel->height();
 
-void PlantGenGUI::updateIcons( int )
+
+    ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
+    ArrowDial::Area a = dials[ability]->getCurArea();
+
+    int l_index, r_index;
+    switch ( a.id )
+    {
+        case 1:                     // plant 1 and 2
+            l_index = 0;
+            r_index = 1;
+            break;
+        case 2:                     // plant 2 and 3
+            l_index = 1;
+            r_index = 2;
+            break;
+        case 3:                     // plant 3 and 1
+            l_index = 2;
+            r_index = 0;
+            break;
+        default:
+            break;
+    }
+
+
+    float bias = std::min(a.left,1.0f);
+    PlantGenerator::setCombination(ability, l_index, r_index, 1.0f - bias);
+
+    PlantGenerator::RenderPlant(width, height);
+
+    unsigned char* img = PlantGenerator::getRenderedImage(width, height);
+
+    QImage image(img, width, height, QImage::Format_ARGB32);
+    for( int x = 0; x < image.width(); x++){
+        for( int y = 0; y < image.width(); y++){
+          QRgb  pix = image.pixel(x,y);
+          unsigned char* el = (unsigned char*)&pix;
+          std::swap(el[0],el[2]);
+          image.setPixel(x,y,pix);
+        }
+     }
+    ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
+}
+
+void PlantGenGUI::setTestLabelText( std::string text )
+{
+    if ( labelLines >= 6 )
+    {
+        labelLines = 0;
+        ui->testLabel->setText( QString(text.c_str()) );
+    } else
+    {
+        labelLines++;
+        ui->testLabel->setText( ui->testLabel->text() + "\n" + QString(text.c_str()) );
+    }
+}
+
+void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int ability)
 {
     ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
+
+    switch ( dials[ability]->getCurArea().id )
+    {
+        case 1:                     // plant 1 and 2
+            l_index = 0;
+            r_index = 1;
+            break;
+        case 2:                     // plant 2 and 3
+            l_index = 1;
+            r_index = 2;
+            break;
+        case 3:                     // plant 3 and 1
+            l_index = 2;
+            r_index = 0;
+        break;
+        default:
+            break;
+    }
+    bias  =  dials[ability]->getCurArea().left;
+
+}
+void PlantGenGUI::updateIcons( int )
+{
     float antiDrought = 0.0f;
     float thorns      = 0.0f;
     float poison      = 0.0f;
@@ -83,6 +193,8 @@ void PlantGenGUI::updateIcons( int )
     float soft        = 0.0f;
     float growth      = 0.0f;
     float antiwater   = 0.0f;
+
+    ArrowDial *dials[] = { ui->dialFlower, ui->dialStalk, ui->dialLeaf };
 
     for ( int i = 0; i < PlantDatabase::PlantData::NUM_ABS; ++i )
     {
@@ -154,7 +266,7 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
     QLabel *leafIcons[] = { ui->leafPlant1, ui->leafPlant2, ui->leafPlant3 };
 
     const std::string ICON_PATH = ":/PlantGen/";
-    int i;
+    unsigned int i;
     for ( i = 0; i < plants.size(); ++i )
     {
         plantNames[i]->setText( QString(plants[i].name.c_str()) );

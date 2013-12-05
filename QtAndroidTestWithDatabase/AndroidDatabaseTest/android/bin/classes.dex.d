@@ -1,0 +1,25 @@
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes.dex : \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\kde\necessitas\ministro\IMinistro$Stub$Proxy.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\kde\necessitas\ministro\IMinistro$Stub.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\kde\necessitas\ministro\IMinistro.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\kde\necessitas\ministro\IMinistroCallback$Stub$Proxy.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\kde\necessitas\ministro\IMinistroCallback$Stub.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\kde\necessitas\ministro\IMinistroCallback.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\example\AndroidDatabaseTest\BuildConfig.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\example\AndroidDatabaseTest\R$array.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\example\AndroidDatabaseTest\R$attr.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\example\AndroidDatabaseTest\R$layout.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\example\AndroidDatabaseTest\R$string.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\example\AndroidDatabaseTest\R.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$1.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$2.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$3$1$1.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$3$1.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$3.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$4.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$5.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$6.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtActivity.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtApplication$InvokeResult.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\classes\org\qtproject\qt5\android\bindings\QtApplication.class \
+C:\Users\krien\Documents\GitHub\SEA\QtAndroidTestWithDatabase\AndroidDatabaseTest\android\bin\dexedLibs\--Managed_by_Qt_Creator--QtAndroid-bundled-abce6e30abf42d5dfce30e4e9f0d8c03.jar \
