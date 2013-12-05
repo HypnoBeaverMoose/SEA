@@ -1,0 +1,27 @@
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes.dex : \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\kde\necessitas\ministro\IMinistro$Stub$Proxy.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\kde\necessitas\ministro\IMinistro$Stub.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\kde\necessitas\ministro\IMinistro.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\kde\necessitas\ministro\IMinistroCallback$Stub$Proxy.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\kde\necessitas\ministro\IMinistroCallback$Stub.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\kde\necessitas\ministro\IMinistroCallback.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\example\PlantGeneratorGUI\BuildConfig.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\example\PlantGeneratorGUI\R$array.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\example\PlantGeneratorGUI\R$attr.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\example\PlantGeneratorGUI\R$layout.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\example\PlantGeneratorGUI\R$string.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\example\PlantGeneratorGUI\R.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$1.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$2.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$3$1$1.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$3$1.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$3.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$4.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$5.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity$6.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtActivity.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtApplication$InvokeResult.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\classes\org\qtproject\qt5\android\bindings\QtApplication.class \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\dexedLibs\QtAndroid-bundled-61e1a8a3ad6d2087ba590da6e87bd9fa.jar \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\dexedLibs\QtAndroidAccessibility-bundled-5297f002b62f0a054095914a566b8976.jar \
+C:\Users\krien\Documents\GitHub\SEA\PlantGeneratorGUI\PlantGeneratorGUI\android-build\bin\dexedLibs\QtMultimedia-bundled-a1e2cbd2aa45647e7145be0a01c2e847.jar \
