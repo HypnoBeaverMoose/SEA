@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia multimediawidgets
 
 TARGET = PlantGeneratorGUI
 TEMPLATE = app
@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     PlantGenGUI.cpp \
     SwitchWindow.cpp \
     PortraitGUI.cpp \
-    MaskedButton.cpp
+    MaskedButton.cpp \
+    videohandler.cpp
 
 HEADERS  += \
     ArrowDial.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     PlantGenGUI.h \
     SwitchWindow.h \
     PortraitGUI.h \
-    MaskedButton.h
+    MaskedButton.h \
+    videohandler.h
 
 INCLUDEPATH += .
 
@@ -77,3 +79,5 @@ INCLUDEPATH += $$PWD/
 DEPENDPATH += $$PWD/
 
 LIBS += -lEGL -lGLESv2 -landroid -L$$PWD/lib/ -lpg -lpng
+
+INSTALLS += deployment

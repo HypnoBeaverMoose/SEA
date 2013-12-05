@@ -4,6 +4,7 @@
 #include <jni.h>
 #include <QFile>
 #include <QFontDatabase>
+
 #include "PlantDatabase.h"
 #include "PlantGenerator.h"
 #include "PlantGenGUI.h"
@@ -22,12 +23,9 @@ JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAss
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PlantGenGUI), pdb(), plants(),
-    opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(), labelLines(0),
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0)
+    ui(new Ui::PlantGenGUI), pdb(), plants(), mPlayer(),
+    opFxSun(), opFxThorns(), opFxSkull(), opFxNose(), labelLines(0), m_img(0)
 {
-
     PlantGenerator::InitGenerator();
     ui->setupUi(this);
 
@@ -48,10 +46,13 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
     QImage btnImg;
-
     if ( !btnImg.load(":/PlantGen/toPortraitBtn.png") )
         std::cout << "Error loading image" << std::endl;
-    ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
+
+    QImage btnImg_down;
+    if ( !btnImg_down.load(":/PlantGen/toPortraitBtn_down.png") )
+        std::cout << "Error loading image" << std::endl;
+    ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
 
     // connect graphicsEffects to the icon glows
@@ -83,6 +84,10 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     updateIcons(0);
 
+    //setup background music
+    mPlayer.setMedia( QUrl("assets:/plantGenMusic.mp3") );
+    mPlayer.setVolume(100);
+
     // set global pointer to plant generator GUI
     pGUI = this;
 }
@@ -97,6 +102,19 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
 {
     return ui->guiSwitchBtn;
 }
+
+
+void PlantGenGUI::playMusic()
+{
+    mPlayer.play();
+}
+
+
+void PlantGenGUI::stopMusic()
+{
+    mPlayer.stop();
+}
+
 
 void PlantGenGUI::updatePlantImage()
 {

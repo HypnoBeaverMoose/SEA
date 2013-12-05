@@ -12,6 +12,7 @@ class VideoHandler : public QStackedWidget
     Q_OBJECT
 public:
     explicit VideoHandler(QWidget *parent = 0);
+    ~VideoHandler();
     void SetVariables(QWidget *noMoviePage, QVideoWidget *moviePage, QLabel *errorMessage);
     void PlayMovie(const QStringList& fileNames);
     void ExitMovie();

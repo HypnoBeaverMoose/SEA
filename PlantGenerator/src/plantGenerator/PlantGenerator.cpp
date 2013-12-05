@@ -118,6 +118,7 @@ bool PlantGenerator::InitGenerator()
 		EGL_GREEN_SIZE,				8,
 		EGL_BLUE_SIZE,				8,
 		EGL_ALPHA_SIZE,				8,
+		EGL_DEPTH_SIZE,				16,
 		EGL_SURFACE_TYPE,			EGL_PBUFFER_BIT,
 		EGL_NONE
 	};
@@ -143,13 +144,14 @@ bool PlantGenerator::InitGenerator()
 	int i = 0; bool  found = false;
 	for(; i < l_nConfig; i++)
 	{
-		int r,g,b,a;
+		int r,g,b,a, d;
 		eglGetConfigAttrib(l_display, l_configs[i], EGL_RED_SIZE, &r);
         eglGetConfigAttrib(l_display, l_configs[i], EGL_GREEN_SIZE, &g);
         eglGetConfigAttrib(l_display, l_configs[i], EGL_BLUE_SIZE, &b);
         eglGetConfigAttrib(l_display, l_configs[i], EGL_ALPHA_SIZE, &a);
-		
-		if(r ==8 && g == 8 && b == a && a == 8) {
+		eglGetConfigAttrib(l_display, l_configs[i], EGL_DEPTH_SIZE, &d);		
+
+		if(r ==8 && g == 8 && b == 8 && a == 8 && d > 0) {
 			found = true; break; 
 		}
 	}
@@ -194,7 +196,6 @@ bool PlantGenerator::InitGenerator()
 	LOGI("EGL ERROR: EGL CONTEXT SET UP!");
 	getInstance()->m_renderSize[0] = getInstance()->m_renderSize[1] = 512;
 	getInstance()->OnCreate();
-	LOGI("EGL PROGRESS: getInstance()->OnCreate()");
 
 	if(prevDisplay != EGL_NO_DISPLAY && prevSurfaceDraw != EGL_NO_SURFACE 
 					&& prevSurfaceRead != EGL_NO_SURFACE && prevContext !=EGL_NO_CONTEXT)

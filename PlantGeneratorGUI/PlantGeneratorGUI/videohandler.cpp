@@ -6,9 +6,17 @@
 #include <QDebug>
 
 VideoHandler::VideoHandler(QWidget *parent) :
-    QStackedWidget(parent)
+    QStackedWidget(parent), player(0), playlist(0)
 {
     player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
+}
+
+VideoHandler::~VideoHandler()
+{
+    if ( player )
+        delete player;
+    if ( playlist )
+        delete playlist;
 }
 
 void VideoHandler::handleError()
@@ -35,23 +43,27 @@ void VideoHandler::SetVariables(QWidget *noMoviePage, QVideoWidget *moviePage, Q
 
 void VideoHandler::PlayMovie(const QStringList& fileNames)
 {
+    if ( playlist )
+    {
+        delete playlist;
+    }
    playlist = new QMediaPlaylist(player);
    player->setPlaylist(playlist);
-   playlist->setCurrentIndex(1);
-   open();
-   //addToPlaylist(fileNames);
-   this->setCurrentWidget(_movieWidget);
-
+   playlist->setCurrentIndex(-1);
+   //open();
+   addToPlaylist(fileNames);
+    //player->setMedia(QUrl::fromLocalFile("/sdcard/Music/test.mp3"));
+    //player->setVolume(100);
+   //this->setCurrentWidget(_movieWidget);
    player->play();
 }
 
 void VideoHandler::GoToPortrait()
 {
-
     if(player->mediaStatus() == QMediaPlayer::InvalidMedia)
     {
-        //_errorMessage->setText("invalid media");
-        this->setCurrentWidget(_noMovieWidget);
+        _errorMessage->setText("invalid media");
+        ExitMovie();
     }
     else if(player->mediaStatus() == QMediaPlayer::NoMedia)
     {

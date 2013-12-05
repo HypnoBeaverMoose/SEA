@@ -81,10 +81,10 @@ void DrawableObject::initVerticies(float width)
 	m_textureCoords.push_back(Vector2f(0, 1));
 	m_textureCoords.push_back(Vector2f(1, 1));
 
-	m_vertices.push_back(Vector4f(-0.5f , 0.0f, -1, 1.0f));
-	m_vertices.push_back(Vector4f(0.5f, 0.0f, -1, 1.0f));
-	m_vertices.push_back(Vector4f(-0.5f, 1.0f, -1, 1.0f));
-	m_vertices.push_back(Vector4f(0.5f, 1.0f, -1, 1.0f));
+	m_vertices.push_back(Vector4f(-0.5f , 0.0f, 0, 1.0f));
+	m_vertices.push_back(Vector4f(0.5f, 0.0f, 0, 1.0f));
+	m_vertices.push_back(Vector4f(-0.5f, 1.0f, 0, 1.0f));
+	m_vertices.push_back(Vector4f(0.5f, 1.0f, 0, 1.0f));
 }
 
 void DrawableObject::setShader(uint shader)

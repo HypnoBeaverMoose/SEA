@@ -178,7 +178,7 @@ public class QtActivity extends Activity
     private static final String CMD_LOAD_AUTH_KEY  = "FF82000006FFFFFFFFFFFF";		//universal key 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF
     private static final String CMD_AUTH_BLOCK_04  = "FF860000050100046100";
     private static final String CMD_READ_BLOCK_04  = "FFB0000410"; 
-    private static final String CMD_CLEAR_BLOCK_04 = "FFD600041000000308D10104550042FE0000000000"; 
+    private static final String CMD_CLEAR_BLOCK_04 = "FFD600041000000306D10102550042FE0000000000"; 
     
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private static final String[] stateStrings = { "Unknown", "Absent",

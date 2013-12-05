@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <jni.h>
 #include <sstream>
@@ -6,7 +5,6 @@
 #include "PlantGenGUI.h"
 #include "SwitchWindow.h"
 #include "ui_SwitchWindow.h"
-
 
 SwitchWindow::SwitchWindow(QWidget *parent) :
     QStackedWidget(parent),
@@ -17,6 +15,7 @@ SwitchWindow::SwitchWindow(QWidget *parent) :
     plantGenIdx = this->addWidget(&genGUI);
     portraitIdx = this->addWidget(&portGUI);
     setCurrentIndex(portraitIdx);
+    portGUI.playMusic();
 
     QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
     QObject::connect( portGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
@@ -37,14 +36,18 @@ void SwitchWindow::toggleGUI()
     if ( currentIndex() == plantGenIdx )
     {
         setCurrentIndex(portraitIdx);
-        portGUI.PlayMovies();
+        //portGUI.PlayMovies();
+        genGUI.stopMusic();
+        portGUI.playMusic();
     }
     else
     {
         setCurrentIndex(plantGenIdx);
+        portGUI.stopMusic();
+        genGUI.playMusic();
     }
-}
 
+}
 
 extern "C"
 {
