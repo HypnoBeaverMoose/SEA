@@ -18,7 +18,7 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
         std::cout << "Error loading image" << std::endl;
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
 
-    connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
+    connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()));
 }
 
 void PortraitGUI::AfterShownSetVariables()
@@ -40,7 +40,6 @@ void PortraitGUI::Exit()
 
 PortraitGUI::~PortraitGUI()
 {
-    delete ui;
 }
 
 QPushButton * PortraitGUI::getGUISwitchBtn()

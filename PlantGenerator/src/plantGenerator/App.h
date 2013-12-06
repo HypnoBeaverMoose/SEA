@@ -47,6 +47,14 @@ protected:
 	
 	virtual bool loadImage(png::image<png::rgba_pixel>& image, const char* filename);
 
+
+private:
+	Plant createTomato();
+	Plant createDustyMiller();
+	Plant createCactus();
+	Plant createBamboo();
+	Plant createPineapple();
+
 public:
 	Vector2f				m_renderSize;
 

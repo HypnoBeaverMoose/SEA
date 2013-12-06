@@ -10,6 +10,6 @@ public:
 	Colorf		Color;
 	RandomValue	LineWidth;
 	RandomValue	LineLength;
-	uint		ZOrder;
+	int			AngleSign;
 	RandomValue	Angle;
 };

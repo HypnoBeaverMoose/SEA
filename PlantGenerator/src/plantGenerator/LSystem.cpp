@@ -4,7 +4,7 @@
 int LSystem::addRule(const Rule r) 
 { 
 	m_rules.push_back(r); 
-	normalizeProbs();
+	//normalizeProbs();
 	return m_rules.size() - 1; 
 }
 int LSystem::nextStep() 

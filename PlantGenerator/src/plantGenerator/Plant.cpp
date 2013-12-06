@@ -96,7 +96,8 @@ void CombinePlants(Plant& basePlant, const Plant& lhs, const Plant& rhs, float b
 
 
 		for(int i = 0; i < rulesLeft.size(); i++){
-			rulesLeft[i].setProbability(rulesLeft[i].getProbability() * (1.0f - bias));
+			float probs = rulesLeft[i].getProbability() * (1.0f - bias); 
+			rulesLeft[i].setProbability(probs);
 			basePlant.addRule(rulesLeft[i]);
 		}
 
