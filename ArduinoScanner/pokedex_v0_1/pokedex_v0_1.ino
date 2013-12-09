@@ -72,11 +72,8 @@ void loop(void)
     
     if ( isTransCard(uid) )
     {
-       if ( lastScannedID != -1 )
-       {
-         addToStorage(lastScannedID, uid, uidLength);
-         lastScannedID = -1;
-       }
+       addToStorage(lastScannedID, uid, uidLength);
+       lastScannedID = -1;
     } else
     {
        // read plant ID     
@@ -104,11 +101,7 @@ void loop(void)
 
 
 bool addToStorage( int plantID, uint8_t uid[], uint8_t uidLength )
-{
-  Serial.print("Attempting to add ");
-  Serial.print(plantID);
-  Serial.println(" to storage");
-  
+{  
   bool success = nfc.mifareclassic_AuthenticateBlock (uid, uidLength, 4, 1, keyuniversal);
   if ( !success )
   {
@@ -133,10 +126,17 @@ bool addToStorage( int plantID, uint8_t uid[], uint8_t uidLength )
     int i;
     for ( i = 0; i < len; ++i )
       tagData[i] = -1;
-         
+      
+    if ( plantID != -1 )
+    {
+      Serial.print("Attempting to add ");
+      Serial.print(plantID);
+      Serial.println(" to storage");
+    }
+   
     if ( (len - 1) >= STORAGE_MAX_SIZE + 1 )
     {
-       Serial.println("Storage tag full"); 
+       //Serial.println("Storage tag full"); 
        return false;
     }
     
@@ -151,7 +151,7 @@ bool addToStorage( int plantID, uint8_t uid[], uint8_t uidLength )
          break; 
       }
       
-      if ( data[i] == plantID )
+      if ( plantID != -1 && data[i] == plantID )
       {
          Serial.println("Plant already stored in tag");
          return false;
@@ -161,50 +161,45 @@ bool addToStorage( int plantID, uint8_t uid[], uint8_t uidLength )
       tagIt++;
     }
     
-    Serial.print("tag size: ");
-    Serial.println(tagIt);
+ 
+    
+    if ( plantID != -1 )
+    {
+      // add new plantID to the list
+      tagData[len - 1] = plantID;
+      
+      success = nfc.mifareclassic_WriteNDEFURI(1, NDEF_URIPREFIX_NONE, tagData);
+      if ( !success )
+      {
+        Serial.println("Error: unable to write to block");
+        return false;  
+      }
+      
+      // beep to signal that the plant has been saved on the tag
+      beep(200);
+      
+      Serial.print("tagData: ");
+      for ( i = 0; i < len; ++i )
+      {
+        Serial.print( int(tagData[i]), DEC );
+        Serial.print(" ");
+      }
+      Serial.println();
+      
+      tagIt++;
+    }
     
     digitalWrite(4, LOW);
     digitalWrite(5, LOW);
     digitalWrite(6, LOW);
-    
-    if ( tagIt >= 1 )
+
+    if ( tagIt - 1 >= 1 )
       digitalWrite(4, HIGH);
-    if ( tagIt >= 2 )
+    if ( tagIt - 1 >= 2 )
       digitalWrite(5, HIGH);
-    if ( tagIt >= 3 )
+    if ( tagIt - 1 >= 3 )
       digitalWrite(6, HIGH);
-    
-    
-    Serial.print("Stored in tagData before write: ");
-    for ( i = 0; i < len; ++i )
-    {
-      Serial.print( int(tagData[i]), DEC );
-      Serial.print(" ");
-    }
-    Serial.println();
-    
-    // add new plantID to the list
-    tagData[len - 1] = plantID;
-    
-    Serial.print("tagData: ");
-    for ( i = 0; i < len; ++i )
-    {
-      Serial.print( int(tagData[i]), DEC );
-      Serial.print(" ");
-    }
-    Serial.println();
-    
-    success = nfc.mifareclassic_WriteNDEFURI(1, NDEF_URIPREFIX_NONE, tagData);
-    if ( !success )
-    {
-      Serial.println("Error: unable to write to block");
-      return false;  
-    }
-    
-    // beep to signal that the plant has been saved on the tag
-      beep(200);
-    
+
     return true;
   }
   
