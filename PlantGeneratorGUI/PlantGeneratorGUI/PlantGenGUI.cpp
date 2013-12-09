@@ -27,7 +27,7 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0), labelLines(0)
 {
 
-    PlantGenerator::InitGenerator();
+    //PlantGenerator::InitGenerator(512,512);
     ui->setupUi(this);
 
     // load plant label font
@@ -76,9 +76,7 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QObject::connect( ui->dialStalk, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
     QObject::connect( ui->dialLeaf, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
 
-   PlantGenerator::loadPlants(PlantDatabase::PlantData(),PlantDatabase::PlantData(),PlantDatabase::PlantData());
-
-    getPlants(66, 67, 68);
+   // getPlants(0, 1, 2);
 
     updateIcons(0);
 
@@ -289,4 +287,6 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
     if ( plants.size() < 3 )
         for ( i; i < 3; ++i )
             plantNames[i]->setText( "" );
+
+    //PlantGenerator::loadPlants(plants[0],plants[1],plants[2]);
 }

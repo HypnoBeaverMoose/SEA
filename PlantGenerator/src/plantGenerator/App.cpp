@@ -322,8 +322,9 @@ void App::OnCreate()
 	glBindRenderbuffer(GL_RENDERBUFFER,0);
 	glGenTextures(1, &m_previewTexHandle);
 	//loadImage(m_defaultTexture,"default.png");
+	m_plants.resize(3);
 	needsRedraw = true;
-	setUpPlant();
+	//setUpPlant();
 }
 void App::RenderPlant()
 {

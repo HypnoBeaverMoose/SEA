@@ -6,7 +6,7 @@ class PlantGenerator
 {
 public:
 	/// Initializes the Plant Generator, must be called after an EGL context is setup.
-	static bool InitGenerator();
+	static bool InitGenerator(unsigned int width, unsigned int height);
 
 	///Sets the default values for the combination biases whenever new plants are loaded.
 	static void setDefaulBias(float leaves, float stalk, float flowers);

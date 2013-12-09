@@ -106,13 +106,16 @@ PlantDatabase::PlantData PlantDatabase::getPlant( int plantID, bool &result )
 			if ( !drawObj )
 				break;
 
-			DrawData dData;
-			dData.clr          = drawObj->Attribute("color");
+            DrawData dData;
+            dData.clr          = drawObj->Attribute("color");
 			std::string letStr = drawObj->Attribute("letter");
 			dData.letter       = letStr[0];							// assuming every attribute is filled in correctly
 			dData.vertOffset   = drawObj->FloatAttribute("vertOffset");
-
-			// parse vertex data
+            dData.texture      = drawObj->Attribute("texture");
+            dData.stepSize     = drawObj->FloatAttribute("stepSize");
+            dData.size.width   = drawObj->FloatAttribute("size_x");
+            dData.size.height   = drawObj->FloatAttribute("size_y");
+            // parse vertex data
 			XMLElement *vert = drawObj->FirstChildElement("point");
 			while ( true )
 			{

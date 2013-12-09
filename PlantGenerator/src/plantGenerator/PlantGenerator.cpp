@@ -104,7 +104,7 @@ void PlantGenerator::setAssetManager(JNIEnv * env, jobject mgr)
 	delete string;
 }
 
-bool PlantGenerator::InitGenerator()
+bool PlantGenerator::InitGenerator(unsigned int width, unsigned int height)
 {	
 	EGLContext prevContext = eglGetCurrentContext();
 	EGLDisplay prevDisplay = eglGetCurrentDisplay();
@@ -163,8 +163,8 @@ bool PlantGenerator::InitGenerator()
 	int l_contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
 	const EGLint srfPbufferAttr[] =
 	{
-		EGL_WIDTH, 512,
-		EGL_HEIGHT, 512,
+		EGL_WIDTH, width,
+		EGL_HEIGHT, height,
 		EGL_LARGEST_PBUFFER, EGL_TRUE,
 		EGL_NONE
 	};
@@ -194,7 +194,8 @@ bool PlantGenerator::InitGenerator()
 	m_pContext = l_context;
 	m_pSurface = l_surface;
 	LOGI("EGL ERROR: EGL CONTEXT SET UP!");
-	getInstance()->m_renderSize[0] = getInstance()->m_renderSize[1] = 512;
+	getInstance()->m_renderSize[0] = width;
+	getInstance()->m_renderSize[1] = height;
 	getInstance()->OnCreate();
 
 	if(prevDisplay != EGL_NO_DISPLAY && prevSurfaceDraw != EGL_NO_SURFACE 
@@ -205,7 +206,7 @@ bool PlantGenerator::InitGenerator()
 			return false;
 		}	
 	}
-	LOGI("EGL PROGRESS: eglMakeCurrent");
+	LOGI("EGL PROGRESS: eglMakeCurrent");	
 }
 
 void PlantGenerator::setDefaulBias(float leaves, float stalk, float flowers)
@@ -225,10 +226,10 @@ void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase
 	//getInstance()->m_plants.clear();
 	//getInstance()->m_plants.resize(3);
 
-	//getInstance()->loadPlant(plantOne, 0);
-	//getInstance()->loadPlant(plantTwo, 1);
-	//getInstance()->loadPlant(plantThree, 2);	
-	getInstance()->setUpPlant();
+	getInstance()->loadPlant(plantOne, 0);
+	getInstance()->loadPlant(plantTwo, 1);
+	getInstance()->loadPlant(plantThree, 2);	
+	//getInstance()->setUpPlant();
 }
 void PlantGenerator::loadPlant(PlantDatabase::PlantData plant, int index)
 {
