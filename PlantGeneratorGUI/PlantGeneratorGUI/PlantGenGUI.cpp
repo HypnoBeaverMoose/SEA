@@ -1,4 +1,5 @@
-
+#include <stdlib.h>
+#include <time.h>
 #include <iostream>
 #include <sstream>
 #include <jni.h>
@@ -46,11 +47,11 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
     QImage btnImg;
-    if ( !btnImg.load(":/PlantGen/toPortraitBtn.png") )
+    if ( !btnImg.load(":/PlantGen/Images/toPortraitBtn.png") )
         std::cout << "Error loading image" << std::endl;
 
     QImage btnImg_down;
-    if ( !btnImg_down.load(":/PlantGen/toPortraitBtn_down.png") )
+    if ( !btnImg_down.load(":/PlantGen/Images/toPortraitBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
@@ -90,6 +91,8 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     // set global pointer to plant generator GUI
     pGUI = this;
+
+    srand (time(NULL));
 }
 
 PlantGenGUI::~PlantGenGUI()
@@ -162,6 +165,11 @@ void PlantGenGUI::updatePlantImage()
         }
      }
     ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
+
+    sePlayer.stop();
+    sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
+    sePlayer.setVolume(100);
+    sePlayer.play();
 }
 
 void PlantGenGUI::setTestLabelText( std::string text )
@@ -201,8 +209,21 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
     bias  =  dials[ability]->getCurArea().left;
 
 }
-void PlantGenGUI::updateIcons( int )
+void PlantGenGUI::updateIcons( int paraInt )
 {
+    // play sound of turning arrow
+    if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
+    {
+        sePlayer.stop();
+        int randomClip = rand() % 3 + 1;
+        QString fileName;
+        fileName = "assets:/SE-Arrow" + QString::number(randomClip) + ".wav";
+        sePlayer.setMedia( QUrl(fileName) );
+        int randomVolume = rand() % 20 + 80;
+        sePlayer.setVolume(randomVolume);
+        sePlayer.play();
+    }
+
     float antiDrought = 0.0f;
     float thorns      = 0.0f;
     float poison      = 0.0f;
@@ -283,7 +304,7 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
     QLabel *stalkIcons[] = { ui->stalkPlant1, ui->stalkPlant2, ui->stalkPlant3 };
     QLabel *leafIcons[] = { ui->leafPlant1, ui->leafPlant2, ui->leafPlant3 };
 
-    const std::string ICON_PATH = ":/PlantGen/";
+    const std::string ICON_PATH = ":/PlantGen/Images/";
     unsigned int i;
     for ( i = 0; i < plants.size(); ++i )
     {

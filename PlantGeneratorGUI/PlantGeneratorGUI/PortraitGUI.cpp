@@ -14,10 +14,10 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
 
     QImage btnImg;
-    if ( !btnImg.load(":/Portrait/toGenBtn.png") )
+    if ( !btnImg.load(":/Portrait/Images/toGenBtn.png") )
         std::cout << "Error loading image" << std::endl;
     QImage btnImg_down;
-    if ( !btnImg_down.load(":/Portrait/toGenBtn_down.png") )
+    if ( !btnImg_down.load(":/Portrait/Images/toGenBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
 
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
