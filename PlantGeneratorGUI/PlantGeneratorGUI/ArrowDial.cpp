@@ -8,9 +8,9 @@
 ArrowDial::ArrowDial( QWidget *parent )
     : QDial(parent), arrowImg()
 {
-    QImage img(":/PlantGen/dialArrow.png");
+    QImage img(":/PlantGen/Images/dialArrow.png");
     if ( img.isNull() )
-        std::cout << "Warning: unable to load :/PlantGen/dialArrow.png" << std::endl;
+        std::cout << "Warning: unable to load :/PlantGen/Images/dialArrow.png" << std::endl;
 
     arrowImg = QPixmap::fromImage(img);
 }

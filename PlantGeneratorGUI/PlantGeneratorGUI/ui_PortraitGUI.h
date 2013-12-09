@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'PortraitGUI.ui'
 **
-** Created by: Qt User Interface Compiler version 5.1.1
+** Created by: Qt User Interface Compiler version 5.2.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -69,7 +69,7 @@ public:
 
         retranslateUi(PortraitGUI);
 
-        MovieView->setCurrentIndex(1);
+        MovieView->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(PortraitGUI);

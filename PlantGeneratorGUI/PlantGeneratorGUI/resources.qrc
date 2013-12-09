@@ -1,32 +1,35 @@
 <RCC>
     <qresource prefix="/PlantGen">
-        <file>iconGlow.png</file>
-        <file>iconApple.png</file>
-        <file>iconNose.png</file>
-        <file>iconRain.png</file>
-        <file>iconSkull.png</file>
-        <file>iconSun.png</file>
-        <file>iconThorns.png</file>
-        <file>iconToy.png</file>
-        <file>iconTree.png</file>
-        <file>genBG.png</file>
-        <file>dialArrow.png</file>
-        <file>flowerCactus.png</file>
-        <file>flowerDustyMiller.png</file>
-        <file>flowerTomato.png</file>
-        <file>leafCactus.png</file>
-        <file>leafDustyMiller.png</file>
-        <file>leafTomato.png</file>
-        <file>stalkCactus.png</file>
-        <file>stalkDustyMiller.png</file>
-        <file>stalkTomato.png</file>
         <file>database.xml</file>
-        <file>toPortraitBtn.png</file>
         <file>PRISTINA.TTF</file>
+        <file>Images/dialArrow.png</file>
+        <file>Images/FarmerGirl_5.png</file>
+        <file>Images/flowerCactus.png</file>
+        <file>Images/flowerDustyMiller.png</file>
+        <file>Images/flowerTomato.png</file>
+        <file>Images/genBG.png</file>
+        <file>Images/glowApple.png</file>
+        <file>Images/glowNose.png</file>
+        <file>Images/glowRain.png</file>
+        <file>Images/glowSkull.png</file>
+        <file>Images/glowSun.png</file>
+        <file>Images/glowThorns.png</file>
+        <file>Images/glowToy.png</file>
+        <file>Images/glowTree.png</file>
+        <file>Images/leafCactus.png</file>
+        <file>Images/leafDustyMiller.png</file>
+        <file>Images/leafTomato.png</file>
+        <file>Images/portraitBG.png</file>
+        <file>Images/stalkCactus.png</file>
+        <file>Images/stalkDustyMiller.png</file>
+        <file>Images/stalkTomato.png</file>
+        <file>Images/toPortraitBtn.png</file>
+        <file>Images/toPortraitBtn_down.png</file>
     </qresource>
     <qresource prefix="/Portrait">
-        <file>toGenBtn.png</file>
         <file>Images/FarmerGirl_5.png</file>
         <file>Images/portraitBG.png</file>
+        <file>Images/toGenBtn.png</file>
+        <file>Images/toGenBtn_down.png</file>
     </qresource>
 </RCC>

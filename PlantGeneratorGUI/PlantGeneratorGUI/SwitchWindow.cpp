@@ -15,9 +15,12 @@ SwitchWindow::SwitchWindow(QWidget *parent) :
     plantGenIdx = this->addWidget(&genGUI);
     portraitIdx = this->addWidget(&portGUI);
     setCurrentIndex(portraitIdx);
+    portGUI.playMusic();
 
     QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
     QObject::connect( portGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
+
+    buttonPlayer.setMedia( QUrl("assets:/SE-button.wav") );
 }
 
 SwitchWindow::~SwitchWindow()
@@ -32,14 +35,21 @@ void SwitchWindow::AfterShownSetVariables()
 
 void SwitchWindow::toggleGUI()
 {
+    buttonPlayer.stop();
+    buttonPlayer.setVolume(100);
+    buttonPlayer.play();
     if ( currentIndex() == plantGenIdx )
     {
         setCurrentIndex(portraitIdx);
-        portGUI.PlayMovies();
+        //portGUI.PlayMovies();
+        genGUI.stopMusic();
+        portGUI.playMusic();
     }
     else
     {
         setCurrentIndex(plantGenIdx);
+        portGUI.stopMusic();
+        genGUI.playMusic();
     }
 
 }

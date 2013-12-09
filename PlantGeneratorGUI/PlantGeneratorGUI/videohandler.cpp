@@ -11,7 +11,6 @@ VideoHandler::VideoHandler(QWidget *parent) :
     player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
 }
 
-
 VideoHandler::~VideoHandler()
 {
     if ( player )
@@ -19,7 +18,6 @@ VideoHandler::~VideoHandler()
     if ( playlist )
         delete playlist;
 }
-
 
 void VideoHandler::handleError()
 {
@@ -57,7 +55,6 @@ void VideoHandler::PlayMovie(const QStringList& fileNames)
     //player->setMedia(QUrl::fromLocalFile("/sdcard/Music/test.mp3"));
     //player->setVolume(100);
    //this->setCurrentWidget(_movieWidget);
-
    player->play();
 }
 
@@ -72,47 +69,18 @@ void VideoHandler::GoToPortrait()
     {
         if(player->playlist()->isEmpty())
         {
-            _errorMessage->setText("no media");
+        _errorMessage->setText("no media");
         }
         else
         {
-            _errorMessage->setText("media");
+           _errorMessage->setText("media");
         }
-        ExitMovie();
+        this->setCurrentWidget(_noMovieWidget);
     }
     else if(player->mediaStatus() == QMediaPlayer::EndOfMedia)
     {
-        _errorMessage->setText("end");
-        //if(player->playlist()->currentIndex() >= player->playlist()->mediaCount())
-        //{
-            ExitMovie();
-        //}
-     }
-    /*else if(player->state() == QMediaPlayer::PausedState)
-    {
-        _errorMessage->setText("paused");
-        ExitMovie();
+        this->setCurrentWidget(_noMovieWidget);
     }
-    else
-    {
-        if(player->mediaStatus() == QMediaPlayer::UnknownMediaStatus)
-        {
-            _errorMessage->setText("unknown media status");
-        }
-        else if(player->mediaStatus() == QMediaPlayer::LoadedMedia)
-        {
-            _errorMessage->setText("loaded media");
-        }
-        else if(player->mediaStatus() == QMediaPlayer::StalledMedia)
-        {
-            _errorMessage->setText("stalled");
-        }
-        else if(player->mediaStatus() == QMediaPlayer::BufferedMedia)
-        {
-            _errorMessage->setText("buffered");
-        }
-        ExitMovie();
-    }*/
 }
 
 void VideoHandler::ExitMovie()

@@ -33,7 +33,6 @@ import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,6 +40,7 @@ import org.kde.necessitas.ministro.IMinistro;
 import org.kde.necessitas.ministro.IMinistroCallback;
 
 import com.acs.smartcard.Reader;
+import com.acs.smartcard.Reader.OnStateChangeListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,6 +65,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -82,30 +83,12 @@ import android.view.WindowManager.LayoutParams;
 import android.view.accessibility.AccessibilityEvent;
 import dalvik.system.DexClassLoader;
 
-//@ANDROID-11
-import android.app.Fragment;
-import android.view.ActionMode;
-import android.view.ActionMode.Callback;
-//@ANDROID-11
-
-
-
-
-
-import com.acs.smartcard.Features;
-import com.acs.smartcard.PinModify;
-import com.acs.smartcard.PinProperties;
-import com.acs.smartcard.PinVerify;
-import com.acs.smartcard.ReadKeyOption;
-import com.acs.smartcard.Reader;
-import com.acs.smartcard.Reader.OnStateChangeListener;
-import com.acs.smartcard.TlvProperties;
 
 
 public class QtActivity extends Activity
 {
-    private final static int MINISTRO_INSTALL_REQUEST_CODE = 0xf3ee; // request code used to know when Ministro installation is finished
-    private static final int MINISTRO_API_LEVEL = 3; // Ministro api level (check IMinistro.aidl file)
+    private final static int MINISTRO_INSTALL_REQUEST_CODE = 0xf3ee; // request code used to know when Ministro instalation is finished
+    private static final int MINISTRO_API_LEVEL = 4; // Ministro api level (check IMinistro.aidl file)
     private static final int NECESSITAS_API_LEVEL = 2; // Necessitas api level used by platform plugin
     private static final int QT_VERSION = 0x050100; // This app requires at least Qt version 5.1.0
 
@@ -136,19 +119,35 @@ public class QtActivity extends Activity
                                                                        // for more details.
 
     private static final String REPOSITORY_KEY = "repository";         // use this key to overwrite the default ministro repsitory
+    private static final String ANDROID_THEMES_KEY = "android.themes"; // themes that your application uses
 
-    private static final String APPLICATION_PARAMETERS = null; // use this variable to pass any parameters to your application,
+
+    public String APPLICATION_PARAMETERS = null; // use this variable to pass any parameters to your application,
                                                                // the parameters must not contain any white spaces
                                                                // and must be separated with "\t"
                                                                // e.g "-param1\t-param2=value2\t-param3\tvalue3"
 
-    private static final String ENVIRONMENT_VARIABLES = "QT_USE_ANDROID_NATIVE_STYLE=0\t";
+    public String ENVIRONMENT_VARIABLES = "QT_USE_ANDROID_NATIVE_STYLE=1\tQT_USE_ANDROID_NATIVE_DIALOGS=1\t";
                                                                // use this variable to add any environment variables to your application.
                                                                // the env vars must be separated with "\t"
                                                                // e.g. "ENV_VAR1=1\tENV_VAR2=2\t"
                                                                // Currently the following vars are used by the android plugin:
-                                                               // * QT_USE_ANDROID_NATIVE_STYLE - 1 to use the android widget style if available,
-                                                               //   note that the android style plugin in Qt 5.1 is not fully functional.
+                                                               // * QT_USE_ANDROID_NATIVE_STYLE - 1 to use the android widget style if available.
+                                                               // * QT_USE_ANDROID_NATIVE_DIALOGS -1 to use the android native dialogs.
+
+    public String[] QT_ANDROID_THEMES = null;     // A list with all themes that your application want to use.
+                                                  // The name of the theme must be the same with any theme from
+                                                  // http://developer.android.com/reference/android/R.style.html
+                                                  // The most used themes are:
+                                                  //  * "Theme" - (fallback) check http://developer.android.com/reference/android/R.style.html#Theme
+                                                  //  * "Theme_Black" - check http://developer.android.com/reference/android/R.style.html#Theme_Black
+                                                  //  * "Theme_Light" - (default for API <=10) check http://developer.android.com/reference/android/R.style.html#Theme_Light
+                                                  //  * "Theme_Holo" - check http://developer.android.com/reference/android/R.style.html#Theme_Holo
+                                                  //  * "Theme_Holo_Light" - (default for API 11-13) check http://developer.android.com/reference/android/R.style.html#Theme_Holo_Light
+                                                  //  * "Theme_DeviceDefault" - check http://developer.android.com/reference/android/R.style.html#Theme_DeviceDefault
+                                                  //  * "Theme_DeviceDefault_Light" - (default for API 14+) check http://developer.android.com/reference/android/R.style.html#Theme_DeviceDefault_Light
+
+    public String QT_ANDROID_DEFAULT_THEME = null; // sets the default theme.
 
     private static final int INCOMPATIBLE_MINISTRO_VERSION = 1; // Incompatible Ministro version. Ministro needs to be upgraded.
     private static final int BUFFER_SIZE = 1024;
@@ -168,7 +167,7 @@ public class QtActivity extends Activity
                                                         // * unstable - unstable repository, DO NOT use this repository in production,
                                                         // this repository is used to push Qt snapshots.
     private String[] m_qtLibs = null; // required qt libs
-
+    
     private AssetManager m_mgr;
     public static native void SetAssetManager(Object mgr);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +177,7 @@ public class QtActivity extends Activity
     private static final String CMD_LOAD_AUTH_KEY  = "FF82000006FFFFFFFFFFFF";		//universal key 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF
     private static final String CMD_AUTH_BLOCK_04  = "FF860000050100046100";
     private static final String CMD_READ_BLOCK_04  = "FFB0000410"; 
-    private static final String CMD_CLEAR_BLOCK_04 = "FFD600041000000308D10104550042FE0000000000"; 
+    private static final String CMD_CLEAR_BLOCK_04 = "FFD600041000000306D10102550042FE0000000000"; 
     
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private static final String[] stateStrings = { "Unknown", "Absent",
@@ -735,8 +734,23 @@ public class QtActivity extends Activity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////// END NFC DOCKING STATION CODE //////////////////////////    
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     
- 
+    public QtActivity()
+    {
+        if (Build.VERSION.SDK_INT <= 10) {
+            QT_ANDROID_THEMES = new String[] {"Theme_Light"};
+            QT_ANDROID_DEFAULT_THEME = "Theme_Light";
+        }
+        else if (Build.VERSION.SDK_INT >= 11 && Build.VERSION.SDK_INT <= 13) {
+            QT_ANDROID_THEMES = new String[] {"Theme_Holo_Light"};
+            QT_ANDROID_DEFAULT_THEME = "Theme_Holo_Light";
+        } else {
+            QT_ANDROID_THEMES = new String[] {"Theme_DeviceDefault_Light"};
+            QT_ANDROID_DEFAULT_THEME = "Theme_DeviceDefault_Light";
+        }
+    }
+
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
     {
@@ -795,11 +809,8 @@ public class QtActivity extends Activity
 
             // now load the application library so it's accessible from this class loader
             if (libName != null)
-            {
                 System.loadLibrary(libName);
-                Log.d("Qt", "System.LoadLibrary(libName) called");
-            }
-
+            
             m_mgr = getResources().getAssets();
             SetAssetManager(m_mgr);
 
@@ -827,22 +838,24 @@ public class QtActivity extends Activity
 
     private ServiceConnection m_ministroConnection=new ServiceConnection() {
         private IMinistro m_service = null;
-    @Override
+        @Override
         public void onServiceConnected(ComponentName name, IBinder service)
         {
             m_service = IMinistro.Stub.asInterface(service);
             try {
-                if (m_service!=null) {
-                    Bundle parameters= new Bundle();
+                if (m_service != null) {
+                    Bundle parameters = new Bundle();
                     parameters.putStringArray(REQUIRED_MODULES_KEY, m_qtLibs);
                     parameters.putString(APPLICATION_TITLE_KEY, (String)QtActivity.this.getTitle());
                     parameters.putInt(MINIMUM_MINISTRO_API_KEY, MINISTRO_API_LEVEL);
                     parameters.putInt(MINIMUM_QT_VERSION_KEY, QT_VERSION);
                     parameters.putString(ENVIRONMENT_VARIABLES_KEY, ENVIRONMENT_VARIABLES);
-                    if (null!=APPLICATION_PARAMETERS)
+                    if (APPLICATION_PARAMETERS != null)
                         parameters.putString(APPLICATION_PARAMETERS_KEY, APPLICATION_PARAMETERS);
                     parameters.putStringArray(SOURCES_KEY, m_sources);
                     parameters.putString(REPOSITORY_KEY, m_repository);
+                    if (QT_ANDROID_THEMES != null)
+                        parameters.putStringArray(ANDROID_THEMES_KEY, QT_ANDROID_THEMES);
                     m_service.requestLoader(m_ministroCallback, parameters);
                 }
             } catch (RemoteException e) {
@@ -850,19 +863,19 @@ public class QtActivity extends Activity
             }
         }
 
-    private IMinistroCallback m_ministroCallback = new IMinistroCallback.Stub() {
-        // this function is called back by Ministro.
-        @Override
-        public void loaderReady(final Bundle loaderParams) throws RemoteException {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    unbindService(m_ministroConnection);
-                    loadApplication(loaderParams);
-                }
-            });
-        }
-    };
+        private IMinistroCallback m_ministroCallback = new IMinistroCallback.Stub() {
+            // this function is called back by Ministro.
+            @Override
+            public void loaderReady(final Bundle loaderParams) throws RemoteException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        unbindService(m_ministroConnection);
+                        loadApplication(loaderParams);
+                    }
+                });
+            }
+        };
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -1078,6 +1091,14 @@ public class QtActivity extends Activity
                                                                   + "\tQML2_IMPORT_PATH=" + localPrefix + "/qml"
                                                                   + "\tQML_IMPORT_PATH=" + localPrefix + "/imports"
                                                                   + "\tQT_PLUGIN_PATH=" + localPrefix + "/plugins");
+
+                Intent intent = getIntent();
+                if (intent != null) {
+                    String parameters = intent.getStringExtra("applicationArguments");
+                    if (parameters != null)
+                        loaderParams.putString(APPLICATION_PARAMETERS_KEY, parameters.replace(' ', '\t'));
+                }
+
                 loadApplication(loaderParams);
                 return;
             }
@@ -1264,12 +1285,30 @@ public class QtActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        try {
+            setTheme(Class.forName("android.R$style").getDeclaredField(QT_ANDROID_DEFAULT_THEME).getInt(null));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (Build.VERSION.SDK_INT > 10) {
+            try {
+                requestWindowFeature(Window.class.getField("FEATURE_ACTION_BAR").getInt(null));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
         if (QtApplication.m_delegateObject != null && QtApplication.onCreate != null) {
             QtApplication.invokeDelegateMethod(QtApplication.onCreate, savedInstanceState);
             return;
         }
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ENVIRONMENT_VARIABLES += "\tQT_ANDROID_THEME=" + QT_ANDROID_DEFAULT_THEME
+                              + "/\tQT_ANDROID_THEME_DISPLAY_DPI=" + getResources().getDisplayMetrics().densityDpi + "\t";
+
         try {
             m_activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
         } catch (NameNotFoundException e) {
@@ -1953,130 +1992,7 @@ public class QtActivity extends Activity
 //@ANDROID-8
     //////////////// Activity API 11 /////////////
 
-//@ANDROID-11
-    @Override
-    public boolean dispatchKeyShortcutEvent(KeyEvent event)
-    {
-        if (QtApplication.m_delegateObject != null  && QtApplication.dispatchKeyShortcutEvent != null)
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.dispatchKeyShortcutEvent, event);
-        else
-            return super.dispatchKeyShortcutEvent(event);
-    }
-    public boolean super_dispatchKeyShortcutEvent(KeyEvent event)
-    {
-        return super.dispatchKeyShortcutEvent(event);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    public void onActionModeFinished(ActionMode mode)
-    {
-        if (!QtApplication.invokeDelegate(mode).invoked)
-            super.onActionModeFinished(mode);
-    }
-    public void super_onActionModeFinished(ActionMode mode)
-    {
-        super.onActionModeFinished(mode);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    public void onActionModeStarted(ActionMode mode)
-    {
-        if (!QtApplication.invokeDelegate(mode).invoked)
-            super.onActionModeStarted(mode);
-    }
-    public void super_onActionModeStarted(ActionMode mode)
-    {
-        super.onActionModeStarted(mode);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    public void onAttachFragment(Fragment fragment)
-    {
-        if (!QtApplication.invokeDelegate(fragment).invoked)
-            super.onAttachFragment(fragment);
-    }
-    public void super_onAttachFragment(Fragment fragment)
-    {
-        super.onAttachFragment(fragment);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs)
-    {
-        QtApplication.InvokeResult res = QtApplication.invokeDelegate(parent, name, context, attrs);
-        if (res.invoked)
-            return (View)res.methodReturns;
-        else
-            return super.onCreateView(parent, name, context, attrs);
-    }
-    public View super_onCreateView(View parent, String name, Context context,
-            AttributeSet attrs) {
-        return super.onCreateView(parent, name, context, attrs);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    public boolean onKeyShortcut(int keyCode, KeyEvent event)
-    {
-        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyShortcut != null)
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyShortcut, keyCode,event);
-        else
-            return super.onKeyShortcut(keyCode, event);
-    }
-    public boolean super_onKeyShortcut(int keyCode, KeyEvent event)
-    {
-        return super.onKeyShortcut(keyCode, event);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    public ActionMode onWindowStartingActionMode(Callback callback)
-    {
-        QtApplication.InvokeResult res = QtApplication.invokeDelegate(callback);
-        if (res.invoked)
-            return (ActionMode)res.methodReturns;
-        else
-            return super.onWindowStartingActionMode(callback);
-    }
-    public ActionMode super_onWindowStartingActionMode(Callback callback)
-    {
-        return super.onWindowStartingActionMode(callback);
-    }
-    //---------------------------------------------------------------------------
-//@ANDROID-11
     //////////////// Activity API 12 /////////////
 
-//@ANDROID-12
-    @Override
-    public boolean dispatchGenericMotionEvent(MotionEvent ev)
-    {
-        if (QtApplication.m_delegateObject != null  && QtApplication.dispatchGenericMotionEvent != null)
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.dispatchGenericMotionEvent, ev);
-        else
-            return super.dispatchGenericMotionEvent(ev);
-    }
-    public boolean super_dispatchGenericMotionEvent(MotionEvent event)
-    {
-        return super.dispatchGenericMotionEvent(event);
-    }
-    //---------------------------------------------------------------------------
 
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event)
-    {
-        if (QtApplication.m_delegateObject != null  && QtApplication.onGenericMotionEvent != null)
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onGenericMotionEvent, event);
-        else
-            return super.onGenericMotionEvent(event);
-    }
-    public boolean super_onGenericMotionEvent(MotionEvent event)
-    {
-        return super.onGenericMotionEvent(event);
-    }
-    //---------------------------------------------------------------------------
-//@ANDROID-12
 }

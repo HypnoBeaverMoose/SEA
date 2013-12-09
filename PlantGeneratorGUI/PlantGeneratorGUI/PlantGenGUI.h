@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QGraphicsOpacityEffect>
+#include <QMediaPlayer>
 
 #include "PlantDatabase.h"
 
@@ -26,6 +27,9 @@ public:
 
     QPushButton * getGUISwitchBtn();
 
+    void playMusic();
+    void stopMusic();
+
     void setTestLabelText( std::string text );
 
 private:
@@ -36,6 +40,9 @@ private:
     Ui::PlantGenGUI *ui;
     PlantDatabase pdb;
     std::vector<PlantDatabase::PlantData> plants;
+
+    QMediaPlayer mPlayer;
+    QMediaPlayer sePlayer;
 
     //temp
     int labelLines;

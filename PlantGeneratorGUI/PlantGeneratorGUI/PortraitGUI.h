@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QMediaPlayer>
 
 namespace Ui {
 class PortraitGUI;
@@ -17,11 +18,14 @@ public:
     ~PortraitGUI();
     void AfterShownSetVariables();
     void PlayMovies();
+    void playMusic();
+    void stopMusic();
 
     QPushButton * getGUISwitchBtn();
 
 private:
     Ui::PortraitGUI *ui;
+    QMediaPlayer mPlayer;
 
 public slots:
     void Exit();

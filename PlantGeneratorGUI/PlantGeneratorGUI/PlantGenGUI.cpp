@@ -1,8 +1,11 @@
+#include <stdlib.h>
+#include <time.h>
 #include <iostream>
 #include <sstream>
 #include <jni.h>
 #include <QFile>
 #include <QFontDatabase>
+
 #include "PlantDatabase.h"
 #include "PlantGenerator.h"
 #include "PlantGenGUI.h"
@@ -21,11 +24,9 @@ JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAss
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PlantGenGUI), pdb(), plants(),
-    opFxSun(), opFxThorns(), opFxSkull(), opFxNose(),
-    opFxFruit(), opFxToy(), opFxTree(), opFxRain(),m_img(0), labelLines(0)
+    ui(new Ui::PlantGenGUI), pdb(), plants(), mPlayer(),
+    opFxSun(), opFxThorns(), opFxSkull(), opFxNose(), labelLines(0), m_img(0)
 {
-
     //PlantGenerator::InitGenerator(512,512);
     ui->setupUi(this);
 
@@ -46,10 +47,13 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
     QImage btnImg;
-
-    if ( !btnImg.load(":/PlantGen/toPortraitBtn.png") )
+    if ( !btnImg.load(":/PlantGen/Images/toPortraitBtn.png") )
         std::cout << "Error loading image" << std::endl;
-    ui->guiSwitchBtn->setImages( &btnImg, &btnImg );
+
+    QImage btnImg_down;
+    if ( !btnImg_down.load(":/PlantGen/Images/toPortraitBtn_down.png") )
+        std::cout << "Error loading image" << std::endl;
+    ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
 
     // connect graphicsEffects to the icon glows
@@ -79,8 +83,14 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     updateIcons(0);
 
+    //setup background music
+    mPlayer.setMedia( QUrl("assets:/plantGenMusic.mp3") );
+    mPlayer.setVolume(100);
+
     // set global pointer to plant generator GUI
     pGUI = this;
+
+    srand (time(NULL));
 }
 
 PlantGenGUI::~PlantGenGUI()
@@ -93,6 +103,19 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
 {
     return ui->guiSwitchBtn;
 }
+
+
+void PlantGenGUI::playMusic()
+{
+    mPlayer.play();
+}
+
+
+void PlantGenGUI::stopMusic()
+{
+    mPlayer.stop();
+}
+
 
 void PlantGenGUI::updatePlantImage()
 {
@@ -142,6 +165,11 @@ void PlantGenGUI::updatePlantImage()
      }
     ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
 */
+
+    sePlayer.stop();
+    sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
+    sePlayer.setVolume(100);
+    sePlayer.play();
 }
 
 void PlantGenGUI::setTestLabelText( std::string text )
@@ -181,8 +209,21 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
     bias  =  dials[ability]->getCurArea().left;
 
 }
-void PlantGenGUI::updateIcons( int )
+void PlantGenGUI::updateIcons( int paraInt )
 {
+    // play sound of turning arrow
+    if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
+    {
+        sePlayer.stop();
+        int randomClip = rand() % 3 + 1;
+        QString fileName;
+        fileName = "assets:/SE-Arrow" + QString::number(randomClip) + ".wav";
+        sePlayer.setMedia( QUrl(fileName) );
+        int randomVolume = rand() % 20 + 80;
+        sePlayer.setVolume(randomVolume);
+        sePlayer.play();
+    }
+
     float antiDrought = 0.0f;
     float thorns      = 0.0f;
     float poison      = 0.0f;
@@ -263,7 +304,7 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
     QLabel *stalkIcons[] = { ui->stalkPlant1, ui->stalkPlant2, ui->stalkPlant3 };
     QLabel *leafIcons[] = { ui->leafPlant1, ui->leafPlant2, ui->leafPlant3 };
 
-    const std::string ICON_PATH = ":/PlantGen/";
+    const std::string ICON_PATH = ":/PlantGen/Images/";
     unsigned int i;
     for ( i = 0; i < plants.size(); ++i )
     {

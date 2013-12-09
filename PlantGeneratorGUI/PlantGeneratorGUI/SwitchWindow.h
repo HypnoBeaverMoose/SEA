@@ -27,6 +27,7 @@ private:
     Ui::SwitchWindow *ui;
     PlantGenGUI genGUI;
     PortraitGUI portGUI;
+    QMediaPlayer buttonPlayer;
 
     int plantGenIdx;
     int portraitIdx;
