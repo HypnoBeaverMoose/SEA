@@ -146,9 +146,9 @@ bool DrawableObject::draw(PaintState& state) const
 
 	
 	float length = (m_stepSize / std::abs(m_stepSize)) * state.LineLength.getValue();
-	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);
+	Matrix4f mat = state.ModelView * Matrix4f::Scale(state.LineWidth.getValue(), length, 1.0f);	
 	mat *= Matrix4f::Scale(m_width,m_height, 1.0f);
-	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();
+	mat *=  Matrix4f::Translation(0,-m_verticalOffset,0).Transposed();	
 
 	glUniformMatrix4fv(m_modelViewHandle, 1, GL_FALSE,  mat.getValuePtr());
 	checkGlError("glUniformMatrix4fv");
@@ -237,7 +237,8 @@ static void CombineTextures(const rgbaImage& lhs, const rgbaImage& rhs, rgbaImag
 
 			result.set_pixel(x,y,png::rgba_pixel( lp.red * (1.0f - bias) + rp.red * bias,
 													lp.green * (1.0f - bias) + rp.green * bias,
-														lp.blue * (1.0f - bias) + rp.blue* bias));
+														lp.blue * (1.0f - bias) + rp.blue* bias,
+															lp.alpha * (1.0f - bias) + rp.alpha * bias));
 		}
 	}
 
@@ -255,7 +256,7 @@ DrawableObject CombineObjects( const DrawableObject& lhs, const DrawableObject& 
 	///we assume that the letters of the objects are unique
 	Vector2f size(lhs.m_width * (1.0f - bias) + rhs.m_width * bias, lhs.m_height * (1.0f - bias) + rhs.m_height * bias);
 	
-	DrawableObject obj(lhs.getLetter(), color, bias < 0.5f ? lhs.m_texture : rhs.m_texture, size,						
+	DrawableObject obj(lhs.getLetter(), color, img, size,						
 				lhs.m_shaderProgram, lhs.m_verticalOffset * ( 1.0f - bias) + rhs.m_verticalOffset * bias,
 															lhs.m_stepSize * ( 1.0f - bias)  + rhs.m_stepSize * bias);
 

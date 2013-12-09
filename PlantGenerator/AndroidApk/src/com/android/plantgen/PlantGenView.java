@@ -70,7 +70,7 @@ class PlantGenView extends GLSurfaceView {
 
     public PlantGenView(Context context) {
         super(context);
-        init(false, 0, 0);
+        init(false, 16, 0);
     }
 
     public PlantGenView(Context context, boolean translucent, int depth, int stencil) {

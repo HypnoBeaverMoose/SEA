@@ -14,7 +14,8 @@ TurtleGraphics::TurtleGraphics(float minAngle, float maxAngle, float minLength, 
 	m_paintState.Angle = RandomValue(minAngle,maxAngle);
 	m_paintState.LineLength = RandomValue(minLength, maxLength);
 	m_paintState.LineWidth = RandomValue(minWidth, maxWidth);
-	m_paintState.ZOrder = 0;
+	m_paintState.AngleSign = 1;
+	//	m_paintState.ZOrder = 0;
 }
 
 TurtleGraphics::~TurtleGraphics(void)
@@ -29,7 +30,7 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 	m_paintState.LineLength= RandomValue(plant.getScale(), plant.getScale());//// TODO: Combine those 
 	m_paintState.LineWidth= RandomValue(plant.getScale(), plant.getScale());//// into Scale
 	m_paintState.Color = Colorf(1,1,1,1);
-	m_paintState.ZOrder = 0;
+	m_paintState.AngleSign = 1;
 
 	const char* system = plant.getLSystemString();
 	for(int i = 0; i < plant.getSystemLength(); i++)
@@ -39,10 +40,10 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 		switch (system[i])
 		{
 		case '+':
-			m_paintState.ModelView *= Matrix4f::Rotation(m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
+			m_paintState.ModelView *= Matrix4f::Rotation(m_paintState.AngleSign * m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
 		case '-':
-			m_paintState.ModelView *=Matrix4f::Rotation(-m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
+			m_paintState.ModelView *=Matrix4f::Rotation(-m_paintState.AngleSign * m_paintState.Angle.getValue(), Vector3f(0, 0, 1.0f));
 			break;
 		case '&':
 			m_paintState.ModelView *=Matrix4f::Translation(0, m_paintState.LineWidth.getValue(), 0).Transposed();
@@ -72,6 +73,8 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 		//case '/':
 		//	m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() *(1.0f / plant.getScaleInc())); 
 		//	break;
+		case '%':
+			m_paintState.AngleSign *= -1;  break;
 		case '@':
 			m_paintState.LineWidth.setMean(m_paintState.LineWidth.getMean() * plant.getScaleInc()); 
 			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() * plant.getScaleInc()); 
@@ -81,11 +84,11 @@ bool TurtleGraphics::drawPlant(const Plant& plant)
 			m_paintState.LineLength.setMean(m_paintState.LineLength.getMean() *(1.0f / plant.getScaleInc())); 
 			break;
 		case '<':
-			m_paintState.ZOrder = std::max<uint>(0, m_paintState.ZOrder -1);
+//			m_paintState.ZOrder = std::max<uint>(0, m_paintState.ZOrder -1);
 			m_paintState.ModelView *= Matrix4f::Translation(0, 0, -1).Transposed();
 			break;
 		case '>':
-			m_paintState.ZOrder++;
+	//		m_paintState.ZOrder++;
 			m_paintState.ModelView *= Matrix4f::Translation(0, 0, 1).Transposed();
 			break;
 		}

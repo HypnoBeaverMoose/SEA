@@ -1,206 +1,138 @@
 <database>
-    <plant id="66" name="Dusty Miller" angle="0.100000" scale="0.200000" angleInc="0.300000" scaleInc="0.400000" iterCnt="5" axiom="newPlant">
+    <plant id="1" name="Dusty Miller" angle="0.6" scale="0.025" angleInc="2.0" scaleInc="1.1" axiom="[<R][P]"  iterCnt="6">
         <stalk antidrought="0.650000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkDustyMiller.png"/>
         <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.750000" growth="0.000000" antiwater="0.000000" img="leafDustyMiller.png"/>
         <flower antidrought="0.000000" thorns="0.000000" poison="0.850000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerDustyMiller.png"/>
-        <do color="#AABBCCDD" letter="97" vertOffset="0.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
+        <do letter="f" color="#FFFFFFFF"  texture="textures/f_dusty.png" size_x = "1" size_y = "1"  vertOffset="0.5" stepSize = "1">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
         </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="1.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="2.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="3.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="4.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-    </plant>
-    <plant id="67" name="Cactus" angle="0.100000" scale="0.200000" angleInc="0.300000" scaleInc="0.400000" iterCnt="5" axiom="newPlant">
+        <do letter="r" color="#FFFFFFFF"  texture="textures/root.png" size_x = "0.5" size_y = "1"  vertOffset="0.4" stepSize = "-0.5">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>		
+        <do letter="s" color="#FFFFFFFF"  texture="textures/s_dusty.png" size_x = "0.8" size_y = "1"  vertOffset="0.3" stepSize = "0.6">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <do letter="l" color="#FFFFFFFF"  texture="textures/l_dusty_2.png" size_x = "1" size_y = "1"  vertOffset="0.0" stepSize = "1.0">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <rule p="1.000000" lhs="R" rhs="R)[%-K][-K]"/>
+        <rule p="1.000000" lhs="K" rhs="r+r+r+r#%K"/>
+		<rule p="1.000000" lhs="F" rhs="[f]"/>
+		<rule p="1.000000" lhs="L" rhs="[)))---<l][)))+++l]"/>	
+		<rule p="1.000000" lhs="P" rhs="[>))----#B<[@@@@@@@@@@@@l]]S#[%)))++>A[@@@@@@@@@@@@@@@@@>F]][)))++>A[@@@@@@@@@@@@@@@@@>F]]S#[%>))----#B<[@@@@@@@@@@@@l]]S#P"/>	
+		<rule p="1.000000" lhs="B" rhs="S<[@@@@@@@@@@@@L]#S<[@@@@@@@@@@@@L]#S<[@@@@@@@@@@@@L]#B"/>			
+		<rule p="1.000000" lhs="A" rhs="(AS#S#S"/>			
+		<rule p="1.000000" lhs="S" rhs="S-s"/>						
+	</plant>
+    <plant id="2" name="Cactus" angle="3.3" scale="0.2" angleInc="3" scaleInc="1.05" axiom="[<R][P]" iterCnt="6">
         <stalk antidrought="0.900000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkCactus.png"/>
         <leaf antidrought="0.000000" thorns="0.800000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafCactus.png"/>
         <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerCactus.png"/>
-        <do color="#AABBCCDD" letter="97" vertOffset="0.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
+         <do letter="f" color="#FFFFFFFF"  texture="textures/f_cactus.png" size_x = "1" size_y = "1"  vertOffset="0" stepSize = "1">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
         </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="1.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="2.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="3.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="4.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
+        <do letter="r" color="#FFFFFFFF"  texture="textures/root.png" size_x = "0.2" size_y = "0.3"  vertOffset="0.1" stepSize = "-0.2">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>		
+        <do letter="s" color="#FFFFFFFF"  texture="textures/s_cactus.png" size_x = "1.2" size_y = "1.2"  vertOffset="0.4" stepSize = "0.45">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <do letter="l" color="#FFFFFFFF"  texture="textures/l_cactus.png" size_x = "1" size_y = "1"  vertOffset="0.0" stepSize = "1.0">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <rule p="1.000000" lhs="R" rhs="))[K][%K][@rK][%@rK]"/>
+        <rule p="1.000000" lhs="K" rhs="#r+#r+#r(K"/>
+		<rule p="1.000000" lhs="F" rhs="[f]"/>
+		<rule p="1.000000" lhs="L" rhs="[>l]"/>	
+		<rule p="1.000000" lhs="P" rhs="B>F"/>	
+		<rule p="1.000000" lhs="B" rhs="S#[)))+L][)))-L]B"/>			
+		<rule p="1.000000" lhs="S" rhs="s"/>	
     </plant>
-    <plant id="68" name="Tomatenplant" angle="0.100000" scale="0.200000" angleInc="0.300000" scaleInc="0.400000" iterCnt="5" axiom="newPlant">
+    <plant id="3" name="Tomatenplant" angle="2" scale="0.018" angleInc="1.5" scaleInc="1.09" axiom="[<R][P]" iterCnt="6" >
         <stalk antidrought="0.000000" thorns="0.000000" poison="0.750000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkTomato.png"/>
         <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.800000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafTomato.png"/>
         <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="1.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerTomato.png"/>
-        <do color="#AABBCCDD" letter="97" vertOffset="0.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
+         <do letter="f" color="#FFFFFFFF"  texture="textures/f_tomato_2.png" size_x = "1" size_y = "1"  vertOffset="0" stepSize = "1">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
         </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="1.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
+        <do letter="r" color="#DB877CFF"  texture="textures/root.png" size_x = "1" size_y = "1.5"  vertOffset="0.0" stepSize = "-0.9">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>		
+        <do letter="s" color="#FFFFFFFF"  texture="textures/s_tomato.png" size_x = "1.0" size_y = "3.0"  vertOffset="0.5" stepSize = "0.8">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <do letter="l" color="#FFFFFFFF"  texture="textures/l_tomato_1.png" size_x = "1" size_y = "1"  vertOffset="0.0" stepSize = "1.0">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <rule p="1.000000" lhs="R" rhs="r-#r+#r[))))++++++####R]-#r+r[))))------####R]<#R"/>
+		<rule p="1.000000" lhs="F" rhs="[f]"/>
+		<rule p="1.000000" lhs="L" rhs="[l]"/>	
+		<rule p="1.000000" lhs="P" rhs="@P#S[%)))--B))]#S[)))B]"/>	
+		<rule p="1.000000" lhs="B" rhs="S#[>>)))))++@@@@@@@@@@@@@@@>L][>)))))--@@@@@@@@@@@@@@>F]S#[>>)))-@@@@@@@@@@@@@@@>L](B"/>			
+		<rule p="1.000000" lhs="S" rhs="Ss+s"/>	
+    </plant>	
+    <plant id="4" name="Bamboo" angle="3.3" scale="0.06" angleInc="3" scaleInc="1.1" axiom="[<R][P]" iterCnt="6" >
+        <stalk antidrought="0.000000" thorns="0.000000" poison="0.750000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkTomato.png"/>
+        <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.800000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafTomato.png"/>
+        <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="1.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerTomato.png"/>
+         <do letter="f" color="#FFFFFFFF"  texture="textures/empty.png" size_x = "1" size_y = "1"  vertOffset="0" stepSize = "1">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
         </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="2.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="3.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <do color="#AABBCCDD" letter="97" vertOffset="4.000000">
-            <point width="0.000000" height="0.500000"/>
-            <point width="1.000000" height="1.500000"/>
-            <point width="2.000000" height="2.500000"/>
-            <point width="3.000000" height="3.500000"/>
-            <point width="4.000000" height="4.500000"/>
-            <point width="5.000000" height="5.500000"/>
-            <point width="6.000000" height="6.500000"/>
-            <point width="7.000000" height="7.500000"/>
-            <point width="8.000000" height="8.500000"/>
-            <point width="9.000000" height="9.500000"/>
-        </do>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
-        <rule p="1.000000" lhs="97" rhs="aa//##[a][a][a]"/>
+        <do letter="r" color="#FFFFFFFF"  texture="textures/root.png" size_x = "1" size_y = "1.5"  vertOffset="0.5" stepSize = "-0.5">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>		
+        <do letter="s" color="#FFFFFFFF"  texture="textures/s_bamboo.png" size_x = "1.0" size_y = "1.3"  vertOffset="-0.2" stepSize = "0.7">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <do letter="l" color="#FFFFFFFF"  texture="textures/l_bamboo_2.png" size_x = "1" size_y = "1"  vertOffset="-0.4">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <rule p="1.000000" lhs="R" rhs="r+++r+++#R"/>
+		<rule p="0.5" lhs="L" rhs="[+>l]"/>	
+		<rule p="0.5" lhs="L" rhs="[->l]"/>	
+		<rule p="1.000000" lhs="P" rhs="S[>)))@@@L]P"/>	
+		<rule p="1.000000" lhs="S" rhs="sS"/>	
     </plant>
+    <plant id="5" name="Ananas" angle="5" scale="0.05" angleInc="1.5" scaleInc="1.4" axiom="[<R][P]" iterCnt="6" >
+        <stalk antidrought="0.000000" thorns="0.000000" poison="0.750000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkTomato.png"/>
+        <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.800000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafTomato.png"/>
+        <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="1.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerTomato.png"/>
+         <do letter="f" color="#FFFFFFFF"  texture="textures/f_pineapple.png" size_x = "1" size_y = "1"  vertOffset="0">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>
+        <do letter="r" color="#965E0EFF"  texture="textures/root.png" size_x = "0.5" size_y = "0.5"  vertOffset="0.0" stepSize = "-0.3">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>		
+        <do letter="s" color="#FFFFFFFF"  texture="textures/s_pineapple.png" size_x = "0.7" size_y = "1.6"  vertOffset="-0.1" stepSize = "0.8">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <do letter="l" color="#FFFFFFFF"  texture="textures/empty.png" size_x = "1" size_y = "1"  vertOffset="0.0">
+            <point width="1.000000" height="0.000000"/>
+            <point width="1.000000" height="1.000000"/>
+        </do>			
+        <rule p="1.000000" lhs="F" rhs="[f]"/>
+        <rule p="1.000000" lhs="R" rhs="@R-#r#+r"/>
+		<rule p="1.000000" lhs="P" rhs="[B]%[B][<[@@@@@@F]"/>	
+		<rule p="1.000000" lhs="B" rhs="++++[))S]B"/>	
+		<rule p="1.000000" lhs="S" rhs="@S+#s+#s"/>	
+    </plant>	
 </database>

@@ -13,6 +13,9 @@ class PlantDatabase
 	public:
 		struct Point
 		{
+            Point()
+                : width(0), height(0) { }
+
 			Point( float w, float h )
 				: width(w), height(h) { }
 
@@ -24,6 +27,9 @@ class PlantDatabase
 		{
 			std::string clr;
 			char letter;
+            std::string texture;
+            Point size;
+            float stepSize;
 			float vertOffset;
 			std::vector<Point> verts;
 		};

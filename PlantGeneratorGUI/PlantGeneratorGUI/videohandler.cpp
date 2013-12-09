@@ -92,6 +92,7 @@ void VideoHandler::ExitMovie()
 void VideoHandler::open()
 {
     QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Files"));
+
     addToPlaylist(fileNames);
 }
 
