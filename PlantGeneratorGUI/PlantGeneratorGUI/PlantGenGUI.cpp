@@ -173,7 +173,7 @@ void PlantGenGUI::updatePlantImage()
     sePlayer.stop();
     sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
     sePlayer.setVolume(100);
-    sePlayer.play();
+    //sePlayer.play();
     plantGenerated  = 1;
 }
 
@@ -217,16 +217,16 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
 void PlantGenGUI::updatePlantAbs( int paraInt )
 {
     // play sound of turning arrow
-    if(paraInt != 0)// && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
+    if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
     {
-        //sePlayer.stop();
+        sePlayer.stop();
         int randomClip = rand() % 3 + 1;
         QString fileName;
         fileName = "assets:/SE-Arrow" + QString::number(randomClip) + ".wav";
-        //sePlayer.setMedia( QUrl(fileName) );
+        sePlayer.setMedia( QUrl(fileName) );
         int randomVolume = rand() % 20 + 80;
-        //sePlayer.setVolume(randomVolume);
-        //sePlayer.play();
+        sePlayer.setVolume(randomVolume);
+        sePlayer.play();
     }
 
     float antiDrought = 0.0f;

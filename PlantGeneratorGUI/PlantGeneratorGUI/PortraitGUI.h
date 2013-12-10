@@ -29,6 +29,8 @@ private:
     Ui::PortraitGUI *ui;
     QMediaPlayer mPlayer;
     Dialogue::Player player;
+    QMediaPlaylist *meikePlaylist;
+    QMediaPlayer *meikePlayer;
     //std::map<int, Dialogue::Player> players;
     //Dialogue::Player *GetPlayer(int playerID);
 
