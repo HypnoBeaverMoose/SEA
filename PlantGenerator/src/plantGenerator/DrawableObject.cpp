@@ -89,6 +89,7 @@ void DrawableObject::initVerticies(float width)
 
 void DrawableObject::setShader(uint shader)
 {
+	LOGI("Set Shader");
 	m_shaderProgram = shader;
 	m_textureCoordsHandle = glGetAttribLocation(m_shaderProgram, "vTexCoord");
 	checkGlError("glGetAttribLocation");

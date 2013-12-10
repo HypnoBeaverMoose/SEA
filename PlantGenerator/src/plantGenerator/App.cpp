@@ -59,24 +59,33 @@ App::App()
 }
 void App::loadPlant(PlantDatabase::PlantData plant, int index)
 {
+	LOGI("Loading plant %d :",plant.id);
+	LOGI("	axiom: %s",plant.axiom.c_str());
+	LOGI("	iterations: %d",plant.iterCount);
+	
 	Plant _plant(plant.angle, plant.scale, plant.angleInc, plant.scaleInc, plant.axiom, plant.iterCount);
 	for(uint i = 0; i < plant.rules.size(); i++){
 		_plant.addRule(Rule(plant.rules[i].lhs,plant.rules[i].rhs,plant.rules[i].prob));
+		LOGI("	rule %d: %c -> %s", i, plant.rules[i].lhs,plant.rules[i].rhs.c_str());
+
 	}
 
 	for(uint i = 0; i < plant.drawData.size(); i++){		
 		png::image<png::rgba_pixel> image;
-		getInstance()->loadImage(image, plant.drawData[i].texture.c_str());
+		LOGI("	texture %d: %s", i, plant.drawData[i].texture.c_str());
+		loadImage(image, plant.drawData[i].texture.c_str());
 
-		DrawableObject obj(plant.drawData[i].letter, Colorf(plant.drawData[i].clr.c_str()),	image,Vector2f(1.0f,1.0f), plant.drawData[i].vertOffset);
+		DrawableObject obj(plant.drawData[i].letter, Colorf(plant.drawData[i].clr.c_str()),	image, 
+				Vector2f(plant.drawData[i].size.width, plant.drawData[i].size.height), m_programId, plant.drawData[i].vertOffset, plant.drawData[i].stepSize);
 		
-		for(uint j = 0; j < plant.drawData[i].verts.size();j++)
+		for(uint j = 0; j < plant.drawData[i].verts.size();j++){
 			obj.setWdith(plant.drawData[i].verts[j].height, plant.drawData[i].verts[j].width);
-
+		}
 		_plant.addObject(obj);
 	}
 
 	m_plants[index] = _plant;
+	m_resultPlant = Plant(_plant);
 }
 Plant App::createTomato()
 {
@@ -235,15 +244,15 @@ void App::setUpPlant()
 	m_plants.push_back(createTomato());
 
 	m_resultPlant = createTomato();
-//	CombinePlants(m_resultPlant,createPineapple(),createBamboo(),m_bias,Stalk);
+	CombinePlants(m_resultPlant,createPineapple(),createBamboo(),m_bias,Stalk);
 	m_resultPlant.setPosition(Vector3f(0.4f,0.2f,0));
 }
 
 void App::combinePlants(int l_index, int r_index, PlantPart part)
 {
-
 	LOGI("plant combination set: left: %d, right: %d, part: %d",l_index, r_index, (uint)part);
 	CombinePlants(m_resultPlant, m_plants[l_index], m_plants[r_index],m_biases[part], part);
+	m_resultPlant.setPosition(Vector3f(0.5f, 0.2f, 0.0f));
 }
 
 void App::setBias( float bias, PlantPart part)
@@ -296,7 +305,7 @@ void App::OnCreate()
 	checkGlError("glTexParameteri");
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	checkGlError("glTexParameteri");
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE,0);
 	checkGlError("glTexImage2D");
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -305,7 +314,7 @@ void App::OnCreate()
 	checkGlError("glGenRenderbuffers");
 	glBindRenderbuffer(GL_RENDERBUFFER,m_renderBufferId);
 	checkGlError("glBindRenderbuffer");
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT16,1024,1024);
+	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT16,512,512);
 	checkGlError("glRenderbufferStorage");	
 	
 
@@ -328,8 +337,10 @@ void App::OnCreate()
 }
 void App::RenderPlant()
 {
-	//setBias(0.0f, PlantPart::Stalk);
-	//combinePlants(0, 2, PlantPart::Stalk);
+
+	LOGI("render plant!");
+	//setBias(0.5f, Stalk);
+	//combinePlants(0, 2, Stalk);
 	m_resultPlant.regeneratePlant();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	checkGlError("glBindTexture");
@@ -401,8 +412,8 @@ void App::OnRender()
 
 	glViewport(0,0,(int)m_viewportSize[0], (int)m_viewportSize[1]);
 	glClearColor(1.0f,1.0f,1.0f,0.0f);
-	glClearDepthf(1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		
+	///glClearDepthf(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT /*| GL_DEPTH_BUFFER_BIT*/);		
 	float aspect = m_viewportSize[0] /(float) std::max(1.0f, m_viewportSize[1]);
 	m_projectionMatrix = Matrix4f::Orthographic(0.0f, 1.0f, -1.0f, 1.0f, -aspect, aspect).Transposed();
 	glUseProgram(m_programId);
@@ -524,7 +535,6 @@ void App::OnTouch(int posx, int posy)
 	m_bias+=0.1f;
 	m_plants.clear();	
 	m_bias = std::min(m_bias,1.0f);
-	setUpPlant();
 	needsRedraw = true;
 }
 

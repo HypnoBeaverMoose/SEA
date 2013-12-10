@@ -45,7 +45,7 @@ void PortraitGUI::PlayMovies()
 
 void PortraitGUI::playMusic()
 {
-    mPlayer.play();
+   mPlayer.play();
 }
 
 

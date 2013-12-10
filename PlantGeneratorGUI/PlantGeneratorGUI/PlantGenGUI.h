@@ -31,9 +31,10 @@ public:
     void stopMusic();
 
     void setTestLabelText( std::string text );
+    void getPlants( int p1, int p2, int p3 );
 
 private:
-    void getPlants( int p1, int p2, int p3 );
+
 
     void getIndexesAndBias(int& l_index, int& r_index, float bias, int ability);
 

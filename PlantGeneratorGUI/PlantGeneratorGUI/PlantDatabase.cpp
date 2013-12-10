@@ -12,7 +12,7 @@ using namespace tinyxml2;
 PlantDatabase::PlantDatabase()
     : doc()
 {
-    //reloadXMLFile();
+    reloadXMLFile();
 }
 
 
