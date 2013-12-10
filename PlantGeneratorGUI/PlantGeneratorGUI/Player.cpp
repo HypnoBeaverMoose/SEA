@@ -16,7 +16,7 @@ namespace Dialogue{
 		return tinyXMLHandler::instance()->getCalculationText(dialogueHistory);
 	}
 
-	std::vector<Player::DialogueStruct> Player::PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID)
+    std::vector<Player::DialogueStruct> Player::PlayDialogue( PlantDatabase::Abilities plant, int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID )
 	{
 		if(currentState == WaitForPlant)
 		{
@@ -30,44 +30,23 @@ namespace Dialogue{
 			{
 				return tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory);
 			}
-			PlantDatabase::PlantData pData = pd.getPlant(assembledPlantID, plantFound);
+            //PlantDatabase::PlantData pData = pd.getPlant(assembledPlantID, plantFound);
 			if(!plantFound)
 			{
 				outputText(tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory));
 			}
 			else
 			{
-				dialogueHistory.newPlant.antidrought = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].antidrought + pData.abs[PlantDatabase::PlantData::ABS_LEAF].antidrought + pData.abs[PlantDatabase::PlantData::ABS_STALK].antidrought;
-				dialogueHistory.newPlant.antiwater = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].antiwater + pData.abs[PlantDatabase::PlantData::ABS_LEAF].antiwater + pData.abs[PlantDatabase::PlantData::ABS_STALK].antiwater;
-				dialogueHistory.newPlant.fruit = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].fruit + pData.abs[PlantDatabase::PlantData::ABS_LEAF].fruit + pData.abs[PlantDatabase::PlantData::ABS_STALK].fruit;
-				dialogueHistory.newPlant.growth = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].growth + pData.abs[PlantDatabase::PlantData::ABS_LEAF].growth + pData.abs[PlantDatabase::PlantData::ABS_STALK].growth;
-				dialogueHistory.newPlant.poison = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].poison + pData.abs[PlantDatabase::PlantData::ABS_LEAF].poison + pData.abs[PlantDatabase::PlantData::ABS_STALK].poison;
-				dialogueHistory.newPlant.smell = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].smell + pData.abs[PlantDatabase::PlantData::ABS_LEAF].smell + pData.abs[PlantDatabase::PlantData::ABS_STALK].smell;
-				dialogueHistory.newPlant.soft = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].soft + pData.abs[PlantDatabase::PlantData::ABS_LEAF].soft + pData.abs[PlantDatabase::PlantData::ABS_STALK].soft;
-				dialogueHistory.newPlant.thorns = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].thorns + pData.abs[PlantDatabase::PlantData::ABS_LEAF].thorns + pData.abs[PlantDatabase::PlantData::ABS_STALK].thorns;
+                dialogueHistory.newPlant = plant;
 				if(dialogueHistory.targetPlant.img == "NotSet")
 				{ // if there is no quest made yet, make a quest!
 					MakeQuest();
 				}
-				if(dialogueHistory.newPlant.antidrought == dialogueHistory.previousPlant.antidrought 
-					&& dialogueHistory.newPlant.antiwater == dialogueHistory.previousPlant.antiwater
-					&& dialogueHistory.newPlant.fruit == dialogueHistory.previousPlant.fruit 
-					&& dialogueHistory.newPlant.growth == dialogueHistory.previousPlant.growth
-					&& dialogueHistory.newPlant.poison == dialogueHistory.previousPlant.poison 
-					&& dialogueHistory.newPlant.smell == dialogueHistory.previousPlant.smell
-					&& dialogueHistory.newPlant.soft == dialogueHistory.previousPlant.soft
-					&& dialogueHistory.newPlant.thorns == dialogueHistory.previousPlant.thorns)
+                if(dialogueHistory.newPlant == dialogueHistory.previousPlant)
 				{ // check if the previous plant and the new plant are the same
 					return tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory);
 				}
-				else if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought 
-					&& dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
-					&& dialogueHistory.newPlant.fruit >= dialogueHistory.targetPlant.fruit 
-					&& dialogueHistory.newPlant.growth >= dialogueHistory.targetPlant.growth
-					&& dialogueHistory.newPlant.poison >= dialogueHistory.targetPlant.poison 
-					&& dialogueHistory.newPlant.smell >= dialogueHistory.targetPlant.smell
-					&& dialogueHistory.newPlant.soft >= dialogueHistory.targetPlant.soft 
-					&& dialogueHistory.newPlant.thorns >= dialogueHistory.targetPlant.thorns)
+                else if(dialogueHistory.newPlant >= dialogueHistory.targetPlant)
 				{ // else, check if the new plant matches the quest.
 					return FinishQuest();
 				}

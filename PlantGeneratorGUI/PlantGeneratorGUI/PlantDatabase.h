@@ -43,6 +43,10 @@ class PlantDatabase
 
 		struct Abilities
 		{
+            Abilities()
+                : antidrought(0.0f), thorns(0.0f), poison(0.0f), smell(0.0f),
+                  fruit(0.0f), soft(0.0f), growth(0.0f), antiwater(0.0f), img() {}
+
 			float antidrought;
 			float thorns;
 			float poison;
@@ -52,6 +56,52 @@ class PlantDatabase
 			float growth;
 			float antiwater;
 			std::string img;
+
+            // image string is ignored in the comparison
+            inline bool operator==( const Abilities &rhs ) const
+            {
+                return antidrought == rhs.antidrought
+                    && antiwater == rhs.antiwater
+                    && fruit == rhs.fruit
+                    && growth == rhs.growth
+                    && poison == rhs.poison
+                    && smell == rhs.smell
+                    && soft == rhs.soft
+                    && thorns == rhs.thorns;
+            }
+
+            inline bool operator!=( const Abilities &rhs ) const
+            {
+                return !(*this == rhs);
+            }
+
+            // image string is ignored in the comparison
+            inline bool operator< ( const Abilities& rhs ) const
+            {
+                return antidrought < rhs.antidrought
+                    && antiwater < rhs.antiwater
+                    && fruit < rhs.fruit
+                    && growth < rhs.growth
+                    && poison < rhs.poison
+                    && smell < rhs.smell
+                    && soft < rhs.soft
+                    && thorns < rhs.thorns;
+            }
+
+            inline bool operator> ( const Abilities& rhs ) const
+            {
+                return  rhs < (*this);
+            }
+
+            inline bool operator<=( const Abilities& rhs ) const
+            {
+                return !(*this > rhs);
+            }
+
+            inline bool operator>=( const Abilities& rhs ) const
+            {
+                return !(*this < rhs);
+            }
 		};
 
 		struct PlantData

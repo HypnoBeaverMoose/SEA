@@ -1,8 +1,8 @@
 <database>
     <plant id="1" name="Dusty Miller" angle="0.6" scale="0.025" angleInc="2.0" scaleInc="1.1" axiom="[<R][P]"  iterCnt="6">
-        <stalk antidrought="0.650000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkDustyMiller.png"/>
-        <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.750000" growth="0.000000" antiwater="0.000000" img="leafDustyMiller.png"/>
-        <flower antidrought="0.000000" thorns="0.000000" poison="0.850000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerDustyMiller.png"/>
+        <flower antidrought="0.00" thorns="0.00" poison="0.40" smell="0.00" fruit="0.00" soft="0.00" growth="0.00" antiwater="0.00" img="flowerDustyMiller.png"/>
+	<stalk antidrought="0.50" thorns="0.00" poison="0.40" smell="0.00" fruit="0.00" soft="0.40" growth="0.00" antiwater="-0.10" img="stalkDustyMiller.png"/>
+        <leaf antidrought="0.30" thorns="-0.10" poison="0.40" smell="0.00" fruit="0.00" soft="0.60" growth="0.00" antiwater="0.00" img="leafDustyMiller.png"/>
         <do letter="f" color="#FFFFFFFF"  texture="textures/f_dusty.png" size_x = "1" size_y = "1"  vertOffset="0.5" stepSize = "1">
             <point width="1.000000" height="0.000000"/>
             <point width="1.000000" height="1.000000"/>
@@ -29,9 +29,9 @@
 		<rule p="1.000000" lhs="S" rhs="S-s"/>						
 	</plant>
     <plant id="2" name="Cactus" angle="3.3" scale="0.2" angleInc="3" scaleInc="1.05" axiom="[<R][P]" iterCnt="6">
-        <stalk antidrought="0.900000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkCactus.png"/>
-        <leaf antidrought="0.000000" thorns="0.800000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafCactus.png"/>
-        <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerCactus.png"/>
+        <flower antidrought="-0.10" thorns="0.00" poison="0.00" smell="0.00" fruit="0.00" soft="0.00" growth="0.00" antiwater="0.00" img="flowerCactus.png"/>
+	<stalk antidrought="0.90" thorns="0.00" poison="0.00" smell="0.00" fruit="0.00" soft="0.00" growth="-0.10" antiwater="-0.20" img="stalkCactus.png"/>
+        <leaf antidrought="0.30" thorns="0.90" poison="0.00" smell="0.00" fruit="0.00" soft="0.00" growth="0.00" antiwater="-0.10" img="leafCactus.png"/>
          <do letter="f" color="#FFFFFFFF"  texture="textures/f_cactus.png" size_x = "1" size_y = "1"  vertOffset="0" stepSize = "1">
             <point width="1.000000" height="0.000000"/>
             <point width="1.000000" height="1.000000"/>
@@ -57,9 +57,9 @@
 		<rule p="1.000000" lhs="S" rhs="s"/>	
     </plant>
     <plant id="3" name="Tomatenplant" angle="2" scale="0.018" angleInc="1.5" scaleInc="1.09" axiom="[<R][P]" iterCnt="6" >
-        <stalk antidrought="0.000000" thorns="0.000000" poison="0.750000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkTomato.png"/>
-        <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.800000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafTomato.png"/>
-        <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="1.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerTomato.png"/>
+        <flower antidrought="0.00" thorns="0.00" poison="0.00" smell="0.00" fruit="0.80" soft="0.00" growth="0.00" antiwater="0.20" img="flowerTomato.png"/>
+	<stalk antidrought="-0.10" thorns="0.00" poison="0.30" smell="0.20" fruit="0.00" soft="0.0" growth="0.00" antiwater="0.20" img="stalkTomato.png"/>
+        <leaf antidrought="0.00" thorns="0.00" poison="0.10" smell="0.70" fruit="0.00" soft="0.20" growth="0.00" antiwater="0.20" img="leafTomato.png"/>
          <do letter="f" color="#FFFFFFFF"  texture="textures/f_tomato_2.png" size_x = "1" size_y = "1"  vertOffset="0" stepSize = "1">
             <point width="1.000000" height="0.000000"/>
             <point width="1.000000" height="1.000000"/>
@@ -84,9 +84,9 @@
 		<rule p="1.000000" lhs="S" rhs="Ss+s"/>	
     </plant>	
     <plant id="4" name="Bamboo" angle="3.3" scale="0.06" angleInc="3" scaleInc="1.1" axiom="[<R][P]" iterCnt="6" >
-        <stalk antidrought="0.000000" thorns="0.000000" poison="0.750000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkTomato.png"/>
-        <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.800000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafTomato.png"/>
-        <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="1.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerTomato.png"/>
+        <flower antidrought="0.0" thorns="0.0" poison="0.00" smell="0.00" fruit="0.20" soft="0.00" growth="0.00" antiwater="0.00" img="flowerBamboo.png"/>
+        <stalk antidrought="0.20" thorns="0.00" poison="0.00" smell="0.00" fruit="0.00" soft="-0.10" growth="1.00" antiwater="0.50" img="stalkBamboo.png"/>
+        <leaf antidrought="0.00" thorns="0.00" poison="0.00" smell="0.00" fruit="0.00" soft="0.00" growth="0.10" antiwater="0.00" img="leafBamboo.png"/>
          <do letter="f" color="#FFFFFFFF"  texture="textures/empty.png" size_x = "1" size_y = "1"  vertOffset="0" stepSize = "1">
             <point width="1.000000" height="0.000000"/>
             <point width="1.000000" height="1.000000"/>
@@ -110,9 +110,9 @@
 		<rule p="1.000000" lhs="S" rhs="sS"/>	
     </plant>
     <plant id="5" name="Ananas" angle="5" scale="0.05" angleInc="1.5" scaleInc="1.4" axiom="[<R][P]" iterCnt="6" >
-        <stalk antidrought="0.000000" thorns="0.000000" poison="0.750000" smell="0.000000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="stalkTomato.png"/>
-        <leaf antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.800000" fruit="0.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="leafTomato.png"/>
-        <flower antidrought="0.000000" thorns="0.000000" poison="0.000000" smell="0.000000" fruit="1.000000" soft="0.000000" growth="0.000000" antiwater="0.000000" img="flowerTomato.png"/>
+        <flower antidrought="0.00" thorns="0.20" poison="0.00" smell="0.20" fruit="0.80" soft="-0.10" growth="0.00" antiwater="0.20" img="flowerAnanas.png"/>
+	<stalk antidrought="0.20" thorns="0.30" poison="0.10" smell="0.00" fruit="0.00" soft="-0.10" growth="0.00" antiwater="0.30" img="stalkAnanas.png"/>
+        <leaf antidrought="0.20" thorns="0.30" poison="0.10" smell="0.00" fruit="0.00" soft="0.00" growth="0.00" antiwater="0.00" img="leafAnanas.png"/>
          <do letter="f" color="#FFFFFFFF"  texture="textures/f_pineapple.png" size_x = "1" size_y = "1"  vertOffset="0">
             <point width="1.000000" height="0.000000"/>
             <point width="1.000000" height="1.000000"/>

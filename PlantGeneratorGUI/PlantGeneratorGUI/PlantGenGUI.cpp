@@ -24,7 +24,7 @@ JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAss
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PlantGenGUI), pdb(), plants(),mPlayer(),
+    ui(new Ui::PlantGenGUI), pdb(), curPlant(), plants(),mPlayer(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(), labelLines(0), m_img(0)
 {
     ui->setupUi(this);
@@ -70,9 +70,9 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     ui->dialStalk->setProperty("plantPart",1);
     ui->dialLeaf->setProperty("plantPart",2);
 
-    QObject::connect( ui->dialFlower, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
-    QObject::connect( ui->dialStalk, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
-    QObject::connect( ui->dialLeaf, SIGNAL(valueChanged(int)), this, SLOT(updateIcons(int)) );
+    QObject::connect( ui->dialFlower, SIGNAL(valueChanged(int)), this, SLOT(updatePlantAbs(int)) );
+    QObject::connect( ui->dialStalk, SIGNAL(valueChanged(int)), this, SLOT(updatePlantAbs(int)) );
+    QObject::connect( ui->dialLeaf, SIGNAL(valueChanged(int)), this, SLOT(updatePlantAbs(int)) );
 
     QObject::connect( ui->dialFlower, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
     QObject::connect( ui->dialStalk, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
@@ -80,7 +80,7 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     getPlants(1, 2, 3);
 
-    updateIcons(0);
+    updatePlantAbs(0);
 
     //setup background music
     mPlayer.setMedia( QUrl("assets:/plantGenMusic.mp3") );
@@ -204,9 +204,9 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
             break;
     }
     bias  =  dials[ability]->getCurArea().left;
-
 }
-void PlantGenGUI::updateIcons( int paraInt )
+
+void PlantGenGUI::updatePlantAbs( int paraInt )
 {
     // play sound of turning arrow
     if(paraInt != 0)// && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
@@ -275,6 +275,16 @@ void PlantGenGUI::updateIcons( int paraInt )
     opFxToy.setOpacity(soft);
     opFxTree.setOpacity(growth);
     opFxRain.setOpacity(antiwater);
+
+    // set current plant abilities
+    curPlant.antidrought = antiDrought;
+    curPlant.thorns      = thorns;
+    curPlant.poison      = poison;
+    curPlant.smell       = smell;
+    curPlant.fruit       = fruit;
+    curPlant.soft        = soft;
+    curPlant.growth      = growth;
+    curPlant.antiwater   = antiwater;
 }
 
 void PlantGenGUI::getPlants( int p1, int p2, int p3 )
