@@ -194,7 +194,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>14</x>
+      <x>-1</x>
       <y>424</y>
       <width>177</width>
       <height>205</height>
@@ -210,8 +210,8 @@
    <widget class="QLabel" name="glowSkull">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>552</y>
+      <x>-5</x>
+      <y>551</y>
       <width>169</width>
       <height>210</height>
      </rect>
@@ -226,8 +226,8 @@
    <widget class="QLabel" name="glowSun">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>291</y>
+      <x>-6</x>
+      <y>290</y>
       <width>183</width>
       <height>208</height>
      </rect>
@@ -242,7 +242,7 @@
    <widget class="QLabel" name="glowNose">
     <property name="geometry">
      <rect>
-      <x>7</x>
+      <x>-7</x>
       <y>694</y>
       <width>158</width>
       <height>201</height>
@@ -258,8 +258,8 @@
    <widget class="QLabel" name="glowRain">
     <property name="geometry">
      <rect>
-      <x>689</x>
-      <y>294</y>
+      <x>675</x>
+      <y>295</y>
       <width>191</width>
       <height>200</height>
      </rect>
@@ -274,8 +274,8 @@
    <widget class="QLabel" name="glowApple">
     <property name="geometry">
      <rect>
-      <x>689</x>
-      <y>557</y>
+      <x>676</x>
+      <y>558</y>
       <width>186</width>
       <height>202</height>
      </rect>
@@ -290,8 +290,8 @@
    <widget class="QLabel" name="glowTree">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>691</y>
+      <x>675</x>
+      <y>690</y>
       <width>179</width>
       <height>206</height>
      </rect>
@@ -306,8 +306,8 @@
    <widget class="QLabel" name="glowToy">
     <property name="geometry">
      <rect>
-      <x>693</x>
-      <y>428</y>
+      <x>678</x>
+      <y>429</y>
       <width>198</width>
       <height>208</height>
      </rect>

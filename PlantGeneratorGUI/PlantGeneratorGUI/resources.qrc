@@ -26,6 +26,12 @@
         <file>Images/toPortraitBtn.png</file>
         <file>Images/toPortraitBtn_down.png</file>
         <file>XML/QuestDialogues.xml</file>
+        <file>Images/flowerAnanas.png</file>
+        <file>Images/flowerBamboo.png</file>
+        <file>Images/leafAnanas.png</file>
+        <file>Images/leafBamboo.png</file>
+        <file>Images/rootAnanas.png</file>
+        <file>Images/rootBamboo.png</file>
     </qresource>
     <qresource prefix="/Portrait">
         <file>Images/FarmerGirl_5.png</file>

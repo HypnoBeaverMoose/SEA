@@ -28,7 +28,7 @@ namespace Dialogue
 				PlantDatabase::Abilities newPlant; // the plant you just made
 				PlantDatabase::Abilities previousPlant; // the plant you made before
 			};
-			std::vector<DialogueStruct> PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID);
+            std::vector<DialogueStruct> PlayDialogue( PlantDatabase::Abilities plant, int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID );
 			std::vector<DialogueStruct> PlayWait();
 			void outputText(std::vector<DialogueStruct> dialogueVector);
 

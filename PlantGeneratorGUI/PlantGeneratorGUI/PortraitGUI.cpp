@@ -1,8 +1,9 @@
 
 #include <iostream>
-
+#include "PlantGenGUI.h"
 #include "PortraitGUI.h"
 #include "ui_PortraitGUI.h"
+#include "Player.h"
 #include <QStringList>
 
 PortraitGUI::PortraitGUI(QWidget *parent) :
@@ -33,16 +34,26 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
 void PortraitGUI::AfterShownSetVariables()
 {
     ui->MovieView->SetVariables(ui->portraitPage, ui->videoPage, ui->ErrorMessage);
+    PlayMovies();
 }
 
 void PortraitGUI::PlayMovies()
 {
-    int plants[3] = {1,2,3};
-    std::vector<Dialogue::Player::DialogueStruct> data =  player.PlayDialogue(plants,1);
-    qDebug()<<"DialogueStruct vector size: "<<data.size();
+    bool call = true;
+    int plants[3];
+    for(int i = 0; i < 3; i++){
+        plants[i] = PlantGenGUI::pGUI->plants[i].id;
+        call == call && (plants[i] > 0);
+    }
+   std::vector<Dialogue::Player::DialogueStruct>  vec;
+
+    if(call)
+        vec = player.PlayDialogue(PlantGenGUI::pGUI->curPlant, plants, PlantGenGUI::pGUI->plantGenerated);
+
+    qDebug()<<"DialogueStruct vector size: "<<vec.size();
     QString string;
-    for(int i = 0; i < data.size(); i++)
-        string +=QString(data[i].dialogue.c_str());
+    for(int i = 0; i < vec.size(); i++)
+        string +=QString(vec[i].dialogue.c_str());
 
     ui->ErrorMessage->setText(string);
 

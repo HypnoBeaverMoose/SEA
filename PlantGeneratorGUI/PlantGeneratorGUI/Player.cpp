@@ -16,13 +16,12 @@ namespace Dialogue{
 		return tinyXMLHandler::instance()->getCalculationText(dialogueHistory);
 	}
 
-	std::vector<Player::DialogueStruct> Player::PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID)
+    std::vector<Player::DialogueStruct> Player::PlayDialogue( PlantDatabase::Abilities plant, int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID )
 	{
-        qDebug()<<"start of function!";
 		if(currentState == WaitForPlant)
-		{           
-            qDebug()<<"wrong branch!";
-            dialogueHistory.previousPlant = dialogueHistory.newPlant;
+		{
+			dialogueHistory.previousPlant = dialogueHistory.newPlant;
+
 			bool plantFound = true;
 			for(int i = 0; i < Dialogue::NUMBER_OF_PLANTS; i++)
 			{
@@ -30,71 +29,40 @@ namespace Dialogue{
 			}
 			if(assembledPlantID <= 0)
 			{
-                qDebug()<<"assembledPlantID <= 0";
 				return tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory);
 			}
-			PlantDatabase::PlantData pData = pd.getPlant(assembledPlantID, plantFound);
+            //PlantDatabase::PlantData pData = pd.getPlant(assembledPlantID, plantFound);
 			if(!plantFound)
 			{
-                qDebug()<<" tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory)";
-                return tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory);
+				outputText(tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory));
 			}
 			else
 			{
-                qDebug()<<" dialogueHistory blabla";
-				dialogueHistory.newPlant.antidrought = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].antidrought + pData.abs[PlantDatabase::PlantData::ABS_LEAF].antidrought + pData.abs[PlantDatabase::PlantData::ABS_STALK].antidrought;
-				dialogueHistory.newPlant.antiwater = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].antiwater + pData.abs[PlantDatabase::PlantData::ABS_LEAF].antiwater + pData.abs[PlantDatabase::PlantData::ABS_STALK].antiwater;
-				dialogueHistory.newPlant.fruit = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].fruit + pData.abs[PlantDatabase::PlantData::ABS_LEAF].fruit + pData.abs[PlantDatabase::PlantData::ABS_STALK].fruit;
-				dialogueHistory.newPlant.growth = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].growth + pData.abs[PlantDatabase::PlantData::ABS_LEAF].growth + pData.abs[PlantDatabase::PlantData::ABS_STALK].growth;
-				dialogueHistory.newPlant.poison = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].poison + pData.abs[PlantDatabase::PlantData::ABS_LEAF].poison + pData.abs[PlantDatabase::PlantData::ABS_STALK].poison;
-				dialogueHistory.newPlant.smell = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].smell + pData.abs[PlantDatabase::PlantData::ABS_LEAF].smell + pData.abs[PlantDatabase::PlantData::ABS_STALK].smell;
-				dialogueHistory.newPlant.soft = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].soft + pData.abs[PlantDatabase::PlantData::ABS_LEAF].soft + pData.abs[PlantDatabase::PlantData::ABS_STALK].soft;
-				dialogueHistory.newPlant.thorns = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].thorns + pData.abs[PlantDatabase::PlantData::ABS_LEAF].thorns + pData.abs[PlantDatabase::PlantData::ABS_STALK].thorns;
+                dialogueHistory.newPlant = plant;
 				if(dialogueHistory.targetPlant.img == "NotSet")
 				{ // if there is no quest made yet, make a quest!
-                    qDebug()<<" MakeQuest";
 					MakeQuest();
 				}
-				if(dialogueHistory.newPlant.antidrought == dialogueHistory.previousPlant.antidrought 
-					&& dialogueHistory.newPlant.antiwater == dialogueHistory.previousPlant.antiwater
-					&& dialogueHistory.newPlant.fruit == dialogueHistory.previousPlant.fruit 
-					&& dialogueHistory.newPlant.growth == dialogueHistory.previousPlant.growth
-					&& dialogueHistory.newPlant.poison == dialogueHistory.previousPlant.poison 
-					&& dialogueHistory.newPlant.smell == dialogueHistory.previousPlant.smell
-					&& dialogueHistory.newPlant.soft == dialogueHistory.previousPlant.soft
-					&& dialogueHistory.newPlant.thorns == dialogueHistory.previousPlant.thorns)
+                if(dialogueHistory.newPlant == dialogueHistory.previousPlant)
 				{ // check if the previous plant and the new plant are the same
-                    qDebug()<<" tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory)";
-
 					return tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory);
 				}
-				else if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought 
-					&& dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
-					&& dialogueHistory.newPlant.fruit >= dialogueHistory.targetPlant.fruit 
-					&& dialogueHistory.newPlant.growth >= dialogueHistory.targetPlant.growth
-					&& dialogueHistory.newPlant.poison >= dialogueHistory.targetPlant.poison 
-					&& dialogueHistory.newPlant.smell >= dialogueHistory.targetPlant.smell
-					&& dialogueHistory.newPlant.soft >= dialogueHistory.targetPlant.soft 
-					&& dialogueHistory.newPlant.thorns >= dialogueHistory.targetPlant.thorns)
+                else if(dialogueHistory.newPlant >= dialogueHistory.targetPlant)
 				{ // else, check if the new plant matches the quest.
-                    qDebug()<<" FinishQuest()";
-                    return FinishQuest();
+					return FinishQuest();
 				}
 				else
 				{ // else, output feedback so you know what to do better
-                    qDebug()<<"tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory";
-                    return tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory);
+					return tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory);
 				}
 			}
 		}
 		else
 		{
-            qDebug()<<"PlayStartQuestDialogue";
-            // play starting quest
+			// play starting quest
 			return PlayStartQuestDialogue();
 		}
         std::vector<Player::DialogueStruct> ds;
-        qDebug()<<"basically what we don't want!";
         return ds;
 	}
 

@@ -21,8 +21,8 @@ SOURCES += main.cpp\
     PortraitGUI.cpp \
     MaskedButton.cpp \
     videohandler.cpp \
-    TinyXMLHandler.cpp \
-    Player.cpp
+    Player.cpp \
+    TinyXMLHandler.cpp
 
 HEADERS  += \
     ArrowDial.h \
@@ -33,8 +33,8 @@ HEADERS  += \
     PortraitGUI.h \
     MaskedButton.h \
     videohandler.h \
-    TinyXMLHandler.h \
-    Player.h
+    Player.h \
+    TinyXMLHandler.h
 
 INCLUDEPATH += .
 

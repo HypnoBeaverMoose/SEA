@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="portraitPage">
     <property name="autoFillBackground">
@@ -78,9 +78,9 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>60</y>
+       <y>760</y>
        <width>721</width>
-       <height>1151</height>
+       <height>451</height>
       </rect>
      </property>
      <property name="font">
@@ -90,6 +90,9 @@
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

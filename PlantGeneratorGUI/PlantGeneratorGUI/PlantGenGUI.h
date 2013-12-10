@@ -17,13 +17,14 @@ class PlantGenGUI : public QWidget
     Q_OBJECT
 
 public slots:
-    void updateIcons(int);
+    void updatePlantAbs(int);
     void updatePlantImage();
 public:
     explicit PlantGenGUI(QWidget *parent = 0);
     ~PlantGenGUI();
 
     static PlantGenGUI *pGUI;
+    PlantDatabase::Abilities curPlant;
 
     QPushButton * getGUISwitchBtn();
 
@@ -32,15 +33,14 @@ public:
 
     void setTestLabelText( std::string text );
     void getPlants( int p1, int p2, int p3 );
-
+    std::vector<PlantDatabase::PlantData> plants;
+    int plantGenerated;
 private:
-
-
     void getIndexesAndBias(int& l_index, int& r_index, float bias, int ability);
 
     Ui::PlantGenGUI *ui;
     PlantDatabase pdb;
-    std::vector<PlantDatabase::PlantData> plants;
+
 
     QMediaPlayer mPlayer;
     QMediaPlayer sePlayer;

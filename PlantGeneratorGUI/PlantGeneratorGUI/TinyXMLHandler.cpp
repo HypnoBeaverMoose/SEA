@@ -4,6 +4,7 @@
 #include <sstream>
 #include <QDebug>
 #include<QFile>
+
 namespace Dialogue
 {
     std::vector<Player::DialogueStruct> tinyXMLHandler::getCalculationText(Player::DialogueHistory currentPlayer)
@@ -12,7 +13,6 @@ namespace Dialogue
         std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"dialogues_quest","feedback_wait_for_calculation"};
         std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
-
         tinyxml2::XMLElement *elem = checkDialogue(searchParametersVector, &m_doc);
 		newVector = getTexts(elem);
 		return newVector;
@@ -24,7 +24,6 @@ namespace Dialogue
         std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"dialogues_quest","feedback_same_plant"};
 		std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
-
         tinyxml2::XMLElement *elem = checkDialogue(searchParametersVector, &m_doc);
 		newVector = getTexts(elem);
 		return newVector;
@@ -34,9 +33,7 @@ namespace Dialogue
 	{
 		_currentPlayer = currentPlayer;
         std::vector<Player::DialogueStruct> newVector;
-        //tinyxml2::XMLDocument doc;
 		tinyxml2::XMLElement *elem;
-
 		int amountOfScannedPlant = 0;
 		for(int i = 0; i < Dialogue::NUMBER_OF_PLANTS; i++)
 		{
@@ -72,11 +69,9 @@ namespace Dialogue
     std::vector<Player::DialogueStruct> tinyXMLHandler::getFinishQuestText(Player::DialogueHistory currentPlayer)
 	{
 		_currentPlayer = currentPlayer;
-        //tinyxml2::XMLDocument doc;
         std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"dialogues_quest","feedback_found_right_plant"};
         std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
-
         tinyxml2::XMLElement *elem = checkDialogue(searchParametersVector, &m_doc);
 		newVector = getTexts(elem);
 		return newVector;
@@ -94,13 +89,13 @@ namespace Dialogue
         //elem->
         newVector = getTexts(elem);
         qDebug()<<"getTextsout";
+
 		return newVector;
 	}
 
     std::vector<Player::DialogueStruct> tinyXMLHandler::getStartText(Player::DialogueHistory currentPlayer) // it is a vector, in case we need a sequence of movies
 	{
 		_currentPlayer = currentPlayer;
-        //tinyxml2::XMLDocument doc;
         std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"dialogues_quest","start"};
         std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
@@ -112,7 +107,6 @@ namespace Dialogue
 
     std::vector<Player::DialogueStruct> tinyXMLHandler::getEndText()
 	{
-
         std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"end_text","sketch"};
         std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
@@ -148,6 +142,7 @@ namespace Dialogue
 					{
                         qDebug()<<"src:" << elem->Attribute("src");
                         ds.source = elem->Attribute("src");
+
 					}
 					newVector.push_back(ds);
 				}
@@ -305,6 +300,7 @@ namespace Dialogue
             if(elem->Attribute(requirement_border_ss.str().c_str()) != NULL)
 			{
                 qDebug()<<"10";
+
                 std::string checkForQuest = elem->Attribute(requirement_border_ss.str().c_str());
 				if(checkForQuest == "quest")
 				{
