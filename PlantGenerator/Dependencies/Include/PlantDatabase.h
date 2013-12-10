@@ -5,11 +5,17 @@
 #include <string>
 #include <vector>
 
+#include "tinyxml2.h"
+
+
 class PlantDatabase
 {
 	public:
 		struct Point
 		{
+            Point()
+                : width(0), height(0) { }
+
 			Point( float w, float h )
 				: width(w), height(h) { }
 
@@ -20,8 +26,10 @@ class PlantDatabase
 		struct DrawData
 		{
 			std::string clr;
-			std::string texture;
 			char letter;
+            std::string texture;
+            Point size;
+            float stepSize;
 			float vertOffset;
 			std::vector<Point> verts;
 		};
@@ -33,16 +41,8 @@ class PlantDatabase
 			std::string rhs;
 		};
 
-		struct PlantData
+		struct Abilities
 		{
-			int id;
-			float angle;
-			float scale;
-			float angleInc;
-			float scaleInc;
-			int iterCount;
-			std::string axiom;
-
 			float antidrought;
 			float thorns;
 			float poison;
@@ -51,18 +51,44 @@ class PlantDatabase
 			float soft;
 			float growth;
 			float antiwater;
+			std::string img;
+		};
+
+		struct PlantData
+		{
+			PlantData()
+			{
+				abs[ABS_FLOWER] = Abilities();
+				abs[ABS_STALK]  = Abilities();
+				abs[ABS_LEAF]   = Abilities();
+			}
+
+			int id;
+			std::string name;
+			float angle;
+			float scale;
+			float angleInc;
+			float scaleInc;
+			int iterCount;
+			std::string axiom;
+
+			enum { ABS_FLOWER, ABS_STALK, ABS_LEAF, NUM_ABS };
+			Abilities abs[NUM_ABS];
 
 			std::vector<DrawData> drawData;
 			std::vector<LRule> rules;
 		};
 
-		PlantDatabase();
+        PlantDatabase();
 		//~PlantDatabase();
 
-		PlantData getPlant( int plantID, bool &result ) const;
+        PlantData getPlant( int plantID, bool &result );
 		bool addPlant( const PlantData &data );
 
 	private:
+        tinyxml2::XMLDocument doc;
+
+        bool reloadXMLFile();
 };
 
 #endif

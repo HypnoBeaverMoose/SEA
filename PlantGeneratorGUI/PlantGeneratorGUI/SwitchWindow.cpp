@@ -60,6 +60,8 @@ extern "C"
     {
         std::stringstream ss;
         ss << "Received plants " << p1 << ", " << p2 << " and " << p3;
+        if(p1 > 0 && p2 > 0 && p3 > 0)
+            PlantGenGUI::pGUI->getPlants(p1, p2, p3);
 
         PlantGenGUI::pGUI->setTestLabelText( ss.str() );
     }

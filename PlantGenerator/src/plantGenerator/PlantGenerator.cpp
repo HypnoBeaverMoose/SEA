@@ -151,7 +151,7 @@ bool PlantGenerator::InitGenerator(unsigned int width, unsigned int height)
         eglGetConfigAttrib(l_display, l_configs[i], EGL_ALPHA_SIZE, &a);
 		eglGetConfigAttrib(l_display, l_configs[i], EGL_DEPTH_SIZE, &d);		
 
-		if(r ==8 && g == 8 && b == 8 && a == 8 && d > 0) {
+		if(r ==8 && g == 8 && b == 8 && a == 8/* && d > 0*/) {
 			found = true; break; 
 		}
 	}
@@ -197,7 +197,7 @@ bool PlantGenerator::InitGenerator(unsigned int width, unsigned int height)
 	getInstance()->m_renderSize[0] = width;
 	getInstance()->m_renderSize[1] = height;
 	getInstance()->OnCreate();
-
+	//getInstance()->setUpPlant();
 	if(prevDisplay != EGL_NO_DISPLAY && prevSurfaceDraw != EGL_NO_SURFACE 
 					&& prevSurfaceRead != EGL_NO_SURFACE && prevContext !=EGL_NO_CONTEXT)
 	{
@@ -229,15 +229,19 @@ void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase
 	getInstance()->loadPlant(plantOne, 0);
 	getInstance()->loadPlant(plantTwo, 1);
 	getInstance()->loadPlant(plantThree, 2);	
-	//getInstance()->setUpPlant();
+	
 }
 void PlantGenerator::loadPlant(PlantDatabase::PlantData plant, int index)
-{
-	getInstance()->loadPlant(plant, index);
+{	
+//	getInstance()->loadPlant(plant, index);
 }
 
 void PlantGenerator::setCombination(uint plantPart, int lhs, int rhs, float bias)
 {
+	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
+		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
+	}
+
 	getInstance()->setBias(bias, (PlantPart)plantPart);
 	getInstance()->combinePlants(lhs, rhs, (PlantPart)plantPart);
 }
@@ -249,8 +253,8 @@ bool PlantGenerator::RenderPlant(int width, int height)
 		return false;
 	}	
 
-	getInstance()->m_renderSize[0] = width;
-	getInstance()->m_renderSize[1] = height;
+	//getInstance()->m_renderSize[0] = width;
+	//getInstance()->m_renderSize[1] = height;
 	getInstance()->RenderPlant();
 	return true;
 }
