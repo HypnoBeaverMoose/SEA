@@ -7,15 +7,18 @@
 #include <string> 
 
 namespace Dialogue{
-	Player::Player()
+
+	Player::Player() : pd("database.xml")
 	{
-		dialogueHistory.targetPlant.id = 0;
-		dialogueHistory.questNumber = 1;
-		dialogueHistory.lastSpeaker = 1;
-		currentState = PlayQuest;
+		Start();
 	}
 
-	void Player::PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID)
+	std::vector<Player::DialogueStruct> Player::PlayWait()
+	{
+		return tinyXMLHandler::instance()->getCalculationText(dialogueHistory);
+	}
+
+	std::vector<Player::DialogueStruct> Player::PlayDialogue(int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID)
 	{
 		if(currentState == WaitForPlant)
 		{
@@ -27,62 +30,83 @@ namespace Dialogue{
 			}
 			if(assembledPlantID <= 0)
 			{
-				outputText(tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory));
-				return;
+				return tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory);
 			}
-			dialogueHistory.newPlant = pd.getPlant(assembledPlantID, plantFound);
+			PlantDatabase::PlantData pData = pd.getPlant(assembledPlantID, plantFound);
 			if(!plantFound)
 			{
 				outputText(tinyXMLHandler::instance()->getFeedBackWithNoPlant(dialogueHistory));
 			}
 			else
 			{
-				if(dialogueHistory.targetPlant.id == 0)
+				dialogueHistory.newPlant.antidrought = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].antidrought + pData.abs[PlantDatabase::PlantData::ABS_LEAF].antidrought + pData.abs[PlantDatabase::PlantData::ABS_STALK].antidrought;
+				dialogueHistory.newPlant.antiwater = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].antiwater + pData.abs[PlantDatabase::PlantData::ABS_LEAF].antiwater + pData.abs[PlantDatabase::PlantData::ABS_STALK].antiwater;
+				dialogueHistory.newPlant.fruit = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].fruit + pData.abs[PlantDatabase::PlantData::ABS_LEAF].fruit + pData.abs[PlantDatabase::PlantData::ABS_STALK].fruit;
+				dialogueHistory.newPlant.growth = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].growth + pData.abs[PlantDatabase::PlantData::ABS_LEAF].growth + pData.abs[PlantDatabase::PlantData::ABS_STALK].growth;
+				dialogueHistory.newPlant.poison = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].poison + pData.abs[PlantDatabase::PlantData::ABS_LEAF].poison + pData.abs[PlantDatabase::PlantData::ABS_STALK].poison;
+				dialogueHistory.newPlant.smell = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].smell + pData.abs[PlantDatabase::PlantData::ABS_LEAF].smell + pData.abs[PlantDatabase::PlantData::ABS_STALK].smell;
+				dialogueHistory.newPlant.soft = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].soft + pData.abs[PlantDatabase::PlantData::ABS_LEAF].soft + pData.abs[PlantDatabase::PlantData::ABS_STALK].soft;
+				dialogueHistory.newPlant.thorns = pData.abs[PlantDatabase::PlantData::ABS_FLOWER].thorns + pData.abs[PlantDatabase::PlantData::ABS_LEAF].thorns + pData.abs[PlantDatabase::PlantData::ABS_STALK].thorns;
+				if(dialogueHistory.targetPlant.img == "NotSet")
 				{ // if there is no quest made yet, make a quest!
 					MakeQuest();
 				}
-				if(dialogueHistory.newPlant.antidrought == dialogueHistory.previousPlant.antidrought && dialogueHistory.newPlant.antiwater == dialogueHistory.previousPlant.antiwater
-					&& dialogueHistory.newPlant.fruit == dialogueHistory.previousPlant.fruit && dialogueHistory.newPlant.growth == dialogueHistory.previousPlant.growth
-					&& dialogueHistory.newPlant.poison == dialogueHistory.previousPlant.poison && dialogueHistory.newPlant.smell == dialogueHistory.previousPlant.smell
-					&& dialogueHistory.newPlant.soft == dialogueHistory.previousPlant.soft && dialogueHistory.newPlant.thorns == dialogueHistory.previousPlant.thorns)
+				if(dialogueHistory.newPlant.antidrought == dialogueHistory.previousPlant.antidrought 
+					&& dialogueHistory.newPlant.antiwater == dialogueHistory.previousPlant.antiwater
+					&& dialogueHistory.newPlant.fruit == dialogueHistory.previousPlant.fruit 
+					&& dialogueHistory.newPlant.growth == dialogueHistory.previousPlant.growth
+					&& dialogueHistory.newPlant.poison == dialogueHistory.previousPlant.poison 
+					&& dialogueHistory.newPlant.smell == dialogueHistory.previousPlant.smell
+					&& dialogueHistory.newPlant.soft == dialogueHistory.previousPlant.soft
+					&& dialogueHistory.newPlant.thorns == dialogueHistory.previousPlant.thorns)
 				{ // check if the previous plant and the new plant are the same
-					outputText(tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory));
+					return tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory);
 				}
-				else if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought && dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
-					&& dialogueHistory.newPlant.fruit >= dialogueHistory.targetPlant.fruit && dialogueHistory.newPlant.growth >= dialogueHistory.targetPlant.growth
-					&& dialogueHistory.newPlant.poison >= dialogueHistory.targetPlant.poison && dialogueHistory.newPlant.smell >= dialogueHistory.targetPlant.smell
-					&& dialogueHistory.newPlant.soft >= dialogueHistory.targetPlant.soft && dialogueHistory.newPlant.thorns >= dialogueHistory.targetPlant.thorns)
+				else if(dialogueHistory.newPlant.antidrought >= dialogueHistory.targetPlant.antidrought 
+					&& dialogueHistory.newPlant.antiwater >= dialogueHistory.targetPlant.antiwater
+					&& dialogueHistory.newPlant.fruit >= dialogueHistory.targetPlant.fruit 
+					&& dialogueHistory.newPlant.growth >= dialogueHistory.targetPlant.growth
+					&& dialogueHistory.newPlant.poison >= dialogueHistory.targetPlant.poison 
+					&& dialogueHistory.newPlant.smell >= dialogueHistory.targetPlant.smell
+					&& dialogueHistory.newPlant.soft >= dialogueHistory.targetPlant.soft 
+					&& dialogueHistory.newPlant.thorns >= dialogueHistory.targetPlant.thorns)
 				{ // else, check if the new plant matches the quest.
-					FinishQuest();
+					return FinishQuest();
 				}
 				else
 				{ // else, output feedback so you know what to do better
-					outputText(tinyXMLHandler::instance()->getCalculationText(dialogueHistory));
-					outputText(tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory));
+					return tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory);
 				}
 			}
 		}
 		else
 		{
 			// play starting quest
-			if(PlayStartQuestDialogue())
-			{
-				currentState = WaitForPlant;
-			}
+			return PlayStartQuestDialogue();
 		}
 	}
 
-	bool Player::PlayStartQuestDialogue()
+	std::vector<Player::DialogueStruct> Player::PlayStartQuestDialogue()
 	{
-		bool playStartingQuest = true;
-		std::vector<Player::DialogueStruct> dialogueVector  = tinyXMLHandler::instance()->getStartText(dialogueHistory);
-		if(dialogueVector.size() == 0)
+		std::vector<Player::DialogueStruct> ds  = tinyXMLHandler::instance()->getStartText(dialogueHistory);
+		if(ds.size() == 0)
 		{
-			dialogueVector = tinyXMLHandler::instance()->getEndText();
-			playStartingQuest = false;
+			ds = tinyXMLHandler::instance()->getEndText();
 		}
-		outputText(dialogueVector);
-		return playStartingQuest;
+		else
+		{
+			currentState = WaitForPlant;
+		}
+		return ds;
+	}
+
+	std::vector<Player::DialogueStruct> Player::FinishQuest()
+	{
+		std::vector<Player::DialogueStruct> ds = tinyXMLHandler::instance()->getFinishQuestText(dialogueHistory);
+		int quest = dialogueHistory.questNumber + 1;
+		dialogueHistory = DialogueHistory();
+		Start();
+		return ds;
 	}
 
 	void Player::outputText(std::vector<Player::DialogueStruct> dialogueVector)
@@ -100,17 +124,18 @@ namespace Dialogue{
 			{
 				dialogueHistory.ids.push_back(ds.id);
 			}
+			if(ds.source.empty() == false)
+			{
+				std::cout << " ( " << ds.source << " ) " << std::endl << std::endl;
+			}
 		}
 	}
 
-	void Player::FinishQuest()
+	void Player::Start()
 	{
-		outputText(tinyXMLHandler::instance()->getFinishQuestText(dialogueHistory));
-		int quest = dialogueHistory.questNumber + 1;
-		dialogueHistory = DialogueHistory();
-		dialogueHistory.targetPlant.id = 0;
+		dialogueHistory.targetPlant.img = "NotSet";
 		dialogueHistory.lastSpeaker = 1;
-		dialogueHistory.questNumber = quest;
+		dialogueHistory.questNumber = 1;
 		currentState = PlayQuest;
 	}
 
@@ -135,7 +160,7 @@ namespace Dialogue{
 				selected = i;
 			}
 		}
-		*pointer[selected] = 0.4f;
+		*pointer[selected] = 0.8f;
 
 		// check which is lowest, make that one of the goals
 		border = 1;
@@ -160,13 +185,13 @@ namespace Dialogue{
 			{
 				if (rand() % 100 < randborder)
 				{
-					*pointer[i] = 0.2f;
+					*pointer[i] = 0.4f;
 					j++;
 				}
 			}
 		}
 		
-		dialogueHistory.targetPlant.id = id;
+		dialogueHistory.targetPlant.img = "";
 	}
 
 

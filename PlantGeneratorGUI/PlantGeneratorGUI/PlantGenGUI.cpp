@@ -19,17 +19,16 @@ extern "C" {
 
 JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr)
 {
-    //PlantGenerator::setAssetManager(env, mgr);
+    PlantGenerator::setAssetManager(env, mgr);
 }
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PlantGenGUI), pdb(), plants(), mPlayer(),
+    ui(new Ui::PlantGenGUI), pdb(), plants(),mPlayer(),
     opFxSun(), opFxThorns(), opFxSkull(), opFxNose(), labelLines(0), m_img(0)
 {
-    //PlantGenerator::InitGenerator(512,512);
     ui->setupUi(this);
-
+    PlantGenerator::InitGenerator(512,512);
     // load plant label font
     QFile fontFile(":/PlantGen/PRISTINA.TTF");
     if (!fontFile.open(QIODevice::ReadOnly))
@@ -79,7 +78,7 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QObject::connect( ui->dialStalk, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
     QObject::connect( ui->dialLeaf, SIGNAL(sliderReleased()), this, SLOT(updatePlantImage()) );
 
-   // getPlants(0, 1, 2);
+    getPlants(1, 2, 3);
 
     updateIcons(0);
 
@@ -144,16 +143,14 @@ void PlantGenGUI::updatePlantImage()
         default:
             break;
     }
-
-
     float bias = std::min(a.left,1.0f);
-    //PlantGenerator::setCombination(ability, l_index, r_index, 1.0f - bias);
+    PlantGenerator::setCombination(ability, l_index, r_index, 1.0f - bias);
 
-    //PlantGenerator::RenderPlant(width, height);
+    PlantGenerator::RenderPlant(width, height);
 
-    //unsigned char* img = PlantGenerator::getRenderedImage(width, height);
+    unsigned char* img = PlantGenerator::getRenderedImage(width, height);
 
-/*
+
     QImage image(img, width, height, QImage::Format_ARGB32);
     for( int x = 0; x < image.width(); x++){
         for( int y = 0; y < image.width(); y++){
@@ -163,8 +160,8 @@ void PlantGenGUI::updatePlantImage()
           image.setPixel(x,y,pix);
         }
      }
+
     ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
-*/
 
     sePlayer.stop();
     sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
@@ -212,16 +209,16 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
 void PlantGenGUI::updateIcons( int paraInt )
 {
     // play sound of turning arrow
-    if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
+    if(paraInt != 0)// && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
     {
-        sePlayer.stop();
+        //sePlayer.stop();
         int randomClip = rand() % 3 + 1;
         QString fileName;
         fileName = "assets:/SE-Arrow" + QString::number(randomClip) + ".wav";
-        sePlayer.setMedia( QUrl(fileName) );
+        //sePlayer.setMedia( QUrl(fileName) );
         int randomVolume = rand() % 20 + 80;
-        sePlayer.setVolume(randomVolume);
-        sePlayer.play();
+        //sePlayer.setVolume(randomVolume);
+        //sePlayer.play();
     }
 
     float antiDrought = 0.0f;
@@ -280,7 +277,6 @@ void PlantGenGUI::updateIcons( int paraInt )
     opFxRain.setOpacity(antiwater);
 }
 
-
 void PlantGenGUI::getPlants( int p1, int p2, int p3 )
 {
     // remove any previously stored plants
@@ -330,5 +326,5 @@ void PlantGenGUI::getPlants( int p1, int p2, int p3 )
         for ( i; i < 3; ++i )
             plantNames[i]->setText( "" );
 
-    //PlantGenerator::loadPlants(plants[0],plants[1],plants[2]);
+    PlantGenerator::loadPlants(plants[0],plants[1],plants[2]);
 }
