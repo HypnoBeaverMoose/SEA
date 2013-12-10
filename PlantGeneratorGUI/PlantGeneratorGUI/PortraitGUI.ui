@@ -79,13 +79,13 @@
       <rect>
        <x>40</x>
        <y>60</y>
-       <width>621</width>
-       <height>181</height>
+       <width>721</width>
+       <height>1151</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>20</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="text">

@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QMediaPlayer>
 
+#include "Player.h"
+
 namespace Ui {
 class PortraitGUI;
 }
@@ -26,6 +28,9 @@ public:
 private:
     Ui::PortraitGUI *ui;
     QMediaPlayer mPlayer;
+    Dialogue::Player player;
+    //std::map<int, Dialogue::Player> players;
+    //Dialogue::Player *GetPlayer(int playerID);
 
 public slots:
     void Exit();

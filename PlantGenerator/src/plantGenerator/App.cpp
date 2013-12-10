@@ -121,7 +121,7 @@ Plant App::createTomato()
 }
 void App::clearPlants()
 {
-	//m_resultPlant = Plant();
+	m_resultPlant = Plant();
 	m_plants.clear();
 	m_plants.resize(3);
 }

@@ -5,16 +5,6 @@
     </array>
     <string name="repository">default</string>
     <array name="bundled_libs"/>
-    <array name="qt_libs">
-        <item>gnustl_shared</item>
-        <item>Qt5Core</item>
-        <item>Qt5Gui</item>
-        <item>Qt5Network</item>
-        <item>Qt5Multimedia</item>
-        <item>Qt5Widgets</item>
-        <item>Qt5OpenGL</item>
-        <item>Qt5MultimediaWidgets</item>
-    </array>
     <array name="bundled_in_lib">
         <item>lib--Managed_by_Qt_Creator--plugins_platforms_android_libqtforandroid.so:plugins/platforms/android/libqtforandroid.so</item>
         <item>lib--Managed_by_Qt_Creator--plugins_platforms_android_libqtforandroidGL.so:plugins/platforms/android/libqtforandroidGL.so</item>
@@ -36,4 +26,14 @@
         <item>lib--Managed_by_Qt_Creator--plugins_accessible_libqtaccessiblewidgets.so:plugins/accessible/libqtaccessiblewidgets.so</item>
     </array>
     <array name="bundled_in_assets"/>
+    <array name="qt_libs">
+        <item>gnustl_shared</item>
+        <item>Qt5Core</item>
+        <item>Qt5Gui</item>
+        <item>Qt5Network</item>
+        <item>Qt5Multimedia</item>
+        <item>Qt5Widgets</item>
+        <item>Qt5OpenGL</item>
+        <item>Qt5MultimediaWidgets</item>
+    </array>
 </resources>

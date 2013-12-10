@@ -20,7 +20,6 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     if ( !btnImg_down.load(":/Portrait/Images/toGenBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
 
-    connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()));
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
@@ -28,6 +27,7 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     //setup background music
     mPlayer.setMedia( QUrl("assets:/meikeMusic.mp3") );
     mPlayer.setVolume(100);
+
 }
 
 void PortraitGUI::AfterShownSetVariables()
@@ -37,9 +37,15 @@ void PortraitGUI::AfterShownSetVariables()
 
 void PortraitGUI::PlayMovies()
 {
-    QStringList qs;
-    qs << "/sdcard/Music/test.mp3";
-    ui->MovieView->PlayMovie(qs);
+    int plants[3] = {1,2,3};
+    std::vector<Dialogue::Player::DialogueStruct> data =  player.PlayDialogue(plants,1);
+    qDebug()<<"DialogueStruct vector size: "<<data.size();
+    QString string;
+    for(int i = 0; i < data.size(); i++)
+        string +=QString(data[i].dialogue.c_str());
+
+    ui->ErrorMessage->setText(string);
+
 }
 
 

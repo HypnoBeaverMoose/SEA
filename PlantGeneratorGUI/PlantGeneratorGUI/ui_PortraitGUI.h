@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'PortraitGUI.ui'
 **
-** Created by: Qt User Interface Compiler version 5.2.0
+** Created by: Qt User Interface Compiler version 5.1.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -57,9 +57,9 @@ public:
         guiSwitchBtn->setGeometry(QRect(668, 9, 122, 122));
         ErrorMessage = new QLabel(portraitPage);
         ErrorMessage->setObjectName(QStringLiteral("ErrorMessage"));
-        ErrorMessage->setGeometry(QRect(40, 60, 621, 181));
+        ErrorMessage->setGeometry(QRect(40, 60, 721, 1151));
         QFont font;
-        font.setPointSize(20);
+        font.setPointSize(12);
         ErrorMessage->setFont(font);
         ErrorMessage->setWordWrap(true);
         MovieView->addWidget(portraitPage);

@@ -122,7 +122,7 @@ void PlantGenGUI::stopMusic()
 
 void PlantGenGUI::updatePlantImage()
 {
-    getPlants(1, 2, 3);
+ //   getPlants(1, 2, 3);
 
     int ability = QObject::sender()->property("plantPart").toInt();
     uint width = ui->imgLabel->width(), height = ui->imgLabel->height();

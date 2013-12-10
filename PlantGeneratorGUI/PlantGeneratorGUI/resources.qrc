@@ -25,6 +25,7 @@
         <file>Images/stalkTomato.png</file>
         <file>Images/toPortraitBtn.png</file>
         <file>Images/toPortraitBtn_down.png</file>
+        <file>XML/QuestDialogues.xml</file>
     </qresource>
     <qresource prefix="/Portrait">
         <file>Images/FarmerGirl_5.png</file>

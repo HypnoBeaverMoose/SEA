@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     SwitchWindow.cpp \
     PortraitGUI.cpp \
     MaskedButton.cpp \
-    videohandler.cpp
+    videohandler.cpp \
+    TinyXMLHandler.cpp \
+    Player.cpp
 
 HEADERS  += \
     ArrowDial.h \
@@ -30,7 +32,9 @@ HEADERS  += \
     SwitchWindow.h \
     PortraitGUI.h \
     MaskedButton.h \
-    videohandler.h
+    videohandler.h \
+    TinyXMLHandler.h \
+    Player.h
 
 INCLUDEPATH += .
 
