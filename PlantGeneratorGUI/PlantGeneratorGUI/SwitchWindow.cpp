@@ -41,7 +41,7 @@ void SwitchWindow::toggleGUI()
     if ( currentIndex() == plantGenIdx )
     {
         setCurrentIndex(portraitIdx);
-        //portGUI.PlayMovies();
+        portGUI.PlayMovies();
         genGUI.stopMusic();
         portGUI.playMusic();
     }

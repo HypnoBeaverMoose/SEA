@@ -20,7 +20,6 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     if ( !btnImg_down.load(":/Portrait/Images/toGenBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
 
-    connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()));
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
