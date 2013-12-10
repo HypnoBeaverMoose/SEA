@@ -17,7 +17,7 @@ class SwitchWindow : public QStackedWidget
 
 public slots:
     void toggleGUI();
-
+    void loadPlants();
 public:
     explicit SwitchWindow(QWidget *parent = 0);
     ~SwitchWindow();

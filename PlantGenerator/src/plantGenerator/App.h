@@ -28,6 +28,8 @@ public:
 
 	void loadPlant(PlantDatabase::PlantData plant, int index);
 
+	void clearPlants();
+
 	void setUpPlant();
 
 	void combinePlants(int l_index, int r_index, PlantPart part);

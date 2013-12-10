@@ -13,14 +13,16 @@
 
 
 PlantGenGUI *PlantGenGUI::pGUI = 0;
+
 extern "C" {
     JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr);
 }
 
 JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_QtActivity_SetAssetManager(JNIEnv * env, jobject obj, jobject mgr)
 {
-    PlantGenerator::setAssetManager(env, mgr);
+   PlantGenerator::setAssetManager(env, mgr);
 }
+
 
 PlantGenGUI::PlantGenGUI(QWidget *parent) :
     QWidget(parent),
@@ -90,6 +92,8 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     pGUI = this;
 
     srand (time(NULL));
+
+
 }
 
 PlantGenGUI::~PlantGenGUI()
@@ -118,6 +122,8 @@ void PlantGenGUI::stopMusic()
 
 void PlantGenGUI::updatePlantImage()
 {
+    getPlants(1, 2, 3);
+
     int ability = QObject::sender()->property("plantPart").toInt();
     uint width = ui->imgLabel->width(), height = ui->imgLabel->height();
 

@@ -225,6 +225,11 @@ void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase
 {
 	//getInstance()->m_plants.clear();
 	//getInstance()->m_plants.resize(3);
+	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
+		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
+	}
+
+	getInstance()->clearPlants();
 
 	getInstance()->loadPlant(plantOne, 0);
 	getInstance()->loadPlant(plantTwo, 1);

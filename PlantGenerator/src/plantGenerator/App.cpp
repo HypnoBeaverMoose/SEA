@@ -119,6 +119,13 @@ Plant App::createTomato()
 
 	return tomato;
 }
+void App::clearPlants()
+{
+	//m_resultPlant = Plant();
+	m_plants.clear();
+	m_plants.resize(3);
+}
+
 Plant App::createDustyMiller()
 {
 	png::image<png::rgba_pixel> dus_stalk, dus_leaf, dus_flower, root;

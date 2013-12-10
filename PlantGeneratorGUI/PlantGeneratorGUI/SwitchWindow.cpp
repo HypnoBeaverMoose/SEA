@@ -17,12 +17,16 @@ SwitchWindow::SwitchWindow(QWidget *parent) :
     setCurrentIndex(portraitIdx);
     portGUI.playMusic();
 
-    QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
+    QObject::connect( genGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(loadPlants()) );
     QObject::connect( portGUI.getGUISwitchBtn(), SIGNAL(clicked()), this, SLOT(toggleGUI()) );
 
     buttonPlayer.setMedia( QUrl("assets:/SE-button.wav") );
 }
-
+void SwitchWindow::loadPlants()
+{
+     PlantGenGUI::pGUI->getPlants(1, 2, 3);
+     //PlantGenGUI::pGUI->setTestLabelText( ss.str() );
+}
 SwitchWindow::~SwitchWindow()
 {
     delete ui;
@@ -60,10 +64,11 @@ extern "C"
     {
         std::stringstream ss;
         ss << "Received plants " << p1 << ", " << p2 << " and " << p3;
-        if(p1 > 0 && p2 > 0 && p3 > 0)
+        if((p1 > 0) && (p2 > 0) && (p3 > 0))
+        {
             PlantGenGUI::pGUI->getPlants(p1, p2, p3);
-
-        PlantGenGUI::pGUI->setTestLabelText( ss.str() );
+            PlantGenGUI::pGUI->setTestLabelText( ss.str() );
+        }
     }
 
     JNIEXPORT void JNICALL Java_org_qtproject_qt5_android_bindings_NFCStation_setLabelText( JNIEnv * env, jobject obj, jstring text )
