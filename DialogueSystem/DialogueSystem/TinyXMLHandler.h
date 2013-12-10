@@ -26,6 +26,5 @@ namespace Dialogue
 			tinyxml2::XMLElement* tinyXMLHandler::checkID(std::vector<tinyxml2::XMLElement*> elemVector);
 			static tinyXMLHandler *s_instance;
 			Player::DialogueHistory _currentPlayer;
-			PlantDatabase _plantDatabase; 
 	};
 }

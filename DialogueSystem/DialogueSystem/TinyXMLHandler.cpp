@@ -158,6 +158,10 @@ namespace Dialogue
 					{
 						ds.id = elem->Attribute("id");
 					}
+					if(elem->Attribute("src") != NULL)
+					{
+						ds.source = elem->Attribute("src");
+					}
 					newVector.push_back(ds);
 				}
 			}

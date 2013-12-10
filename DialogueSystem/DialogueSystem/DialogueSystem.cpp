@@ -11,7 +11,7 @@ using namespace Dialogue;
 bool endGame = false;
 std::map<int, Dialogue::Player> players;
 
-void GetPlayer(int playerID, int plantIDs[NUMBER_OF_PLANTS], int newPlantID);
+Dialogue::Player *GetPlayer(int playerID);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -25,12 +25,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::cin >> id;
 
 		int plantids[NUMBER_OF_PLANTS] = {1, 2, 3}; 
-		GetPlayer(id, plantids, 66);
+		Dialogue::Player *p = GetPlayer(id);
+		std::vector<Player::DialogueStruct> ds = p->PlayDialogue(plantids, 66);
+		p->outputText(ds);
 	}
 	return 0;
 }
 
-void GetPlayer(int playerID, int plantIDs[NUMBER_OF_PLANTS], int newPlantID) // playerID , the scanned plants ID, the assembled plant ID
+Dialogue::Player *GetPlayer(int playerID) // playerID , the scanned plants ID, the assembled plant ID
 {
 	// get the right player
 		if(players.find(playerID) == players.end()) // search till you reach the end, if there aint any players with this id, make a new id
@@ -40,6 +42,5 @@ void GetPlayer(int playerID, int plantIDs[NUMBER_OF_PLANTS], int newPlantID) // 
 			players.insert(std::pair<int, Player>(playerID, currentPlayer));
 		}
 		
-		// play dialogue
-		players[playerID].PlayDialogue(plantIDs, newPlantID);
+		return &players[playerID];
 }
