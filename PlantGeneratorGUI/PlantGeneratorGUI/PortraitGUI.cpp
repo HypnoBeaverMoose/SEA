@@ -25,7 +25,10 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
 
     meikePlayer = new QMediaPlayer();
     meikePlaylist = new QMediaPlaylist();
+<<<<<<< HEAD
     meikePlayer->setPlaylist(meikePlaylist);
+=======
+>>>>>>> robin edits
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
     connect(meikePlayer, SIGNAL(stateChanged(QMediaPlayer::MediaStatus)), this, SLOT(MediaStatusChanged()) );
 
@@ -43,6 +46,7 @@ void PortraitGUI::AfterShownSetVariables()
 
 void PortraitGUI::PlayMovies()
 {
+<<<<<<< HEAD
    meikePlayer->stop();
     bool call = true;
     int plants[3];
@@ -72,6 +76,33 @@ void PortraitGUI::PlayMovies()
     meikePlaylist->setCurrentIndex(1);
     meikePlayer->play();
 
+=======
+    static bool var = false;
+    if(!var){
+    std::vector<Dialogue::Player::DialogueStruct> ds;
+    Dialogue::Player::DialogueStruct newds;
+    newds.dialogue = "c01.wav";
+    ds.push_back(newds);
+    newds.dialogue = "c02.wav";
+    ds.push_back(newds);
+    newds.dialogue = "c03.wav";
+    ds.push_back(newds);
+
+    meikePlayer->stop();
+    meikePlaylist = new QMediaPlaylist(meikePlayer);
+    for(int i = 0; i < ds.size(); i++)
+    {
+        qDebug()<<"movie"<<i;
+        QString fileName;
+        fileName = "assets:/sounds/" + QString(ds[i].dialogue.c_str());
+        meikePlaylist->addMedia(QUrl(fileName));
+    }
+    meikePlaylist->setCurrentIndex(1);
+    meikePlayer->setPlaylist(meikePlaylist);
+    var = true;
+    }
+    meikePlayer->play();
+>>>>>>> robin edits
 }
 
 
@@ -91,8 +122,40 @@ void PortraitGUI::Exit()
     ui->MovieView->ExitMovie();
 }
 
+void PortraitGUI::MediaStatusChanged()
+{
+    qDebug()<<"change media";
+    //PlayMeikeSound();
+    switch(meikePlayer->mediaStatus())
+    {
+        case QMediaPlayer::MediaStatus::EndOfMedia:
+
+        qDebug()<<"change media 2222";
+        PlayMeikeSound();
+        break;
+    }
+}
+
+void PortraitGUI::PlayMeikeSound()
+{
+              qDebug()<<"play meike";
+    /*if(playList.size() > 0)
+    {
+              qDebug()<<"size";
+        meikePlayer->setMedia(QUrl(playList[0]));
+        playList.erase(playList.begin());
+        meikePlayer->play();
+
+        qDebug()<<"play again";
+    }*/
+}
+
 PortraitGUI::~PortraitGUI()
 {
+    if ( meikePlayer )
+        delete meikePlayer;
+    if ( meikePlaylist )
+        delete meikePlaylist;
 }
 
 QPushButton * PortraitGUI::getGUISwitchBtn()

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
+#include <QString>
 
 #include "Player.h"
 
@@ -28,14 +30,21 @@ public:
 private:
     Ui::PortraitGUI *ui;
     QMediaPlayer mPlayer;
+    QMediaPlayer *meikePlayer;
     Dialogue::Player player;
     QMediaPlaylist *meikePlaylist;
+<<<<<<< HEAD
     QMediaPlayer *meikePlayer;
+=======
+    //std::vector<QString> playList;
+    void PlayMeikeSound();
+>>>>>>> robin edits
     //std::map<int, Dialogue::Player> players;
     //Dialogue::Player *GetPlayer(int playerID);
 
 public slots:
     void Exit();
+    void MediaStatusChanged();
 };
 
 #endif // PORTRAITGUI_H
