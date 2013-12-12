@@ -32,13 +32,8 @@ private:
     QMediaPlayer mPlayer;
     QMediaPlayer *meikePlayer;
     Dialogue::Player player;
-    QMediaPlaylist *meikePlaylist;
-<<<<<<< HEAD
-    QMediaPlayer *meikePlayer;
-=======
-    //std::vector<QString> playList;
+    std::vector<Dialogue::Player::DialogueStruct> playList;
     void PlayMeikeSound();
->>>>>>> robin edits
     //std::map<int, Dialogue::Player> players;
     //Dialogue::Player *GetPlayer(int playerID);
 

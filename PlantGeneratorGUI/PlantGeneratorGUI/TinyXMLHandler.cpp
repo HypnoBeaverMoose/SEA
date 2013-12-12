@@ -83,12 +83,10 @@ namespace Dialogue
         std::vector<Player::DialogueStruct> newVector;
 		std::string searchParameters[] = {"dialogues_quest","feedback_new_plant_assembled"};
         std::vector<std::string> searchParametersVector (searchParameters, searchParameters + sizeof(searchParameters) / sizeof(std::string) );
-        qDebug()<<"checkDialog";
         tinyxml2::XMLElement *elem = checkDialogue(searchParametersVector, &m_doc);
 
         //elem->
         newVector = getTexts(elem);
-        qDebug()<<"getTextsout";
 
 		return newVector;
 	}
@@ -122,7 +120,6 @@ namespace Dialogue
 		
         if(element)
         {
-            qDebug()<<"is not null!";
             std::vector<tinyxml2::XMLElement*> elemVector = getElements(element);
             tinyxml2::XMLElement* elem;
 			for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < elemVector.size(); i++)
@@ -130,17 +127,14 @@ namespace Dialogue
 				elem = elemVector[i];
                 Player::DialogueStruct ds;
 				if(elemVector[i]->GetText() != NULL)
-				{
-                    qDebug()<<elemVector[i]->GetText();
+                {
 					ds.dialogue = elemVector[i]->GetText();
 					if(elem->Attribute("id") != NULL)
-					{
-                        qDebug()<<"id: "<< elem->Attribute("id");
+                    {
                         ds.id = elem->Attribute("id");
 					}
 					if(elem->Attribute("src") != NULL)
-					{
-                        qDebug()<<"src:" << elem->Attribute("src");
+                    {
                         ds.source = elem->Attribute("src");
 
 					}
@@ -156,14 +150,12 @@ namespace Dialogue
 	{
 		std::vector<tinyxml2::XMLElement*> newVector;
 		if(elem->FirstChildElement("fragment") != NULL) // first check if element has a fragment child
-		{
-            qDebug()<<"FirstChildElement()";
+        {
 			for (tinyxml2::XMLElement* child = elem->FirstChildElement("fragment"); child != NULL; child = child->NextSiblingElement("fragment"))
 			{ 
 				// check for requirements
 				if(checkRequirements(child))
-				{
-                    qDebug()<<"Requirements checked";
+                {
 					// add all fragments to the list (that meets the requirements
 					std::vector<tinyxml2::XMLElement*> newestVector = getElements(child);
 					for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < newestVector.size(); i++)
@@ -177,29 +169,22 @@ namespace Dialogue
 		{
 			tinyxml2::XMLElement* child = elem->FirstChildElement("sketch");
             if(child != NULL)
-			{
-                qDebug()<<"Sketch Found";
+            {
 				std::vector<tinyxml2::XMLElement*> elemVector;
 				for (child; child != NULL; child = child->NextSiblingElement("sketch"))
 				{ 
-					// check for requirements
-                    //qDebug()<<"check for requirements";
+                    // check for requirements
                     if(checkRequirements(child))
-					{
-                        qDebug()<<"Sketch Requirements Checked";
+                    {
 						// add all sketches to the list
 						elemVector.push_back(child);
-					}
-                    qDebug()<<"After Sketch Requirements Checked";
+                    }
 				}
 
 				if(elemVector.size() > 0)
-				{
-                    qDebug()<<"elemVector.size() > 0";
+                {
                     child = checkID(elemVector);
-                    qDebug()<<"checkID";
                     std::vector<tinyxml2::XMLElement*> newestVector = getElements(child);
-                    qDebug()<<"newestVector = getElements(child)";
                     for (std::vector<tinyxml2::XMLElement*>::size_type i = 0; i < newestVector.size(); i++)
                     {
                         newVector.push_back(newestVector[i]);
@@ -218,19 +203,15 @@ namespace Dialogue
 	bool tinyXMLHandler::checkRequirements(tinyxml2::XMLElement* elem)
 	{ // check the requirements of the fragment/sketch
 
-        qDebug()<<"1";
 		// first check if the dialogue should only be shown one time and is already shown
 		std::string check;
 		if(elem->Attribute("once") != NULL && elem->BoolAttribute("once"))
-		{
-            qDebug()<<"2";
+        {
 			if(elem->Attribute("id") != NULL)
-			{
-                qDebug()<<"3";
+            {
 				check = elem->Attribute("id");
 				for(std::vector<std::string>::size_type i = 0; i < _currentPlayer.ids.size(); i++)
-				{
-                    qDebug()<<"4";
+                {
 					if(check == _currentPlayer.ids[i])
 					{
 						return false;
@@ -242,26 +223,22 @@ namespace Dialogue
 		// check if it is a follow up dialogue, if so, check all id's in the dialogue history to see if the former dialogue is shown
 		int count = 1;   
 
-        qDebug()<<"5";
         while(count > 0)
 		{
             std::stringstream followupss;
             followupss << "followup" << count;
             if(elem->Attribute(followupss.str().c_str()) == NULL)
             {
-                qDebug()<<"6";
                 break;
             }
             std::string req = elem->Attribute(followupss.str().c_str());
-			std::vector<std::string>::size_type size = _currentPlayer.ids.size();
-            qDebug()<<"7";
+            std::vector<std::string>::size_type size = _currentPlayer.ids.size();
 			if(size == 0)
 			{
 				return false;
 			}
 			for(std::vector<std::string>::size_type i = 0; i < size; i++)
-			{
-                qDebug()<<"8";
+            {
 				if(req == _currentPlayer.ids[i])
 				{
 					break;
@@ -277,8 +254,7 @@ namespace Dialogue
 		// check if the requirements match with the plant, return false if they dont, if there are no requirements, it will return true, if there is a requirement that isnt mentioned in the code (for an instance: the requirement is house), it will also return false
         count = 1;
         while(count > 0)
-		{
-            qDebug()<<"9";
+        {
             std::stringstream requirement_type_ss;
             requirement_type_ss << "req" << count << "type";
             if(elem->Attribute(requirement_type_ss.str().c_str()) == NULL)
@@ -292,15 +268,10 @@ namespace Dialogue
             requirement_border_ss << "req" << count << "border";
             //std::stringstream requirement_req_ss;
             //requirement_req_ss << "req" << count << "req";
-            qDebug()<<"requirement_req_ss"<<requirement_type_ss.str().c_str();
 
             std::string req = elem->Attribute(requirement_type_ss.str().c_str());
-            qDebug()<<req.c_str();
-            qDebug()<<"elem->Attribute(requirement_border_ss.str().c_str()) != NULL";
             if(elem->Attribute(requirement_border_ss.str().c_str()) != NULL)
-			{
-                qDebug()<<"10";
-
+            {
                 std::string checkForQuest = elem->Attribute(requirement_border_ss.str().c_str());
 				if(checkForQuest == "quest")
 				{
@@ -310,8 +281,7 @@ namespace Dialogue
 				{
                     reqAmount = elem->FloatAttribute(requirement_border_ss.str().c_str());
 				}
-			}
-            qDebug()<<"check attributes";
+            }
             std::stringstream requirement_include_ss;
             requirement_include_ss << "req" << count << "include";
             if(elem->Attribute(requirement_include_ss.str().c_str()))
@@ -364,8 +334,7 @@ namespace Dialogue
 				return false;
 			}
 			if((check < reqAmount && include == true) || (check > reqAmount && include == false))
-			{
-                qDebug()<<"10";
+            {
 				return false;
 			}
 
@@ -446,9 +415,7 @@ namespace Dialogue
         tinyxml2::XMLElement *xmlElement;
 
 		if(searchParameters.size() <= 0) // check if the program actually send some search parameters (if not, this function doesnt know where to look)
-		{
-
-            qDebug() << "No Elements are in the search parameters.";
+        {
 			return NULL;
 		}
 		xmlElement = doc->FirstChildElement("dialogues");
@@ -492,20 +459,16 @@ namespace Dialogue
         if (!tinyXMLHandler::s_instance)
         {
             tinyXMLHandler::s_instance = new tinyXMLHandler;
-            qDebug() << "instance created";
             QFile mFile(":/PlantGen/XML/QuestDialogues.xml");
             if(!mFile.open(QFile::ReadOnly | QFile::Text))
             {
                 std::cout << "Warning: unable to open file ':/PlantGen/database.xml'" << std::endl;
                 return false;
             }
-            qDebug() << "file loaded";
             QTextStream in(&mFile);
             QString mText = in.readAll();
             mFile.close();
-            qDebug() << "file read";
             tinyxml2::XMLError loadCheck =  s_instance->m_doc.Parse(mText.toStdString().c_str());
-            qDebug() << "xml parsed";
             //{
             //    std::cout << "Warning: parsing database.xml failed" << std::endl;
             //    return false;

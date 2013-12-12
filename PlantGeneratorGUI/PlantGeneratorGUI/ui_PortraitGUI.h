@@ -30,7 +30,7 @@ public:
     QLabel *portrait;
     QLabel *bgImg;
     MaskedButton *guiSwitchBtn;
-    QLabel *ErrorMessage;
+    QLabel *SubtitleMessage;
     QVideoWidget *videoPage;
 
     void setupUi(QWidget *PortraitGUI)
@@ -55,13 +55,13 @@ public:
         guiSwitchBtn = new MaskedButton(portraitPage);
         guiSwitchBtn->setObjectName(QStringLiteral("guiSwitchBtn"));
         guiSwitchBtn->setGeometry(QRect(668, 9, 122, 122));
-        ErrorMessage = new QLabel(portraitPage);
-        ErrorMessage->setObjectName(QStringLiteral("ErrorMessage"));
-        ErrorMessage->setGeometry(QRect(40, 60, 721, 1151));
+        SubtitleMessage = new QLabel(portraitPage);
+        SubtitleMessage->setObjectName(QStringLiteral("ErrorMessage"));
+        SubtitleMessage->setGeometry(QRect(40, 60, 721, 1151));
         QFont font;
         font.setPointSize(12);
-        ErrorMessage->setFont(font);
-        ErrorMessage->setWordWrap(true);
+        SubtitleMessage->setFont(font);
+        SubtitleMessage->setWordWrap(true);
         MovieView->addWidget(portraitPage);
         videoPage = new QVideoWidget();
         videoPage->setObjectName(QStringLiteral("videoPage"));
@@ -81,7 +81,7 @@ public:
         portrait->setText(QString());
         bgImg->setText(QString());
         guiSwitchBtn->setText(QString());
-        ErrorMessage->setText(QString());
+        SubtitleMessage->setText(QString());
     } // retranslateUi
 
 };

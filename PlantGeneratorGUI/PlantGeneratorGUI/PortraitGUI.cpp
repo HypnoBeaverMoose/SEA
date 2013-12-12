@@ -5,11 +5,13 @@
 #include "ui_PortraitGUI.h"
 #include "Player.h"
 #include <QStringList>
+#include <QPixmap>
 
 PortraitGUI::PortraitGUI(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PortraitGUI)
 {
+
     ui->setupUi(this);
 
     ui->guiSwitchBtn->setSize( QSize(122, 122) );
@@ -21,88 +23,51 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     if ( !btnImg_down.load(":/Portrait/Images/toGenBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
 
+    /*QFile fontFile(":/PlantGen/PRISTINA.TTF");
+    if (!fontFile.open(QIODevice::ReadOnly))
+        std::cout << "failed to open font file" << std::endl;
+    QByteArray fontData = fontFile.readAll();
+
+    if (QFontDatabase::addApplicationFontFromData(fontData) == -1)
+        std::cout << "failed to add a font" << std::endl;
+    QFont font("Pristina", 22, QFont::Normal);
+
+    ui->SubtitleMessage->setFont(font);*/
+
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
     meikePlayer = new QMediaPlayer();
-    meikePlaylist = new QMediaPlaylist();
-<<<<<<< HEAD
-    meikePlayer->setPlaylist(meikePlaylist);
-=======
->>>>>>> robin edits
+    //meikePlaylist = new QMediaPlaylist();
+    //meikePlayer->setPlaylist(meikePlaylist);
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
-    connect(meikePlayer, SIGNAL(stateChanged(QMediaPlayer::MediaStatus)), this, SLOT(MediaStatusChanged()) );
+    connect(meikePlayer, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(MediaStatusChanged()) );
 
     //setup background music
     mPlayer.setMedia( QUrl("assets:/meikeMusic.mp3") );
-    mPlayer.setVolume(100);
+    mPlayer.setVolume(60);
 
 }
 
 void PortraitGUI::AfterShownSetVariables()
 {
-    ui->MovieView->SetVariables(ui->portraitPage, ui->videoPage, ui->ErrorMessage);
-    PlayMovies();
+    ui->MovieView->SetVariables(ui->portraitPage, ui->videoPage, ui->SubtitleMessage);
+    //PlayMovies();
 }
 
 void PortraitGUI::PlayMovies()
 {
-<<<<<<< HEAD
-   meikePlayer->stop();
-    bool call = true;
+    meikePlayer->stop();
+    //bool call = true;
     int plants[3];
     for(int i = 0; i < 3; i++){
         plants[i] = PlantGenGUI::pGUI->plants[i].id;
-        call == call && (plants[i] > 0);
-    }
-   std::vector<Dialogue::Player::DialogueStruct>  vec;
-
-    if(call)
-        vec = player.PlayDialogue(PlantGenGUI::pGUI->curPlant, plants, PlantGenGUI::pGUI->plantGenerated);
-
-    qDebug()<<"DialogueStruct vector size: "<<vec.size();
-
-
-    QString string;
-    meikePlaylist->clear();
-    for(int i = 0; i < vec.size(); i++)
-    {
-        string +=QString(vec[i].dialogue.c_str());
-        QString fileName;
-        fileName = "assets:/sounds/" + QString(vec[i].source.c_str());
-        meikePlaylist->addMedia(QUrl(fileName));
+        //call == call && (plants[i] > 0);
     }
 
-    ui->ErrorMessage->setText(string);
-    meikePlaylist->setCurrentIndex(1);
-    meikePlayer->play();
-
-=======
-    static bool var = false;
-    if(!var){
-    std::vector<Dialogue::Player::DialogueStruct> ds;
-    Dialogue::Player::DialogueStruct newds;
-    newds.dialogue = "c01.wav";
-    ds.push_back(newds);
-    newds.dialogue = "c02.wav";
-    ds.push_back(newds);
-    newds.dialogue = "c03.wav";
-    ds.push_back(newds);
-
-    meikePlayer->stop();
-    meikePlaylist = new QMediaPlaylist(meikePlayer);
-    for(int i = 0; i < ds.size(); i++)
-    {
-        qDebug()<<"movie"<<i;
-        QString fileName;
-        fileName = "assets:/sounds/" + QString(ds[i].dialogue.c_str());
-        meikePlaylist->addMedia(QUrl(fileName));
-    }
-    meikePlaylist->setCurrentIndex(1);
-    meikePlayer->setPlaylist(meikePlaylist);
-    var = true;
-    }
-    meikePlayer->play();
->>>>>>> robin edits
+    //if(call)
+        playList = player.PlayDialogue(PlantGenGUI::pGUI->curPlant, plants, PlantGenGUI::pGUI->plantGenerated);
+        player.outputText(playList);
+    PlayMeikeSound();
 }
 
 
@@ -124,38 +89,37 @@ void PortraitGUI::Exit()
 
 void PortraitGUI::MediaStatusChanged()
 {
-    qDebug()<<"change media";
-    //PlayMeikeSound();
     switch(meikePlayer->mediaStatus())
     {
         case QMediaPlayer::MediaStatus::EndOfMedia:
-
-        qDebug()<<"change media 2222";
         PlayMeikeSound();
+        break;
+        default:
         break;
     }
 }
 
 void PortraitGUI::PlayMeikeSound()
 {
-              qDebug()<<"play meike";
-    /*if(playList.size() > 0)
+    if(playList.size() > 0)
     {
-              qDebug()<<"size";
-        meikePlayer->setMedia(QUrl(playList[0]));
-        playList.erase(playList.begin());
+        QString fileName;
+        fileName = "assets:/sounds/" + QString(playList[0].source.c_str()) + ".wav";
+        ui->SubtitleMessage->setText(QString(playList[0].dialogue.c_str()));
+        meikePlayer->setMedia(QUrl(fileName));
         meikePlayer->play();
-
-        qDebug()<<"play again";
-    }*/
+        fileName = "assets:/Stills/" + QString(playList[0].source.c_str()) + ".jpg";
+        qDebug()<<fileName;
+        QPixmap px(fileName);
+        ui->portrait->setPixmap(px);
+        playList.erase(playList.begin());
+    }
 }
 
 PortraitGUI::~PortraitGUI()
 {
     if ( meikePlayer )
         delete meikePlayer;
-    if ( meikePlaylist )
-        delete meikePlaylist;
 }
 
 QPushButton * PortraitGUI::getGUISwitchBtn()

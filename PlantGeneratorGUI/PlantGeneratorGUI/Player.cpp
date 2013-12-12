@@ -18,6 +18,8 @@ namespace Dialogue{
 
     std::vector<Player::DialogueStruct> Player::PlayDialogue( PlantDatabase::Abilities plant, int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID )
 	{
+        qDebug()<<"antidrought: " << dialogueHistory.targetPlant.antidrought<<"antiwater: " << dialogueHistory.targetPlant.antiwater<<"fruit: " << dialogueHistory.targetPlant.fruit<<"growth: " << dialogueHistory.targetPlant.growth<<"img: " << QString(dialogueHistory.targetPlant.img.c_str())<<"poison: " << dialogueHistory.targetPlant.poison<<"poison: " << dialogueHistory.targetPlant.poison<<"smell: " << dialogueHistory.targetPlant.smell<<"soft: " << dialogueHistory.targetPlant.soft<<"thorns: " << dialogueHistory.targetPlant.thorns;
+
 		if(currentState == WaitForPlant)
 		{
 			dialogueHistory.previousPlant = dialogueHistory.newPlant;
@@ -40,9 +42,9 @@ namespace Dialogue{
 			{
                 dialogueHistory.newPlant = plant;
 				if(dialogueHistory.targetPlant.img == "NotSet")
-				{ // if there is no quest made yet, make a quest!
-					MakeQuest();
-				}
+                { // if there is no quest made yet, make a quest!
+                    MakeQuest();
+                }
                 if(dialogueHistory.newPlant == dialogueHistory.previousPlant)
 				{ // check if the previous plant and the new plant are the same
 					return tinyXMLHandler::instance()->getFeedBackWithSamePlantText(dialogueHistory);
@@ -89,24 +91,23 @@ namespace Dialogue{
 	}
 
 	void Player::outputText(std::vector<Player::DialogueStruct> dialogueVector)
-	{
-		std::string newString;
+    {
 		DialogueStruct ds;
 		for (std::vector<Player::DialogueStruct>::size_type i = 0; i < dialogueVector.size(); i++)
 		{
 			ds = dialogueVector[i];
-			if(ds.dialogue.empty() == false)
+            /*if(ds.dialogue.empty() == false)
 			{
 				std::cout << ds.dialogue << std::endl << std::endl;
-			}
+            }*/
 			if(ds.id.empty() == false)
 			{
 				dialogueHistory.ids.push_back(ds.id);
 			}
-			if(ds.source.empty() == false)
+            /*if(ds.source.empty() == false)
 			{
 				std::cout << " ( " << ds.source << " ) " << std::endl << std::endl;
-			}
+            }*/
 		}
 	}
 
@@ -115,7 +116,7 @@ namespace Dialogue{
 		dialogueHistory.targetPlant.img = "NotSet";
 		dialogueHistory.lastSpeaker = 1;
 		dialogueHistory.questNumber = 1;
-		currentState = PlayQuest;
+        currentState = WaitForPlant;
 	}
 
 	void Player::MakeQuest()
