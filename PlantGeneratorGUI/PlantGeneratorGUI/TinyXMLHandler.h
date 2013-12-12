@@ -24,7 +24,7 @@ namespace Dialogue
             tinyxml2::XMLElement *checkDialogue(std::vector<std::string> searchParameters, tinyxml2::XMLDocument *doc);
             std::vector<Player::DialogueStruct> getTexts(tinyxml2::XMLElement *elem);
             std::vector<tinyxml2::XMLElement*> getElements(tinyxml2::XMLElement *elem);
-			bool checkRequirements(tinyxml2::XMLElement* elem);
+            bool checkRequirements(tinyxml2::XMLElement* elem);
             tinyxml2::XMLElement* checkID(std::vector<tinyxml2::XMLElement*> elemVector);
 			static tinyXMLHandler *s_instance;
             Player::DialogueHistory _currentPlayer;

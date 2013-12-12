@@ -274,7 +274,7 @@ namespace Dialogue
             {
                 std::string checkForQuest = elem->Attribute(requirement_border_ss.str().c_str());
 				if(checkForQuest == "quest")
-				{
+                {
 					QuestRelated = true;
 				}
 				else
@@ -289,51 +289,83 @@ namespace Dialogue
                 include = elem->BoolAttribute(requirement_include_ss.str().c_str());
 			}
 			float check = 1;
-			if(req == "drought")
+            if(req == "drought" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.antidrought != -100)))
 			{
 				check = _currentPlayer.newPlant.antidrought;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.antidrought;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.antidrought == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.antidrought;
+                }
 			}
-			else if(req == "growth")
+            else if(req == "growth" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.growth != -100)))
 			{
 				check = _currentPlayer.newPlant.growth;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.growth;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.growth == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.growth;
+                }
 			}
-			else if(req == "water")
+            else if(req == "water" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.antiwater != -100)))
 			{
-				check = _currentPlayer.newPlant.antiwater;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.antiwater;
+                check = _currentPlayer.newPlant.antiwater;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.antiwater == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.antiwater;
+                }
 			}
-			else if(req == "fruit")
+            else if(req == "fruit" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.fruit != -100)))
 			{
-				check = _currentPlayer.newPlant.fruit;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.fruit;
+                check = _currentPlayer.newPlant.fruit;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.fruit == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.fruit;
+                }
 			}
-			else if(req == "poison")
+            else if(req == "poison" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.poison != -100)))
 			{
 				check = _currentPlayer.newPlant.poison;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.poison;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.poison == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.poison;
+                }
 			}
-			else if(req == "smell")
+            else if(req == "smell" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.smell != -100)))
 			{
-				check = _currentPlayer.newPlant.smell;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.smell;
+                check = _currentPlayer.newPlant.smell;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.smell == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.smell;
+                }
 			}
-			else if(req == "soft")
+            else if(req == "soft" && (!QuestRelated || (QuestRelated && _currentPlayer.targetPlant.soft != -100)))
 			{
 				check = _currentPlayer.newPlant.soft;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.soft;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.soft == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.soft;
+                }
 			}
-			else if(req == "thorns")
+            else if(req == "thorns")
 			{
 				check = _currentPlayer.newPlant.thorns;
-				if(QuestRelated)reqAmount = _currentPlayer.targetPlant.thorns;
+                if(QuestRelated)
+                {
+                    if(_currentPlayer.targetPlant.thorns == -100) return false;
+                    reqAmount = _currentPlayer.targetPlant.thorns;
+                }
 			}
 			else
 			{
 				return false;
 			}
-			if((check < reqAmount && include == true) || (check > reqAmount && include == false))
+            if(((check < reqAmount && include == true) || (check > reqAmount && include == false)))
             {
 				return false;
 			}
@@ -341,7 +373,7 @@ namespace Dialogue
 			count++;
 		}
 		return true;
-	}
+    }
 
 	tinyxml2::XMLElement* tinyXMLHandler::checkID(std::vector<tinyxml2::XMLElement*> elemVector)
 	{ // checks amongst a list of sketches which sketch it should use

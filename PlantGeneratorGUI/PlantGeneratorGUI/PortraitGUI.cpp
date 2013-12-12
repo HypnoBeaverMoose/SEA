@@ -6,6 +6,8 @@
 #include "Player.h"
 #include <QStringList>
 #include <QPixmap>
+#include <QFile>
+#include <QFontDatabase>
 
 PortraitGUI::PortraitGUI(QWidget *parent) :
     QWidget(parent),
@@ -23,7 +25,10 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     if ( !btnImg_down.load(":/Portrait/Images/toGenBtn_down.png") )
         std::cout << "Error loading image" << std::endl;
 
-    /*QFile fontFile(":/PlantGen/PRISTINA.TTF");
+    if (!portrait.load(":/Portrait/Images/portrait.jpg"))
+        std::cout << "Error loading image :/Portrait/Images/portrait.jpg" << std::endl;
+
+    QFile fontFile(":/PlantGen/PRISTINA.TTF");
     if (!fontFile.open(QIODevice::ReadOnly))
         std::cout << "failed to open font file" << std::endl;
     QByteArray fontData = fontFile.readAll();
@@ -32,7 +37,8 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
         std::cout << "failed to add a font" << std::endl;
     QFont font("Pristina", 22, QFont::Normal);
 
-    ui->SubtitleMessage->setFont(font);*/
+    ui->SubtitleMessage->setFont(font);
+    resetPainting();
 
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
@@ -50,7 +56,7 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
 
 void PortraitGUI::AfterShownSetVariables()
 {
-    ui->MovieView->SetVariables(ui->portraitPage, ui->videoPage, ui->SubtitleMessage);
+    //ui->MovieView->SetVariables(ui->portraitPage, ui->videoPage, ui->SubtitleMessage);
     //PlayMovies();
 }
 
@@ -84,7 +90,7 @@ void PortraitGUI::stopMusic()
 
 void PortraitGUI::Exit()
 {
-    ui->MovieView->ExitMovie();
+    //ui->MovieView->ExitMovie();
 }
 
 void PortraitGUI::MediaStatusChanged()
@@ -109,11 +115,21 @@ void PortraitGUI::PlayMeikeSound()
         meikePlayer->setMedia(QUrl(fileName));
         meikePlayer->play();
         fileName = "assets:/Stills/" + QString(playList[0].source.c_str()) + ".jpg";
-        qDebug()<<fileName;
-        QPixmap px(fileName);
-        ui->portrait->setPixmap(px);
+        QPixmap px;
+        if(!px.load(fileName)){resetPainting();}
+        else{ui->portrait->setPixmap(px);}
         playList.erase(playList.begin());
     }
+    else
+    {
+        resetPainting();
+    }
+}
+
+void PortraitGUI::resetPainting()
+{
+    ui->portrait->setPixmap(portrait);
+    ui->SubtitleMessage->setText("");
 }
 
 PortraitGUI::~PortraitGUI()

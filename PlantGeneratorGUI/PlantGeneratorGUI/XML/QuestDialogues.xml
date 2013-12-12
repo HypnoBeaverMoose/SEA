@@ -42,7 +42,7 @@ Character will be used later, when there are more characters. It will add one ex
 	
 	<feedback_no_plants_scanned>
         <sketch src="nps1" id="nps1" once="1" name="first_feedback_no_plants_scanned">
-    Ik ben heel erg benieuwd wat je kan vinden!
+    Ben heel erg benieuwd wat je kan vinden!
     Probeer anders eerst een plant te vinden met een plaatje die je leuk vind.
     Dan kunnen we daarna uitproberen of die zal werken!
   </sketch>
@@ -65,7 +65,7 @@ Character will be used later, when there are more characters. It will add one ex
 	<feedback_no_plant_made>
         <sketch src="npm1" id="npm1" name="once_text">
     Ja, heel goed gedaan!
-    Dit zien er uit als echt leuke planten!
+    Deze zien er uit als echt leuke planten!
     Zie je die knop daar in de hoek?
     Druk daar op om een nieuwe plant te maken!
   </sketch>
@@ -73,7 +73,7 @@ Character will be used later, when there are more characters. It will add one ex
 	
 	<feedback_same_plant>
         <sketch src="sp1" id="sp1" name="feedback_1">
-	Die plant hadden we toch al bekeken? Het heeft denk ik wel wat anders nodig.
+	Die plant hadden we toch al bekeken? We hebben denk ik wel wat anders nodig.
 	</sketch>
         <sketch src="sp2" id="sp2" name="feedback_2">
 	Haha, je laat me gewoon dezelfde plant zien. Ik heb je wel door hoor!
@@ -82,43 +82,43 @@ Character will be used later, when there are more characters. It will add one ex
 	
 	<feedback_wait_for_calculation>
         <sketch src="cf1" id="cf1" name="feedback_1">
-	Oke, laten we eens zien of dit gaat werken…
+	Wow, die is mooi. Even kijken wat Pappa daar van vind.
 	</sketch>
         <sketch src="cf2" id="cf2" name="feedback_2">
-	Dat is een interessante plant, ik zal even vragen aan mijn vader of hij zoiets zou willen maken!
+	Hee, die ziet er leuk uit! Is kijken wat we hier mee kunnen.
 	</sketch>
 	</feedback_wait_for_calculation>
 	
 	<feedback_new_plant_assembled character="1" name="Feedback_Daughter">
 		<fragment id="p0" name="Positive_Feedback"> 
-                <sketch src="p01" id="p01" req1border="0.2" req1include="1" req1type="fruit" name="fruit_is_good">
-      Wat goed dat ie fruit heeft!
+                <sketch src="p01" id="p01" req1border="quest" req1include="1" req1type="fruit" name="fruit_is_good">
+      Wat goed dat die fruit heeft!
       Nu kunnen we eindelijk weer fruit gaan verkopen!
     </sketch>
-                <sketch src="p02" id="p02" req1border="0.2" req1include="1" req1type="water" name="water_is_good">
-      Een plant dat goed is tegen water,
-      dat kan wel eens helpen!
+                <sketch src="p02" id="p02" req1border="quest" req1include="1" req1type="water" name="water_is_good">
+      Een plant dat goed is tegen te veel water,
+      dat kan wel eens helpen hier in Nederland!
     </sketch>
-                <sketch src="p03" id="p03" req1border="0.2" req1include="1" req1type="growth" name="growth_is_good">
+                <sketch src="p03" id="p03" req1border="quest" req1include="1" req1type="growth" name="growth_is_good">
       Ik zie dat je een plant hebt die sneller groeit,
-      dat is wel echt handig!
+      dat is wel erg handig!
     </sketch>
-                <sketch src="p04" id="p04" req1border="0.2" req1include="1" req1type="poison" name="poison_is_good">
+                <sketch src="p04" id="p04" req1border="quest" req1include="1" req1type="poison" name="poison_is_good">
       Slim dat je het giftig hebt gemaakt.
       Nu eten dieren het niet op!
     </sketch>
-                <sketch src="p05" id="p05" req1border="0.2" req1include="1" req1type="smell" name="smell_is_good">
+                <sketch src="p05" id="p05" req1border="quest" req1include="1" req1type="smell" name="smell_is_good">
       -Ruikt- Wow, die ruikt echt lekker!
     </sketch>
-                <sketch src="p06" id="p06" req1border="0.2" req1include="1" req1type="thorns" name="thorns_is_good">
+                <sketch src="p06" id="p06" req1border="quest" req1include="1" req1type="thorns" name="thorns_is_good">
       Haha, hij heeft stekels!
-      Zo laten dieren ze wel met rust!
+      Zo gaan dieven er niet makkelijk mee van door.
     </sketch>
-                <sketch src="p07" id="p07" req1border="0.2" req1include="1" req1type="soft" name="soft_is_good">
-      Hmm, dat is wel lekker zacht.
+                <sketch src="p07" id="p07" req1border="quest" req1include="1" req1type="soft" name="soft_is_good">
+      Hmm, wat is deze plant lekker zacht.
     </sketch>
-                <sketch src="p08" id="p08" req1border="0.2" req1include="1" req1type="drought" name="drought_is_good">
-      Een plant dat tegen de zon kan
+                <sketch src="p08" id="p08" req1border="quest" req1include="1" req1type="drought" name="drought_is_good">
+      Een plant die tegen hitte en droogte kan,
       is altijd fijn om te hebben!
     </sketch>
 		</fragment> 
@@ -136,10 +136,10 @@ Character will be used later, when there are more characters. It will add one ex
     </sketch>
                 <sketch src="c03" id="c03" once="1" req1border="quest" req1include="0" req1type="water" name="not_water_is_bad_once">
       We kampen hier alleen met heel veel regen.
-      Je plant moet echt een overstroming kunnen overleven!
+      Je plant moet goed tegen overstromingen kunnen!
     </sketch>
                 <sketch src="c04" id="c04" followup1="c03" req1border="quest" req1include="0" req1type="water" name="not_water_is_bad_second">
-      Hij moet echter nog wat meer tegen water kunnen.
+      Hij moet alleen nog wat meer tegen water kunnen.
       Er is zoveel regen hier in Nederland!
       We hebben echt een waterplant nodig.
     </sketch>
@@ -166,13 +166,13 @@ Character will be used later, when there are more characters. It will add one ex
       De mensen willen namelijk altijd aan de planten ruiken!
     </sketch>
     <sketch src="c10" id="c010" followup1="c09" req1border="quest" req1include="0" req1type="smell" name="not_smell_is_bad_second">
-      Ik wed dat je de geur wel wat meer kan maken!
+      Ik wed dat je de geur wel wat sterker kan maken!
       Als je daar aan de planten ruikt
-      dan weet je meteen of het goed is!
+      weet je meteen of het goed is!
     </sketch>
                 <sketch src="c11" id="c011" once="1" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_once">
       Maar weet je wat het nóg beter zou maken?
-      Meer stekels! Want dan blijven de dieren weg!
+      Meer stekels! Want dan blijven de dieven weg!
     </sketch>
                 <sketch src="c12" id="c012" followup1="c011" req1border="quest" req1include="0" req1type="thorns" name="not_thorns_is_bad_second">
       Zou je alleen nog meer stekels kunnen toevoegen?
@@ -189,10 +189,11 @@ Character will be used later, when there are more characters. It will add one ex
     </sketch>		
     <sketch src="c15" id="c015" once="1" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_once">
       De zon schijnt hier alleen nogal fel…
+      En er kan vaak veel droogte zijn.
       Misschien kan je daar wat extra bescherming tegen geven?
     </sketch>
     <sketch src="c16" id="c016" followup1="c015" req1border="quest" req1include="0" req1type="drought" name="not_drought_is_bad_second">
-      Hij moet echter nog net iets beter tegen droogte kunnen.
+      Hij moet alleen nog net iets beter tegen droogte kunnen.
       Want het is soms net een woestijn hier!
     </sketch>
 		</fragment> 
@@ -207,7 +208,7 @@ Character will be used later, when there are more characters. It will add one ex
       Ik denk dat je nog maar een paar dingen hoeft aan te passen.
     </sketch>
                 <sketch src="ga3" id="ga3" name="get_the_player_to_work_3">
-      Laat je echter niet tegenhouden hoor.
+      Laat je alleen niet tegenhouden hoor.
       Die plant was echt goed!
       Je bent vast zo klaar.
     </sketch>
@@ -219,7 +220,6 @@ Character will be used later, when there are more characters. It will add one ex
     Wow! Dat is echt een geweldige plant.
     Ik heb ‘em aan mijn vader laten zien,
     En hij was echt super blij!
-    [foto gelukkige familie voor boerderij met bloeiende planten]
     De boerderij heeft meer planten dan ooit tevoren.
     Iedereen in het dorp komt bij ons op visite!
   </fragment>
@@ -227,7 +227,7 @@ Character will be used later, when there are more characters. It will add one ex
     Hey, en allemaal dankzij jou he!
     Echt ontzettend bedankt voor je hulp!
     Als je wilt, kun je altijd nog meer planten maken!
-    Laat maar aan me zien,
+    Laat ze maar aan me zien,
     en dan kijk ik wel of we ‘em op de boerderij kunnen gebruiken!
   </fragment>
 	</feedback_found_right_plant>

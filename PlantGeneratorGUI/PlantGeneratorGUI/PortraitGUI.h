@@ -34,6 +34,8 @@ private:
     Dialogue::Player player;
     std::vector<Dialogue::Player::DialogueStruct> playList;
     void PlayMeikeSound();
+    void resetPainting();
+    QPixmap portrait;
     //std::map<int, Dialogue::Player> players;
     //Dialogue::Player *GetPlayer(int playerID);
 

@@ -3,7 +3,6 @@
         <file>database.xml</file>
         <file>PRISTINA.TTF</file>
         <file>Images/dialArrow.png</file>
-        <file>Images/FarmerGirl_5.png</file>
         <file>Images/flowerCactus.png</file>
         <file>Images/flowerDustyMiller.png</file>
         <file>Images/flowerTomato.png</file>
@@ -25,18 +24,18 @@
         <file>Images/stalkTomato.png</file>
         <file>Images/toPortraitBtn.png</file>
         <file>Images/toPortraitBtn_down.png</file>
-        <file>XML/QuestDialogues.xml</file>
         <file>Images/flowerAnanas.png</file>
         <file>Images/flowerBamboo.png</file>
         <file>Images/leafAnanas.png</file>
         <file>Images/leafBamboo.png</file>
         <file>Images/rootAnanas.png</file>
         <file>Images/rootBamboo.png</file>
+        <file>XML/QuestDialogues.xml</file>
     </qresource>
     <qresource prefix="/Portrait">
-        <file>Images/FarmerGirl_5.png</file>
         <file>Images/portraitBG.png</file>
         <file>Images/toGenBtn.png</file>
         <file>Images/toGenBtn_down.png</file>
+        <file>Images/portrait.jpg</file>
     </qresource>
 </RCC>

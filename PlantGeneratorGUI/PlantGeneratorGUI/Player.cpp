@@ -18,7 +18,9 @@ namespace Dialogue{
 
     std::vector<Player::DialogueStruct> Player::PlayDialogue( PlantDatabase::Abilities plant, int plantIDs[Dialogue::NUMBER_OF_PLANTS], int assembledPlantID )
 	{
-        qDebug()<<"antidrought: " << dialogueHistory.targetPlant.antidrought<<"antiwater: " << dialogueHistory.targetPlant.antiwater<<"fruit: " << dialogueHistory.targetPlant.fruit<<"growth: " << dialogueHistory.targetPlant.growth<<"img: " << QString(dialogueHistory.targetPlant.img.c_str())<<"poison: " << dialogueHistory.targetPlant.poison<<"poison: " << dialogueHistory.targetPlant.poison<<"smell: " << dialogueHistory.targetPlant.smell<<"soft: " << dialogueHistory.targetPlant.soft<<"thorns: " << dialogueHistory.targetPlant.thorns;
+        qDebug()<<"New Plant: antidrought: " << dialogueHistory.newPlant.antidrought<<"antiwater: " << dialogueHistory.newPlant.antiwater<<"fruit: " << dialogueHistory.newPlant.fruit<<"growth: " << dialogueHistory.newPlant.growth<<"img: " << QString(dialogueHistory.newPlant.img.c_str())<<"poison: " << dialogueHistory.newPlant.poison<<"smell: " << dialogueHistory.newPlant.smell<<"soft: " << dialogueHistory.newPlant.soft<<"thorns: " << dialogueHistory.newPlant.thorns;
+
+        qDebug()<<"Target Plant: antidrought: " << dialogueHistory.targetPlant.antidrought<<"antiwater: " << dialogueHistory.targetPlant.antiwater<<"fruit: " << dialogueHistory.targetPlant.fruit<<"growth: " << dialogueHistory.targetPlant.growth<<"img: " << QString(dialogueHistory.targetPlant.img.c_str())<<"poison: " << dialogueHistory.targetPlant.poison<<"smell: " << dialogueHistory.targetPlant.smell<<"soft: " << dialogueHistory.targetPlant.soft<<"thorns: " << dialogueHistory.targetPlant.thorns;
 
 		if(currentState == WaitForPlant)
 		{
@@ -54,7 +56,7 @@ namespace Dialogue{
 					return FinishQuest();
 				}
 				else
-				{ // else, output feedback so you know what to do better
+                { // else, output feedback so you know what to do better
 					return tinyXMLHandler::instance()->getFeedBackWithPlantText(dialogueHistory);
 				}
 			}
@@ -127,34 +129,36 @@ namespace Dialogue{
 		float *pointer[8] = {&dialogueHistory.targetPlant.antidrought, &dialogueHistory.targetPlant.antiwater, &dialogueHistory.targetPlant.fruit, &dialogueHistory.targetPlant.growth, &dialogueHistory.targetPlant.poison, &dialogueHistory.targetPlant.smell, &dialogueHistory.targetPlant.soft, &dialogueHistory.targetPlant.thorns};
         for(i = 0; i < 8; i++)
 		{
-			*pointer[i] = 0.0f;
-		}
+            *pointer[i] = -100;
+        }
 
 		// then check what the player has included the most into the plant, that is one of the goals
-		float integers[8] = {dialogueHistory.newPlant.antidrought, dialogueHistory.newPlant.antiwater, dialogueHistory.newPlant.fruit, dialogueHistory.newPlant.growth, dialogueHistory.newPlant.poison, dialogueHistory.newPlant.smell, dialogueHistory.newPlant.soft, dialogueHistory.newPlant.thorns};
+        float floats[8] = {dialogueHistory.newPlant.antidrought, dialogueHistory.newPlant.antiwater, dialogueHistory.newPlant.fruit, dialogueHistory.newPlant.growth, dialogueHistory.newPlant.poison, dialogueHistory.newPlant.smell, dialogueHistory.newPlant.soft, dialogueHistory.newPlant.thorns};
 		for(i = 0; i < 8; i++)
 		{
-			if(integers[i] > border)
+            if(floats[i] > border)
 			{
-				border = integers[i];
+                border = floats[i];
 				selected = i;
 			}
 		}
-		*pointer[selected] = 0.8f;
+        *pointer[selected] = 0.8f;
+
 
 		// check which is lowest, make that one of the goals
 		border = 1;
 		for(i = 0; i < 8; i++)
 		{
-			if(integers[i] < border)
+            if(floats[i] < border)
 			{
-				border = integers[i];
+                border = floats[i];
 				selected = i;
 			}
-		}
-		*pointer[selected] = border + 0.2f;
+        }
+        *pointer[selected] = border < 0 ? 0.4f : border + 0.4f;
 
-		float randborder = 100/(6);
+
+        /*float randborder = 100/(6);
 		for(int i = 0, j = 0; j < dialogueHistory.questNumber; i++)
 		{
 			if(i >= 8)
@@ -169,9 +173,10 @@ namespace Dialogue{
 					j++;
 				}
 			}
-		}
+        }*/
 		
-		dialogueHistory.targetPlant.img = "";
+        dialogueHistory.targetPlant.img = "";
+
 	}
 
     /*Dialogue::Player *GetPlayer(int playerID)

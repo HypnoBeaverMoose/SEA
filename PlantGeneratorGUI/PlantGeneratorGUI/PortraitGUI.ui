@@ -50,7 +50,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="VideoHandler" name="MovieView">
+  <widget class="QStackedWidget" name="MovieView">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -78,8 +78,11 @@
      <property name="text">
       <string/>
      </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
      <property name="pixmap">
-      <pixmap resource="resources.qrc">:/Portrait/Images/FarmerGirl_5.png</pixmap>
+      <pixmap resource="resources.qrc">:/Portrait/Images/portrait.jpg</pixmap>
      </property>
     </widget>
     <widget class="QLabel" name="bgImg">
@@ -115,9 +118,9 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>1080</y>
+       <y>890</y>
        <width>721</width>
-       <height>151</height>
+       <height>291</height>
       </rect>
      </property>
      <property name="font">
@@ -129,7 +132,7 @@
       <string>fddabgraehguerhkghaghoaerhglaehrgilaerhighlierhlgahagilaerliharilhagliaailaghligrilrgeihlaeghlgraharilagrhlgiharglaghaghl ae</string>
      </property>
      <property name="textFormat">
-      <enum>Qt::RichText</enum>
+      <enum>Qt::PlainText</enum>
      </property>
      <property name="alignment">
       <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -147,12 +150,6 @@
    <class>MaskedButton</class>
    <extends>QPushButton</extends>
    <header>MaskedButton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>VideoHandler</class>
-   <extends>QStackedWidget</extends>
-   <header>videohandler.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>QVideoWidget</class>
