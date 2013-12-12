@@ -174,11 +174,6 @@ void PlantGenGUI::updatePlantImage()
      }
 
     ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
-
-    //sePlayer.stop();
-    //sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
-    //sePlayer.setVolume(100);
-    //sePlayer.play();
     plantGenerated  = 1;
 }
 
