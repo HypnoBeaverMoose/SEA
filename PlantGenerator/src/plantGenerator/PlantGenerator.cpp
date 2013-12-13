@@ -225,7 +225,7 @@ void PlantGenerator::loadPlants(PlantDatabase::PlantData plantOne, PlantDatabase
 {
 	//getInstance()->m_plants.clear();
 	//getInstance()->m_plants.resize(3);
-	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
+	if(eglMakeCurrent(eglGetCurrentDisplay(), eglGetCurrentSurface(EGL_DRAW), eglGetCurrentSurface(EGL_READ), eglGetCurrentContext()) == EGL_FALSE){
 		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
 	}
 
@@ -256,7 +256,7 @@ bool PlantGenerator::RenderPlant(int width, int height)
 	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
 		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
 		return false;
-	}	
+	}
 
 	//getInstance()->m_renderSize[0] = width;
 	//getInstance()->m_renderSize[1] = height;
@@ -269,7 +269,7 @@ unsigned char* PlantGenerator::getRenderedImage(unsigned int& width, unsigned in
 	if(eglMakeCurrent(m_pDisplay,m_pSurface, m_pSurface, m_pContext) == EGL_FALSE){
 		LOGE("EGL ERROR: FAILED TO SET CURRENT CONTEXT");
 		return 0;
-	}	
+	}
 
 	return getInstance()->getPlantImage(width, height);
 }
