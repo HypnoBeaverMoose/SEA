@@ -88,6 +88,11 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     //setup background music
     mPlayer.setMedia( QUrl("assets:/plantGenMusic.mp3") );
     mPlayer.setVolume(100);
+    for(int i = 1; i < 4; i++)
+    {
+        arrowSounds.push_back(QMediaContent("assets:/SE-Arrow" + QString::number(i) + ".wav"));
+        arrowMovement.push_back(0);
+    }
 
     // set global pointer to plant generator GUI
     pGUI = this;
@@ -170,9 +175,9 @@ void PlantGenGUI::updatePlantImage()
 
     ui->imgLabel->setPixmap(QPixmap::fromImage(image.mirrored()));
 
-    sePlayer.stop();
-    sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
-    sePlayer.setVolume(100);
+    //sePlayer.stop();
+    //sePlayer.setMedia( QUrl("assets:/SE-generator.wav") );
+    //sePlayer.setVolume(100);
     //sePlayer.play();
     plantGenerated  = 1;
 }
@@ -216,19 +221,6 @@ void PlantGenGUI::getIndexesAndBias(int& l_index, int& r_index, float bias, int 
 
 void PlantGenGUI::updatePlantAbs( int paraInt )
 {
-    // play sound of turning arrow
-    if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
-    {
-        sePlayer.stop();
-        int randomClip = rand() % 3 + 1;
-        QString fileName;
-        fileName = "assets:/SE-Arrow" + QString::number(randomClip) + ".wav";
-        sePlayer.setMedia( QUrl(fileName) );
-        int randomVolume = rand() % 20 + 80;
-        sePlayer.setVolume(randomVolume);
-        sePlayer.play();
-    }
-
     float antiDrought = 0.0f;
     float thorns      = 0.0f;
     float poison      = 0.0f;
@@ -273,6 +265,20 @@ void PlantGenGUI::updatePlantAbs( int paraInt )
         soft        += (pLeft->abs[i].soft * a.left) + (pRight->abs[i].soft * a.right);
         growth      += (pLeft->abs[i].growth * a.left) + (pRight->abs[i].growth * a.right);
         antiwater   += (pLeft->abs[i].antiwater * a.left) + (pRight->abs[i].antiwater * a.right);
+
+        // play sound of turning arrow
+        //if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
+        //qDebug()<<QString::number(std::abs(dials[i]->value() - arrowMovement[i])<<
+        if(paraInt != 0 && (std::abs(dials[i]->value() - arrowMovement[i])) > 10)
+        {
+            arrowMovement[i] = dials[i]->value();
+            sePlayer.stop();
+            //int randomClip = rand() % arrowSounds.size();
+            int randomVolume = rand() % 20 + 80;
+            sePlayer.setMedia( arrowSounds[i] );
+            sePlayer.setVolume(randomVolume);
+            sePlayer.play();
+        }
     }
 
     opFxSun.setOpacity(antiDrought);

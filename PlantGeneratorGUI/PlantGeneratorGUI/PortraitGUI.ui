@@ -117,25 +117,29 @@
     <widget class="QLabel" name="SubtitleMessage">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>30</x>
        <y>890</y>
-       <width>721</width>
+       <width>741</width>
        <height>291</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>20</pointsize>
+       <pointsize>28</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>fddabgraehguerhkghaghoaerhglaehrgilaerhighlierhlgahagilaerliharilhagliaailaghligrilrgeihlaeghlgraharilagrhlgiharglaghaghl ae</string>
+      <string>Hey, en allemaal dankzij jou he!
+    Echt ontzettend bedankt voor je hulp!
+    Als je wilt, kun je altijd nog meer planten maken!
+    Laat ze maar aan me zien,
+    en dan kijk ik wel of we ‘em op de boerderij kunnen gebruiken!</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
      </property>
      <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+      <set>Qt::AlignBottom|Qt::AlignHCenter</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

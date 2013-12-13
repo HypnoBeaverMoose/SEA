@@ -37,5 +37,7 @@
         <file>Images/toGenBtn.png</file>
         <file>Images/toGenBtn_down.png</file>
         <file>Images/portrait.jpg</file>
+        <file>Font/goodfish.ttf</file>
+        <file>Font/goodfishbd.ttf</file>
     </qresource>
 </RCC>

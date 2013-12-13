@@ -43,12 +43,14 @@ Character will be used later, when there are more characters. It will add one ex
 	<feedback_no_plants_scanned>
         <sketch src="nps1" id="nps1" once="1" name="first_feedback_no_plants_scanned">
     Ben heel erg benieuwd wat je kan vinden!
-    Probeer anders eerst een plant te vinden met een plaatje die je leuk vind.
+    Probeer anders eerst een plant te vinden
+    met een plaatje die je leuk vind.
     Dan kunnen we daarna uitproberen of die zal werken!
   </sketch>
         <sketch src="nps2" id="nps2" followup1="nps1" name="second_feedback_no_plants_scanned">
     Hier in deze tuin zijn er vast planten die leuk zijn!
-    Zoek gewoon naar zo’n plaatje, ongeveer ter grootte van een munt.
+    Zoek gewoon naar zo’n plaatje,
+    ongeveer ter grootte van een munt.
     En leg je scanner erop!
   </sketch>
 	</feedback_no_plants_scanned>
@@ -73,10 +75,12 @@ Character will be used later, when there are more characters. It will add one ex
 	
 	<feedback_same_plant>
         <sketch src="sp1" id="sp1" name="feedback_1">
-	Die plant hadden we toch al bekeken? We hebben denk ik wel wat anders nodig.
+        Die plant hadden we toch al bekeken?
+        We hebben denk ik wel wat anders nodig.
 	</sketch>
         <sketch src="sp2" id="sp2" name="feedback_2">
-	Haha, je laat me gewoon dezelfde plant zien. Ik heb je wel door hoor!
+        Haha, je laat me gewoon dezelfde plant zien.
+        Ik heb je wel door hoor!
 	</sketch>
 	</feedback_same_plant>
 	
@@ -200,7 +204,8 @@ Character will be used later, when there are more characters. It will add one ex
 		
 		<fragment id="fnp3" name="Go Away"> 
                 <sketch src="ga1" id="ga1" name="get_the_player_to_work_1">
-      Maar ik moet wel zeggen. Je hebt het echt super gedaan.
+      Maar ik moet wel zeggen.
+      Je hebt het echt super gedaan.
       De volgende plant is misschien net wat we zoeken!
     </sketch>
                 <sketch src="ga2" id="ga2" name="get_the_player_to_work_2">

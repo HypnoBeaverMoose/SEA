@@ -118,6 +118,7 @@ namespace Dialogue{
 		dialogueHistory.targetPlant.img = "NotSet";
 		dialogueHistory.lastSpeaker = 1;
 		dialogueHistory.questNumber = 1;
+        dialogueHistory.ids.clear();
         currentState = WaitForPlant;
 	}
 
@@ -142,7 +143,8 @@ namespace Dialogue{
 				selected = i;
 			}
 		}
-        *pointer[selected] = 0.8f;
+        *pointer[selected] = 0.8;
+
 
 
 		// check which is lowest, make that one of the goals

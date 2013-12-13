@@ -28,23 +28,26 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     if (!portrait.load(":/Portrait/Images/portrait.jpg"))
         std::cout << "Error loading image :/Portrait/Images/portrait.jpg" << std::endl;
 
-    QFile fontFile(":/PlantGen/PRISTINA.TTF");
+    QFile fontFile(":/Portrait/Font/goodfishbd.ttf");
     if (!fontFile.open(QIODevice::ReadOnly))
         std::cout << "failed to open font file" << std::endl;
     QByteArray fontData = fontFile.readAll();
 
     if (QFontDatabase::addApplicationFontFromData(fontData) == -1)
         std::cout << "failed to add a font" << std::endl;
-    QFont font("Pristina", 22, QFont::Normal);
+    QFont font("goodfish", 28, QFont::Normal);
 
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
+    effect->setBlurRadius(9);
+    effect->setColor(QColor(0, 0, 0, 255));
+    effect->setOffset(0, 0);
+    ui->SubtitleMessage->setGraphicsEffect(effect);
     ui->SubtitleMessage->setFont(font);
     resetPainting();
 
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
     meikePlayer = new QMediaPlayer();
-    //meikePlaylist = new QMediaPlaylist();
-    //meikePlayer->setPlaylist(meikePlaylist);
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
     connect(meikePlayer, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(MediaStatusChanged()) );
 
