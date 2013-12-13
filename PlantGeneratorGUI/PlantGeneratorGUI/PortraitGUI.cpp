@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include "PlantGenGUI.h"
 #include "PortraitGUI.h"
@@ -48,8 +47,6 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     ui->guiSwitchBtn->setImages( &btnImg, &btnImg_down );
 
     meikePlayer = new QMediaPlayer();
-    //meikePlaylist = new QMediaPlaylist();
-    //meikePlayer->setPlaylist(meikePlaylist);
     connect( ui->guiSwitchBtn, SIGNAL(clicked()), this, SLOT(Exit()) );
     connect(meikePlayer, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(MediaStatusChanged()) );
 
@@ -68,56 +65,19 @@ void PortraitGUI::AfterShownSetVariables()
 void PortraitGUI::PlayMovies()
 {
     meikePlayer->stop();
+    //bool call = true;
     int plants[3];
     for(int i = 0; i < 3; i++){
         plants[i] = PlantGenGUI::pGUI->plants[i].id;
         //call == call && (plants[i] > 0);
     }
 
-    playList = player.PlayDialogue(PlantGenGUI::pGUI->curPlant, plants, PlantGenGUI::pGUI->plantGenerated);
-    player.outputText(playList);
+    //if(call)
+        playList = player.PlayDialogue(PlantGenGUI::pGUI->curPlant, plants, PlantGenGUI::pGUI->plantGenerated);
+        player.outputText(playList);
     PlayMeikeSound();
-
-    QString string;
-    meikePlaylist->clear();
-    for(int i = 0; i < vec.size(); i++)
-    {
-        string +=QString(vec[i].dialogue.c_str());
-        QString fileName;
-        fileName = "assets:/sounds/" + QString(vec[i].source.c_str());
-        meikePlaylist->addMedia(QUrl(fileName));
-    }
-
-    ui->ErrorMessage->setText(string);
-    meikePlaylist->setCurrentIndex(1);
-    meikePlayer->play();
-
-    static bool var = false;
-    if(!var){
-    std::vector<Dialogue::Player::DialogueStruct> ds;
-    Dialogue::Player::DialogueStruct newds;
-    newds.dialogue = "c01.wav";
-    ds.push_back(newds);
-    newds.dialogue = "c02.wav";
-    ds.push_back(newds);
-    newds.dialogue = "c03.wav";
-    ds.push_back(newds);
-
-    meikePlayer->stop();
-    meikePlaylist = new QMediaPlaylist(meikePlayer);
-    for(int i = 0; i < ds.size(); i++)
-    {
-        qDebug()<<"movie"<<i;
-        QString fileName;
-        fileName = "assets:/sounds/" + QString(ds[i].dialogue.c_str());
-        meikePlaylist->addMedia(QUrl(fileName));
-    }
-    meikePlaylist->setCurrentIndex(1);
-    meikePlayer->setPlaylist(meikePlaylist);
-    var = true;
-    }
-    meikePlayer->play();
 }
+
 
 void PortraitGUI::playMusic()
 {
