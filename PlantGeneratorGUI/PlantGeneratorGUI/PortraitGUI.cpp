@@ -54,6 +54,7 @@ PortraitGUI::PortraitGUI(QWidget *parent) :
     //setup background music
     mPlayer.setMedia( QUrl("assets:/meikeMusic.mp3") );
     mPlayer.setVolume(60);
+    connect(&mPlayer, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(RepeatMusic()) );
 
 }
 
@@ -79,6 +80,13 @@ void PortraitGUI::PlayMovies()
     PlayMeikeSound();
 }
 
+void PortraitGUI::RepeatMusic()
+{
+    if(mPlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia)
+    {
+        playMusic();
+    }
+}
 
 void PortraitGUI::playMusic()
 {

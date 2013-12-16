@@ -42,6 +42,7 @@ private:
 public slots:
     void Exit();
     void MediaStatusChanged();
+    void RepeatMusic();
 };
 
 #endif // PORTRAITGUI_H

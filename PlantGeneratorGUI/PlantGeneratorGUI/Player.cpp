@@ -143,7 +143,7 @@ namespace Dialogue{
 				selected = i;
 			}
 		}
-        *pointer[selected] = 0.8;
+        *pointer[selected] = 0.4f;
 
 
 

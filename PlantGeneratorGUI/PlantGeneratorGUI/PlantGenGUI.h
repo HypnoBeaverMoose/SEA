@@ -19,6 +19,7 @@ class PlantGenGUI : public QWidget
 public slots:
     void updatePlantAbs(int);
     void updatePlantImage();
+    void repeatMusic();
 public:
     explicit PlantGenGUI(QWidget *parent = 0);
     ~PlantGenGUI();
@@ -43,8 +44,8 @@ private:
 
 
     QMediaPlayer mPlayer;
-    QMediaPlayer sePlayer;
-    //std::vector<QMediaPlayer> arrowPlayers;
+    //QMediaPlayer sePlayer;
+    std::vector<QMediaPlayer*> arrowPlayers;
     std::vector<QMediaContent> arrowSounds;
     std::vector<int> arrowMovement;
 

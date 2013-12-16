@@ -88,10 +88,13 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
     //setup background music
     mPlayer.setMedia( QUrl("assets:/plantGenMusic.mp3") );
     mPlayer.setVolume(100);
+    connect(&mPlayer, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this, SLOT(repeatMusic()) );
+
     for(int i = 1; i < 4; i++)
     {
-        arrowSounds.push_back(QMediaContent("assets:/SE-Arrow" + QString::number(i) + ".wav"));
-        arrowMovement.push_back(0);
+        QMediaPlayer *qm = new QMediaPlayer();
+        qm->setMedia(QUrl("assets:/SE-Arrow" + QString::number(i) + ".wav"));
+        arrowPlayers.push_back(qm);
     }
 
     // set global pointer to plant generator GUI
@@ -104,6 +107,10 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
 PlantGenGUI::~PlantGenGUI()
 {
+    for(int i = 0; i < 3; i++)
+    {
+        delete arrowPlayers[i];
+    }
     delete ui;
 }
 
@@ -113,6 +120,13 @@ QPushButton * PlantGenGUI::getGUISwitchBtn()
     return ui->guiSwitchBtn;
 }
 
+void PlantGenGUI::repeatMusic()
+{
+    if(mPlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia)
+    {
+        playMusic();
+    }
+}
 
 void PlantGenGUI::playMusic()
 {
@@ -267,17 +281,13 @@ void PlantGenGUI::updatePlantAbs( int paraInt )
         antiwater   += (pLeft->abs[i].antiwater * a.left) + (pRight->abs[i].antiwater * a.right);
 
         // play sound of turning arrow
-        //if(paraInt != 0 && (sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia || sePlayer.mediaStatus() == QMediaPlayer::MediaStatus::NoMedia))
-        //qDebug()<<QString::number(std::abs(dials[i]->value() - arrowMovement[i])<<
         if(paraInt != 0 && (std::abs(dials[i]->value() - arrowMovement[i])) > 10)
         {
             arrowMovement[i] = dials[i]->value();
-            sePlayer.stop();
-            //int randomClip = rand() % arrowSounds.size();
+            arrowPlayers[i]->stop();
             int randomVolume = rand() % 20 + 80;
-            sePlayer.setMedia( arrowSounds[i] );
-            sePlayer.setVolume(randomVolume);
-            sePlayer.play();
+            arrowPlayers[i]->setVolume(randomVolume);
+            arrowPlayers[i]->play();
         }
     }
 
