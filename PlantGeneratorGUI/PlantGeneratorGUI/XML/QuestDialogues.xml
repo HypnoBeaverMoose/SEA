@@ -203,16 +203,16 @@ Character will be used later, when there are more characters. It will add one ex
 		</fragment> 
 		
 		<fragment id="fnp3" name="Go Away"> 
-                <sketch src="ga1" id="ga1" name="get_the_player_to_work_1">
+                <sketch src="ga1" id="ga1" once="1" name="get_the_player_to_work_1">
       Maar ik moet wel zeggen.
       Je hebt het echt super gedaan.
       De volgende plant is misschien net wat we zoeken!
     </sketch>
-                <sketch src="ga2" id="ga2" name="get_the_player_to_work_2">
+                <sketch src="ga2" id="ga2" once="1" name="get_the_player_to_work_2">
       Je bent wel al ver gekomen zeg!
       Ik denk dat je nog maar een paar dingen hoeft aan te passen.
     </sketch>
-                <sketch src="ga3" id="ga3" name="get_the_player_to_work_3">
+                <sketch src="ga3" id="ga3" once="1" name="get_the_player_to_work_3">
       Laat je alleen niet tegenhouden hoor.
       Die plant was echt goed!
       Je bent vast zo klaar.

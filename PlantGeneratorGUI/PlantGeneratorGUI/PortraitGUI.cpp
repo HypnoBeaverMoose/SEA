@@ -83,6 +83,7 @@ void PortraitGUI::RepeatMusic()
 {
     if(mPlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia)
     {
+        mPlayer.stop();
         playMusic();
     }
 }

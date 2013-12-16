@@ -92,8 +92,8 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
     for(int i = 1; i < 4; i++)
     {
-        QMediaPlayer *qm = new QMediaPlayer();
-        qm->setMedia(QUrl("assets:/SE-Arrow" + QString::number(i) + ".wav"));
+        arrowMovement.push_back(0);
+        QMediaContent qm(QUrl("assets:/SE-Arrow" + QString::number(i) + ".wav"));
         arrowPlayers.push_back(qm);
     }
 
@@ -107,10 +107,6 @@ PlantGenGUI::PlantGenGUI(QWidget *parent) :
 
 PlantGenGUI::~PlantGenGUI()
 {
-    for(int i = 0; i < 3; i++)
-    {
-        delete arrowPlayers[i];
-    }
     delete ui;
 }
 
@@ -124,6 +120,7 @@ void PlantGenGUI::repeatMusic()
 {
     if(mPlayer.mediaStatus() == QMediaPlayer::MediaStatus::EndOfMedia)
     {
+        mPlayer.stop();
         playMusic();
     }
 }
@@ -279,10 +276,10 @@ void PlantGenGUI::updatePlantAbs( int paraInt )
         if(paraInt != 0 && (std::abs(dials[i]->value() - arrowMovement[i])) > 10)
         {
             arrowMovement[i] = dials[i]->value();
-            arrowPlayers[i]->stop();
+            sePlayer.setMedia(arrowPlayers[i]);
             int randomVolume = rand() % 20 + 80;
-            arrowPlayers[i]->setVolume(randomVolume);
-            arrowPlayers[i]->play();
+            sePlayer.setVolume(randomVolume);
+            sePlayer.play();
         }
     }
 

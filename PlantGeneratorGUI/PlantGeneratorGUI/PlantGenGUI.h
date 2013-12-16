@@ -44,9 +44,8 @@ private:
 
 
     QMediaPlayer mPlayer;
-    //QMediaPlayer sePlayer;
-    std::vector<QMediaPlayer*> arrowPlayers;
-    std::vector<QMediaContent> arrowSounds;
+    QMediaPlayer sePlayer;
+    std::vector<QMediaContent> arrowPlayers;
     std::vector<int> arrowMovement;
 
     //temp
