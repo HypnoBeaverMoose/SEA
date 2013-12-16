@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include "PlantGenGUI.h"
 #include "PortraitGUI.h"

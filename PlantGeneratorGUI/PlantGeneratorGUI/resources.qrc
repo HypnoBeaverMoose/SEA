@@ -28,9 +28,9 @@
         <file>Images/flowerBamboo.png</file>
         <file>Images/leafAnanas.png</file>
         <file>Images/leafBamboo.png</file>
-        <file>Images/rootAnanas.png</file>
-        <file>Images/rootBamboo.png</file>
         <file>XML/QuestDialogues.xml</file>
+        <file>Images/stalkAnanas.png</file>
+        <file>Images/stalkBamboo.png</file>
     </qresource>
     <qresource prefix="/Portrait">
         <file>Images/portraitBG.png</file>
